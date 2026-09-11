@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MYKINGDOM - Vương Quốc Đồ Chơi | Đồ Chơi Chính Hãng Cho Bé</title>
+  <meta name="description" content="Vương quốc đồ chơi trẻ em cao cấp chính hãng LEGO, Hot Wheels, Barbie, Fisher-Price. Giao hàng hoả tốc 2h, đổi trả 30 ngày." />
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!-- Custom Style -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ==========================================================================
+       ANNOUNCEMENT TOP BAR
+       ========================================================================== -->
+  <div class="top-bar">
+    <div class="container">
+      <div class="announcement-text">
+        <i class="fas fa-gift"></i>
+        <span>CHÀO HÈ RỰC RỠ: Nhập mã <span class="coupon-badge" onclick="navigator.clipboard.writeText('KINGDOM50'); showToast('Đã chép mã KINGDOM50!', 'success')">KINGDOM50</span> giảm ngay 10% đơn từ 500K!</span>
+      </div>
+      <div class="top-links">
+        <a href="#features"><i class="fas fa-truck-fast"></i> Giao 2H Hoả Tốc</a>
+        <a href="#features"><i class="fas fa-shield-alt"></i> 100% Chính Hãng</a>
+        <a href="#"><i class="fas fa-store"></i> 120+ Cửa Hàng</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       HEADER
+       ========================================================================== -->
+  <header class="header">
+    <div class="container">
+      <div class="header-main">
+        <!-- Logo -->
+        <a href="#" class="logo">
+          <div class="logo-icon">
+            <i class="fas fa-crown"></i>
+          </div>
+          <div class="logo-text">
+            <span class="logo-title">MY<span>KINGDOM</span></span>
+            <span class="logo-subtitle">Vương Quốc Đồ Chơi</span>
+          </div>
+        </a>
+
+        <!-- Search Bar -->
+        <div class="search-box">
+          <div class="search-input-group">
+            <input type="text" id="search-input" class="search-input" placeholder="Tìm kiếm LEGO, Hot Wheels, Búp bê Barbie..." autocomplete="off" />
+            <button class="search-btn"><i class="fas fa-search"></i></button>
+          </div>
+          <div id="search-dropdown" class="search-results-dropdown"></div>
+        </div>
+
+        <!-- Header Actions -->
+        <div class="header-actions">
+          <!-- Wishlist -->
+          <button class="action-btn" onclick="document.getElementById('main-products').scrollIntoView({behavior: 'smooth'})">
+            <div class="action-icon-wrapper">
+              <i class="far fa-heart"></i>
+              <span id="wishlist-badge" class="action-badge">0</span>
+            </div>
+            <div class="action-text">
+              <span class="action-label">Yêu thích</span>
+              <span class="action-value">Đã lưu</span>
+            </div>
+          </button>
+
+          <!-- Cart Drawer Trigger -->
+          <button id="cart-drawer-trigger" class="action-btn">
+            <div class="action-icon-wrapper">
+              <i class="fas fa-shopping-bag"></i>
+              <span id="cart-badge" class="action-badge">0</span>
+            </div>
+            <div class="action-text">
+              <span class="action-label">Giỏ hàng</span>
+              <span id="cart-subtotal" class="action-value" style="color: var(--primary);">0đ</span>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="nav-bar">
+      <div class="container nav-container">
+        <div class="category-dropdown-trigger">
+          <i class="fas fa-bars"></i>
+          <span>DANH MỤC ĐỒ CHƠI</span>
+        </div>
+        <ul class="nav-menu">
+          <li><a href="#" class="nav-link active"><i class="fas fa-fire" style="color: var(--primary);"></i> Hot Deals</a></li>
+          <li><a href="#flash-sale" class="nav-link">Flash Sale</a></li>
+          <li><a href="#main-products" class="nav-link">LEGO Store</a></li>
+          <li><a href="#main-products" class="nav-link">Xe & Mô Hình</a></li>
+          <li><a href="#main-products" class="nav-link">Búp Bê & Nhân Vật</a></li>
+          <li><a href="#main-products" class="nav-link">STEM & Giáo Dục</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ==========================================================================
+       HERO BANNER SLIDER
+       ========================================================================== -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="hero-grid">
+        <!-- Main Slider -->
+        <div class="hero-slider-container">
+          <div class="hero-slide active" style="background-image: linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.4)), url('assets/images/banner1.jpg');">
+            <div class="hero-content">
+              <span class="hero-tag">ĐẠI TIỆC ĐỒ CHƠI 2026</span>
+              <h1 class="hero-title">VƯƠNG QUỐC SÁNG TẠO LEGO</h1>
+              <p class="hero-subtitle">Giảm giá cực sốc lên tới 50% cho tất cả các bộ sưu tập LEGO Star Wars, City & Technic!</p>
+              <a href="#main-products" class="btn-hero"><i class="fas fa-shopping-cart"></i> KHÁM PHÁ NGAY</a>
+            </div>
+          </div>
+          <div class="hero-slide" style="background-image: linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.4)), url('assets/images/banner2.jpg');">
+            <div class="hero-content">
+              <span class="hero-tag">STEM & GIÁO DỤC</span>
+              <h1 class="hero-title">ROBOT & KHOA HỌC CHO BÉ</h1>
+              <p class="hero-subtitle">Khơi nguồn trí tuệ & đam mê khoa học công nghệ với siêu robot lập trình thông minh.</p>
+              <a href="#main-products" class="btn-hero"><i class="fas fa-rocket"></i> SẮM NGAY CHO BÉ</a>
+            </div>
+          </div>
+
+          <!-- Controls -->
+          <div class="slider-dots">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+          </div>
+        </div>
+
+        <!-- Side Promo Banners -->
+        <div class="hero-side-banners">
+          <div class="side-banner-card" style="background-image: url('https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=600&auto=format&fit=crop&q=80');">
+            <div class="side-banner-overlay"></div>
+            <div class="side-banner-content">
+              <h3 class="side-banner-title">Hot Wheels Super Track</h3>
+              <p class="side-banner-desc">Đường đua siêu tốc - Mua 1 Tặng 1 xe đúc kim loại</p>
+            </div>
+          </div>
+          <div class="side-banner-card" style="background-image: url('https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=600&auto=format&fit=crop&q=80');">
+            <div class="side-banner-overlay"></div>
+            <div class="side-banner-content">
+              <h3 class="side-banner-title">Thế Giới Búp Bê Barbie</h3>
+              <p class="side-banner-desc">Bộ sưu tập thời trang công chúa giảm 30%</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Trust Features Bar -->
+      <div id="features" class="features-bar">
+        <div class="features-grid">
+          <div class="feature-item">
+            <div class="feature-icon"><i class="fas fa-shield-halved"></i></div>
+            <div class="feature-info">
+              <h4>100% CHÍNH HÃNG</h4>
+              <p>Cam kết chất lượng tuyệt đối</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon"><i class="fas fa-bolt"></i></div>
+            <div class="feature-info">
+              <h4>GIAO HẢO TỐC 2H</h4>
+              <p>Nhận hàng ngay tại nội thành</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon"><i class="fas fa-rotate-left"></i></div>
+            <div class="feature-info">
+              <h4>ĐỔI TRẢ 30 NGÀY</h4>
+              <p>Thao tác đơn giản & tiện lợi</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon"><i class="fas fa-award"></i></div>
+            <div class="feature-info">
+              <h4>TÍCH ĐIỂM THÀNH VIÊN</h4>
+              <p>Nhận nhiều ưu đãi độc quyền</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       FLASH SALE SECTION
+       ========================================================================== -->
+  <section id="flash-sale" class="container">
+    <div class="flash-sale-section">
+      <div class="flash-sale-header">
+        <div class="flash-sale-title">
+          <i class="fas fa-fire"></i>
+          <h2>FLASH SALE GIỜ VÀNG</h2>
+        </div>
+        <div class="countdown-box">
+          <span>Kết thúc trong:</span>
+          <span id="flash-hours" class="time-unit">08</span><span class="time-colon">:</span>
+          <span id="flash-mins" class="time-unit">45</span><span class="time-colon">:</span>
+          <span id="flash-secs" class="time-unit">30</span>
+        </div>
+      </div>
+
+      <!-- Flash Sale Grid -->
+      <div id="flash-products-grid" class="flash-products-grid"></div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       MAIN PRODUCTS SHOWCASE & FILTERS
+       ========================================================================== -->
+  <section id="main-products" class="main-products-section">
+    <div class="container">
+      <div class="section-title-wrapper">
+        <h2 class="section-title">THẾ GIỚI <span>ĐỒ CHƠI NỔI BẬT</span></h2>
+      </div>
+
+      <!-- Filter Controls Toolbar -->
+      <div class="filter-toolbar">
+        <!-- Categories -->
+        <div class="filter-group">
+          <span class="filter-label"><i class="fas fa-shapes"></i> Danh mục:</span>
+          <div id="category-pills" style="display: flex; gap: 8px; flex-wrap: wrap;"></div>
+        </div>
+
+        <!-- Age Filter -->
+        <div class="filter-group">
+          <span class="filter-label"><i class="fas fa-child"></i> Độ tuổi:</span>
+          <div id="age-pills" style="display: flex; gap: 8px; flex-wrap: wrap;"></div>
+        </div>
+
+        <!-- Brand & Sort Dropdowns -->
+        <div class="filter-group">
+          <select id="brand-select" class="select-custom"></select>
+          <select id="sort-select" class="select-custom">
+            <option value="default">Sắp xếp: Mới nhất</option>
+            <option value="price-low">Giá: Thấp đến Cao</option>
+            <option value="price-high">Giá: Cao đến Thấp</option>
+            <option value="rating">Đánh giá cao nhất</option>
+            <option value="discount">Giảm giá nhiều nhất</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Main Products Grid -->
+      <div id="main-products-grid" class="products-grid"></div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       FOOTER
+       ========================================================================== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="logo" style="margin-bottom: 16px;">
+            <div class="logo-icon"><i class="fas fa-crown"></i></div>
+            <div class="logo-text">
+              <span class="logo-title" style="color: #FFF;">MY<span>KINGDOM</span></span>
+              <span class="logo-subtitle" style="color: var(--secondary);">Vương Quốc Đồ Chơi</span>
+            </div>
+          </div>
+          <p>Chuỗi hệ thống cửa hàng đồ chơi chính hãng hàng đầu Việt Nam. Nơi mang lại nụ cười và hỗ trợ sự phát triển trí tuệ toàn diện cho thế hệ măng non.</p>
+          <p><i class="fas fa-map-marker-alt" style="color: var(--primary);"></i> 128 Nguyễn Trãi, Thanh Xuân, Hà Nội</p>
+          <p><i class="fas fa-phone-alt" style="color: var(--secondary);"></i> Hotline: 1900 1208 (8:00 - 21:30)</p>
+        </div>
+
+        <div class="footer-col">
+          <h3>VỀ MYKINGDOM</h3>
+          <ul class="footer-links">
+            <li><a href="#">Giới thiệu công ty</a></li>
+            <li><a href="#">Hệ thống 120+ cửa hàng</a></li>
+            <li><a href="#">Tuyển dụng tài năng</a></li>
+            <li><a href="#">Chính sách bảo mật</a></li>
+            <li><a href="#">Điều khoản sử dụng</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h3>HỖ TRỢ KHÁCH HÀNG</h3>
+          <ul class="footer-links">
+            <li><a href="#">Hướng dẫn mua hàng</a></li>
+            <li><a href="#">Chính sách giao hàng 2h</a></li>
+            <li><a href="#">Chính sách đổi trả & bảo hành</a></li>
+            <li><a href="#">Tích điểm thành viên VIP</a></li>
+            <li><a href="#">Tra cứu đơn hàng</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h3>ĐĂNG KÝ NHẬN TIN HOT</h3>
+          <p>Nhận ngay Voucher 50K cho đơn hàng đầu tiên và cập nhật ưu đãi đồ chơi Hot mỗi tuần!</p>
+          <form class="newsletter-form" onsubmit="event.preventDefault(); showToast('Đăng ký nhận tin thành công!', 'success');">
+            <input type="email" class="newsletter-input" placeholder="Nhập email của bạn..." required />
+            <button type="submit" class="btn-newsletter">ĐĂNG KÝ</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 MYKINGDOM - Vương Quốc Đồ Chơi. All Rights Reserved. Built with Vanilla Web Tech.</p>
+        <div style="display: flex; gap: 16px; font-size: 1.2rem;">
+          <i class="fab fa-cc-visa"></i>
+          <i class="fab fa-cc-mastercard"></i>
+          <i class="fas fa-wallet"></i>
+          <i class="fas fa-qrcode"></i>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================================================
+       SLIDE-OVER CART DRAWER
+       ========================================================================== -->
+  <div id="cart-overlay" class="cart-drawer-overlay"></div>
+  <div id="cart-drawer" class="cart-drawer">
+    <div class="cart-drawer-header">
+      <h3 class="cart-drawer-title"><i class="fas fa-shopping-basket" style="color: var(--primary);"></i> GIỎ HÀNG CỦA BẠN</h3>
+      <button id="close-cart-btn" class="close-drawer-btn"><i class="fas fa-times"></i></button>
+    </div>
+
+    <div id="drawer-items-list" class="cart-drawer-body"></div>
+
+    <div class="cart-drawer-footer">
+      <div class="coupon-section">
+        <input type="text" id="coupon-input" class="coupon-input" placeholder="Mã giảm giá (VD: KINGDOM50)" />
+        <button class="btn-apply-coupon" onclick="applyCouponCode()">ÁP DỤNG</button>
+      </div>
+
+      <div class="cart-summary-line">
+        <span>Tạm tính:</span>
+        <span id="cart-subtotal">0đ</span>
+      </div>
+      <div class="cart-summary-line" style="color: var(--accent-green);">
+        <span>Giảm giá mã ưu đãi:</span>
+        <span id="cart-discount">-0đ</span>
+      </div>
+      <div class="cart-summary-line total">
+        <span>TỔNG TIỀN:</span>
+        <span id="cart-total">0đ</span>
+      </div>
+
+      <button class="btn-checkout" onclick="checkoutSimulation()">
+        <i class="fas fa-credit-card"></i> TIẾN HÀNH ĐẶT HÀNG (GIAO 2H)
+      </button>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       QUICK VIEW MODAL
+       ========================================================================== -->
+  <div id="quickview-modal" class="modal-overlay">
+    <div class="modal-content">
+      <button class="close-modal-btn" onclick="closeModal()"><i class="fas fa-times"></i></button>
+      <div id="modal-body-content"></div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       TOAST NOTIFICATIONS CONTAINER
+       ========================================================================== -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="js/products.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
