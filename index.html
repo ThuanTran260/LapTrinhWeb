@@ -20,7 +20,7 @@
     <div class="container">
       <div class="announcement-text">
         <i class="fas fa-gift"></i>
-        <span>CHÀO HÈ RỰC RỠ: Nhập mã <span class="coupon-badge" onclick="navigator.clipboard.writeText('KINGDOM50'); showToast('Đã chép mã KINGDOM50!', 'success')">KINGDOM50</span> giảm ngay 10% đơn từ 500K!</span>
+        <span>CHÀO HÈ RỰC RỠ: Nhập mã <span class="coupon-badge">KINGDOM50</span> giảm ngay 10% đơn từ 500K!</span>
       </div>
       <div class="top-links">
         <a href="#features"><i class="fas fa-truck-fast"></i> Giao 2H Hoả Tốc</a>
@@ -48,39 +48,24 @@
         </a>
 
         <!-- Search Bar -->
-        <div class="search-box">
+        <form class="search-box" onsubmit="event.preventDefault();">
           <div class="search-input-group">
-            <input type="text" id="search-input" class="search-input" placeholder="Tìm kiếm LEGO, Hot Wheels, Búp bê Barbie..." autocomplete="off" />
-            <button class="search-btn"><i class="fas fa-search"></i></button>
+            <input type="text" id="search-input" class="search-input" placeholder="Tìm kiếm LEGO, Hot Wheels, Búp bê Barbie..." />
+            <button type="submit" class="search-btn" aria-label="Tìm kiếm"><i class="fas fa-search"></i></button>
           </div>
-          <div id="search-dropdown" class="search-results-dropdown"></div>
-        </div>
+        </form>
 
         <!-- Header Actions -->
         <div class="header-actions">
-          <!-- Wishlist -->
-          <button class="action-btn" onclick="document.getElementById('main-products').scrollIntoView({behavior: 'smooth'})">
+          <a href="#main-products" class="action-btn">
             <div class="action-icon-wrapper">
               <i class="far fa-heart"></i>
-              <span id="wishlist-badge" class="action-badge">0</span>
             </div>
             <div class="action-text">
               <span class="action-label">Yêu thích</span>
-              <span class="action-value">Đã lưu</span>
+              <span class="action-value">Bộ sưu tập</span>
             </div>
-          </button>
-
-          <!-- Cart Drawer Trigger -->
-          <button id="cart-drawer-trigger" class="action-btn">
-            <div class="action-icon-wrapper">
-              <i class="fas fa-shopping-bag"></i>
-              <span id="cart-badge" class="action-badge">0</span>
-            </div>
-            <div class="action-text">
-              <span class="action-label">Giỏ hàng</span>
-              <span id="cart-subtotal" class="action-value" style="color: var(--primary);">0đ</span>
-            </div>
-          </button>
+          </a>
         </div>
       </div>
     </div>
@@ -204,14 +189,130 @@
         </div>
         <div class="countdown-box">
           <span>Kết thúc trong:</span>
-          <span id="flash-hours" class="time-unit">08</span><span class="time-colon">:</span>
-          <span id="flash-mins" class="time-unit">45</span><span class="time-colon">:</span>
-          <span id="flash-secs" class="time-unit">30</span>
+          <span class="time-unit">08</span><span class="time-colon">:</span>
+          <span class="time-unit">45</span><span class="time-colon">:</span>
+          <span class="time-unit">30</span>
         </div>
       </div>
 
       <!-- Flash Sale Grid -->
-      <div id="flash-products-grid" class="flash-products-grid"></div>
+      <div id="flash-products-grid" class="flash-products-grid">
+        <!-- Flash Sale Item 1 -->
+        <article class="product-card">
+          <span class="product-badge badge-danger">HOT SALE</span>
+          <div class="product-img-wrapper" onclick="openLightbox(this.querySelector('img').src, this.querySelector('img').alt)">
+            <img class="product-img" src="https://images.unsplash.com/photo-1585366119957-e9730b6d0f60?w=600&auto=format&fit=crop&q=80" alt="Đồ Chơi Lắp Ráp LEGO Star Wars X-Wing Fighter 75301" onclick="openLightbox(this.src, this.alt)" loading="lazy" />
+            <div class="zoom-hint-overlay">
+              <span class="zoom-hint-badge"><i class="fas fa-search-plus"></i> Xem ảnh</span>
+            </div>
+          </div>
+          <div class="product-details">
+            <div class="product-meta">
+              <span class="product-brand">LEGO</span>
+              <span>6-11 tuổi</span>
+            </div>
+            <h3 class="product-title">Đồ Chơi Lắp Ráp LEGO Star Wars X-Wing Fighter 75301</h3>
+            <div class="rating-box">
+              <i class="fas fa-star"></i> 4.9 <span class="reviews-count">(128)</span>
+            </div>
+            <div class="price-wrapper">
+              <span class="current-price">1.399.000đ</span>
+              <span class="original-price">1.899.000đ</span>
+            </div>
+            <div class="stock-progress">
+              <div class="stock-bar" style="width: 20%;"></div>
+              <span class="stock-text">Còn lại 4 chiếc</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Flash Sale Item 2 -->
+        <article class="product-card">
+          <span class="product-badge badge-warning">FLASH SALE</span>
+          <div class="product-img-wrapper" onclick="openLightbox(this.querySelector('img').src, this.querySelector('img').alt)">
+            <img class="product-img" src="https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=600&auto=format&fit=crop&q=80" alt="Bộ Đường Đua Hot Wheels Siêu Tốc Đột Phá GKP45" onclick="openLightbox(this.src, this.alt)" loading="lazy" />
+            <div class="zoom-hint-overlay">
+              <span class="zoom-hint-badge"><i class="fas fa-search-plus"></i> Xem ảnh</span>
+            </div>
+          </div>
+          <div class="product-details">
+            <div class="product-meta">
+              <span class="product-brand">Hot Wheels</span>
+              <span>3-5 tuổi</span>
+            </div>
+            <h3 class="product-title">Bộ Đường Đua Hot Wheels Siêu Tốc Đột Phá GKP45</h3>
+            <div class="rating-box">
+              <i class="fas fa-star"></i> 4.8 <span class="reviews-count">(95)</span>
+            </div>
+            <div class="price-wrapper">
+              <span class="current-price">649.000đ</span>
+              <span class="original-price">899.000đ</span>
+            </div>
+            <div class="stock-progress">
+              <div class="stock-bar" style="width: 32%;"></div>
+              <span class="stock-text">Còn lại 8 chiếc</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Flash Sale Item 3 -->
+        <article class="product-card">
+          <span class="product-badge badge-danger">HOT SALE</span>
+          <div class="product-img-wrapper" onclick="openLightbox(this.querySelector('img').src, this.querySelector('img').alt)">
+            <img class="product-img" src="https://images.unsplash.com/photo-1535378917042-10a22c95931a?w=600&auto=format&fit=crop&q=80" alt="Đồ Chơi Giáo Dục Robot STEM Lập Trình Thông Minh" onclick="openLightbox(this.src, this.alt)" loading="lazy" />
+            <div class="zoom-hint-overlay">
+              <span class="zoom-hint-badge"><i class="fas fa-search-plus"></i> Xem ảnh</span>
+            </div>
+          </div>
+          <div class="product-details">
+            <div class="product-meta">
+              <span class="product-brand">STEM Toys</span>
+              <span>12+ tuổi</span>
+            </div>
+            <h3 class="product-title">Đồ Chơi Giáo Dục Robot STEM Lập Trình Thông Minh</h3>
+            <div class="rating-box">
+              <i class="fas fa-star"></i> 4.7 <span class="reviews-count">(42)</span>
+            </div>
+            <div class="price-wrapper">
+              <span class="current-price">1.150.000đ</span>
+              <span class="original-price">1.500.000đ</span>
+            </div>
+            <div class="stock-progress">
+              <div class="stock-bar" style="width: 20%;"></div>
+              <span class="stock-text">Còn lại 3 chiếc</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Flash Sale Item 4 -->
+        <article class="product-card">
+          <span class="product-badge badge-warning">FLASH SALE</span>
+          <div class="product-img-wrapper" onclick="openLightbox(this.querySelector('img').src, this.querySelector('img').alt)">
+            <img class="product-img" src="https://images.unsplash.com/photo-1594787318286-3d835c1d207f?w=600&auto=format&fit=crop&q=80" alt="Xe Điều Khiển Từ Xa Địa Hình Rock Crawler 4WD 1:14" onclick="openLightbox(this.src, this.alt)" loading="lazy" />
+            <div class="zoom-hint-overlay">
+              <span class="zoom-hint-badge"><i class="fas fa-search-plus"></i> Xem ảnh</span>
+            </div>
+          </div>
+          <div class="product-details">
+            <div class="product-meta">
+              <span class="product-brand">Hot Wheels</span>
+              <span>6-11 tuổi</span>
+            </div>
+            <h3 class="product-title">Xe Điều Khiển Từ Xa Địa Hình Rock Crawler 4WD 1:14</h3>
+            <div class="rating-box">
+              <i class="fas fa-star"></i> 4.8 <span class="reviews-count">(88)</span>
+            </div>
+            <div class="price-wrapper">
+              <span class="current-price">790.000đ</span>
+              <span class="original-price">1.100.000đ</span>
+            </div>
+            <div class="stock-progress">
+              <div class="stock-bar" style="width: 28%;"></div>
+              <span class="stock-text">Còn lại 5 chiếc</span>
+            </div>
+          </div>
+        </article>
+      </div>
     </div>
   </section>
 
@@ -229,18 +330,42 @@
         <!-- Categories -->
         <div class="filter-group">
           <span class="filter-label"><i class="fas fa-shapes"></i> Danh mục:</span>
-          <div id="category-pills" style="display: flex; gap: 8px; flex-wrap: wrap;"></div>
+          <div id="category-pills" style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <span class="filter-pill active">Tất cả</span>
+            <span class="filter-pill">Lắp ráp</span>
+            <span class="filter-pill">Xe mô hình</span>
+            <span class="filter-pill">Búp bê</span>
+            <span class="filter-pill">Đồ chơi giáo dục</span>
+            <span class="filter-pill">Gấu bông</span>
+            <span class="filter-pill">Đồ chơi vận động</span>
+          </div>
         </div>
 
         <!-- Age Filter -->
         <div class="filter-group">
           <span class="filter-label"><i class="fas fa-child"></i> Độ tuổi:</span>
-          <div id="age-pills" style="display: flex; gap: 8px; flex-wrap: wrap;"></div>
+          <div id="age-pills" style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <span class="filter-pill active">Tất cả</span>
+            <span class="filter-pill">0-2 tuổi</span>
+            <span class="filter-pill">3-5 tuổi</span>
+            <span class="filter-pill">6-11 tuổi</span>
+            <span class="filter-pill">12+ tuổi</span>
+          </div>
         </div>
 
         <!-- Brand & Sort Dropdowns -->
         <div class="filter-group">
-          <select id="brand-select" class="select-custom"></select>
+          <select id="brand-select" class="select-custom">
+            <option>Thương hiệu: Tất cả</option>
+            <option>LEGO</option>
+            <option>Hot Wheels</option>
+            <option>Barbie</option>
+            <option>STEM Toys</option>
+            <option>Play-Doh</option>
+            <option>Fisher-Price</option>
+            <option>Transformers</option>
+            <option>Nerf</option>
+          </select>
           <select id="sort-select" class="select-custom">
             <option value="default">Sắp xếp: Mới nhất</option>
             <option value="price-low">Giá: Thấp đến Cao</option>
@@ -252,7 +377,343 @@
       </div>
 
       <!-- Main Products Grid -->
-      <div id="main-products-grid" class="products-grid"></div>
+      <div id="main-products-grid" class="products-grid">
+        <!-- Product 1 -->
+        <article class="product-card">
+          <span class="product-badge badge-danger">HOT SALE</span>
+          <div class="product-img-wrapper" onclick="openLightbox(this.querySelector('img').src, this.querySelector('img').alt)">
+            <img class="product-img" src="https://images.unsplash.com/photo-1585366119957-e9730b6d0f60?w=600&auto=format&fit=crop&q=80" alt="Đồ Chơi Lắp Ráp LEGO Star Wars X-Wing Fighter 75301" onclick="openLightbox(this.src, this.alt)" loading="lazy" />
+            <div class="zoom-hint-overlay">
+              <span class="zoom-hint-badge"><i class="fas fa-search-plus"></i> Xem ảnh</span>
+            </div>
+          </div>
+          <div class="product-details">
+            <div class="product-meta">
+              <span class="product-brand">LEGO</span>
+              <span>6-11 tuổi</span>
+            </div>
+            <h3 class="product-title">Đồ Chơi Lắp Ráp LEGO Star Wars X-Wing Fighter 75301</h3>
+            <div class="rating-box">
+              <i class="fas fa-star"></i> 4.9 <span class="reviews-count">(128)</span>
+            </div>
+            <div class="price-wrapper">
+              <span class="current-price">1.399.000đ</span>
+              <span class="original-price">1.899.000đ</span>
+            </div>
+            <button type="button" class="btn-view-photo" onclick="openLightbox(this.closest('.product-card').querySelector('img').src, this.closest('.product-card').querySelector('img').alt)">
+              <i class="fas fa-search-plus"></i> Phóng to ảnh
+            </button>
+          </div>
+        </article>
+
+        <!-- Product 2 -->
+        <article class="product-card">
+          <span class="product-badge badge-warning">FLASH SALE</span>
+          <div class="product-img-wrapper" onclick="openLightbox(this.querySelector('img').src, this.querySelector('img').alt)">
+            <img class="product-img" src="https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=600&auto=format&fit=crop&q=80" alt="Bộ Đường Đua Hot Wheels Siêu Tốc Đột Phá GKP45" onclick="openLightbox(this.src, this.alt)" loading="lazy" />
+            <div class="zoom-hint-overlay">
+              <span class="zoom-hint-badge"><i class="fas fa-search-plus"></i> Xem ảnh</span>
+            </div>
+          </div>
+          <div class="product-details">
+            <div class="product-meta">
+              <span class="product-brand">Hot Wheels</span>
+              <span>3-5 tuổi</span>
+            </div>
+            <h3 class="product-title">Bộ Đường Đua Hot Wheels Siêu Tốc Đột Phá GKP45</h3>
+            <div class="rating-box">
+              <i class="fas fa-star"></i> 4.8 <span class="reviews-count">(95)</span>
+            </div>
+            <div class="price-wrapper">
+              <span class="current-price">649.000đ</span>
+              <span class="original-price">899.000đ</span>
+            </div>
+            <button type="button" class="btn-view-photo" onclick="openLightbox(this.closest('.product-card').querySelector('img').src, this.closest('.product-card').querySelector('img').alt)">
+              <i class="fas fa-search-plus"></i> Phóng to ảnh
+            </button>
+          </div>
+        </article>
+
+        <!-- Product 3 -->
+        <article class="product-card">
+          <span class="product-badge badge-success">NEW</span>
+          <div class="product-img-wrapper" onclick="openLightbox(this.querySelector('img').src, this.querySelector('img').alt)">
+            <img class="product-img" src="https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=600&auto=format&fit=crop&q=80" alt="Búp Bê Barbie Ngôi Nhà Mơ Ước Dreamhouse HMX10" onclick="openLightbox(this.src, this.alt)" loading="lazy" />
+            <div class="zoom-hint-overlay">
+              <span class="zoom-hint-badge"><i class="fas fa-search-plus"></i> Xem ảnh</span>
+            </div>
+          </div>
+          <div class="product-details">
+            <div class="product-meta">
+              <span class="product-brand">Barbie</span>
+              <span>6-11 tuổi</span>
+            </div>
+            <h3 class="product-title">Búp Bê Barbie Ngôi Nhà Mơ Ước Dreamhouse HMX10</h3>
+            <div class="rating-box">
+              <i class="fas fa-star"></i> 5.0 <span class="reviews-count">(64)</span>
+            </div>
+            <div class="price-wrapper">
+              <span class="current-price">3.299.000đ</span>
+              <span class="original-price">3.999.000đ</span>
+            </div>
+            <button type="button" class="btn-view-photo" onclick="openLightbox(this.closest('.product-card').querySelector('img').src, this.closest('.product-card').querySelector('img').alt)">
+              <i class="fas fa-search-plus"></i> Phóng to ảnh
+            </button>
+          </div>
+        </article>
+
+        <!-- Product 4 -->
+        <article class="product-card">
+          <span class="product-badge badge-danger">HOT SALE</span>
+          <div class="product-img-wrapper" onclick="openLightbox(this.querySelector('img').src, this.querySelector('img').alt)">
+            <img class="product-img" src="https://images.unsplash.com/photo-1535378917042-10a22c95931a?w=600&auto=format&fit=crop&q=80" alt="Đồ Chơi Giáo Dục Robot STEM Lập Trình Thông Minh" onclick="openLightbox(this.src, this.alt)" loading="lazy" />
+            <div class="zoom-hint-overlay">
+              <span class="zoom-hint-badge"><i class="fas fa-search-plus"></i> Xem ảnh</span>
+            </div>
+          </div>
+          <div class="product-details">
+            <div class="product-meta">
+              <span class="product-brand">STEM Toys</span>
+              <span>12+ tuổi</span>
+            </div>
+            <h3 class="product-title">Đồ Chơi Giáo Dục Robot STEM Lập Trình Thông Minh</h3>
+            <div class="rating-box">
+              <i class="fas fa-star"></i> 4.7 <span class="reviews-count">(42)</span>
+            </div>
+            <div class="price-wrapper">
+              <span class="current-price">1.150.000đ</span>
+              <span class="original-price">1.500.000đ</span>
+            </div>
+            <button type="button" class="btn-view-photo" onclick="openLightbox(this.closest('.product-card').querySelector('img').src, this.closest('.product-card').querySelector('img').alt)">
+              <i class="fas fa-search-plus"></i> Phóng to ảnh
+            </button>
+          </div>
+        </article>
+
+        <!-- Product 5 -->
+        <article class="product-card">
+          <span class="product-badge badge-info">BÁN CHẠY</span>
+          <div class="product-img-wrapper" onclick="openLightbox(this.querySelector('img').src, this.querySelector('img').alt)">
+            <img class="product-img" src="https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?w=600&auto=format&fit=crop&q=80" alt="Đồ Chơi Đất Nặn Play-Doh Tháp Bánh Sinh Nhật Cực Đại" onclick="openLightbox(this.src, this.alt)" loading="lazy" />
+            <div class="zoom-hint-overlay">
+              <span class="zoom-hint-badge"><i class="fas fa-search-plus"></i> Xem ảnh</span>
+            </div>
+          </div>
+          <div class="product-details">
+            <div class="product-meta">
+              <span class="product-brand">Play-Doh</span>
+              <span>3-5 tuổi</span>
+            </div>
+            <h3 class="product-title">Đồ Chơi Đất Nặn Play-Doh Tháp Bánh Sinh Nhật Cực Đại</h3>
+            <div class="rating-box">
+              <i class="fas fa-star"></i> 4.9 <span class="reviews-count">(210)</span>
+            </div>
+            <div class="price-wrapper">
+              <span class="current-price">499.000đ</span>
+              <span class="original-price">650.000đ</span>
+            </div>
+            <button type="button" class="btn-view-photo" onclick="openLightbox(this.closest('.product-card').querySelector('img').src, this.closest('.product-card').querySelector('img').alt)">
+              <i class="fas fa-search-plus"></i> Phóng to ảnh
+            </button>
+          </div>
+        </article>
+
+        <!-- Product 6 -->
+        <article class="product-card">
+          <span class="product-badge badge-warning">FLASH SALE</span>
+          <div class="product-img-wrapper" onclick="openLightbox(this.querySelector('img').src, this.querySelector('img').alt)">
+            <img class="product-img" src="https://images.unsplash.com/photo-1594787318286-3d835c1d207f?w=600&auto=format&fit=crop&q=80" alt="Xe Điều Khiển Từ Xa Địa Hình Rock Crawler 4WD 1:14" onclick="openLightbox(this.src, this.alt)" loading="lazy" />
+            <div class="zoom-hint-overlay">
+              <span class="zoom-hint-badge"><i class="fas fa-search-plus"></i> Xem ảnh</span>
+            </div>
+          </div>
+          <div class="product-details">
+            <div class="product-meta">
+              <span class="product-brand">Hot Wheels</span>
+              <span>6-11 tuổi</span>
+            </div>
+            <h3 class="product-title">Xe Điều Khiển Từ Xa Địa Hình Rock Crawler 4WD 1:14</h3>
+            <div class="rating-box">
+              <i class="fas fa-star"></i> 4.8 <span class="reviews-count">(88)</span>
+            </div>
+            <div class="price-wrapper">
+              <span class="current-price">790.000đ</span>
+              <span class="original-price">1.100.000đ</span>
+            </div>
+            <button type="button" class="btn-view-photo" onclick="openLightbox(this.closest('.product-card').querySelector('img').src, this.closest('.product-card').querySelector('img').alt)">
+              <i class="fas fa-search-plus"></i> Phóng to ảnh
+            </button>
+          </div>
+        </article>
+
+        <!-- Product 7 -->
+        <article class="product-card">
+          <span class="product-badge badge-success">BEST FOR BABY</span>
+          <div class="product-img-wrapper" onclick="openLightbox(this.querySelector('img').src, this.querySelector('img').alt)">
+            <img class="product-img" src="https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=600&auto=format&fit=crop&q=80" alt="Đồ Chơi Thả Hình Khối Gỗ Fisher-Price Nhận Biết Màu Sắc" onclick="openLightbox(this.src, this.alt)" loading="lazy" />
+            <div class="zoom-hint-overlay">
+              <span class="zoom-hint-badge"><i class="fas fa-search-plus"></i> Xem ảnh</span>
+            </div>
+          </div>
+          <div class="product-details">
+            <div class="product-meta">
+              <span class="product-brand">Fisher-Price</span>
+              <span>0-2 tuổi</span>
+            </div>
+            <h3 class="product-title">Đồ Chơi Thả Hình Khối Gỗ Fisher-Price Nhận Biết Màu Sắc</h3>
+            <div class="rating-box">
+              <i class="fas fa-star"></i> 4.9 <span class="reviews-count">(156)</span>
+            </div>
+            <div class="price-wrapper">
+              <span class="current-price">299.000đ</span>
+              <span class="original-price">420.000đ</span>
+            </div>
+            <button type="button" class="btn-view-photo" onclick="openLightbox(this.closest('.product-card').querySelector('img').src, this.closest('.product-card').querySelector('img').alt)">
+              <i class="fas fa-search-plus"></i> Phóng to ảnh
+            </button>
+          </div>
+        </article>
+
+        <!-- Product 8 -->
+        <article class="product-card">
+          <span class="product-badge badge-primary">KHUYÊN DÙNG</span>
+          <div class="product-img-wrapper" onclick="openLightbox(this.querySelector('img').src, this.querySelector('img').alt)">
+            <img class="product-img" src="https://images.unsplash.com/photo-1560969184-10fe8719e047?w=600&auto=format&fit=crop&q=80" alt="Đồ Chơi Lắp Ráp LEGO City Trạm Cảnh Sát Trung Tâm 60316" onclick="openLightbox(this.src, this.alt)" loading="lazy" />
+            <div class="zoom-hint-overlay">
+              <span class="zoom-hint-badge"><i class="fas fa-search-plus"></i> Xem ảnh</span>
+            </div>
+          </div>
+          <div class="product-details">
+            <div class="product-meta">
+              <span class="product-brand">LEGO</span>
+              <span>6-11 tuổi</span>
+            </div>
+            <h3 class="product-title">Đồ Chơi Lắp Ráp LEGO City Trạm Cảnh Sát Trung Tâm 60316</h3>
+            <div class="rating-box">
+              <i class="fas fa-star"></i> 4.9 <span class="reviews-count">(77)</span>
+            </div>
+            <div class="price-wrapper">
+              <span class="current-price">1.850.000đ</span>
+              <span class="original-price">2.299.000đ</span>
+            </div>
+            <button type="button" class="btn-view-photo" onclick="openLightbox(this.closest('.product-card').querySelector('img').src, this.closest('.product-card').querySelector('img').alt)">
+              <i class="fas fa-search-plus"></i> Phóng to ảnh
+            </button>
+          </div>
+        </article>
+
+        <!-- Product 9 -->
+        <article class="product-card">
+          <span class="product-badge badge-danger">BESTSELLER</span>
+          <div class="product-img-wrapper" onclick="openLightbox(this.querySelector('img').src, this.querySelector('img').alt)">
+            <img class="product-img" src="https://images.unsplash.com/photo-1559454403-b8fb88521f11?w=600&auto=format&fit=crop&q=80" alt="Gấu Bông Teddy Khổng Lồ 1M2 Mềm Mịn Cao Cấp" onclick="openLightbox(this.src, this.alt)" loading="lazy" />
+            <div class="zoom-hint-overlay">
+              <span class="zoom-hint-badge"><i class="fas fa-search-plus"></i> Xem ảnh</span>
+            </div>
+          </div>
+          <div class="product-details">
+            <div class="product-meta">
+              <span class="product-brand">Plushies</span>
+              <span>3-5 tuổi</span>
+            </div>
+            <h3 class="product-title">Gấu Bông Teddy Khổng Lồ 1M2 Mềm Mịn Cao Cấp</h3>
+            <div class="rating-box">
+              <i class="fas fa-star"></i> 4.9 <span class="reviews-count">(310)</span>
+            </div>
+            <div class="price-wrapper">
+              <span class="current-price">520.000đ</span>
+              <span class="original-price">750.000đ</span>
+            </div>
+            <button type="button" class="btn-view-photo" onclick="openLightbox(this.closest('.product-card').querySelector('img').src, this.closest('.product-card').querySelector('img').alt)">
+              <i class="fas fa-search-plus"></i> Phóng to ảnh
+            </button>
+          </div>
+        </article>
+
+        <!-- Product 10 -->
+        <article class="product-card">
+          <span class="product-badge badge-info">FAMILY FAVORITE</span>
+          <div class="product-img-wrapper" onclick="openLightbox(this.querySelector('img').src, this.querySelector('img').alt)">
+            <img class="product-img" src="https://images.unsplash.com/photo-1610890716171-6b1bb98ffd09?w=600&auto=format&fit=crop&q=80" alt="Bộ Đồ Chơi Cờ Tỷ Phú Monopoly Vietnam Edition" onclick="openLightbox(this.src, this.alt)" loading="lazy" />
+            <div class="zoom-hint-overlay">
+              <span class="zoom-hint-badge"><i class="fas fa-search-plus"></i> Xem ảnh</span>
+            </div>
+          </div>
+          <div class="product-details">
+            <div class="product-meta">
+              <span class="product-brand">Board Game</span>
+              <span>12+ tuổi</span>
+            </div>
+            <h3 class="product-title">Bộ Đồ Chơi Cờ Tỷ Phú Monopoly Vietnam Edition</h3>
+            <div class="rating-box">
+              <i class="fas fa-star"></i> 4.8 <span class="reviews-count">(145)</span>
+            </div>
+            <div class="price-wrapper">
+              <span class="current-price">399.000đ</span>
+              <span class="original-price">499.000đ</span>
+            </div>
+            <button type="button" class="btn-view-photo" onclick="openLightbox(this.closest('.product-card').querySelector('img').src, this.closest('.product-card').querySelector('img').alt)">
+              <i class="fas fa-search-plus"></i> Phóng to ảnh
+            </button>
+          </div>
+        </article>
+
+        <!-- Product 11 -->
+        <article class="product-card">
+          <span class="product-badge badge-warning">HOT TRONG TUẦN</span>
+          <div class="product-img-wrapper" onclick="openLightbox(this.querySelector('img').src, this.querySelector('img').alt)">
+            <img class="product-img" src="https://images.unsplash.com/photo-1608889825205-eebdb9fc5806?w=600&auto=format&fit=crop&q=80" alt="Robot Transformers Optimus Prime Biến Hình 2 Trong 1" onclick="openLightbox(this.src, this.alt)" loading="lazy" />
+            <div class="zoom-hint-overlay">
+              <span class="zoom-hint-badge"><i class="fas fa-search-plus"></i> Xem ảnh</span>
+            </div>
+          </div>
+          <div class="product-details">
+            <div class="product-meta">
+              <span class="product-brand">Transformers</span>
+              <span>6-11 tuổi</span>
+            </div>
+            <h3 class="product-title">Robot Transformers Optimus Prime Biến Hình 2 Trong 1</h3>
+            <div class="rating-box">
+              <i class="fas fa-star"></i> 4.7 <span class="reviews-count">(89)</span>
+            </div>
+            <div class="price-wrapper">
+              <span class="current-price">890.000đ</span>
+              <span class="original-price">1.190.000đ</span>
+            </div>
+            <button type="button" class="btn-view-photo" onclick="openLightbox(this.closest('.product-card').querySelector('img').src, this.closest('.product-card').querySelector('img').alt)">
+              <i class="fas fa-search-plus"></i> Phóng to ảnh
+            </button>
+          </div>
+        </article>
+
+        <!-- Product 12 -->
+        <article class="product-card">
+          <span class="product-badge badge-danger">FLASH SALE</span>
+          <div class="product-img-wrapper" onclick="openLightbox(this.querySelector('img').src, this.querySelector('img').alt)">
+            <img class="product-img" src="https://images.unsplash.com/photo-1595433707802-6b2626ef1c91?w=600&auto=format&fit=crop&q=80" alt="Súng Đồ Chơi Nerf Elite 2.0 Commander RD-6 Bắn Đạn Mút" onclick="openLightbox(this.src, this.alt)" loading="lazy" />
+            <div class="zoom-hint-overlay">
+              <span class="zoom-hint-badge"><i class="fas fa-search-plus"></i> Xem ảnh</span>
+            </div>
+          </div>
+          <div class="product-details">
+            <div class="product-meta">
+              <span class="product-brand">Nerf</span>
+              <span>6-11 tuổi</span>
+            </div>
+            <h3 class="product-title">Súng Đồ Chơi Nerf Elite 2.0 Commander RD-6 Bắn Đạn Mút</h3>
+            <div class="rating-box">
+              <i class="fas fa-star"></i> 4.8 <span class="reviews-count">(112)</span>
+            </div>
+            <div class="price-wrapper">
+              <span class="current-price">450.000đ</span>
+              <span class="original-price">599.000đ</span>
+            </div>
+            <button type="button" class="btn-view-photo" onclick="openLightbox(this.closest('.product-card').querySelector('img').src, this.closest('.product-card').querySelector('img').alt)">
+              <i class="fas fa-search-plus"></i> Phóng to ảnh
+            </button>
+          </div>
+        </article>
+      </div>
     </div>
   </section>
 
@@ -300,7 +761,7 @@
         <div class="footer-col">
           <h3>ĐĂNG KÝ NHẬN TIN HOT</h3>
           <p>Nhận ngay Voucher 50K cho đơn hàng đầu tiên và cập nhật ưu đãi đồ chơi Hot mỗi tuần!</p>
-          <form class="newsletter-form" onsubmit="event.preventDefault(); showToast('Đăng ký nhận tin thành công!', 'success');">
+          <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Cảm ơn bạn đã đăng ký nhận tin từ MyKingdom!');">
             <input type="email" class="newsletter-input" placeholder="Nhập email của bạn..." required />
             <button type="submit" class="btn-newsletter">ĐĂNG KÝ</button>
           </form>
@@ -320,59 +781,17 @@
   </footer>
 
   <!-- ==========================================================================
-       SLIDE-OVER CART DRAWER
+       IMAGE LIGHTBOX (PHÓNG TO 1 BỨC ẢNH DUY NHẤT)
        ========================================================================== -->
-  <div id="cart-overlay" class="cart-drawer-overlay"></div>
-  <div id="cart-drawer" class="cart-drawer">
-    <div class="cart-drawer-header">
-      <h3 class="cart-drawer-title"><i class="fas fa-shopping-basket" style="color: var(--primary);"></i> GIỎ HÀNG CỦA BẠN</h3>
-      <button id="close-cart-btn" class="close-drawer-btn"><i class="fas fa-times"></i></button>
-    </div>
-
-    <div id="drawer-items-list" class="cart-drawer-body"></div>
-
-    <div class="cart-drawer-footer">
-      <div class="coupon-section">
-        <input type="text" id="coupon-input" class="coupon-input" placeholder="Mã giảm giá (VD: KINGDOM50)" />
-        <button class="btn-apply-coupon" onclick="applyCouponCode()">ÁP DỤNG</button>
-      </div>
-
-      <div class="cart-summary-line">
-        <span>Tạm tính:</span>
-        <span id="cart-subtotal">0đ</span>
-      </div>
-      <div class="cart-summary-line" style="color: var(--accent-green);">
-        <span>Giảm giá mã ưu đãi:</span>
-        <span id="cart-discount">-0đ</span>
-      </div>
-      <div class="cart-summary-line total">
-        <span>TỔNG TIỀN:</span>
-        <span id="cart-total">0đ</span>
-      </div>
-
-      <button class="btn-checkout" onclick="checkoutSimulation()">
-        <i class="fas fa-credit-card"></i> TIẾN HÀNH ĐẶT HÀNG (GIAO 2H)
-      </button>
+  <div id="image-lightbox" class="lightbox-overlay" onclick="closeLightbox()" role="dialog" aria-modal="true" aria-label="Xem ảnh phóng to">
+    <button class="lightbox-close" onclick="closeLightbox()" aria-label="Đóng" title="Đóng">&times;</button>
+    <div class="lightbox-content" onclick="event.stopPropagation()">
+      <img id="lightbox-img" src="" alt="" />
+      <p id="lightbox-caption"></p>
     </div>
   </div>
-
-  <!-- ==========================================================================
-       QUICK VIEW MODAL
-       ========================================================================== -->
-  <div id="quickview-modal" class="modal-overlay">
-    <div class="modal-content">
-      <button class="close-modal-btn" onclick="closeModal()"><i class="fas fa-times"></i></button>
-      <div id="modal-body-content"></div>
-    </div>
-  </div>
-
-  <!-- ==========================================================================
-       TOAST NOTIFICATIONS CONTAINER
-       ========================================================================== -->
-  <div id="toast-container" class="toast-container"></div>
 
   <!-- Scripts -->
-  <script src="js/products.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
