@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Đăng Nhập | MONSTER ENERGY STORE</title>
+  <meta name="description" content="Đăng nhập tài khoản Monster Energy Store để mua sắm và quản trị hệ thống." />
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="login-body-wrapper">
+
+  <div class="login-card">
+    <!-- Brand Logo -->
+    <div class="login-logo">
+      <a href="index.html" class="logo">
+        <div class="logo-icon" style="width: 52px; height: 52px; font-size: 1.8rem;">
+          <i class="fas fa-bolt"></i>
+        </div>
+      </a>
+    </div>
+
+    <h1 class="login-title">ĐĂNG NHẬP <span>MONSTER</span></h1>
+    <p class="login-desc">Hệ thống tĩnh - Không cần nhập thông tin, chọn quyền truy cập bên dưới để tiếp tục:</p>
+
+    <!-- Static Form (No required fields) -->
+    <form onsubmit="event.preventDefault();">
+      <div class="form-group">
+        <label class="form-label"><i class="fas fa-envelope"></i> Email hoặc Tên đăng nhập</label>
+        <input type="text" class="form-control" placeholder="admin@monsterenergy.com (tuỳ chọn)" />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label"><i class="fas fa-lock"></i> Mật khẩu</label>
+        <input type="password" class="form-control" placeholder="•••••••• (tuỳ chọn)" />
+      </div>
+
+      <div class="form-extra">
+        <label style="cursor: pointer; display: flex; align-items: center; gap: 6px;">
+          <input type="checkbox" checked /> Ghi nhớ đăng nhập
+        </label>
+        <a href="#" style="color: var(--primary);" onclick="showToast('Tính năng khôi phục mật khẩu đang cập nhật', 'info')">Quên mật khẩu?</a>
+      </div>
+
+      <!-- 2 Navigation Buttons -->
+      <div class="login-actions">
+        <!-- Button 1: User Login -->
+        <a href="index.html" class="btn-login-user" onclick="showToast('Chào mừng bạn quay lại mua sắm!', 'success')">
+          <i class="fas fa-user"></i> ĐĂNG NHẬP KHÁCH HÀNG (Về Trang Chủ)
+        </a>
+
+        <!-- Button 2: Admin Login -->
+        <a href="admin.html" class="btn-login-admin" onclick="showToast('Đăng nhập quyền Quản trị viên thành công!', 'success')">
+          <i class="fas fa-user-shield"></i> ĐĂNG NHẬP QUẢN TRỊ VIÊN (Vào Admin)
+        </a>
+      </div>
+    </form>
+
+    <a href="index.html" class="back-home-link">
+      <i class="fas fa-arrow-left"></i> Quay lại trang chủ mua sắm
+    </a>
+  </div>
+
+  <div id="toast-container" class="toast-container"></div>
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Giỏ Hàng Tĩnh | MONSTER ENERGY STORE</title>
+  <meta name="description" content="Giỏ hàng nước tăng lực Monster Energy chính hãng, hỗ trợ giao hàng hỏa tốc 2 giờ." />
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="container">
+      <div class="announcement-text">
+        <i class="fas fa-truck-fast" style="color: var(--primary);"></i>
+        <span>ĐƠN HÀNG ĐỦ ĐIỀU KIỆN: <strong>Miễn phí vận chuyển hỏa tốc 2H</strong> cho đơn từ 200.000đ!</span>
+      </div>
+      <div class="top-links">
+        <a href="index.html"><i class="fas fa-arrow-left"></i> Tiếp Tục Mua Sắm</a>
+        <a href="admin.html"><i class="fas fa-user-shield"></i> Trang Quản Trị</a>
+        <a href="login.html"><i class="fas fa-sign-in-alt"></i> Đăng Nhập</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-main">
+        <a href="index.html" class="logo">
+          <div class="logo-icon"><i class="fas fa-bolt"></i></div>
+          <div class="logo-text">
+            <span class="logo-title">MONSTER<span>ENERGY</span></span>
+            <span class="logo-subtitle">UNLEASH THE BEAST</span>
+          </div>
+        </a>
+
+        <div style="font-family: var(--font-heading); font-size: 1.4rem; color: #FFF; display: flex; align-items: center; gap: 8px;">
+          <i class="fas fa-shopping-basket" style="color: var(--primary);"></i> GIỎ HÀNG CỦA BẠN (2 MÓN MẪU)
+        </div>
+
+        <div class="header-actions">
+          <a href="index.html" class="action-btn">
+            <i class="fas fa-store" style="color: var(--primary);"></i>
+            <span style="font-size: 0.85rem; font-weight: 700;">Xem Thêm Lon Nước</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Cart Content Section -->
+  <main class="container cart-page-section">
+    <div class="breadcrumb">
+      <a href="index.html">Trang chủ</a>
+      <span>/</span>
+      <span>Giỏ hàng</span>
+    </div>
+
+    <div class="cart-grid">
+      <!-- Left: Cart Table (Static items) -->
+      <div class="cart-table-wrapper">
+        <table class="cart-table">
+          <thead>
+            <tr>
+              <th>Sản phẩm</th>
+              <th>Đơn giá</th>
+              <th>Số lượng</th>
+              <th>Thành tiền</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Sample Item 1 -->
+            <tr id="cart-row-1">
+              <td>
+                <div class="cart-item-info">
+                  <img src="assets/images/monster/monster_original.jpg" alt="Monster Energy Original" class="cart-item-img" />
+                  <div>
+                    <h4 class="cart-item-title"><a href="product-detail.html">Monster Energy Original 500ml</a></h4>
+                    <span class="cart-item-cat">Original Series | 160mg Caffeine</span>
+                  </div>
+                </div>
+              </td>
+              <td><span style="font-weight: 600;">45.000đ</span></td>
+              <td>
+                <div class="qty-control" style="width: fit-content;">
+                  <button class="qty-btn" style="height: 32px; width: 30px;" onclick="showToast('Cập nhật số lượng', 'info')">-</button>
+                  <input type="text" class="qty-input" style="height: 32px; width: 36px;" value="2" readonly />
+                  <button class="qty-btn" style="height: 32px; width: 30px;" onclick="showToast('Cập nhật số lượng', 'info')">+</button>
+                </div>
+              </td>
+              <td><span style="color: var(--primary); font-weight: 700; font-family: var(--font-heading); font-size: 1.1rem;">90.000đ</span></td>
+              <td>
+                <button class="cart-del-btn" title="Xóa món này" onclick="document.getElementById('cart-row-1').style.display='none'; showToast('Đã xóa lon Monster Original khỏi giỏ mẫu!', 'info')">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </td>
+            </tr>
+
+            <!-- Sample Item 2 -->
+            <tr id="cart-row-2">
+              <td>
+                <div class="cart-item-info">
+                  <img src="assets/images/monster/monster_mango_loco.jpg" alt="Juice Monster Mango Loco" class="cart-item-img" />
+                  <div>
+                    <h4 class="cart-item-title"><a href="product-detail.html">Juice Monster Mango Loco 500ml</a></h4>
+                    <span class="cart-item-cat">Juice Monster | Nước ép xoài nhiệt đới</span>
+                  </div>
+                </div>
+              </td>
+              <td><span style="font-weight: 600;">50.000đ</span></td>
+              <td>
+                <div class="qty-control" style="width: fit-content;">
+                  <button class="qty-btn" style="height: 32px; width: 30px;" onclick="showToast('Cập nhật số lượng', 'info')">-</button>
+                  <input type="text" class="qty-input" style="height: 32px; width: 36px;" value="3" readonly />
+                  <button class="qty-btn" style="height: 32px; width: 30px;" onclick="showToast('Cập nhật số lượng', 'info')">+</button>
+                </div>
+              </td>
+              <td><span style="color: var(--primary); font-weight: 700; font-family: var(--font-heading); font-size: 1.1rem;">150.000đ</span></td>
+              <td>
+                <button class="cart-del-btn" title="Xóa món này" onclick="document.getElementById('cart-row-2').style.display='none'; showToast('Đã xóa lon Mango Loco khỏi giỏ mẫu!', 'info')">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border-color);">
+          <a href="index.html" class="btn-view-detail"><i class="fas fa-arrow-left"></i> Tiếp Tục Chọn Hương Vị</a>
+          <button class="btn-view-detail" onclick="showToast('Giỏ hàng tĩnh đã được làm mới!', 'info')"><i class="fas fa-sync-alt"></i> Cập Nhật Giỏ</button>
+        </div>
+      </div>
+
+      <!-- Right: Order Summary Box -->
+      <div class="cart-summary-box">
+        <h3 class="cart-summary-title">TÓM TẮT ĐƠN HÀNG</h3>
+
+        <div class="summary-line">
+          <span>Tạm tính (5 lon):</span>
+          <span style="color: #FFF; font-weight: 600;">240.000đ</span>
+        </div>
+
+        <div class="summary-line" style="color: var(--primary);">
+          <span>Mã giảm giá (MONSTER10):</span>
+          <span>-24.000đ</span>
+        </div>
+
+        <div class="summary-line">
+          <span>Phí giao hàng hoả tốc:</span>
+          <span style="color: var(--primary); font-weight: 600;">MIỄN PHÍ (2H)</span>
+        </div>
+
+        <!-- Coupon Box -->
+        <div class="coupon-box">
+          <input type="text" class="coupon-input" value="MONSTER10" placeholder="Mã giảm giá..." />
+          <button class="btn-apply-coupon" onclick="showToast('Đã áp dụng mã ưu đãi MONSTER10 thành công!', 'success')">ÁP DỤNG</button>
+        </div>
+
+        <div class="summary-line total">
+          <span>TỔNG THANH TOÁN:</span>
+          <span>216.000đ</span>
+        </div>
+
+        <button class="btn-checkout-now" onclick="showToast('Đơn hàng tĩnh 216.000đ đã được ghi nhận thành công! Giao trong 2H.', 'success')">
+          <i class="fas fa-credit-card"></i> TIẾN HÀNH THANH TOÁN
+        </button>
+
+        <a href="index.html" class="btn-back-shopping">
+          <i class="fas fa-chevron-left"></i> Quay lại trang chủ mua sắm
+        </a>
+
+        <div style="margin-top: 24px; padding: 14px; background: rgba(0, 230, 118, 0.08); border: 1px dashed var(--primary); border-radius: var(--radius-sm); font-size: 0.8rem; color: var(--text-muted);">
+          <i class="fas fa-shield-halved" style="color: var(--primary);"></i> <strong>Cam kết Monster Store:</strong> Lon date mới nhất 2026, ướp lạnh sẵn khi giao, đóng thùng chống va đập 100%.
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-bottom">
+      <p>&copy; 2026 MONSTER ENERGY STORE. Built with Pure Static HTML5 & CSS3. All Rights Reserved.</p>
+      <a href="index.html" style="color: var(--primary);"><i class="fas fa-arrow-left"></i> Trang chủ</a>
+    </div>
+  </footer>
+
+  <div id="toast-container" class="toast-container"></div>
+  <script src="js/app.js"></script>
+</body>
+</html>

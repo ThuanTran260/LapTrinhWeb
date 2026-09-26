@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MYKINGDOM - Vương Quốc Đồ Chơi | Đồ Chơi Chính Hãng Cho Bé</title>
-  <meta name="description" content="Vương quốc đồ chơi trẻ em cao cấp chính hãng LEGO, Hot Wheels, Barbie, Fisher-Price. Giao hàng hoả tốc 2h, đổi trả 30 ngày." />
+  <title>MONSTER ENERGY STORE | Unleash The Beast - Nước Tăng Lực Chính Hãng</title>
+  <meta name="description" content="Khám phá trọn bộ sưu tập nước tăng lực Monster Energy chính hãng từ Mỹ: Original, Monster Ultra không đường, Juice Monster nước ép trái cây, Java Coffee và Rehab Tea." />
   
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
@@ -19,13 +19,14 @@
   <div class="top-bar">
     <div class="container">
       <div class="announcement-text">
-        <i class="fas fa-gift"></i>
-        <span>CHÀO HÈ RỰC RỠ: Nhập mã <span class="coupon-badge" onclick="navigator.clipboard.writeText('KINGDOM50'); showToast('Đã chép mã KINGDOM50!', 'success')">KINGDOM50</span> giảm ngay 10% đơn từ 500K!</span>
+        <i class="fas fa-bolt"></i>
+        <span>UNLEASH THE BEAST: Nhập mã <span class="coupon-badge" onclick="showToast('Đã chép mã giảm giá MONSTER10!', 'info')">MONSTER10</span> giảm ngay 10% cho đơn hàng đầu tiên!</span>
       </div>
       <div class="top-links">
         <a href="#features"><i class="fas fa-truck-fast"></i> Giao 2H Hoả Tốc</a>
-        <a href="#features"><i class="fas fa-shield-alt"></i> 100% Chính Hãng</a>
-        <a href="#"><i class="fas fa-store"></i> 120+ Cửa Hàng</a>
+        <a href="#features"><i class="fas fa-certificate"></i> 100% Nhập Khẩu Chính Hãng</a>
+        <a href="admin.html"><i class="fas fa-user-shield"></i> Trang Quản Trị</a>
+        <a href="login.html"><i class="fas fa-sign-in-alt"></i> Đăng Nhập</a>
       </div>
     </div>
   </div>
@@ -37,50 +38,48 @@
     <div class="container">
       <div class="header-main">
         <!-- Logo -->
-        <a href="#" class="logo">
+        <a href="index.html" class="logo">
           <div class="logo-icon">
-            <i class="fas fa-crown"></i>
+            <i class="fas fa-bolt"></i>
           </div>
           <div class="logo-text">
-            <span class="logo-title">MY<span>KINGDOM</span></span>
-            <span class="logo-subtitle">Vương Quốc Đồ Chơi</span>
+            <span class="logo-title">MONSTER<span>ENERGY</span></span>
+            <span class="logo-subtitle">UNLEASH THE BEAST</span>
           </div>
         </a>
 
-        <!-- Search Bar -->
+        <!-- Search Bar (Static) -->
         <div class="search-box">
           <div class="search-input-group">
-            <input type="text" id="search-input" class="search-input" placeholder="Tìm kiếm LEGO, Hot Wheels, Búp bê Barbie..." autocomplete="off" />
-            <button class="search-btn"><i class="fas fa-search"></i></button>
+            <input type="text" class="search-input" placeholder="Tìm kiếm Original, Ultra White, Mango Loco, Java..." />
+            <button class="search-btn" onclick="showToast('Đang tìm kiếm sản phẩm Monster Energy...', 'info')"><i class="fas fa-search"></i></button>
           </div>
-          <div id="search-dropdown" class="search-results-dropdown"></div>
         </div>
 
         <!-- Header Actions -->
         <div class="header-actions">
-          <!-- Wishlist -->
-          <button class="action-btn" onclick="document.getElementById('main-products').scrollIntoView({behavior: 'smooth'})">
+          <!-- Admin Dashboard Link -->
+          <a href="admin.html" class="action-btn">
             <div class="action-icon-wrapper">
-              <i class="far fa-heart"></i>
-              <span id="wishlist-badge" class="action-badge">0</span>
+              <i class="fas fa-chart-line"></i>
             </div>
             <div class="action-text">
-              <span class="action-label">Yêu thích</span>
-              <span class="action-value">Đã lưu</span>
+              <span class="action-label">Hệ thống</span>
+              <span class="action-value">Admin</span>
             </div>
-          </button>
+          </a>
 
-          <!-- Cart Drawer Trigger -->
-          <button id="cart-drawer-trigger" class="action-btn">
+          <!-- Cart Link -->
+          <a href="cart.html" class="action-btn">
             <div class="action-icon-wrapper">
-              <i class="fas fa-shopping-bag"></i>
-              <span id="cart-badge" class="action-badge">0</span>
+              <i class="fas fa-shopping-cart"></i>
+              <span class="action-badge">2</span>
             </div>
             <div class="action-text">
               <span class="action-label">Giỏ hàng</span>
-              <span id="cart-subtotal" class="action-value" style="color: var(--primary);">0đ</span>
+              <span class="action-value" style="color: var(--primary);">216.000đ</span>
             </div>
-          </button>
+          </a>
         </div>
       </div>
     </div>
@@ -88,68 +87,53 @@
     <!-- Navigation Bar -->
     <nav class="nav-bar">
       <div class="container nav-container">
-        <div class="category-dropdown-trigger">
-          <i class="fas fa-bars"></i>
-          <span>DANH MỤC ĐỒ CHƠI</span>
-        </div>
         <ul class="nav-menu">
-          <li><a href="#" class="nav-link active"><i class="fas fa-fire" style="color: var(--primary);"></i> Hot Deals</a></li>
-          <li><a href="#flash-sale" class="nav-link">Flash Sale</a></li>
-          <li><a href="#main-products" class="nav-link">LEGO Store</a></li>
-          <li><a href="#main-products" class="nav-link">Xe & Mô Hình</a></li>
-          <li><a href="#main-products" class="nav-link">Búp Bê & Nhân Vật</a></li>
-          <li><a href="#main-products" class="nav-link">STEM & Giáo Dục</a></li>
+          <li><a href="index.html" class="nav-link active"><i class="fas fa-fire" style="color: var(--secondary);"></i> Tất Cả Hương Vị</a></li>
+          <li><a href="#flash-sale" class="nav-link">Flash Sale Giờ Vàng</a></li>
+          <li><a href="#main-products" class="nav-link">Monster Original</a></li>
+          <li><a href="#main-products" class="nav-link">Monster Ultra (0 Đường)</a></li>
+          <li><a href="#main-products" class="nav-link">Juice Monster (Nước Ép)</a></li>
+          <li><a href="#main-products" class="nav-link">Java & Rehab Tea</a></li>
+          <li><a href="product-detail.html" class="nav-link">Chi Tiết Lon Mẫu</a></li>
+          <li><a href="cart.html" class="nav-link">Giỏ Hàng Tĩnh</a></li>
+          <li><a href="login.html" class="nav-link">Đăng Nhập</a></li>
         </ul>
       </div>
     </nav>
   </header>
 
   <!-- ==========================================================================
-       HERO BANNER SLIDER
+       HERO BANNER
        ========================================================================== -->
   <section class="hero-section">
     <div class="container">
       <div class="hero-grid">
         <!-- Main Slider -->
         <div class="hero-slider-container">
-          <div class="hero-slide active" style="background-image: linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.4)), url('assets/images/banner1.jpg');">
+          <div class="hero-slide" style="background-image: url('assets/images/monster/monster_banner.jpg');">
             <div class="hero-content">
-              <span class="hero-tag">ĐẠI TIỆC ĐỒ CHƠI 2026</span>
-              <h1 class="hero-title">VƯƠNG QUỐC SÁNG TẠO LEGO</h1>
-              <p class="hero-subtitle">Giảm giá cực sốc lên tới 50% cho tất cả các bộ sưu tập LEGO Star Wars, City & Technic!</p>
-              <a href="#main-products" class="btn-hero"><i class="fas fa-shopping-cart"></i> KHÁM PHÁ NGAY</a>
+              <span class="hero-tag"><i class="fas fa-fire"></i> BÙNG NỔ NĂNG LƯỢNG 2026</span>
+              <h1 class="hero-title">ĐÁNH THỨC <span>QUÁI THÚ</span> BÊN TRONG BẠN</h1>
+              <p class="hero-subtitle">Khám phá bộ sưu tập nước tăng lực số 1 toàn cầu từ Mỹ. Hương vị độc bản, sảng khoái tột độ, nạp đầy caffeine và taurine cho ngày dài chinh phục!</p>
+              <a href="#main-products" class="btn-hero"><i class="fas fa-bolt"></i> KHÁM PHÁ CÁC VỊ NGAY</a>
             </div>
-          </div>
-          <div class="hero-slide" style="background-image: linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.4)), url('assets/images/banner2.jpg');">
-            <div class="hero-content">
-              <span class="hero-tag">STEM & GIÁO DỤC</span>
-              <h1 class="hero-title">ROBOT & KHOA HỌC CHO BÉ</h1>
-              <p class="hero-subtitle">Khơi nguồn trí tuệ & đam mê khoa học công nghệ với siêu robot lập trình thông minh.</p>
-              <a href="#main-products" class="btn-hero"><i class="fas fa-rocket"></i> SẮM NGAY CHO BÉ</a>
-            </div>
-          </div>
-
-          <!-- Controls -->
-          <div class="slider-dots">
-            <span class="dot active"></span>
-            <span class="dot"></span>
           </div>
         </div>
 
         <!-- Side Promo Banners -->
         <div class="hero-side-banners">
-          <div class="side-banner-card" style="background-image: url('https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=600&auto=format&fit=crop&q=80');">
+          <div class="side-banner-card" style="background-image: url('assets/images/monster/monster_mango_loco.jpg');">
             <div class="side-banner-overlay"></div>
             <div class="side-banner-content">
-              <h3 class="side-banner-title">Hot Wheels Super Track</h3>
-              <p class="side-banner-desc">Đường đua siêu tốc - Mua 1 Tặng 1 xe đúc kim loại</p>
+              <h3 class="side-banner-title">Juice Monster Mango Loco</h3>
+              <p class="side-banner-desc">Pha trộn nước ép xoài & trái cây nhiệt đới đậm vị Mexico</p>
             </div>
           </div>
-          <div class="side-banner-card" style="background-image: url('https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=600&auto=format&fit=crop&q=80');">
+          <div class="side-banner-card" style="background-image: url('assets/images/monster/monster_zero_ultra.jpg');">
             <div class="side-banner-overlay"></div>
             <div class="side-banner-content">
-              <h3 class="side-banner-title">Thế Giới Búp Bê Barbie</h3>
-              <p class="side-banner-desc">Bộ sưu tập thời trang công chúa giảm 30%</p>
+              <h3 class="side-banner-title">Monster Zero Ultra White</h3>
+              <p class="side-banner-desc">Hương vị thanh mát - 0 Đường - 0 Calo cho người tập luyện</p>
             </div>
           </div>
         </div>
@@ -162,28 +146,28 @@
             <div class="feature-icon"><i class="fas fa-shield-halved"></i></div>
             <div class="feature-info">
               <h4>100% CHÍNH HÃNG</h4>
-              <p>Cam kết chất lượng tuyệt đối</p>
+              <p>Nhập khẩu tiêu chuẩn Hoa Kỳ</p>
             </div>
           </div>
           <div class="feature-item">
             <div class="feature-icon"><i class="fas fa-bolt"></i></div>
             <div class="feature-info">
               <h4>GIAO HẢO TỐC 2H</h4>
-              <p>Nhận hàng ngay tại nội thành</p>
+              <p>Nước lạnh tận tay tại nội thành</p>
             </div>
           </div>
           <div class="feature-item">
-            <div class="feature-icon"><i class="fas fa-rotate-left"></i></div>
+            <div class="feature-icon"><i class="fas fa-boxes-stacked"></i></div>
             <div class="feature-info">
-              <h4>ĐỔI TRẢ 30 NGÀY</h4>
-              <p>Thao tác đơn giản & tiện lợi</p>
+              <h4>ĐÓNG THÙNG CHUYÊN NGHIỆP</h4>
+              <p>Bảo vệ lon nguyên vẹn, không móp</p>
             </div>
           </div>
           <div class="feature-item">
             <div class="feature-icon"><i class="fas fa-award"></i></div>
             <div class="feature-info">
-              <h4>TÍCH ĐIỂM THÀNH VIÊN</h4>
-              <p>Nhận nhiều ưu đãi độc quyền</p>
+              <h4>ƯU ĐÃI THÀNH VIÊN VIP</h4>
+              <p>Tích lũy điểm nhận quà Monster độc quyền</p>
             </div>
           </div>
         </div>
@@ -193,66 +177,400 @@
   </section>
 
   <!-- ==========================================================================
-       FLASH SALE SECTION
+       FLASH SALE SECTION (STATIC)
        ========================================================================== -->
   <section id="flash-sale" class="container">
     <div class="flash-sale-section">
       <div class="flash-sale-header">
         <div class="flash-sale-title">
           <i class="fas fa-fire"></i>
-          <h2>FLASH SALE GIỜ VÀNG</h2>
+          <h2>FLASH SALE GIỜ VÀNG - SỐ LƯỢNG CÓ HẠN</h2>
         </div>
         <div class="countdown-box">
           <span>Kết thúc trong:</span>
-          <span id="flash-hours" class="time-unit">08</span><span class="time-colon">:</span>
-          <span id="flash-mins" class="time-unit">45</span><span class="time-colon">:</span>
-          <span id="flash-secs" class="time-unit">30</span>
+          <span class="time-unit">08</span><span>:</span>
+          <span class="time-unit">45</span><span>:</span>
+          <span class="time-unit">30</span>
         </div>
       </div>
 
-      <!-- Flash Sale Grid -->
-      <div id="flash-products-grid" class="flash-products-grid"></div>
+      <!-- Flash Sale Grid - 4 Cans (Pure Static HTML) -->
+      <div class="flash-products-grid">
+        
+        <!-- Product 1 -->
+        <div class="product-card">
+          <span class="badge-discount">-18%</span>
+          <span class="badge-tag">BÁN CHẠY</span>
+          <div class="product-img-wrapper">
+            <img src="assets/images/monster/monster_original.jpg" alt="Monster Energy Original 500ml" class="product-img" />
+          </div>
+          <div class="product-info">
+            <span class="product-cat">Original Series</span>
+            <h3 class="product-title">Monster Energy Original 500ml</h3>
+            <div class="product-specs">
+              <span><i class="fas fa-wine-bottle"></i> 500ml</span>
+              <span><i class="fas fa-bolt"></i> 160mg Caffeine</span>
+            </div>
+            <div class="product-rating">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+              <span>(1.850)</span>
+            </div>
+            <div class="product-bottom">
+              <div class="product-price">
+                <span class="price-current">45.000đ</span>
+                <span class="price-old">55.000đ</span>
+              </div>
+              <div class="btn-card-group">
+                <a href="product-detail.html" class="btn-view-detail"><i class="fas fa-eye"></i> Xem</a>
+                <button class="btn-add-cart" onclick="showToast('Đã thêm Monster Energy Original vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 2 -->
+        <div class="product-card">
+          <span class="badge-discount">-13%</span>
+          <span class="badge-tag">0 ĐƯỜNG</span>
+          <div class="product-img-wrapper">
+            <img src="assets/images/monster/monster_zero_ultra.jpg" alt="Monster Ultra White 500ml" class="product-img" />
+          </div>
+          <div class="product-info">
+            <span class="product-cat">Monster Ultra</span>
+            <h3 class="product-title">Monster Ultra White (Zero Sugar) 500ml</h3>
+            <div class="product-specs">
+              <span><i class="fas fa-wine-bottle"></i> 500ml</span>
+              <span><i class="fas fa-feather"></i> 0 Calo</span>
+            </div>
+            <div class="product-rating">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+              <span>(980)</span>
+            </div>
+            <div class="product-bottom">
+              <div class="product-price">
+                <span class="price-current">48.000đ</span>
+                <span class="price-old">55.000đ</span>
+              </div>
+              <div class="btn-card-group">
+                <a href="product-detail.html" class="btn-view-detail"><i class="fas fa-eye"></i> Xem</a>
+                <button class="btn-add-cart" onclick="showToast('Đã thêm Monster Ultra White vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 3 -->
+        <div class="product-card">
+          <span class="badge-discount">-17%</span>
+          <span class="badge-tag">JUICE TRÁI CÂY</span>
+          <div class="product-img-wrapper">
+            <img src="assets/images/monster/monster_mango_loco.jpg" alt="Juice Monster Mango Loco 500ml" class="product-img" />
+          </div>
+          <div class="product-info">
+            <span class="product-cat">Juice Monster</span>
+            <h3 class="product-title">Juice Monster Mango Loco 500ml</h3>
+            <div class="product-specs">
+              <span><i class="fas fa-wine-bottle"></i> 500ml</span>
+              <span><i class="fas fa-apple-whole"></i> 16% Nước ép</span>
+            </div>
+            <div class="product-rating">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+              <span>(1.420)</span>
+            </div>
+            <div class="product-bottom">
+              <div class="product-price">
+                <span class="price-current">50.000đ</span>
+                <span class="price-old">60.000đ</span>
+              </div>
+              <div class="btn-card-group">
+                <a href="product-detail.html" class="btn-view-detail"><i class="fas fa-eye"></i> Xem</a>
+                <button class="btn-add-cart" onclick="showToast('Đã thêm Juice Monster Mango Loco vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 4 -->
+        <div class="product-card">
+          <span class="badge-discount">-17%</span>
+          <span class="badge-tag">VỊ NHIỆT ĐỚI</span>
+          <div class="product-img-wrapper">
+            <img src="assets/images/monster/monster_pipeline_punch.jpg" alt="Juice Monster Pipeline Punch 500ml" class="product-img" />
+          </div>
+          <div class="product-info">
+            <span class="product-cat">Juice Monster</span>
+            <h3 class="product-title">Juice Monster Pipeline Punch 500ml</h3>
+            <div class="product-specs">
+              <span><i class="fas fa-wine-bottle"></i> 500ml</span>
+              <span><i class="fas fa-bolt"></i> Vị Chanh leo & Ổi</span>
+            </div>
+            <div class="product-rating">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+              <span>(1.100)</span>
+            </div>
+            <div class="product-bottom">
+              <div class="product-price">
+                <span class="price-current">50.000đ</span>
+                <span class="price-old">60.000đ</span>
+              </div>
+              <div class="btn-card-group">
+                <a href="product-detail.html" class="btn-view-detail"><i class="fas fa-eye"></i> Xem</a>
+                <button class="btn-add-cart" onclick="showToast('Đã thêm Monster Pipeline Punch vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
   </section>
 
   <!-- ==========================================================================
-       MAIN PRODUCTS SHOWCASE & FILTERS
+       MAIN PRODUCTS CATALOG (STATIC HTML)
        ========================================================================== -->
   <section id="main-products" class="main-products-section">
     <div class="container">
       <div class="section-title-wrapper">
-        <h2 class="section-title">THẾ GIỚI <span>ĐỒ CHƠI NỔI BẬT</span></h2>
+        <h2 class="section-title">THẾ GIỚI HƯƠNG VỊ <span>MONSTER ENERGY</span></h2>
+        <a href="cart.html" class="btn-view-detail" style="font-size: 0.95rem; padding: 10px 18px;"><i class="fas fa-shopping-basket"></i> Xem Giỏ Hàng (2 lon)</a>
       </div>
 
-      <!-- Filter Controls Toolbar -->
-      <div class="filter-toolbar">
-        <!-- Categories -->
-        <div class="filter-group">
-          <span class="filter-label"><i class="fas fa-shapes"></i> Danh mục:</span>
-          <div id="category-pills" style="display: flex; gap: 8px; flex-wrap: wrap;"></div>
+      <!-- Main Products Grid - 8 Cans (Pure Static HTML) -->
+      <div class="products-grid">
+
+        <!-- Can 1 -->
+        <div class="product-card">
+          <span class="badge-tag">CỔ ĐIỂN</span>
+          <div class="product-img-wrapper">
+            <img src="assets/images/monster/monster_original.jpg" alt="Monster Energy Original" class="product-img" />
+          </div>
+          <div class="product-info">
+            <span class="product-cat">Original Series</span>
+            <h3 class="product-title">Monster Energy Original 500ml</h3>
+            <div class="product-specs">
+              <span><i class="fas fa-wine-bottle"></i> 500ml</span>
+              <span><i class="fas fa-bolt"></i> 160mg Caffeine</span>
+            </div>
+            <div class="product-rating">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+              <span>(1.850)</span>
+            </div>
+            <div class="product-bottom">
+              <div class="product-price">
+                <span class="price-current">45.000đ</span>
+              </div>
+              <div class="btn-card-group">
+                <a href="product-detail.html" class="btn-view-detail"><i class="fas fa-eye"></i> Chi tiết</a>
+                <button class="btn-add-cart" onclick="showToast('Đã thêm vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <!-- Age Filter -->
-        <div class="filter-group">
-          <span class="filter-label"><i class="fas fa-child"></i> Độ tuổi:</span>
-          <div id="age-pills" style="display: flex; gap: 8px; flex-wrap: wrap;"></div>
+        <!-- Can 2 -->
+        <div class="product-card">
+          <span class="badge-tag">ZERO SUGAR</span>
+          <div class="product-img-wrapper">
+            <img src="assets/images/monster/monster_zero_ultra.jpg" alt="Monster Ultra White" class="product-img" />
+          </div>
+          <div class="product-info">
+            <span class="product-cat">Monster Ultra</span>
+            <h3 class="product-title">Monster Zero Ultra White 500ml</h3>
+            <div class="product-specs">
+              <span><i class="fas fa-wine-bottle"></i> 500ml</span>
+              <span><i class="fas fa-leaf"></i> 0 Đường</span>
+            </div>
+            <div class="product-rating">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+              <span>(980)</span>
+            </div>
+            <div class="product-bottom">
+              <div class="product-price">
+                <span class="price-current">48.000đ</span>
+              </div>
+              <div class="btn-card-group">
+                <a href="product-detail.html" class="btn-view-detail"><i class="fas fa-eye"></i> Chi tiết</a>
+                <button class="btn-add-cart" onclick="showToast('Đã thêm vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <!-- Brand & Sort Dropdowns -->
-        <div class="filter-group">
-          <select id="brand-select" class="select-custom"></select>
-          <select id="sort-select" class="select-custom">
-            <option value="default">Sắp xếp: Mới nhất</option>
-            <option value="price-low">Giá: Thấp đến Cao</option>
-            <option value="price-high">Giá: Cao đến Thấp</option>
-            <option value="rating">Đánh giá cao nhất</option>
-            <option value="discount">Giảm giá nhiều nhất</option>
-          </select>
+        <!-- Can 3 -->
+        <div class="product-card">
+          <span class="badge-tag">XOÀI NHIỆT ĐỚI</span>
+          <div class="product-img-wrapper">
+            <img src="assets/images/monster/monster_mango_loco.jpg" alt="Juice Monster Mango Loco" class="product-img" />
+          </div>
+          <div class="product-info">
+            <span class="product-cat">Juice Monster</span>
+            <h3 class="product-title">Juice Monster Mango Loco 500ml</h3>
+            <div class="product-specs">
+              <span><i class="fas fa-wine-bottle"></i> 500ml</span>
+              <span><i class="fas fa-apple-whole"></i> Nước ép xoài</span>
+            </div>
+            <div class="product-rating">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+              <span>(1.420)</span>
+            </div>
+            <div class="product-bottom">
+              <div class="product-price">
+                <span class="price-current">50.000đ</span>
+              </div>
+              <div class="btn-card-group">
+                <a href="product-detail.html" class="btn-view-detail"><i class="fas fa-eye"></i> Chi tiết</a>
+                <button class="btn-add-cart" onclick="showToast('Đã thêm vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
+              </div>
+            </div>
+          </div>
         </div>
+
+        <!-- Can 4 -->
+        <div class="product-card">
+          <span class="badge-tag">CHANH LEO & ỔI</span>
+          <div class="product-img-wrapper">
+            <img src="assets/images/monster/monster_pipeline_punch.jpg" alt="Juice Monster Pipeline Punch" class="product-img" />
+          </div>
+          <div class="product-info">
+            <span class="product-cat">Juice Monster</span>
+            <h3 class="product-title">Juice Monster Pipeline Punch 500ml</h3>
+            <div class="product-specs">
+              <span><i class="fas fa-wine-bottle"></i> 500ml</span>
+              <span><i class="fas fa-cocktail"></i> Hawaii Punch</span>
+            </div>
+            <div class="product-rating">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+              <span>(1.100)</span>
+            </div>
+            <div class="product-bottom">
+              <div class="product-price">
+                <span class="price-current">50.000đ</span>
+              </div>
+              <div class="btn-card-group">
+                <a href="product-detail.html" class="btn-view-detail"><i class="fas fa-eye"></i> Chi tiết</a>
+                <button class="btn-add-cart" onclick="showToast('Đã thêm vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Can 5 -->
+        <div class="product-card">
+          <span class="badge-tag">KIWI & CHANH</span>
+          <div class="product-img-wrapper">
+            <img src="assets/images/monster/monster_ultra_paradise.jpg" alt="Monster Ultra Paradise" class="product-img" />
+          </div>
+          <div class="product-info">
+            <span class="product-cat">Monster Ultra</span>
+            <h3 class="product-title">Monster Ultra Paradise 500ml</h3>
+            <div class="product-specs">
+              <span><i class="fas fa-wine-bottle"></i> 500ml</span>
+              <span><i class="fas fa-leaf"></i> 0 Calo - 0 Đường</span>
+            </div>
+            <div class="product-rating">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+              <span>(890)</span>
+            </div>
+            <div class="product-bottom">
+              <div class="product-price">
+                <span class="price-current">48.000đ</span>
+              </div>
+              <div class="btn-card-group">
+                <a href="product-detail.html" class="btn-view-detail"><i class="fas fa-eye"></i> Chi tiết</a>
+                <button class="btn-add-cart" onclick="showToast('Đã thêm vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Can 6 -->
+        <div class="product-card">
+          <span class="badge-tag">XOÀI KHÔNG ĐƯỜNG</span>
+          <div class="product-img-wrapper">
+            <img src="assets/images/monster/monster_ultra_fiesta.jpg" alt="Monster Ultra Fiesta Mango" class="product-img" />
+          </div>
+          <div class="product-info">
+            <span class="product-cat">Monster Ultra</span>
+            <h3 class="product-title">Monster Ultra Fiesta Mango 500ml</h3>
+            <div class="product-specs">
+              <span><i class="fas fa-wine-bottle"></i> 500ml</span>
+              <span><i class="fas fa-feather"></i> 0 Đường</span>
+            </div>
+            <div class="product-rating">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+              <span>(760)</span>
+            </div>
+            <div class="product-bottom">
+              <div class="product-price">
+                <span class="price-current">48.000đ</span>
+              </div>
+              <div class="btn-card-group">
+                <a href="product-detail.html" class="btn-view-detail"><i class="fas fa-eye"></i> Chi tiết</a>
+                <button class="btn-add-cart" onclick="showToast('Đã thêm vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Can 7 -->
+        <div class="product-card">
+          <span class="badge-tag">CÀ PHÊ NĂNG LƯỢNG</span>
+          <div class="product-img-wrapper">
+            <img src="assets/images/monster/monster_java_mean_bean.jpg" alt="Java Monster Mean Bean" class="product-img" />
+          </div>
+          <div class="product-info">
+            <span class="product-cat">Java Monster</span>
+            <h3 class="product-title">Java Monster Mean Bean Coffee 443ml</h3>
+            <div class="product-specs">
+              <span><i class="fas fa-mug-hot"></i> 443ml</span>
+              <span><i class="fas fa-bolt"></i> 200mg Caffeine</span>
+            </div>
+            <div class="product-rating">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+              <span>(940)</span>
+            </div>
+            <div class="product-bottom">
+              <div class="product-price">
+                <span class="price-current">58.000đ</span>
+              </div>
+              <div class="btn-card-group">
+                <a href="product-detail.html" class="btn-view-detail"><i class="fas fa-eye"></i> Chi tiết</a>
+                <button class="btn-add-cart" onclick="showToast('Đã thêm vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Can 8 -->
+        <div class="product-card">
+          <span class="badge-tag">TRÀ ĐIỆN GIẢI</span>
+          <div class="product-img-wrapper">
+            <img src="assets/images/monster/monster_rehab_tea.jpg" alt="Rehab Monster Tea Lemonade" class="product-img" />
+          </div>
+          <div class="product-info">
+            <span class="product-cat">Rehab Monster</span>
+            <h3 class="product-title">Rehab Monster Tea + Lemonade 458ml</h3>
+            <div class="product-specs">
+              <span><i class="fas fa-wine-bottle"></i> 458ml</span>
+              <span><i class="fas fa-droplet"></i> Điện giải</span>
+            </div>
+            <div class="product-rating">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+              <span>(820)</span>
+            </div>
+            <div class="product-bottom">
+              <div class="product-price">
+                <span class="price-current">52.000đ</span>
+              </div>
+              <div class="btn-card-group">
+                <a href="product-detail.html" class="btn-view-detail"><i class="fas fa-eye"></i> Chi tiết</a>
+                <button class="btn-add-cart" onclick="showToast('Đã thêm vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
-
-      <!-- Main Products Grid -->
-      <div id="main-products-grid" class="products-grid"></div>
     </div>
   </section>
 
@@ -264,115 +582,65 @@
       <div class="footer-grid">
         <div class="footer-col">
           <div class="logo" style="margin-bottom: 16px;">
-            <div class="logo-icon"><i class="fas fa-crown"></i></div>
+            <div class="logo-icon"><i class="fas fa-bolt"></i></div>
             <div class="logo-text">
-              <span class="logo-title" style="color: #FFF;">MY<span>KINGDOM</span></span>
-              <span class="logo-subtitle" style="color: var(--secondary);">Vương Quốc Đồ Chơi</span>
+              <span class="logo-title">MONSTER<span>ENERGY</span></span>
+              <span class="logo-subtitle">UNLEASH THE BEAST</span>
             </div>
           </div>
-          <p>Chuỗi hệ thống cửa hàng đồ chơi chính hãng hàng đầu Việt Nam. Nơi mang lại nụ cười và hỗ trợ sự phát triển trí tuệ toàn diện cho thế hệ măng non.</p>
-          <p><i class="fas fa-map-marker-alt" style="color: var(--primary);"></i> 128 Nguyễn Trãi, Thanh Xuân, Hà Nội</p>
-          <p><i class="fas fa-phone-alt" style="color: var(--secondary);"></i> Hotline: 1900 1208 (8:00 - 21:30)</p>
+          <p>Hệ thống cung cấp nước tăng lực Monster Energy nhập khẩu chính hãng số 1 tại Việt Nam. Nơi tiếp sức đam mê thể thao điện tử, thể thao mạo hiểm và lối sống bứt phá mọi giới hạn.</p>
+          <p><i class="fas fa-map-marker-alt" style="color: var(--primary);"></i> 88 Nguyễn Huệ, Quận 1, TP. Hồ Chí Minh</p>
+          <p><i class="fas fa-phone-alt" style="color: var(--secondary);"></i> Hotline: 1900 6868 (8:00 - 22:00)</p>
         </div>
 
         <div class="footer-col">
-          <h3>VỀ MYKINGDOM</h3>
+          <h3>CÁC DÒNG HƯƠNG VỊ</h3>
           <ul class="footer-links">
-            <li><a href="#">Giới thiệu công ty</a></li>
-            <li><a href="#">Hệ thống 120+ cửa hàng</a></li>
-            <li><a href="#">Tuyển dụng tài năng</a></li>
-            <li><a href="#">Chính sách bảo mật</a></li>
-            <li><a href="#">Điều khoản sử dụng</a></li>
+            <li><a href="#main-products">Monster Original Cổ Điển</a></li>
+            <li><a href="#main-products">Monster Ultra Zero Sugar</a></li>
+            <li><a href="#main-products">Juice Monster Trái Cây</a></li>
+            <li><a href="#main-products">Java Monster Coffee</a></li>
+            <li><a href="#main-products">Rehab Tea + Electrolytes</a></li>
           </ul>
         </div>
 
         <div class="footer-col">
-          <h3>HỖ TRỢ KHÁCH HÀNG</h3>
+          <h3>HỆ THỐNG TRANG</h3>
           <ul class="footer-links">
-            <li><a href="#">Hướng dẫn mua hàng</a></li>
-            <li><a href="#">Chính sách giao hàng 2h</a></li>
-            <li><a href="#">Chính sách đổi trả & bảo hành</a></li>
-            <li><a href="#">Tích điểm thành viên VIP</a></li>
-            <li><a href="#">Tra cứu đơn hàng</a></li>
+            <li><a href="index.html">Trang Chủ (Index)</a></li>
+            <li><a href="product-detail.html">Chi Tiết Lon Nước</a></li>
+            <li><a href="cart.html">Giỏ Hàng Tĩnh (2 lon)</a></li>
+            <li><a href="login.html">Trang Đăng Nhập</a></li>
+            <li><a href="admin.html">Trang Quản Trị (Admin)</a></li>
           </ul>
         </div>
 
         <div class="footer-col">
-          <h3>ĐĂNG KÝ NHẬN TIN HOT</h3>
-          <p>Nhận ngay Voucher 50K cho đơn hàng đầu tiên và cập nhật ưu đãi đồ chơi Hot mỗi tuần!</p>
-          <form class="newsletter-form" onsubmit="event.preventDefault(); showToast('Đăng ký nhận tin thành công!', 'success');">
+          <h3>NHẬN VOUCHER ƯU ĐÃI</h3>
+          <p>Đăng ký email để nhận ngay mã giảm giá 15% cho thùng nước Monster Energy đầu tiên!</p>
+          <form class="newsletter-form" onsubmit="event.preventDefault(); showToast('Đã đăng ký nhận tin Monster thành công!', 'success');">
             <input type="email" class="newsletter-input" placeholder="Nhập email của bạn..." required />
-            <button type="submit" class="btn-newsletter">ĐĂNG KÝ</button>
+            <button type="submit" class="btn-newsletter"><i class="fas fa-paper-plane"></i></button>
           </form>
         </div>
       </div>
 
       <div class="footer-bottom">
-        <p>&copy; 2026 MYKINGDOM - Vương Quốc Đồ Chơi. All Rights Reserved. Built with Vanilla Web Tech.</p>
-        <div style="display: flex; gap: 16px; font-size: 1.2rem;">
+        <p>&copy; 2026 MONSTER ENERGY STORE. Built with Pure Static HTML5 & CSS3. All Rights Reserved.</p>
+        <div style="display: flex; gap: 16px; font-size: 1.2rem; color: var(--text-dim);">
           <i class="fab fa-cc-visa"></i>
           <i class="fab fa-cc-mastercard"></i>
           <i class="fas fa-wallet"></i>
-          <i class="fas fa-qrcode"></i>
+          <i class="fas fa-bolt" style="color: var(--primary);"></i>
         </div>
       </div>
     </div>
   </footer>
 
-  <!-- ==========================================================================
-       SLIDE-OVER CART DRAWER
-       ========================================================================== -->
-  <div id="cart-overlay" class="cart-drawer-overlay"></div>
-  <div id="cart-drawer" class="cart-drawer">
-    <div class="cart-drawer-header">
-      <h3 class="cart-drawer-title"><i class="fas fa-shopping-basket" style="color: var(--primary);"></i> GIỎ HÀNG CỦA BẠN</h3>
-      <button id="close-cart-btn" class="close-drawer-btn"><i class="fas fa-times"></i></button>
-    </div>
-
-    <div id="drawer-items-list" class="cart-drawer-body"></div>
-
-    <div class="cart-drawer-footer">
-      <div class="coupon-section">
-        <input type="text" id="coupon-input" class="coupon-input" placeholder="Mã giảm giá (VD: KINGDOM50)" />
-        <button class="btn-apply-coupon" onclick="applyCouponCode()">ÁP DỤNG</button>
-      </div>
-
-      <div class="cart-summary-line">
-        <span>Tạm tính:</span>
-        <span id="cart-subtotal">0đ</span>
-      </div>
-      <div class="cart-summary-line" style="color: var(--accent-green);">
-        <span>Giảm giá mã ưu đãi:</span>
-        <span id="cart-discount">-0đ</span>
-      </div>
-      <div class="cart-summary-line total">
-        <span>TỔNG TIỀN:</span>
-        <span id="cart-total">0đ</span>
-      </div>
-
-      <button class="btn-checkout" onclick="checkoutSimulation()">
-        <i class="fas fa-credit-card"></i> TIẾN HÀNH ĐẶT HÀNG (GIAO 2H)
-      </button>
-    </div>
-  </div>
-
-  <!-- ==========================================================================
-       QUICK VIEW MODAL
-       ========================================================================== -->
-  <div id="quickview-modal" class="modal-overlay">
-    <div class="modal-content">
-      <button class="close-modal-btn" onclick="closeModal()"><i class="fas fa-times"></i></button>
-      <div id="modal-body-content"></div>
-    </div>
-  </div>
-
-  <!-- ==========================================================================
-       TOAST NOTIFICATIONS CONTAINER
-       ========================================================================== -->
+  <!-- Toast Notification Container -->
   <div id="toast-container" class="toast-container"></div>
 
-  <!-- Scripts -->
-  <script src="js/products.js"></script>
+  <!-- Script (Chỉ phục vụ toast thông báo khi click) -->
   <script src="js/app.js"></script>
 </body>
 </html>
