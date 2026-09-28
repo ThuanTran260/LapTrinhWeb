@@ -46,8 +46,11 @@ check("::-webkit-scrollbar" in css_content and "width: 8px;" in css_content and 
 check("::-webkit-scrollbar-thumb" in css_content and "#2D3344" in css_content, "style.css has #2D3344 scrollbar thumb")
 check("::-webkit-scrollbar-thumb:hover" in css_content and "var(--primary)" in css_content, "style.css has neon green scrollbar hover")
 check("scrollbar-color: #2D3344 #0B0C10;" in css_content, "style.css has Firefox scrollbar-color")
+check(".cart-table-wrapper" in css_content and "overflow-x: auto;" in css_content, "style.css preserves overflow-x: auto for cart table")
+check(".admin-section-box" in css_content and "overflow-x: auto;" in css_content, "style.css preserves overflow-x: auto for admin tables")
 
-# d) Compact Nav breakpoint
+# d) Compact Nav & Desktop padding optimization
+check("padding: 8px 11px;" in css_content, "style.css has optimized desktop nav-link padding (8px 11px) preventing container clipping")
 check("@media (max-width: 1200px) and (min-width: 769px)" in css_content, "style.css has compact nav media query")
 check("font-size: 0.82rem;" in css_content, "style.css has font-size: 0.82rem in compact nav")
 check("padding: 6px 9px;" in css_content, "style.css has padding: 6px 9px in compact nav")
