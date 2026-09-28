@@ -8,7 +8,7 @@
   <meta name="robots" content="noindex, nofollow" />
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="../css/style.css" />
 </head>
 <body>
 
@@ -16,7 +16,7 @@
     <!-- Sidebar Navigation -->
     <aside class="admin-sidebar">
       <div class="admin-brand">
-        <a href="index.html" class="logo">
+        <a href="../index.html" class="logo">
           <div class="logo-icon" style="width: 40px; height: 40px; font-size: 1.3rem;">
             <i class="fas fa-bolt"></i>
           </div>
@@ -28,19 +28,19 @@
       </div>
 
       <ul class="admin-menu">
-        <li><a href="admin.html" class="admin-menu-link active"><i class="fas fa-chart-pie"></i> Tổng Quan Dashboard</a></li>
-        <li><a href="admin-orders.html" class="admin-menu-link"><i class="fas fa-shopping-bag"></i> Quản Lý Đơn Hàng</a></li>
-        <li><a href="admin-inventory.html" class="admin-menu-link"><i class="fas fa-boxes-stacked"></i> Kho Lon Nước</a></li>
-        <li><a href="admin-revenue.html" class="admin-menu-link"><i class="fas fa-wallet"></i> Báo Cáo Doanh Thu</a></li>
-        <li><a href="admin-customers.html" class="admin-menu-link"><i class="fas fa-users"></i> Khách Hàng VIP</a></li>
-        <li><a href="admin-settings.html" class="admin-menu-link"><i class="fas fa-sliders"></i> Cài Đặt Hệ Thống</a></li>
+        <li><a href="index.html" class="admin-menu-link active"><i class="fas fa-chart-pie"></i> Tổng Quan Dashboard</a></li>
+        <li><a href="orders.html" class="admin-menu-link"><i class="fas fa-shopping-bag"></i> Quản Lý Đơn Hàng</a></li>
+        <li><a href="inventory.html" class="admin-menu-link"><i class="fas fa-boxes-stacked"></i> Kho Lon Nước</a></li>
+        <li><a href="revenue.html" class="admin-menu-link"><i class="fas fa-wallet"></i> Báo Cáo Doanh Thu</a></li>
+        <li><a href="customers.html" class="admin-menu-link"><i class="fas fa-users"></i> Khách Hàng VIP</a></li>
+        <li><a href="settings.html" class="admin-menu-link"><i class="fas fa-sliders"></i> Cài Đặt Hệ Thống</a></li>
       </ul>
 
       <div class="admin-logout">
-        <a href="index.html" class="admin-menu-link" style="color: var(--primary); margin-bottom: 6px;">
+        <a href="../index.html" class="admin-menu-link" style="color: var(--primary); margin-bottom: 6px;">
           <i class="fas fa-store"></i> Về Trang Bán Hàng
         </a>
-        <a href="login.html" class="admin-menu-link" style="color: #EF4444;" onclick="showToast('Đã đăng xuất khỏi tài khoản Quản trị!', 'info')">
+        <a href="../pages/login.html" class="admin-menu-link" style="color: #EF4444;" onclick="showToast('Đã đăng xuất khỏi tài khoản Quản trị!', 'info')">
           <i class="fas fa-sign-out-alt"></i> Đăng Xuất
         </a>
       </div>
@@ -112,7 +112,7 @@
         <div class="admin-section-header">
           <h2 class="admin-section-title"><i class="fas fa-receipt" style="color: var(--secondary);"></i> ĐƠN HÀNG MỚI NHẤT (TĨNH)</h2>
           <div style="display: flex; gap: 8px;">
-            <a href="admin-orders.html" class="btn-view-detail"><i class="fas fa-list"></i> Xem tất cả</a>
+            <a href="orders.html" class="btn-view-detail"><i class="fas fa-list"></i> Xem tất cả</a>
             <button class="btn-view-detail" onclick="showToast('Đã làm mới danh sách đơn hàng!', 'info')"><i class="fas fa-rotate"></i> Làm mới</button>
           </div>
         </div>
@@ -203,7 +203,7 @@
           <h2 class="admin-section-title"><i class="fas fa-boxes-stacked" style="color: var(--primary);"></i> QUẢN LÝ KHO LON NƯỚC MONSTER ENERGY (TĨNH)</h2>
           <div style="display: flex; align-items: center; gap: 12px;">
             <span style="font-size: 0.85rem; color: var(--text-muted);">Hiển thị 8 hương vị chính thức</span>
-            <a href="admin-inventory.html" class="btn-view-detail"><i class="fas fa-list"></i> Xem tất cả</a>
+            <a href="inventory.html" class="btn-view-detail"><i class="fas fa-list"></i> Xem tất cả</a>
           </div>
         </div>
 
@@ -222,7 +222,7 @@
           </thead>
           <tbody>
             <tr>
-              <td><img src="assets/images/monster/original.webp" alt="Monster Energy Original" style="width: 36px; height: 46px; object-fit: contain;" onerror="this.src='assets/images/monster/original.webp'" /></td>
+              <td><img src="../assets/images/monster/original.webp" alt="Monster Energy Original" style="width: 36px; height: 46px; object-fit: contain;" onerror="this.src='../assets/images/monster/original.webp'" /></td>
               <td><strong>Monster Energy Original</strong></td>
               <td>Original Series</td>
               <td>500ml</td>
@@ -236,7 +236,7 @@
             </tr>
 
             <tr>
-              <td><img src="assets/images/monster/ultra-white.webp" alt="Monster Zero Ultra White" style="width: 36px; height: 46px; object-fit: contain;" onerror="this.src='assets/images/monster/ultra-white.webp'" /></td>
+              <td><img src="../assets/images/monster/ultra-white.webp" alt="Monster Zero Ultra White" style="width: 36px; height: 46px; object-fit: contain;" onerror="this.src='../assets/images/monster/ultra-white.webp'" /></td>
               <td><strong>Monster Zero Ultra White</strong></td>
               <td>Monster Ultra (0 Đường)</td>
               <td>500ml</td>
@@ -250,7 +250,7 @@
             </tr>
 
             <tr>
-              <td><img src="assets/images/monster/ultra-paradise.webp" alt="Monster Ultra Paradise" style="width: 36px; height: 46px; object-fit: contain;" onerror="this.src='assets/images/monster/ultra-paradise.webp'" /></td>
+              <td><img src="../assets/images/monster/ultra-paradise.webp" alt="Monster Ultra Paradise" style="width: 36px; height: 46px; object-fit: contain;" onerror="this.src='../assets/images/monster/ultra-paradise.webp'" /></td>
               <td><strong>Monster Ultra Paradise</strong></td>
               <td>Monster Ultra (0 Đường)</td>
               <td>500ml</td>
@@ -264,7 +264,7 @@
             </tr>
 
             <tr>
-              <td><img src="assets/images/monster/ultra-punk-punch.webp" alt="Monster Ultra Punk Punch" style="width: 36px; height: 46px; object-fit: contain;" onerror="this.src='assets/images/monster/ultra-punk-punch.webp'" /></td>
+              <td><img src="../assets/images/monster/ultra-punk-punch.webp" alt="Monster Ultra Punk Punch" style="width: 36px; height: 46px; object-fit: contain;" onerror="this.src='../assets/images/monster/ultra-punk-punch.webp'" /></td>
               <td><strong>Monster Ultra Punk Punch</strong></td>
               <td>Monster Ultra (Nhiệt Đới)</td>
               <td>500ml</td>
@@ -278,7 +278,7 @@
             </tr>
 
             <tr>
-              <td><img src="assets/images/monster/ultra-watermelon.webp" alt="Monster Ultra Watermelon" style="width: 36px; height: 46px; object-fit: contain;" onerror="this.src='assets/images/monster/ultra-watermelon.webp'" /></td>
+              <td><img src="../assets/images/monster/ultra-watermelon.webp" alt="Monster Ultra Watermelon" style="width: 36px; height: 46px; object-fit: contain;" onerror="this.src='../assets/images/monster/ultra-watermelon.webp'" /></td>
               <td><strong>Monster Ultra Watermelon</strong></td>
               <td>Monster Ultra (Dưa Hấu)</td>
               <td>500ml</td>
@@ -292,7 +292,7 @@
             </tr>
 
             <tr>
-              <td><img src="assets/images/monster/ultra-sunrise.webp" alt="Monster Ultra Sunrise" style="width: 36px; height: 46px; object-fit: contain;" onerror="this.src='assets/images/monster/ultra-sunrise.webp'" /></td>
+              <td><img src="../assets/images/monster/ultra-sunrise.webp" alt="Monster Ultra Sunrise" style="width: 36px; height: 46px; object-fit: contain;" onerror="this.src='../assets/images/monster/ultra-sunrise.webp'" /></td>
               <td><strong>Monster Ultra Sunrise</strong></td>
               <td>Monster Ultra (Cam Tươi)</td>
               <td>500ml</td>
@@ -306,7 +306,7 @@
             </tr>
 
             <tr>
-              <td><img src="assets/images/monster/ultra-blue-hawaiian.webp" alt="Monster Ultra Blue Hawaiian" style="width: 36px; height: 46px; object-fit: contain;" onerror="this.src='assets/images/monster/ultra-blue-hawaiian.webp'" /></td>
+              <td><img src="../assets/images/monster/ultra-blue-hawaiian.webp" alt="Monster Ultra Blue Hawaiian" style="width: 36px; height: 46px; object-fit: contain;" onerror="this.src='../assets/images/monster/ultra-blue-hawaiian.webp'" /></td>
               <td><strong>Monster Ultra Blue Hawaiian</strong></td>
               <td>Monster Ultra (Hawaii)</td>
               <td>500ml</td>
@@ -320,7 +320,7 @@
             </tr>
 
             <tr>
-              <td><img src="assets/images/monster/strawberry-shot.webp" alt="Monster Strawberry Shot" style="width: 36px; height: 46px; object-fit: contain;" onerror="this.src='assets/images/monster/strawberry-shot.webp'" /></td>
+              <td><img src="../assets/images/monster/strawberry-shot.webp" alt="Monster Strawberry Shot" style="width: 36px; height: 46px; object-fit: contain;" onerror="this.src='../assets/images/monster/strawberry-shot.webp'" /></td>
               <td><strong>Monster Strawberry Shot</strong></td>
               <td>Monster Shot (Dâu Tây)</td>
               <td>500ml</td>
@@ -339,6 +339,6 @@
   </div>
 
   <div id="toast-container" class="toast-container"></div>
-  <script src="js/app.js"></script>
+  <script src="../js/app.js"></script>
 </body>
 </html>

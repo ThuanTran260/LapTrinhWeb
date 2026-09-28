@@ -3,6 +3,24 @@
  * Lightweight Vanilla JS: Toast, Lightbox, Smart Login, Secret Hotkey & Mock Checkout Flow
  */
 
+// 0. Site root resolver: suy ra thư mục gốc từ vị trí js/app.js,
+//    để điều hướng đúng dù trang đang ở root, pages/ hay admin/,
+//    cả file:// lẫn GitHub Pages (kể cả project site /user/repo/).
+const SITE_ROOT = (() => {
+  try {
+    const s = (document.currentScript && document.currentScript.src)
+      || ((document.querySelector('script[src*="js/app.js"]') || {}).src) || '';
+    const i = s.lastIndexOf('js/app.js');
+    if (i > 0) return s.slice(0, i);
+  } catch (err) { /* bỏ qua, dùng fallback */ }
+  return './';
+})();
+
+// Điều hướng theo đường dẫn tính từ site root (VD: go('pages/cart.html'))
+function go(path) {
+  window.location.href = SITE_ROOT + path;
+}
+
 // 1. Toast Notification
 function showToast(message, type = 'success') {
   let container = document.getElementById('toast-container');
@@ -85,10 +103,10 @@ function handleLogin(e) {
 
   if (ADMIN_USERS.includes(username)) {
     showToast('Xác thực Quản trị viên thành công! Đang chuyển hướng...', 'success');
-    setTimeout(() => { window.location.href = 'admin.html'; }, 900);
+    setTimeout(() => { go('admin/index.html'); }, 900);
   } else {
     showToast('Đăng nhập thành công! Chào mừng quý khách quay lại mua sắm.', 'success');
-    setTimeout(() => { window.location.href = 'index.html'; }, 900);
+    setTimeout(() => { go('index.html'); }, 900);
   }
 }
 
@@ -105,7 +123,7 @@ function logout() {
     localStorage.removeItem('monster_user');
   } catch (err) { /* bỏ qua */ }
   showToast('Đã đăng xuất khỏi tài khoản!', 'info');
-  setTimeout(() => { window.location.href = 'index.html'; }, 900);
+  setTimeout(() => { go('index.html'); }, 900);
 }
 
 // 3d. Điền thông tin lên trang account.html (chưa đăng nhập thì về login)
@@ -113,7 +131,7 @@ function initAccountPage() {
   const displayName = getLoggedUser();
   if (!displayName) {
     showToast('Bạn chưa đăng nhập! Đang chuyển tới trang đăng nhập...', 'warning');
-    setTimeout(() => { window.location.href = 'login.html'; }, 900);
+    setTimeout(() => { go('pages/login.html'); }, 900);
     return;
   }
   const nameEl = document.getElementById('account-display-name');
@@ -127,10 +145,10 @@ function initAccountHeader() {
   const displayName = getLoggedUser();
   const accountLink = document.getElementById('header-account-link');
   if (!displayName) {
-    if (accountLink) accountLink.href = 'login.html';
+    if (accountLink) accountLink.href = SITE_ROOT + 'pages/login.html';
     return;
   }
-  if (accountLink) accountLink.href = 'account.html';
+  if (accountLink) accountLink.href = SITE_ROOT + 'pages/account.html';
   const accountEl = document.getElementById('header-account-value');
   if (accountEl) {
     accountEl.innerText = displayName.length > 18 ? displayName.slice(0, 18) + '…' : displayName;
@@ -151,7 +169,7 @@ document.addEventListener('keydown', (e) => {
   if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.code === 'KeyA') {
     e.preventDefault();
     showToast('Kích hoạt cổng Quản trị viên (Secret Hotkey)...', 'info');
-    setTimeout(() => { window.location.href = 'admin.html'; }, 900);
+    setTimeout(() => { go('admin/index.html'); }, 900);
   }
 });
 
@@ -216,9 +234,9 @@ function processCheckout() {
 
   setTimeout(() => {
     if (method === 'cod') {
-      window.location.href = 'order-success.html?' + params.toString();
+      window.location.href = SITE_ROOT + 'pages/order-success.html?' + params.toString();
     } else {
-      window.location.href = 'payment-gateway.html?' + params.toString();
+      window.location.href = SITE_ROOT + 'pages/payment-gateway.html?' + params.toString();
     }
   }, 900);
 }
@@ -285,7 +303,7 @@ function confirmMockPayment() {
 
   showToast('Xác nhận đã nhận 210.600đ thành công cho đơn hàng ' + orderId + '! Đang hoàn tất...', 'success');
   setTimeout(() => {
-    window.location.href = 'order-success.html?' + params.toString();
+    window.location.href = SITE_ROOT + 'pages/order-success.html?' + params.toString();
   }, 900);
 }
 
