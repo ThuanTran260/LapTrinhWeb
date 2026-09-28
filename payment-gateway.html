@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cổng Thanh Toán Điện Tử | MONSTER ENERGY STORE</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="description" content="Cổng thanh toán trực tuyến bảo mật Napas247 Monster Energy Store." />
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="container">
+      <div class="announcement-text">
+        <i class="fas fa-shield-halved" style="color: var(--primary);"></i>
+        <span>KẾT NỐI BẢO MẬT: <strong>Mã hóa SSL 256-bit Napas247</strong> - Giao dịch an toàn 100%</span>
+      </div>
+      <div class="top-links">
+        <a href="cart.html"><i class="fas fa-arrow-left"></i> Quay Lại Giỏ Hàng</a>
+        <a href="index.html#features"><i class="fas fa-headset"></i> Hỗ Trợ 24/7</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-main">
+        <a href="index.html" class="logo">
+          <div class="logo-icon"><i class="fas fa-bolt"></i></div>
+          <div class="logo-text">
+            <span class="logo-title">MONSTER<span>ENERGY</span></span>
+            <span class="logo-subtitle">UNLEASH THE BEAST</span>
+          </div>
+        </a>
+
+        <div style="font-family: var(--font-heading); font-size: 1.2rem; color: #FFF; display: flex; align-items: center; gap: 8px;">
+          <i class="fas fa-lock" style="color: var(--primary);"></i> THANH TOÁN ĐƠN HÀNG
+        </div>
+
+        <div class="header-actions">
+          <a href="index.html" class="action-btn">
+            <i class="fas fa-store" style="color: var(--primary);"></i>
+            <span style="font-size: 0.85rem; font-weight: 700;">Trang Chủ</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Payment Gateway Section -->
+  <main class="container payment-gateway-section">
+    <div class="breadcrumb">
+      <a href="index.html">Trang chủ</a>
+      <span>/</span>
+      <a href="cart.html">Giỏ hàng</a>
+      <span>/</span>
+      <span>Cổng thanh toán</span>
+    </div>
+
+    <div class="gateway-container">
+      <div class="gateway-card">
+        <!-- Gateway Header & Timer -->
+        <div class="gateway-header">
+          <div>
+            <span class="gateway-badge"><i class="fas fa-bolt"></i> CỔNG THANH TOÁN TỰ ĐỘNG</span>
+            <h1 class="gateway-title" id="gateway-method-title">CỔNG THANH TOÁN CHUYỂN KHOẢN VIETQR (NAPAS247)</h1>
+          </div>
+          <div class="gateway-timer-box">
+            <span class="gateway-timer-label"><i class="fas fa-clock"></i> Đơn hàng hết hạn sau:</span>
+            <span class="gateway-timer-val" id="countdown-timer">15:00</span>
+          </div>
+        </div>
+
+        <!-- Gateway Content Grid -->
+        <div class="gateway-grid">
+          <!-- Left: QR Code Box -->
+          <div class="gateway-qr-column">
+            <div class="gateway-qr-box">
+              <div class="qr-scanner-frame">
+                <!-- SVG / Canvas styled VietQR mockup -->
+                <div class="qr-code-display">
+                  <img src="https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=210600-MONSTER-ENERGY-VIETNAM" alt="Mã VietQR Thanh Toán Monster Energy" class="gateway-qr-image" />
+                  <div class="qr-center-logo">
+                    <i class="fas fa-bolt"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="qr-scan-guide">
+                <i class="fas fa-qrcode" style="color: var(--primary);"></i> Quét mã bằng <strong>App Ngân hàng</strong> hoặc <strong>Ví điện tử</strong> bất kỳ
+              </div>
+              <div class="qr-status-indicator">
+                <span class="pulse-dot"></span> Đang chờ tín hiệu thanh toán từ hệ thống...
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Transfer Info Details -->
+          <div class="gateway-info-column">
+            <div class="gateway-info-card">
+              <h3 class="gateway-info-title"><i class="fas fa-building-columns" style="color: var(--primary);"></i> THÔNG TIN CHUYỂN KHOẢN</h3>
+              
+              <div class="transfer-row">
+                <span class="transfer-label">Mã đơn hàng:</span>
+                <span class="transfer-val mono highlight" id="gateway-order-id">ME-8809</span>
+              </div>
+
+              <div class="transfer-row">
+                <span class="transfer-label">Ngân hàng thụ hưởng:</span>
+                <span class="transfer-val bank-name"><i class="fas fa-shield-alt"></i> MB BANK (Ngân hàng TMCP Quân Đội)</span>
+              </div>
+
+              <div class="transfer-row">
+                <span class="transfer-label">Số tài khoản:</span>
+                <div class="transfer-val-copy">
+                  <span class="transfer-val mono highlight" id="gateway-acc-num">8888.MONSTER.VN</span>
+                  <button type="button" class="btn-copy-code" onclick="navigator.clipboard.writeText('8888.MONSTER.VN'); showToast('Đã sao chép STK!', 'success');" title="Sao chép STK">
+                    <i class="fas fa-copy"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="transfer-row">
+                <span class="transfer-label">Chủ tài khoản:</span>
+                <span class="transfer-val uppercase font-bold">MONSTER ENERGY VIETNAM</span>
+              </div>
+
+              <div class="transfer-row">
+                <span class="transfer-label">Số tiền thanh toán:</span>
+                <span class="transfer-val amount-highlight" id="gateway-amount">210.600đ</span>
+              </div>
+
+              <div class="transfer-row memo-row">
+                <span class="transfer-label">Nội dung chuyển khoản (Bắt buộc):</span>
+                <div class="transfer-val-copy">
+                  <span class="transfer-val mono memo-val" id="gateway-memo">ME-8809</span>
+                  <button type="button" class="btn-copy-code" onclick="navigator.clipboard.writeText(document.getElementById('gateway-memo').innerText); showToast('Đã sao chép nội dung!', 'success');" title="Sao chép nội dung">
+                    <i class="fas fa-copy"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="transfer-notice">
+                <i class="fas fa-triangle-exclamation"></i>
+                <span>Vui lòng giữ nguyên <strong>nội dung chuyển khoản</strong> để hệ thống tự động kích hoạt đơn hàng trong 30 giây.</span>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="gateway-actions">
+              <button type="button" id="btn-confirm-payment" class="btn-gateway-confirm" onclick="confirmMockPayment()">
+                <i class="fas fa-circle-check"></i> TÔI ĐÃ CHUYỂN KHOẢN THÀNH CÔNG (MÔ PHỎNG WEBHOOK)
+              </button>
+              
+              <a href="cart.html" class="btn-gateway-back">
+                <i class="fas fa-arrow-left"></i> Quay Lại Sửa Thông Tin / Chọn Cách Khác
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Security Footer -->
+        <div class="gateway-footer-strip">
+          <div class="gateway-security-item">
+            <i class="fas fa-lock text-primary"></i>
+            <span>Bảo mật chuẩn PCI-DSS Level 1</span>
+          </div>
+          <div class="gateway-security-item">
+            <i class="fas fa-rotate text-secondary"></i>
+            <span>Hoàn tiền 100% nếu giao dịch lỗi</span>
+          </div>
+          <div class="gateway-security-item">
+            <i class="fas fa-headset text-tertiary"></i>
+            <span>Hotline hỗ trợ thanh toán: 1900 8888</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-bottom">
+      <p>&copy; 2026 MONSTER ENERGY STORE. Built with Pure Static HTML5 & CSS3. All Rights Reserved.</p>
+      <a href="index.html" style="color: var(--primary);"><i class="fas fa-arrow-left"></i> Về Trang chủ</a>
+    </div>
+  </footer>
+
+  <div id="toast-container" class="toast-container"></div>
+  <script src="js/app.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      initPaymentGateway();
+    });
+  </script>
+</body>
+</html>

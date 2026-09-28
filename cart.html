@@ -20,7 +20,7 @@
       </div>
       <div class="top-links">
         <a href="index.html"><i class="fas fa-arrow-left"></i> Tiếp Tục Mua Sắm</a>
-        <a href="admin.html"><i class="fas fa-user-shield"></i> Trang Quản Trị</a>
+        <a href="index.html#features"><i class="fas fa-headset"></i> Hỗ Trợ 24/7</a>
         <a href="login.html"><i class="fas fa-sign-in-alt"></i> Đăng Nhập</a>
       </div>
     </div>
@@ -166,8 +166,84 @@
           <span>210.600đ</span>
         </div>
 
-        <button class="btn-checkout-now" onclick="showToast('Đơn hàng tĩnh 210.600đ đã được ghi nhận thành công! Giao trong 2H.', 'success')">
-          <i class="fas fa-credit-card"></i> TIẾN HÀNH THANH TOÁN
+        <!-- Receiver Information Form -->
+        <div class="checkout-receiver-box">
+          <h4 class="checkout-subhead"><i class="fas fa-truck-fast" style="color: var(--primary);"></i> THÔNG TIN NHẬN HÀNG HỎA TỐC (2H)</h4>
+          <div class="form-group-checkout">
+            <label for="order-fullname">Họ và tên người nhận <span class="required-star" style="color: #EF4444;">*</span></label>
+            <input type="text" id="order-fullname" class="checkout-input" value="Trần Minh Thuận" placeholder="Ví dụ: Nguyễn Văn An" autocomplete="name" required />
+          </div>
+          <div class="form-group-checkout">
+            <label for="order-phone">Số điện thoại nhận hàng <span class="required-star" style="color: #EF4444;">*</span></label>
+            <input type="tel" id="order-phone" class="checkout-input" value="0912345678" placeholder="10 số, bắt đầu bằng 0 (VD: 0912345678)" autocomplete="tel" required />
+          </div>
+          <div class="form-group-checkout">
+            <label for="order-address">Địa chỉ giao hàng chi tiết <span class="required-star" style="color: #EF4444;">*</span></label>
+            <input type="text" id="order-address" class="checkout-input" value="123 Lê Lợi, Phường Bến Nghé, Quận 1, TP.HCM" placeholder="Số nhà, tên đường, Phường/Xã, Quận/Huyện, Tỉnh/TP..." autocomplete="street-address" required />
+          </div>
+          <div class="form-group-checkout">
+            <label for="order-notes">Ghi chú đơn hàng (tuỳ chọn)</label>
+            <input type="text" id="order-notes" class="checkout-input" placeholder="Ướp lạnh sẵn lon nước, gọi trước khi đến..." />
+          </div>
+        </div>
+
+        <!-- Payment Channels Switcher -->
+        <div class="checkout-payment-box">
+          <h4 class="checkout-subhead"><i class="fas fa-credit-card" style="color: var(--secondary);"></i> PHƯƠNG THỨC THANH TOÁN</h4>
+          <div class="payment-methods-grid">
+            <!-- Option 1: VietQR (Checked Default) -->
+            <label class="payment-method-card" for="pay-vietqr">
+              <input type="radio" id="pay-vietqr" name="payment_method" value="vietqr" class="payment-radio" checked />
+              <div class="payment-card-body">
+                <div class="payment-card-head">
+                  <i class="fas fa-qrcode" style="color: var(--primary);"></i>
+                  <span class="payment-card-title">VietQR Nhanh</span>
+                  <span class="payment-badge-popular">Khuyên dùng</span>
+                </div>
+                <p class="payment-card-desc">Quét mã QR mọi App Ngân hàng (Napas247) tự động khớp tức thì</p>
+              </div>
+            </label>
+
+            <!-- Option 2: COD -->
+            <label class="payment-method-card" for="pay-cod">
+              <input type="radio" id="pay-cod" name="payment_method" value="cod" class="payment-radio" />
+              <div class="payment-card-body">
+                <div class="payment-card-head">
+                  <i class="fas fa-hand-holding-dollar" style="color: var(--secondary);"></i>
+                  <span class="payment-card-title">Tiền Mặt (COD)</span>
+                </div>
+                <p class="payment-card-desc">Kiểm tra thùng nước lạnh rồi thanh toán trực tiếp cho shipper</p>
+              </div>
+            </label>
+
+            <!-- Option 3: Ví MoMo / VNPay -->
+            <label class="payment-method-card" for="pay-momo">
+              <input type="radio" id="pay-momo" name="payment_method" value="momo" class="payment-radio" />
+              <div class="payment-card-body">
+                <div class="payment-card-head">
+                  <i class="fas fa-wallet" style="color: var(--accent-cyan);"></i>
+                  <span class="payment-card-title">Ví MoMo / VNPay</span>
+                </div>
+                <p class="payment-card-desc">Thanh toán qua ví điện tử liên kết tài khoản ngân hàng</p>
+              </div>
+            </label>
+
+            <!-- Option 4: Thẻ Visa / Master -->
+            <label class="payment-method-card" for="pay-card">
+              <input type="radio" id="pay-card" name="payment_method" value="card" class="payment-radio" />
+              <div class="payment-card-body">
+                <div class="payment-card-head">
+                  <i class="fas fa-credit-card" style="color: var(--text-dim);"></i>
+                  <span class="payment-card-title">Thẻ Quốc Tế</span>
+                </div>
+                <p class="payment-card-desc">Thẻ tín dụng / ghi nợ quốc tế Visa, MasterCard, JCB</p>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <button type="button" class="btn-checkout-now" onclick="processCheckout()">
+          <i class="fas fa-bolt"></i> XÁC NHẬN ĐẶT HÀNG (210.600đ)
         </button>
 
         <a href="index.html" class="btn-back-shopping">

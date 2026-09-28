@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Đăng Nhập | MONSTER ENERGY STORE</title>
-  <meta name="description" content="Đăng nhập tài khoản Monster Energy Store để mua sắm và quản trị hệ thống." />
+  <meta name="description" content="Đăng nhập tài khoản Monster Energy Store để mua sắm, nhận ưu đãi thành viên và theo dõi đơn hàng." />
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="css/style.css" />
@@ -22,18 +22,18 @@
     </div>
 
     <h1 class="login-title">ĐĂNG NHẬP <span>MONSTER</span></h1>
-    <p class="login-desc">Hệ thống tĩnh - Không cần nhập thông tin, chọn quyền truy cập bên dưới để tiếp tục:</p>
+    <p class="login-desc">Đăng nhập tài khoản để nhận ưu đãi thành viên và theo dõi đơn hàng:</p>
 
-    <!-- Static Form (No required fields) -->
-    <form onsubmit="event.preventDefault();">
+    <!-- Smart Login Form -->
+    <form onsubmit="handleLogin(event)">
       <div class="form-group">
-        <label class="form-label"><i class="fas fa-envelope"></i> Email hoặc Tên đăng nhập</label>
-        <input type="text" class="form-control" placeholder="admin@monsterenergy.com (tuỳ chọn)" />
+        <label class="form-label" for="login-username"><i class="fas fa-envelope"></i> Email hoặc Tên đăng nhập</label>
+        <input type="text" id="login-username" class="form-control" placeholder="email@example.com hoặc Tên tài khoản" autocomplete="username" />
       </div>
 
       <div class="form-group">
-        <label class="form-label"><i class="fas fa-lock"></i> Mật khẩu</label>
-        <input type="password" class="form-control" placeholder="•••••••• (tuỳ chọn)" />
+        <label class="form-label" for="login-password"><i class="fas fa-lock"></i> Mật khẩu</label>
+        <input type="password" id="login-password" class="form-control" placeholder="••••••••" autocomplete="current-password" />
       </div>
 
       <div class="form-extra">
@@ -43,17 +43,11 @@
         <a href="#" style="color: var(--primary);" onclick="showToast('Tính năng khôi phục mật khẩu đang cập nhật', 'info')">Quên mật khẩu?</a>
       </div>
 
-      <!-- 2 Navigation Buttons -->
+      <!-- Single Submit Button -->
       <div class="login-actions">
-        <!-- Button 1: User Login -->
-        <a href="index.html" class="btn-login-user" onclick="showToast('Chào mừng bạn quay lại mua sắm!', 'success')">
-          <i class="fas fa-user"></i> ĐĂNG NHẬP KHÁCH HÀNG (Về Trang Chủ)
-        </a>
-
-        <!-- Button 2: Admin Login -->
-        <a href="admin.html" class="btn-login-admin" onclick="showToast('Đăng nhập quyền Quản trị viên thành công!', 'success')">
-          <i class="fas fa-user-shield"></i> ĐĂNG NHẬP QUẢN TRỊ VIÊN (Vào Admin)
-        </a>
+        <button type="submit" class="btn-login-user">
+          <i class="fas fa-sign-in-alt"></i> ĐĂNG NHẬP
+        </button>
       </div>
     </form>
 
