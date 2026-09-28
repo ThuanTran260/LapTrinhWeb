@@ -36,3 +36,38 @@ function showToast(message, type = 'success') {
     }, 300);
   }, 3200);
 }
+
+/**
+ * LIGHTBOX - Phóng to duy nhất 1 ảnh sản phẩm khi click
+ */
+function openLightbox(imgSrc, title) {
+  let modal = document.getElementById('image-lightbox');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'image-lightbox';
+    modal.className = 'image-lightbox';
+    modal.onclick = (e) => { 
+      if (e.target === modal || e.target.classList.contains('lightbox-close')) {
+        closeLightbox(); 
+      }
+    };
+    modal.innerHTML = `
+      <div class="lightbox-content">
+        <button class="lightbox-close" title="Đóng" onclick="closeLightbox()">&times;</button>
+        <img id="lightbox-img" src="" alt="Lon nước phóng to" />
+        <p id="lightbox-caption" class="lightbox-caption"></p>
+      </div>
+    `;
+    document.body.appendChild(modal);
+  }
+  const imgEl = document.getElementById('lightbox-img');
+  const capEl = document.getElementById('lightbox-caption');
+  if (imgEl) imgEl.src = imgSrc;
+  if (capEl) capEl.innerText = title || '';
+  modal.classList.add('active');
+}
+
+function closeLightbox() {
+  const modal = document.getElementById('image-lightbox');
+  if (modal) modal.classList.remove('active');
+}
