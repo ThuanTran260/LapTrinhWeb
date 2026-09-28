@@ -92,7 +92,7 @@
     <div class="detail-layout">
       <!-- Left Column: Gallery -->
       <div class="detail-gallery">
-        <div class="detail-main-img-box">
+        <div class="detail-main-img-box" style="position: relative; overflow: hidden; background: radial-gradient(circle, rgba(57, 255, 20, 0.16) 0%, rgba(20, 24, 30, 0.7) 65%); border: 1px solid var(--border-glass); border-radius: var(--radius-lg); box-shadow: 0 12px 36px rgba(0, 0, 0, 0.7);">
           <img id="main-product-image" src="assets/images/monster/original.webp" alt="Monster Energy Original 500ml" class="detail-main-img" onerror="this.src='assets/images/monster/original.webp'" />
         </div>
         <div class="detail-thumbnails">
@@ -212,8 +212,12 @@
       </div>
 
       <div class="products-grid">
-        <div class="product-card">
-          <div class="product-img-wrapper">
+        <div class="product-card product-card-stitch">
+          <div class="product-card-micro-glow" style="background: #00E5FF;"></div>
+          <div class="stitch-badge-group">
+            <span class="stitch-badge zero">0 ĐƯỜNG</span>
+          </div>
+          <div class="product-img-wrapper" onclick="openLightbox('assets/images/monster/ultra-white.webp', 'Monster Zero Ultra White 500ml')">
             <img src="assets/images/monster/ultra-white.webp" alt="Monster Zero Ultra White 500ml" class="product-img" loading="lazy" onerror="this.src='assets/images/monster/original.webp'" />
           </div>
           <div class="product-info">
@@ -221,13 +225,17 @@
             <h3 class="product-title">Monster Zero Ultra White 500ml</h3>
             <div class="product-bottom">
               <span class="price-current">48.000đ</span>
-              <button class="btn-add-cart" onclick="showToast('Đã thêm Monster Zero Ultra White vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
+              <button class="btn-add-stitch" title="Thêm vào giỏ" onclick="showToast('Đã thêm Monster Zero Ultra White vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
             </div>
           </div>
         </div>
 
-        <div class="product-card">
-          <div class="product-img-wrapper">
+        <div class="product-card product-card-stitch">
+          <div class="product-card-micro-glow" style="background: #00FF66;"></div>
+          <div class="stitch-badge-group">
+            <span class="stitch-badge zero">KIWI CHANH</span>
+          </div>
+          <div class="product-img-wrapper" onclick="openLightbox('assets/images/monster/ultra-paradise.webp', 'Monster Ultra Paradise 500ml')">
             <img src="assets/images/monster/ultra-paradise.webp" alt="Monster Ultra Paradise 500ml" class="product-img" loading="lazy" onerror="this.src='assets/images/monster/original.webp'" />
           </div>
           <div class="product-info">
@@ -235,13 +243,17 @@
             <h3 class="product-title">Monster Ultra Paradise 500ml</h3>
             <div class="product-bottom">
               <span class="price-current">48.000đ</span>
-              <button class="btn-add-cart" onclick="showToast('Đã thêm Monster Ultra Paradise vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
+              <button class="btn-add-stitch" title="Thêm vào giỏ" onclick="showToast('Đã thêm Monster Ultra Paradise vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
             </div>
           </div>
         </div>
 
-        <div class="product-card">
-          <div class="product-img-wrapper">
+        <div class="product-card product-card-stitch">
+          <div class="product-card-micro-glow" style="background: #FF3366;"></div>
+          <div class="stitch-badge-group">
+            <span class="stitch-badge zero">DƯA HẤU</span>
+          </div>
+          <div class="product-img-wrapper" onclick="openLightbox('assets/images/monster/ultra-watermelon.webp', 'Monster Ultra Watermelon 500ml')">
             <img src="assets/images/monster/ultra-watermelon.webp" alt="Monster Ultra Watermelon 500ml" class="product-img" loading="lazy" onerror="this.src='assets/images/monster/original.webp'" />
           </div>
           <div class="product-info">
@@ -249,13 +261,17 @@
             <h3 class="product-title">Monster Ultra Watermelon 500ml</h3>
             <div class="product-bottom">
               <span class="price-current">48.000đ</span>
-              <button class="btn-add-cart" onclick="showToast('Đã thêm Monster Ultra Watermelon vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
+              <button class="btn-add-stitch" title="Thêm vào giỏ" onclick="showToast('Đã thêm Monster Ultra Watermelon vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
             </div>
           </div>
         </div>
 
-        <div class="product-card">
-          <div class="product-img-wrapper">
+        <div class="product-card product-card-stitch">
+          <div class="product-card-micro-glow" style="background: #FF1493;"></div>
+          <div class="stitch-badge-group">
+            <span class="stitch-badge punch">PUNCH</span>
+          </div>
+          <div class="product-img-wrapper" onclick="openLightbox('assets/images/monster/ultra-punk-punch.webp', 'Monster Ultra Punk Punch 500ml')">
             <img src="assets/images/monster/ultra-punk-punch.webp" alt="Monster Ultra Punk Punch 500ml" class="product-img" loading="lazy" onerror="this.src='assets/images/monster/original.webp'" />
           </div>
           <div class="product-info">
@@ -263,7 +279,7 @@
             <h3 class="product-title">Monster Ultra Punk Punch 500ml</h3>
             <div class="product-bottom">
               <span class="price-current">50.000đ</span>
-              <button class="btn-add-cart" onclick="showToast('Đã thêm Monster Ultra Punk Punch vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
+              <button class="btn-add-stitch" title="Thêm vào giỏ" onclick="showToast('Đã thêm Monster Ultra Punk Punch vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
             </div>
           </div>
         </div>

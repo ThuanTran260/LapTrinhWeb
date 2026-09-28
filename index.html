@@ -102,76 +102,100 @@
   </header>
 
   <!-- ==========================================================================
-       HERO BANNER
+       HERO BANNER (STITCH KINETIC VOLT)
        ========================================================================== -->
-  <section class="hero-section">
+  <section class="hero-kinetic-section">
+    <!-- Atmospheric Ambient Glows -->
+    <div class="ambient-glow-wrap">
+      <div class="ambient-glow green"></div>
+      <div class="ambient-glow cyan"></div>
+      <div class="ambient-glow mint"></div>
+    </div>
+
     <div class="container">
-      <div class="hero-grid">
-        <!-- Main Slider -->
-        <div class="hero-slider-container">
-          <div class="hero-slide" style="background-image: url('assets/images/monster/monster_banner.jpg');">
-            <div class="hero-content">
-              <span class="hero-tag"><i class="fas fa-fire"></i> BÙNG NỔ NĂNG LƯỢNG 2026</span>
-              <h1 class="hero-title">ĐÁNH THỨC <span>QUÁI THÚ</span> BÊN TRONG BẠN</h1>
-              <p class="hero-subtitle">Khám phá bộ sưu tập nước tăng lực số 1 toàn cầu từ Mỹ. Hương vị độc bản, sảng khoái tột độ, nạp đầy caffeine và taurine cho ngày dài chinh phục!</p>
-              <a href="#main-products" class="btn-hero"><i class="fas fa-bolt"></i> KHÁM PHÁ CÁC VỊ NGAY</a>
+      <div class="hero-kinetic-grid">
+        <!-- Left Editorial Column -->
+        <div class="hero-editorial">
+          <div class="hero-badge-pill">
+            <span class="hero-badge-dot"></span>
+            <span class="hero-badge-text">CỬA HÀNG CHÍNH HÃNG VIỆT NAM • 100% NHẬP KHẨU</span>
+          </div>
+
+          <div>
+            <p class="hero-brand-tag">UNLEASH THE BEAST</p>
+            <h1 class="hero-main-title">
+              KHƠI MỞ <br />
+              <span class="gradient-text">BẢN LĨNH</span>
+            </h1>
+          </div>
+
+          <p class="hero-desc">
+            Sức mạnh bùng nổ vượt ngưỡng giới hạn cùng tinh chất Taurine, Nhân sâm tự nhiên và phức hợp Vitamin B nạp năng lượng tức thì. Cùng các chiến binh eSports và vận động viên mạo hiểm làm chủ cuộc chơi.
+          </p>
+
+          <!-- CTAs -->
+          <div class="hero-cta-group">
+            <a href="#main-products" class="btn-stitch-primary">
+              <i class="fas fa-bolt"></i>
+              <span>MUA NGAY HÔM NAY</span>
+            </a>
+            <a href="#flash-sale" class="btn-stitch-secondary">
+              <i class="fas fa-fire" style="color: var(--secondary);"></i>
+              <span>KHÁM PHÁ CÁC VỊ MỚI</span>
+            </a>
+          </div>
+
+          <!-- Feature Badges Strip -->
+          <div class="feature-strip-grid">
+            <div class="feature-strip-item">
+              <div class="feature-icon-box green">
+                <i class="fas fa-truck-fast"></i>
+              </div>
+              <div>
+                <p class="feature-title">Freeship 200K</p>
+                <p class="feature-sub">Nhanh chóng toàn quốc</p>
+              </div>
+            </div>
+
+            <div class="feature-strip-item">
+              <div class="feature-icon-box mint">
+                <i class="fas fa-certificate"></i>
+              </div>
+              <div>
+                <p class="feature-title">100% Chính Hãng</p>
+                <p class="feature-sub">Mã vạch chuẩn USA</p>
+              </div>
+            </div>
+
+            <div class="feature-strip-item">
+              <div class="feature-icon-box cyan">
+                <i class="fas fa-bolt-lightning"></i>
+              </div>
+              <div>
+                <p class="feature-title">Giao Hoả Tốc 2H</p>
+                <p class="feature-sub">Nội thành HN & TP.HCM</p>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- Side Promo Banners -->
-        <div class="hero-side-banners">
-          <div class="side-banner-card" style="background-image: url('assets/images/monster/ultra-punk-punch.webp');">
-            <div class="side-banner-overlay"></div>
-            <div class="side-banner-content">
-              <h3 class="side-banner-title">Monster Ultra Punk Punch</h3>
-              <p class="side-banner-desc">Bùng nổ hương vị trái cây hỗn hợp cực đã</p>
+        <!-- Right 3D Visual Duo Stage -->
+        <div class="hero-stage-3d">
+          <div class="stage-spotlight-disc"></div>
+          <div class="can-stage-duo">
+            <!-- Original Can Stage -->
+            <div class="can-stage-card original" onclick="openLightbox('assets/images/monster/original.webp', 'Monster Energy Original 500ml')">
+              <img src="assets/images/monster/original.webp" alt="Monster Energy Original 500ml" />
+              <span class="can-stage-pill green">Original Green</span>
             </div>
-          </div>
-          <div class="side-banner-card" style="background-image: url('assets/images/monster/ultra-white.webp');">
-            <div class="side-banner-overlay"></div>
-            <div class="side-banner-content">
-              <h3 class="side-banner-title">Monster Zero Ultra White</h3>
-              <p class="side-banner-desc">Hương vị thanh mát - 0 Đường - 0 Calo cho người tập luyện</p>
+            <!-- Ultra White Can Stage -->
+            <div class="can-stage-card ultra" onclick="openLightbox('assets/images/monster/ultra-white.webp', 'Monster Zero Ultra White 500ml')">
+              <img src="assets/images/monster/ultra-white.webp" alt="Monster Zero Ultra White 500ml" />
+              <span class="can-stage-pill cyan">Ultra White 0 Đường</span>
             </div>
           </div>
         </div>
       </div>
-
-      <!-- Trust Features Bar -->
-      <div id="features" class="features-bar">
-        <div class="features-grid">
-          <div class="feature-item">
-            <div class="feature-icon"><i class="fas fa-shield-halved"></i></div>
-            <div class="feature-info">
-              <h4>100% CHÍNH HÃNG</h4>
-              <p>Nhập khẩu tiêu chuẩn Hoa Kỳ</p>
-            </div>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon"><i class="fas fa-bolt"></i></div>
-            <div class="feature-info">
-              <h4>GIAO HẢO TỐC 2H</h4>
-              <p>Nước lạnh tận tay tại nội thành</p>
-            </div>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon"><i class="fas fa-boxes-stacked"></i></div>
-            <div class="feature-info">
-              <h4>ĐÓNG THÙNG CHUYÊN NGHIỆP</h4>
-              <p>Bảo vệ lon nguyên vẹn, không móp</p>
-            </div>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon"><i class="fas fa-award"></i></div>
-            <div class="feature-info">
-              <h4>ƯU ĐÃI THÀNH VIÊN VIP</h4>
-              <p>Tích lũy điểm nhận quà Monster độc quyền</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </div>
   </section>
 
@@ -193,14 +217,17 @@
         </div>
       </div>
 
-      <!-- Flash Sale Grid - 4 Cans (Pure Static HTML) -->
+      <!-- Flash Sale Grid - 4 Cans (Stitch Glassmorphism) -->
       <div class="flash-products-grid">
         
         <!-- Product 1 -->
-        <div class="product-card">
-          <span class="badge-discount">-18%</span>
-          <span class="badge-tag">BÁN CHẠY</span>
-          <div class="product-img-wrapper">
+        <div class="product-card product-card-stitch">
+          <div class="product-card-micro-glow" style="background: #39FF14;"></div>
+          <div class="stitch-badge-group">
+            <span class="stitch-badge sale">-18%</span>
+            <span class="stitch-badge original">BÁN CHẠY</span>
+          </div>
+          <div class="product-img-wrapper" onclick="openLightbox('assets/images/monster/original.webp', 'Monster Energy Original 500ml')">
             <img src="assets/images/monster/original.webp" alt="Monster Energy Original 500ml" class="product-img" loading="lazy" onerror="this.src='assets/images/monster/original.webp'" />
           </div>
           <div class="product-info">
@@ -221,17 +248,20 @@
               </div>
               <div class="btn-card-group">
                 <a href="product-detail.html" class="btn-view-detail"><i class="fas fa-eye"></i> Xem</a>
-                <button class="btn-add-cart" onclick="showToast('Đã thêm Monster Energy Original vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
+                <button class="btn-add-stitch" title="Thêm vào giỏ" onclick="showToast('Đã thêm Monster Energy Original vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
               </div>
             </div>
           </div>
         </div>
 
         <!-- Product 2 -->
-        <div class="product-card">
-          <span class="badge-discount">-13%</span>
-          <span class="badge-tag">0 ĐƯỜNG</span>
-          <div class="product-img-wrapper">
+        <div class="product-card product-card-stitch">
+          <div class="product-card-micro-glow" style="background: #00E5FF;"></div>
+          <div class="stitch-badge-group">
+            <span class="stitch-badge sale">-13%</span>
+            <span class="stitch-badge zero">0 CALO</span>
+          </div>
+          <div class="product-img-wrapper" onclick="openLightbox('assets/images/monster/ultra-white.webp', 'Monster Zero Ultra White 500ml')">
             <img src="assets/images/monster/ultra-white.webp" alt="Monster Zero Ultra White 500ml" class="product-img" loading="lazy" onerror="this.src='assets/images/monster/original.webp'" />
           </div>
           <div class="product-info">
@@ -239,7 +269,7 @@
             <h3 class="product-title">Monster Zero Ultra White 500ml</h3>
             <div class="product-specs">
               <span><i class="fas fa-wine-bottle"></i> 500ml</span>
-              <span><i class="fas fa-feather"></i> 0 Calo</span>
+              <span><i class="fas fa-feather"></i> 0 Calo - 0 Đường</span>
             </div>
             <div class="product-rating">
               <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
@@ -252,17 +282,20 @@
               </div>
               <div class="btn-card-group">
                 <a href="product-detail.html" class="btn-view-detail"><i class="fas fa-eye"></i> Xem</a>
-                <button class="btn-add-cart" onclick="showToast('Đã thêm Monster Zero Ultra White vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
+                <button class="btn-add-stitch" title="Thêm vào giỏ" onclick="showToast('Đã thêm Monster Zero Ultra White vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
               </div>
             </div>
           </div>
         </div>
 
         <!-- Product 3 -->
-        <div class="product-card">
-          <span class="badge-discount">-17%</span>
-          <span class="badge-tag">KIWI & CHANH</span>
-          <div class="product-img-wrapper">
+        <div class="product-card product-card-stitch">
+          <div class="product-card-micro-glow" style="background: #00FF66;"></div>
+          <div class="stitch-badge-group">
+            <span class="stitch-badge sale">-17%</span>
+            <span class="stitch-badge zero">KIWI CHANH</span>
+          </div>
+          <div class="product-img-wrapper" onclick="openLightbox('assets/images/monster/ultra-paradise.webp', 'Monster Ultra Paradise 500ml')">
             <img src="assets/images/monster/ultra-paradise.webp" alt="Monster Ultra Paradise 500ml" class="product-img" loading="lazy" onerror="this.src='assets/images/monster/original.webp'" />
           </div>
           <div class="product-info">
@@ -270,7 +303,7 @@
             <h3 class="product-title">Monster Ultra Paradise 500ml</h3>
             <div class="product-specs">
               <span><i class="fas fa-wine-bottle"></i> 500ml</span>
-              <span><i class="fas fa-leaf"></i> 0 Đường</span>
+              <span><i class="fas fa-leaf"></i> 0 Đường - 160mg</span>
             </div>
             <div class="product-rating">
               <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
@@ -283,17 +316,20 @@
               </div>
               <div class="btn-card-group">
                 <a href="product-detail.html" class="btn-view-detail"><i class="fas fa-eye"></i> Xem</a>
-                <button class="btn-add-cart" onclick="showToast('Đã thêm Monster Ultra Paradise vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
+                <button class="btn-add-stitch" title="Thêm vào giỏ" onclick="showToast('Đã thêm Monster Ultra Paradise vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
               </div>
             </div>
           </div>
         </div>
 
         <!-- Product 4 -->
-        <div class="product-card">
-          <span class="badge-discount">-17%</span>
-          <span class="badge-tag">PUNK FRUIT PUNCH</span>
-          <div class="product-img-wrapper">
+        <div class="product-card product-card-stitch">
+          <div class="product-card-micro-glow" style="background: #FF1493;"></div>
+          <div class="stitch-badge-group">
+            <span class="stitch-badge sale">-17%</span>
+            <span class="stitch-badge punch">PUNK PUNCH</span>
+          </div>
+          <div class="product-img-wrapper" onclick="openLightbox('assets/images/monster/ultra-punk-punch.webp', 'Monster Ultra Punk Punch 500ml')">
             <img src="assets/images/monster/ultra-punk-punch.webp" alt="Monster Ultra Punk Punch 500ml" class="product-img" loading="lazy" onerror="this.src='assets/images/monster/original.webp'" />
           </div>
           <div class="product-info">
@@ -301,7 +337,7 @@
             <h3 class="product-title">Monster Ultra Punk Punch 500ml</h3>
             <div class="product-specs">
               <span><i class="fas fa-wine-bottle"></i> 500ml</span>
-              <span><i class="fas fa-bolt"></i> Vị Trái Cây</span>
+              <span><i class="fas fa-bolt"></i> Vị Trái Cây Đậm</span>
             </div>
             <div class="product-rating">
               <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
@@ -314,7 +350,7 @@
               </div>
               <div class="btn-card-group">
                 <a href="product-detail.html" class="btn-view-detail"><i class="fas fa-eye"></i> Xem</a>
-                <button class="btn-add-cart" onclick="showToast('Đã thêm Monster Ultra Punk Punch vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
+                <button class="btn-add-stitch" title="Thêm vào giỏ" onclick="showToast('Đã thêm Monster Ultra Punk Punch vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
               </div>
             </div>
           </div>
@@ -334,13 +370,16 @@
         <a href="cart.html" class="btn-view-detail" style="font-size: 0.95rem; padding: 10px 18px;"><i class="fas fa-shopping-basket"></i> Xem Giỏ Hàng (5 lon)</a>
       </div>
 
-      <!-- Main Products Grid - 8 Cans (Pure Static HTML) -->
+      <!-- Main Products Grid - 8 Cans (Stitch Glassmorphism) -->
       <div class="products-grid">
 
         <!-- Can 1: Original -->
-        <div class="product-card">
-          <span class="badge-tag">CỔ ĐIỂN</span>
-          <div class="product-img-wrapper">
+        <div class="product-card product-card-stitch">
+          <div class="product-card-micro-glow" style="background: #39FF14;"></div>
+          <div class="stitch-badge-group">
+            <span class="stitch-badge original">CỔ ĐIỂN</span>
+          </div>
+          <div class="product-img-wrapper" onclick="openLightbox('assets/images/monster/original.webp', 'Monster Energy Original 500ml')">
             <img src="assets/images/monster/original.webp" alt="Monster Energy Original" class="product-img" loading="lazy" onerror="this.src='assets/images/monster/original.webp'" />
           </div>
           <div class="product-info">
@@ -360,16 +399,19 @@
               </div>
               <div class="btn-card-group">
                 <a href="product-detail.html" class="btn-view-detail"><i class="fas fa-eye"></i> Chi tiết</a>
-                <button class="btn-add-cart" onclick="showToast('Đã thêm Monster Original vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
+                <button class="btn-add-stitch" title="Thêm vào giỏ" onclick="showToast('Đã thêm Monster Original vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
               </div>
             </div>
           </div>
         </div>
 
         <!-- Can 2: Zero Ultra White -->
-        <div class="product-card">
-          <span class="badge-tag">ZERO SUGAR</span>
-          <div class="product-img-wrapper">
+        <div class="product-card product-card-stitch">
+          <div class="product-card-micro-glow" style="background: #00E5FF;"></div>
+          <div class="stitch-badge-group">
+            <span class="stitch-badge zero">ZERO SUGAR</span>
+          </div>
+          <div class="product-img-wrapper" onclick="openLightbox('assets/images/monster/ultra-white.webp', 'Monster Zero Ultra White 500ml')">
             <img src="assets/images/monster/ultra-white.webp" alt="Monster Zero Ultra White" class="product-img" loading="lazy" onerror="this.src='assets/images/monster/original.webp'" />
           </div>
           <div class="product-info">
@@ -380,7 +422,7 @@
               <span><i class="fas fa-leaf"></i> 0 Đường</span>
             </div>
             <div class="product-rating">
-              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
               <span>(980)</span>
             </div>
             <div class="product-bottom">
@@ -389,16 +431,19 @@
               </div>
               <div class="btn-card-group">
                 <a href="product-detail.html" class="btn-view-detail"><i class="fas fa-eye"></i> Chi tiết</a>
-                <button class="btn-add-cart" onclick="showToast('Đã thêm Monster Zero Ultra White vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
+                <button class="btn-add-stitch" title="Thêm vào giỏ" onclick="showToast('Đã thêm Monster Zero Ultra White vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
               </div>
             </div>
           </div>
         </div>
 
         <!-- Can 3: Ultra Paradise -->
-        <div class="product-card">
-          <span class="badge-tag">KIWI & CHANH XANH</span>
-          <div class="product-img-wrapper">
+        <div class="product-card product-card-stitch">
+          <div class="product-card-micro-glow" style="background: #00FF66;"></div>
+          <div class="stitch-badge-group">
+            <span class="stitch-badge zero">KIWI CHANH</span>
+          </div>
+          <div class="product-img-wrapper" onclick="openLightbox('assets/images/monster/ultra-paradise.webp', 'Monster Ultra Paradise 500ml')">
             <img src="assets/images/monster/ultra-paradise.webp" alt="Monster Ultra Paradise" class="product-img" loading="lazy" onerror="this.src='assets/images/monster/original.webp'" />
           </div>
           <div class="product-info">
@@ -418,16 +463,19 @@
               </div>
               <div class="btn-card-group">
                 <a href="product-detail.html" class="btn-view-detail"><i class="fas fa-eye"></i> Chi tiết</a>
-                <button class="btn-add-cart" onclick="showToast('Đã thêm Monster Ultra Paradise vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
+                <button class="btn-add-stitch" title="Thêm vào giỏ" onclick="showToast('Đã thêm Monster Ultra Paradise vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
               </div>
             </div>
           </div>
         </div>
 
         <!-- Can 4: Ultra Punk Punch -->
-        <div class="product-card">
-          <span class="badge-tag">PUNK FRUIT PUNCH</span>
-          <div class="product-img-wrapper">
+        <div class="product-card product-card-stitch">
+          <div class="product-card-micro-glow" style="background: #FF1493;"></div>
+          <div class="stitch-badge-group">
+            <span class="stitch-badge punch">FRUIT PUNCH</span>
+          </div>
+          <div class="product-img-wrapper" onclick="openLightbox('assets/images/monster/ultra-punk-punch.webp', 'Monster Ultra Punk Punch 500ml')">
             <img src="assets/images/monster/ultra-punk-punch.webp" alt="Monster Ultra Punk Punch" class="product-img" loading="lazy" onerror="this.src='assets/images/monster/original.webp'" />
           </div>
           <div class="product-info">
@@ -447,16 +495,19 @@
               </div>
               <div class="btn-card-group">
                 <a href="product-detail.html" class="btn-view-detail"><i class="fas fa-eye"></i> Chi tiết</a>
-                <button class="btn-add-cart" onclick="showToast('Đã thêm Monster Ultra Punk Punch vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
+                <button class="btn-add-stitch" title="Thêm vào giỏ" onclick="showToast('Đã thêm Monster Ultra Punk Punch vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
               </div>
             </div>
           </div>
         </div>
 
         <!-- Can 5: Ultra Watermelon -->
-        <div class="product-card">
-          <span class="badge-tag">DƯA HẤU TƯƠI MÁT</span>
-          <div class="product-img-wrapper">
+        <div class="product-card product-card-stitch">
+          <div class="product-card-micro-glow" style="background: #FF3366;"></div>
+          <div class="stitch-badge-group">
+            <span class="stitch-badge zero">DƯA HẤU TƯƠI</span>
+          </div>
+          <div class="product-img-wrapper" onclick="openLightbox('assets/images/monster/ultra-watermelon.webp', 'Monster Ultra Watermelon 500ml')">
             <img src="assets/images/monster/ultra-watermelon.webp" alt="Monster Ultra Watermelon" class="product-img" loading="lazy" onerror="this.src='assets/images/monster/original.webp'" />
           </div>
           <div class="product-info">
@@ -476,16 +527,19 @@
               </div>
               <div class="btn-card-group">
                 <a href="product-detail.html" class="btn-view-detail"><i class="fas fa-eye"></i> Chi tiết</a>
-                <button class="btn-add-cart" onclick="showToast('Đã thêm Monster Ultra Watermelon vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
+                <button class="btn-add-stitch" title="Thêm vào giỏ" onclick="showToast('Đã thêm Monster Ultra Watermelon vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
               </div>
             </div>
           </div>
         </div>
 
         <!-- Can 6: Ultra Sunrise -->
-        <div class="product-card">
-          <span class="badge-tag">CAM BÌNH MINH</span>
-          <div class="product-img-wrapper">
+        <div class="product-card product-card-stitch">
+          <div class="product-card-micro-glow" style="background: #FF6B00;"></div>
+          <div class="stitch-badge-group">
+            <span class="stitch-badge zero">CAM BÌNH MINH</span>
+          </div>
+          <div class="product-img-wrapper" onclick="openLightbox('assets/images/monster/ultra-sunrise.webp', 'Monster Ultra Sunrise 500ml')">
             <img src="assets/images/monster/ultra-sunrise.webp" alt="Monster Ultra Sunrise" class="product-img" loading="lazy" onerror="this.src='assets/images/monster/original.webp'" />
           </div>
           <div class="product-info">
@@ -505,16 +559,19 @@
               </div>
               <div class="btn-card-group">
                 <a href="product-detail.html" class="btn-view-detail"><i class="fas fa-eye"></i> Chi tiết</a>
-                <button class="btn-add-cart" onclick="showToast('Đã thêm Monster Ultra Sunrise vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
+                <button class="btn-add-stitch" title="Thêm vào giỏ" onclick="showToast('Đã thêm Monster Ultra Sunrise vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
               </div>
             </div>
           </div>
         </div>
 
         <!-- Can 7: Ultra Blue Hawaiian -->
-        <div class="product-card">
-          <span class="badge-tag">HOA QUẢ POLYNESIA</span>
-          <div class="product-img-wrapper">
+        <div class="product-card product-card-stitch">
+          <div class="product-card-micro-glow" style="background: #00E5FF;"></div>
+          <div class="stitch-badge-group">
+            <span class="stitch-badge zero">POLYNESIA</span>
+          </div>
+          <div class="product-img-wrapper" onclick="openLightbox('assets/images/monster/ultra-blue-hawaiian.webp', 'Monster Ultra Blue Hawaiian 500ml')">
             <img src="assets/images/monster/ultra-blue-hawaiian.webp" alt="Monster Ultra Blue Hawaiian" class="product-img" loading="lazy" onerror="this.src='assets/images/monster/original.webp'" />
           </div>
           <div class="product-info">
@@ -534,16 +591,19 @@
               </div>
               <div class="btn-card-group">
                 <a href="product-detail.html" class="btn-view-detail"><i class="fas fa-eye"></i> Chi tiết</a>
-                <button class="btn-add-cart" onclick="showToast('Đã thêm Monster Ultra Blue Hawaiian vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
+                <button class="btn-add-stitch" title="Thêm vào giỏ" onclick="showToast('Đã thêm Monster Ultra Blue Hawaiian vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
               </div>
             </div>
           </div>
         </div>
 
         <!-- Can 8: Strawberry Shot -->
-        <div class="product-card">
-          <span class="badge-tag">DÂU TÂY ĐẬM VỊ</span>
-          <div class="product-img-wrapper">
+        <div class="product-card product-card-stitch">
+          <div class="product-card-micro-glow" style="background: #FF0055;"></div>
+          <div class="stitch-badge-group">
+            <span class="stitch-badge sale">DÂU TÂY ĐẬM</span>
+          </div>
+          <div class="product-img-wrapper" onclick="openLightbox('assets/images/monster/strawberry-shot.webp', 'Monster Energy Strawberry Shot 500ml')">
             <img src="assets/images/monster/strawberry-shot.webp" alt="Monster Energy Strawberry Shot" class="product-img" loading="lazy" onerror="this.src='assets/images/monster/original.webp'" />
           </div>
           <div class="product-info">
@@ -563,7 +623,7 @@
               </div>
               <div class="btn-card-group">
                 <a href="product-detail.html" class="btn-view-detail"><i class="fas fa-eye"></i> Chi tiết</a>
-                <button class="btn-add-cart" onclick="showToast('Đã thêm Monster Strawberry Shot vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
+                <button class="btn-add-stitch" title="Thêm vào giỏ" onclick="showToast('Đã thêm Monster Strawberry Shot vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
               </div>
             </div>
           </div>
