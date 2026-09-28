@@ -75,8 +75,13 @@ function closeLightbox() {
 function handleLogin(e) {
   if (e && e.preventDefault) e.preventDefault();
   const userEl = document.getElementById('login-username');
-  const username = (userEl ? userEl.value : '').trim().toLowerCase();
+  const rawName = (userEl ? userEl.value : '').trim();
+  const username = rawName.toLowerCase();
   const ADMIN_USERS = ['admin', 'admin@monsterenergy.com'];
+
+  try {
+    localStorage.setItem('monster_user', rawName);
+  } catch (err) { /* file:// riêng tư có thể chặn storage: bỏ qua */ }
 
   if (ADMIN_USERS.includes(username)) {
     showToast('Xác thực Quản trị viên thành công! Đang chuyển hướng...', 'success');
@@ -86,6 +91,56 @@ function handleLogin(e) {
     setTimeout(() => { window.location.href = 'index.html'; }, 900);
   }
 }
+
+// 3b. Lấy tên tài khoản đã lưu (dùng chung header + trang account)
+function getLoggedUser() {
+  try {
+    return (localStorage.getItem('monster_user') || '').trim();
+  } catch (err) { return ''; }
+}
+
+// 3c. Đăng xuất: xóa tên đã lưu, về trang chủ
+function logout() {
+  try {
+    localStorage.removeItem('monster_user');
+  } catch (err) { /* bỏ qua */ }
+  showToast('Đã đăng xuất khỏi tài khoản!', 'info');
+  setTimeout(() => { window.location.href = 'index.html'; }, 900);
+}
+
+// 3d. Điền thông tin lên trang account.html (chưa đăng nhập thì về login)
+function initAccountPage() {
+  const displayName = getLoggedUser();
+  if (!displayName) {
+    showToast('Bạn chưa đăng nhập! Đang chuyển tới trang đăng nhập...', 'warning');
+    setTimeout(() => { window.location.href = 'login.html'; }, 900);
+    return;
+  }
+  const nameEl = document.getElementById('account-display-name');
+  const avatarEl = document.getElementById('account-avatar');
+  if (nameEl) nameEl.innerText = displayName;
+  if (avatarEl) avatarEl.innerText = displayName.charAt(0).toUpperCase();
+}
+
+// 3e. Header tài khoản: chưa login -> về login.html; đã login -> account.html + hiện tên
+function initAccountHeader() {
+  const displayName = getLoggedUser();
+  const accountLink = document.getElementById('header-account-link');
+  if (!displayName) {
+    if (accountLink) accountLink.href = 'login.html';
+    return;
+  }
+  if (accountLink) accountLink.href = 'account.html';
+  const accountEl = document.getElementById('header-account-value');
+  if (accountEl) {
+    accountEl.innerText = displayName.length > 18 ? displayName.slice(0, 18) + '…' : displayName;
+    accountEl.title = displayName;
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  initAccountHeader();
+});
 
 // 4. Secret Admin Hotkey: Ctrl + Shift + A (hoặc Cmd + Shift + A trên macOS)
 document.addEventListener('keydown', (e) => {
@@ -223,7 +278,7 @@ function initPaymentGateway() {
   }, 1000);
 }
 
-// 7. Xác nhận chuyển khoản (Mô phỏng Webhook từ payment-gateway sang order-success)
+// 7. Xác nhận chuyển khoản (payment-gateway sang order-success)
 function confirmMockPayment() {
   const params = new URLSearchParams(window.location.search);
   const orderId = params.get('order') || 'ME-8809';

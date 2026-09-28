@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tài Khoản Của Tôi | MONSTER ENERGY STORE</title>
+  <meta name="description" content="Thông tin tài khoản thành viên Monster Energy Store." />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="login-body-wrapper">
+
+  <div class="login-card">
+    <!-- Brand Logo -->
+    <div class="login-logo">
+      <a href="index.html" class="logo">
+        <div class="logo-icon" style="width: 52px; height: 52px; font-size: 1.8rem;">
+          <i class="fas fa-bolt"></i>
+        </div>
+      </a>
+    </div>
+
+    <h1 class="login-title">TÀI KHOẢN <span>MONSTER</span></h1>
+    <p class="login-desc">Thông tin thành viên của bạn:</p>
+
+    <!-- Account Info -->
+    <div style="display: flex; align-items: center; gap: 14px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 16px; margin-bottom: 16px; text-align: left;">
+      <div id="account-avatar" style="width: 52px; height: 52px; border-radius: 50%; background: var(--primary); color: #000; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.4rem; flex-shrink: 0;">?</div>
+      <div style="min-width: 0;">
+        <div id="account-display-name" style="font-size: 1.05rem; font-weight: 700; color: #FFF; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">...</div>
+        <div style="font-size: 0.8rem; color: var(--primary);"><i class="fas fa-medal"></i> Thành viên Bạc - 860 điểm VIP</div>
+      </div>
+    </div>
+
+    <div class="login-actions">
+      <a href="index.html" class="btn-login-user">
+        <i class="fas fa-store"></i> TIẾP TỤC MUA SẮM
+      </a>
+
+      <button type="button" class="btn-login-admin" onclick="logout()">
+        <i class="fas fa-sign-out-alt"></i> ĐĂNG XUẤT
+      </button>
+    </div>
+
+    <a href="index.html" class="back-home-link">
+      <i class="fas fa-arrow-left"></i> Quay lại trang chủ mua sắm
+    </a>
+  </div>
+
+  <div id="toast-container" class="toast-container"></div>
+  <script src="js/app.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      initAccountPage();
+    });
+  </script>
+</body>
+</html>

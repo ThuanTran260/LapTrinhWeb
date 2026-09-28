@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Khách Hàng VIP | MONSTER ADMIN</title>
+  <meta name="description" content="Danh sách khách hàng thành viên VIP Monster Energy Store." />
+  <meta name="robots" content="noindex, nofollow" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <div class="admin-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="admin-sidebar">
+      <div class="admin-brand">
+        <a href="index.html" class="logo">
+          <div class="logo-icon" style="width: 40px; height: 40px; font-size: 1.3rem;">
+            <i class="fas fa-bolt"></i>
+          </div>
+          <div class="logo-text">
+            <span class="logo-title" style="font-size: 1.4rem;">MONSTER<span>ADMIN</span></span>
+            <span class="logo-subtitle">HỆ THỐNG QUẢN TRỊ</span>
+          </div>
+        </a>
+      </div>
+
+      <ul class="admin-menu">
+        <li><a href="admin.html" class="admin-menu-link"><i class="fas fa-chart-pie"></i> Tổng Quan Dashboard</a></li>
+        <li><a href="admin-orders.html" class="admin-menu-link"><i class="fas fa-shopping-bag"></i> Quản Lý Đơn Hàng</a></li>
+        <li><a href="admin-inventory.html" class="admin-menu-link"><i class="fas fa-boxes-stacked"></i> Kho Lon Nước</a></li>
+        <li><a href="admin-revenue.html" class="admin-menu-link"><i class="fas fa-wallet"></i> Báo Cáo Doanh Thu</a></li>
+        <li><a href="admin-customers.html" class="admin-menu-link active"><i class="fas fa-users"></i> Khách Hàng VIP</a></li>
+        <li><a href="admin-settings.html" class="admin-menu-link"><i class="fas fa-sliders"></i> Cài Đặt Hệ Thống</a></li>
+      </ul>
+
+      <div class="admin-logout">
+        <a href="index.html" class="admin-menu-link" style="color: var(--primary); margin-bottom: 6px;">
+          <i class="fas fa-store"></i> Về Trang Bán Hàng
+        </a>
+        <a href="login.html" class="admin-menu-link" style="color: #EF4444;" onclick="showToast('Đã đăng xuất khỏi tài khoản Quản trị!', 'info')">
+          <i class="fas fa-sign-out-alt"></i> Đăng Xuất
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="admin-main">
+      <!-- Topbar -->
+      <div class="admin-topbar">
+        <div>
+          <h1 style="font-family: var(--font-heading); font-size: 2rem; color: #FFF; text-transform: uppercase;">
+            KHÁCH HÀNG <span>VIP</span>
+          </h1>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">1.280 thành viên - 6 khách hàng thân thiết tiêu biểu</p>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <div class="admin-user-pill">
+            <div class="admin-avatar">AD</div>
+            <div>
+              <div style="font-size: 0.85rem; font-weight: 700; color: #FFF;">Thuận Trần (Admin)</div>
+              <div style="font-size: 0.72rem; color: var(--primary);">Quản trị viên cấp cao</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIP Customers Table -->
+      <section class="admin-section-box">
+        <div class="admin-section-header">
+          <h2 class="admin-section-title"><i class="fas fa-crown" style="color: var(--accent-gold);"></i> THÀNH VIÊN THÂN THIẾT (TĨNH)</h2>
+          <button class="btn-view-detail" onclick="showToast('Đã làm mới danh sách VIP!', 'info')"><i class="fas fa-rotate"></i> Làm mới</button>
+        </div>
+
+        <table class="cart-table">
+          <thead>
+            <tr>
+              <th>Khách Hàng</th>
+              <th>Số Điện Thoại</th>
+              <th>Điểm VIP</th>
+              <th>Hạng Thành Viên</th>
+              <th>Tổng Chi Tiêu</th>
+              <th>Thao Tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Phạm Minh Tuấn</strong></td>
+              <td>0977***999</td>
+              <td>3.120 điểm</td>
+              <td><span class="badge-status success">KIM CƯƠNG</span></td>
+              <td><strong style="color: var(--primary);">15.200.000đ</strong></td>
+              <td>
+                <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="showToast('Hồ sơ VIP: Phạm Minh Tuấn - 15.2M', 'info')">
+                  <i class="fas fa-eye"></i> Xem
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Nguyễn Văn An</strong></td>
+              <td>0912***678</td>
+              <td>2.450 điểm</td>
+              <td><span class="badge-status success">KIM CƯƠNG</span></td>
+              <td><strong style="color: var(--primary);">12.400.000đ</strong></td>
+              <td>
+                <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="showToast('Hồ sơ VIP: Nguyễn Văn An - 12.4M', 'info')">
+                  <i class="fas fa-eye"></i> Xem
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Trần Thị Bích</strong></td>
+              <td>0988***432</td>
+              <td>1.980 điểm</td>
+              <td><span class="badge-status warning">VÀNG</span></td>
+              <td><strong style="color: var(--primary);">9.600.000đ</strong></td>
+              <td>
+                <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="showToast('Hồ sơ VIP: Trần Thị Bích - 9.6M', 'info')">
+                  <i class="fas fa-eye"></i> Xem
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Lê Hoàng Nam</strong></td>
+              <td>0903***222</td>
+              <td>1.540 điểm</td>
+              <td><span class="badge-status warning">VÀNG</span></td>
+              <td><strong style="color: var(--primary);">7.800.000đ</strong></td>
+              <td>
+                <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="showToast('Hồ sơ VIP: Lê Hoàng Nam - 7.8M', 'info')">
+                  <i class="fas fa-eye"></i> Xem
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Vũ Thảo My</strong></td>
+              <td>0934***666</td>
+              <td>1.120 điểm</td>
+              <td><span class="badge-status info">BẠC</span></td>
+              <td><strong style="color: var(--primary);">5.400.000đ</strong></td>
+              <td>
+                <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="showToast('Hồ sơ VIP: Vũ Thảo My - 5.4M', 'info')">
+                  <i class="fas fa-eye"></i> Xem
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Hoàng Đức Long</strong></td>
+              <td>0938***111</td>
+              <td>860 điểm</td>
+              <td><span class="badge-status info">BẠC</span></td>
+              <td><strong style="color: var(--primary);">4.100.000đ</strong></td>
+              <td>
+                <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="showToast('Hồ sơ VIP: Hoàng Đức Long - 4.1M', 'info')">
+                  <i class="fas fa-eye"></i> Xem
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </div>
+
+  <div id="toast-container" class="toast-container"></div>
+  <script src="js/app.js"></script>
+</body>
+</html>

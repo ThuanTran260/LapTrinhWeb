@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Báo Cáo Doanh Thu | MONSTER ADMIN</title>
+  <meta name="description" content="Báo cáo doanh thu Monster Energy Store." />
+  <meta name="robots" content="noindex, nofollow" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <div class="admin-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="admin-sidebar">
+      <div class="admin-brand">
+        <a href="index.html" class="logo">
+          <div class="logo-icon" style="width: 40px; height: 40px; font-size: 1.3rem;">
+            <i class="fas fa-bolt"></i>
+          </div>
+          <div class="logo-text">
+            <span class="logo-title" style="font-size: 1.4rem;">MONSTER<span>ADMIN</span></span>
+            <span class="logo-subtitle">HỆ THỐNG QUẢN TRỊ</span>
+          </div>
+        </a>
+      </div>
+
+      <ul class="admin-menu">
+        <li><a href="admin.html" class="admin-menu-link"><i class="fas fa-chart-pie"></i> Tổng Quan Dashboard</a></li>
+        <li><a href="admin-orders.html" class="admin-menu-link"><i class="fas fa-shopping-bag"></i> Quản Lý Đơn Hàng</a></li>
+        <li><a href="admin-inventory.html" class="admin-menu-link"><i class="fas fa-boxes-stacked"></i> Kho Lon Nước</a></li>
+        <li><a href="admin-revenue.html" class="admin-menu-link active"><i class="fas fa-wallet"></i> Báo Cáo Doanh Thu</a></li>
+        <li><a href="admin-customers.html" class="admin-menu-link"><i class="fas fa-users"></i> Khách Hàng VIP</a></li>
+        <li><a href="admin-settings.html" class="admin-menu-link"><i class="fas fa-sliders"></i> Cài Đặt Hệ Thống</a></li>
+      </ul>
+
+      <div class="admin-logout">
+        <a href="index.html" class="admin-menu-link" style="color: var(--primary); margin-bottom: 6px;">
+          <i class="fas fa-store"></i> Về Trang Bán Hàng
+        </a>
+        <a href="login.html" class="admin-menu-link" style="color: #EF4444;" onclick="showToast('Đã đăng xuất khỏi tài khoản Quản trị!', 'info')">
+          <i class="fas fa-sign-out-alt"></i> Đăng Xuất
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="admin-main">
+      <!-- Topbar -->
+      <div class="admin-topbar">
+        <div>
+          <h1 style="font-family: var(--font-heading); font-size: 2rem; color: #FFF; text-transform: uppercase;">
+            BÁO CÁO <span>DOANH THU</span>
+          </h1>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Số liệu tĩnh minh họa - 6 tháng gần nhất năm 2026</p>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <button class="btn-view-detail" onclick="showToast('Đã xuất báo cáo doanh thu (Demo tĩnh)!', 'success')"><i class="fas fa-file-export"></i> Xuất Báo Cáo</button>
+
+          <div class="admin-user-pill">
+            <div class="admin-avatar">AD</div>
+            <div>
+              <div style="font-size: 0.85rem; font-weight: 700; color: #FFF;">Thuận Trần (Admin)</div>
+              <div style="font-size: 0.72rem; color: var(--primary);">Quản trị viên cấp cao</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- KPI Stat Cards -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-icon green"><i class="fas fa-coins"></i></div>
+          <div class="kpi-info">
+            <h3>48.650.000đ</h3>
+            <p>Doanh thu tháng 09 (+18.5%)</p>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-icon orange"><i class="fas fa-receipt"></i></div>
+          <div class="kpi-info">
+            <h3>174 Đơn</h3>
+            <p>Tổng đơn 6 tháng gần nhất</p>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-icon cyan"><i class="fas fa-chart-line"></i></div>
+          <div class="kpi-info">
+            <h3>1.390.000đ</h3>
+            <p>Giá trị trung bình / đơn</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Revenue Bar Chart (Pure CSS) -->
+      <section class="admin-section-box">
+        <div class="admin-section-header">
+          <h2 class="admin-section-title"><i class="fas fa-chart-column" style="color: var(--primary);"></i> DOANH THU 6 THÁNG GẦN NHẤT</h2>
+          <span style="font-size: 0.85rem; color: var(--text-muted);">Đơn vị: đồng</span>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          <div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 6px;"><span>04/2026</span><span style="color: #FFF; font-weight: 700;">32.400.000đ</span></div>
+            <div style="height: 10px; background: var(--bg-card); border-radius: var(--radius-full); overflow: hidden;"><div style="width: 67%; height: 100%; background: var(--grad-primary); border-radius: var(--radius-full);"></div></div>
+          </div>
+          <div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 6px;"><span>05/2026</span><span style="color: #FFF; font-weight: 700;">36.800.000đ</span></div>
+            <div style="height: 10px; background: var(--bg-card); border-radius: var(--radius-full); overflow: hidden;"><div style="width: 76%; height: 100%; background: var(--grad-primary); border-radius: var(--radius-full);"></div></div>
+          </div>
+          <div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 6px;"><span>06/2026</span><span style="color: #FFF; font-weight: 700;">41.200.000đ</span></div>
+            <div style="height: 10px; background: var(--bg-card); border-radius: var(--radius-full); overflow: hidden;"><div style="width: 85%; height: 100%; background: var(--grad-primary); border-radius: var(--radius-full);"></div></div>
+          </div>
+          <div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 6px;"><span>07/2026</span><span style="color: #FFF; font-weight: 700;">44.900.000đ</span></div>
+            <div style="height: 10px; background: var(--bg-card); border-radius: var(--radius-full); overflow: hidden;"><div style="width: 92%; height: 100%; background: var(--grad-primary); border-radius: var(--radius-full);"></div></div>
+          </div>
+          <div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 6px;"><span>08/2026</span><span style="color: #FFF; font-weight: 700;">46.700.000đ</span></div>
+            <div style="height: 10px; background: var(--bg-card); border-radius: var(--radius-full); overflow: hidden;"><div style="width: 96%; height: 100%; background: var(--grad-primary); border-radius: var(--radius-full);"></div></div>
+          </div>
+          <div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 6px;"><span>09/2026</span><span style="color: var(--primary); font-weight: 700;">48.650.000đ</span></div>
+            <div style="height: 10px; background: var(--bg-card); border-radius: var(--radius-full); overflow: hidden;"><div style="width: 100%; height: 100%; background: var(--grad-neon); border-radius: var(--radius-full); box-shadow: 0 0 12px rgba(0, 230, 118, 0.5);"></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Monthly Detail Table -->
+      <section class="admin-section-box">
+        <div class="admin-section-header">
+          <h2 class="admin-section-title"><i class="fas fa-table" style="color: var(--secondary);"></i> CHI TIẾT TỪNG THÁNG (TĨNH)</h2>
+        </div>
+
+        <table class="cart-table">
+          <thead>
+            <tr>
+              <th>Tháng</th>
+              <th>Số Đơn</th>
+              <th>Lon Đã Bán</th>
+              <th>Doanh Thu</th>
+              <th>Tăng Trưởng</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>04/2026</strong></td>
+              <td>22 đơn</td>
+              <td>810 lon</td>
+              <td><strong style="color: var(--primary);">32.400.000đ</strong></td>
+              <td><span class="badge-status info">NỀN TẢNG</span></td>
+            </tr>
+            <tr>
+              <td><strong>05/2026</strong></td>
+              <td>25 đơn</td>
+              <td>920 lon</td>
+              <td><strong style="color: var(--primary);">36.800.000đ</strong></td>
+              <td><span class="badge-status success">+13.6%</span></td>
+            </tr>
+            <tr>
+              <td><strong>06/2026</strong></td>
+              <td>28 đơn</td>
+              <td>1.050 lon</td>
+              <td><strong style="color: var(--primary);">41.200.000đ</strong></td>
+              <td><span class="badge-status success">+12.0%</span></td>
+            </tr>
+            <tr>
+              <td><strong>07/2026</strong></td>
+              <td>31 đơn</td>
+              <td>1.140 lon</td>
+              <td><strong style="color: var(--primary);">44.900.000đ</strong></td>
+              <td><span class="badge-status success">+9.0%</span></td>
+            </tr>
+            <tr>
+              <td><strong>08/2026</strong></td>
+              <td>33 đơn</td>
+              <td>1.210 lon</td>
+              <td><strong style="color: var(--primary);">46.700.000đ</strong></td>
+              <td><span class="badge-status success">+4.0%</span></td>
+            </tr>
+            <tr>
+              <td><strong>09/2026</strong></td>
+              <td>35 đơn</td>
+              <td>1.280 lon</td>
+              <td><strong style="color: var(--primary);">48.650.000đ</strong></td>
+              <td><span class="badge-status success">+18.5%</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </div>
+
+  <div id="toast-container" class="toast-container"></div>
+  <script src="js/app.js"></script>
+</body>
+</html>

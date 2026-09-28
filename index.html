@@ -58,14 +58,14 @@
 
         <!-- Header Actions -->
         <div class="header-actions">
-          <!-- User Account Link -->
-          <a href="login.html" class="action-btn">
+          <!-- User Account Link (href động theo trạng thái đăng nhập) -->
+          <a href="login.html" id="header-account-link" class="action-btn">
             <div class="action-icon-wrapper">
               <i class="fas fa-user"></i>
             </div>
             <div class="action-text">
               <span class="action-label">Tài khoản</span>
-              <span class="action-value">Đăng nhập</span>
+              <span class="action-value" id="header-account-value">Đăng nhập</span>
             </div>
           </a>
 
@@ -93,9 +93,6 @@
           <li><a href="#main-products" class="nav-link">Monster Original</a></li>
           <li><a href="#main-products" class="nav-link">Monster Ultra Series</a></li>
           <li><a href="#main-products" class="nav-link">Punch & Shots</a></li>
-          <li><a href="product-detail.html" class="nav-link">Chi Tiết Lon Mẫu</a></li>
-          <li><a href="cart.html" class="nav-link">Giỏ Hàng (5)</a></li>
-          <li><a href="login.html" class="nav-link">Đăng Nhập</a></li>
         </ul>
       </div>
     </nav>
@@ -630,6 +627,142 @@
           </div>
         </div>
 
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       COMBO THÙNG 24 LON (STITCH DESIGN)
+       ========================================================================== -->
+  <section class="combo-section">
+    <div class="container">
+      <div class="combo-banner">
+        <div class="combo-content">
+          <span class="combo-badge"><i class="fas fa-bolt"></i> ƯU ĐÃI ĐỘC QUYỀN THÁNG NÀY</span>
+          <h2 class="combo-title">COMBO THÙNG 24 LON<br /><span>TIẾT KIỆM 15% + TẶNG QUÀ</span></h2>
+          <p class="combo-desc">Rinh nguyên thùng 24 lon Monster Energy 500ml tự chọn vị: Original cổ điển, Ultra White 0 đường, Punk Punch bùng nổ. Đóng thùng chống móp, ướp lạnh sẵn khi giao.</p>
+          <div class="combo-stats">
+            <div class="combo-stat"><strong>24 Lon</strong><span>500ml/lon</span></div>
+            <div class="combo-stat"><strong>Tiết Kiệm 15%</strong><span>1.080.000đ → 918.000đ</span></div>
+            <div class="combo-stat"><strong>Quà 350K</strong><span>Tote + sticker độc quyền</span></div>
+          </div>
+          <button class="btn-combo-now" onclick="showToast('Đã thêm Combo thùng 24 lon (918.000đ) vào giỏ hàng!', 'success')">
+            <i class="fas fa-box-open"></i> ĐẶT HÀNG COMBO NGAY - 918.000đ
+          </button>
+        </div>
+        <div class="combo-cans">
+          <img src="assets/images/monster/ultra-punk-punch.webp" alt="Monster Ultra Punk Punch" class="combo-can can-1" loading="lazy" onerror="this.style.display='none'" />
+          <img src="assets/images/monster/original.webp" alt="Monster Energy Original" class="combo-can can-2" loading="lazy" onerror="this.style.display='none'" />
+          <img src="assets/images/monster/ultra-white.webp" alt="Monster Zero Ultra White" class="combo-can can-3" loading="lazy" onerror="this.style.display='none'" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       ĐƯỢC TIN DÙNG BỞI GIỚI CHUYÊN NGHIỆP (STITCH DESIGN)
+       ========================================================================== -->
+  <section class="testimonials-section">
+    <div class="container">
+      <div class="testimonials-head">
+        <span class="section-kicker"><i class="fas fa-award"></i> 12.400+ ĐÁNH GIÁ 5 SAO</span>
+        <h2 class="section-title">ĐƯỢC TIN DÙNG BỞI GIỚI <span>CHUYÊN NGHIỆP</span></h2>
+        <p class="section-sub">Từ chiến binh eSports tới dân thể hình - ai cũng có một lon Monster tủ của riêng mình.</p>
+      </div>
+
+      <div class="review-grid">
+        <div class="review-card">
+          <div class="review-stars">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+          </div>
+          <p class="review-text">"Uống 1 lon Original trước giờ leo rank là tỉnh táo hẳn. Vị đậm đúng gu dân cày đêm, giao 2H còn ướp lạnh sẵn."</p>
+          <div class="review-user">
+            <div class="review-avatar">Q</div>
+            <div>
+              <div class="review-name">Minh "Beast" Quân</div>
+              <div class="review-role">Game thủ eSports - Hà Nội</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="review-card">
+          <div class="review-stars">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+          </div>
+          <p class="review-text">"Tập nặng buổi sáng chỉ tin Ultra White: 0 đường mà vẫn bốc. Shop đóng thùng kỹ, chưa móp lon nào."</p>
+          <div class="review-user">
+            <div class="review-avatar">A</div>
+            <div>
+              <div class="review-name">Đức Anh</div>
+              <div class="review-role">PT thể hình - TP.HCM</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="review-card">
+          <div class="review-stars">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+          </div>
+          <p class="review-text">"Chạy xe cả ngày, làm 1 lon Punk Punch là tươi lại ngay. Date mới, tem phụ đầy đủ, yên tâm chính hãng."</p>
+          <div class="review-user">
+            <div class="review-avatar">K</div>
+            <div>
+              <div class="review-name">Tuấn Kiệt</div>
+              <div class="review-role">Tài xế công nghệ - Đà Nẵng</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Trust Strip -->
+      <div class="trust-strip">
+        <div class="trust-item">
+          <div class="trust-icon"><i class="fas fa-shield-halved"></i></div>
+          <div><strong>100% CHÍNH HÃNG</strong><span>Nhập khẩu USA</span></div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-icon"><i class="fas fa-rotate-left"></i></div>
+          <div><strong>ĐỔI TRẢ MIỄN PHÍ</strong><span>Lon móp méo</span></div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-icon"><i class="fas fa-box-open"></i></div>
+          <div><strong>KIỂM TRA TRƯỚC KHI NHẬN</strong><span>Đúng mới thanh toán</span></div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-icon"><i class="fas fa-headset"></i></div>
+          <div><strong>HỖ TRỢ 24/7</strong><span>Hotline 1900 6868</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       CÂU HỎI THƯỜNG GẶP - FAQ (STITCH DESIGN)
+       ========================================================================== -->
+  <section class="faq-section">
+    <div class="container">
+      <h2 class="section-title" style="text-align: center;">CÂU HỎI THƯỜNG GẶP <span>(FAQ)</span></h2>
+
+      <div class="faq-list">
+        <details class="faq-item" open>
+          <summary class="faq-question">Mỗi lon Monster chứa bao nhiêu Caffeine? Có an toàn không? <i class="fas fa-chevron-down"></i></summary>
+          <p class="faq-answer">Mỗi lon 500ml chứa 160mg Caffeine tự nhiên (tương đương 2 shot Espresso), kết hợp Taurine 1.000mg và Vitamin B. Người trưởng thành khỏe mạnh dùng 1 lon/ngày, không dùng cho trẻ em, phụ nữ mang thai và người mẫn cảm với Caffeine.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-question">Shop giao hàng trong bao lâu? Lon có được ướp lạnh sẵn không? <i class="fas fa-chevron-down"></i></summary>
+          <p class="faq-answer">Nội thành TP.HCM và Hà Nội giao hỏa tốc trong 2H, lon được ướp lạnh sẵn và đóng thùng chống va đập. Tỉnh thành khác giao 1-3 ngày qua đơn vị vận chuyển.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-question">Combo thùng 24 lon gồm những vị nào? Quà tặng 350K là gì? <i class="fas fa-chevron-down"></i></summary>
+          <p class="faq-answer">Bạn được tự chọn/mix 8 vị đang bán (Original, Ultra White, Paradise, Punk Punch, Watermelon, Sunrise, Blue Hawaiian, Strawberry Shot). Quà tặng gồm túi tote Monster + bộ sticker độc quyền trị giá 350.000đ.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-question">Làm sao phân biệt Monster chính hãng? <i class="fas fa-chevron-down"></i></summary>
+          <p class="faq-answer">Lon chính hãng có date in sắc nét dưới đáy lon, tem phụ tiếng Việt đầy đủ, nắp bật nguyên seal. 100% hàng tại shop nhập khẩu chính ngạch USA, bao đổi trả nếu phát hiện hàng giả.</p>
+        </details>
       </div>
     </div>
   </section>

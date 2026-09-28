@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cài Đặt Hệ Thống | MONSTER ADMIN</title>
+  <meta name="description" content="Cài đặt hệ thống Monster Energy Store." />
+  <meta name="robots" content="noindex, nofollow" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <div class="admin-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="admin-sidebar">
+      <div class="admin-brand">
+        <a href="index.html" class="logo">
+          <div class="logo-icon" style="width: 40px; height: 40px; font-size: 1.3rem;">
+            <i class="fas fa-bolt"></i>
+          </div>
+          <div class="logo-text">
+            <span class="logo-title" style="font-size: 1.4rem;">MONSTER<span>ADMIN</span></span>
+            <span class="logo-subtitle">HỆ THỐNG QUẢN TRỊ</span>
+          </div>
+        </a>
+      </div>
+
+      <ul class="admin-menu">
+        <li><a href="admin.html" class="admin-menu-link"><i class="fas fa-chart-pie"></i> Tổng Quan Dashboard</a></li>
+        <li><a href="admin-orders.html" class="admin-menu-link"><i class="fas fa-shopping-bag"></i> Quản Lý Đơn Hàng</a></li>
+        <li><a href="admin-inventory.html" class="admin-menu-link"><i class="fas fa-boxes-stacked"></i> Kho Lon Nước</a></li>
+        <li><a href="admin-revenue.html" class="admin-menu-link"><i class="fas fa-wallet"></i> Báo Cáo Doanh Thu</a></li>
+        <li><a href="admin-customers.html" class="admin-menu-link"><i class="fas fa-users"></i> Khách Hàng VIP</a></li>
+        <li><a href="admin-settings.html" class="admin-menu-link active"><i class="fas fa-sliders"></i> Cài Đặt Hệ Thống</a></li>
+      </ul>
+
+      <div class="admin-logout">
+        <a href="index.html" class="admin-menu-link" style="color: var(--primary); margin-bottom: 6px;">
+          <i class="fas fa-store"></i> Về Trang Bán Hàng
+        </a>
+        <a href="login.html" class="admin-menu-link" style="color: #EF4444;" onclick="showToast('Đã đăng xuất khỏi tài khoản Quản trị!', 'info')">
+          <i class="fas fa-sign-out-alt"></i> Đăng Xuất
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="admin-main">
+      <!-- Topbar -->
+      <div class="admin-topbar">
+        <div>
+          <h1 style="font-family: var(--font-heading); font-size: 2rem; color: #FFF; text-transform: uppercase;">
+            CÀI ĐẶT <span>HỆ THỐNG</span>
+          </h1>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Cấu hình cửa hàng - bản demo tĩnh, bấm Lưu chỉ hiện thông báo</p>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <div class="admin-user-pill">
+            <div class="admin-avatar">AD</div>
+            <div>
+              <div style="font-size: 0.85rem; font-weight: 700; color: #FFF;">Thuận Trần (Admin)</div>
+              <div style="font-size: 0.72rem; color: var(--primary);">Quản trị viên cấp cao</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shop Settings Form -->
+      <section class="admin-section-box" style="max-width: 680px;">
+        <div class="admin-section-header">
+          <h2 class="admin-section-title"><i class="fas fa-store" style="color: var(--primary);"></i> THÔNG TIN CỬA HÀNG</h2>
+        </div>
+
+        <form onsubmit="event.preventDefault(); showToast('Đã lưu cài đặt hệ thống (Demo tĩnh)!', 'success');">
+          <div class="form-group">
+            <label class="form-label" for="shop-name"><i class="fas fa-bolt"></i> Tên cửa hàng</label>
+            <input type="text" id="shop-name" class="form-control" value="MONSTER ENERGY STORE" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="shop-hotline"><i class="fas fa-phone-alt"></i> Hotline hỗ trợ</label>
+            <input type="text" id="shop-hotline" class="form-control" value="1900 6868 (8:00 - 22:00)" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="shop-address"><i class="fas fa-map-marker-alt"></i> Địa chỉ cửa hàng</label>
+            <input type="text" id="shop-address" class="form-control" value="88 Nguyễn Huệ, Quận 1, TP. Hồ Chí Minh" />
+          </div>
+
+          <button type="submit" class="btn-add-cart" style="padding: 12px 24px; margin-top: 8px;">
+            <i class="fas fa-save"></i> Lưu Cài Đặt
+          </button>
+        </form>
+      </section>
+
+      <!-- Voucher & Shipping Settings -->
+      <section class="admin-section-box" style="max-width: 680px;">
+        <div class="admin-section-header">
+          <h2 class="admin-section-title"><i class="fas fa-ticket" style="color: var(--secondary);"></i> VOUCHER & VẬN CHUYỂN</h2>
+        </div>
+
+        <form onsubmit="event.preventDefault(); showToast('Đã cập nhật voucher & vận chuyển (Demo tĩnh)!', 'success');">
+          <div class="form-group">
+            <label class="form-label" for="voucher-code"><i class="fas fa-percent"></i> Mã giảm giá mặc định</label>
+            <input type="text" id="voucher-code" class="form-control" value="MONSTER10 - Giảm 10% đơn đầu tiên" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="ship-policy"><i class="fas fa-truck-fast"></i> Chính sách giao hỏa tốc 2H</label>
+            <input type="text" id="ship-policy" class="form-control" value="Miễn phí cho đơn từ 200.000đ" />
+          </div>
+
+          <button type="submit" class="btn-add-cart" style="padding: 12px 24px; margin-top: 8px;">
+            <i class="fas fa-save"></i> Cập Nhật
+          </button>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <div id="toast-container" class="toast-container"></div>
+  <script src="js/app.js"></script>
+</body>
+</html>
