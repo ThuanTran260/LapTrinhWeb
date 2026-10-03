@@ -8,7 +8,7 @@ if sys.stdout.encoding != 'utf-8':
     except Exception:
         pass
 
-workspace = r"e:\luyentaphe\portfolio\Web ban hang"
+workspace = os.path.dirname(os.path.abspath(__file__))
 style_css_path = os.path.join(workspace, "css", "style.css")
 index_html_path = os.path.join(workspace, "index.html")
 product_detail_path = os.path.join(workspace, "pages", "product-detail.html")

@@ -3166,24 +3166,143 @@ button {
 .btn-combo-now:hover {
   background: #FFF;
 }
+/* ==========================================================================
+   COMBO 3 CANS 3D LAYERED SHOWCASE & PURE CSS ANIMATION
+   ========================================================================== */
 .combo-cans {
+  position: relative;
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  gap: 0;
+  padding: 30px 10px 15px;
+  min-height: 360px;
+  perspective: 1200px;
+  cursor: pointer;
+  user-select: none;
 }
+
+/* Neon Green Aura Glow behind the cans */
+.combo-aura {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 230, 118, 0.42) 0%, rgba(0, 230, 118, 0.16) 45%, rgba(0, 230, 118, 0.04) 65%, transparent 80%);
+  filter: blur(28px);
+  z-index: 0;
+  pointer-events: none;
+  animation: comboAuraPulse 3.8s ease-in-out infinite;
+  transition: transform 0.5s ease, opacity 0.5s ease, filter 0.5s ease;
+}
+
+/* Base Can Styling */
 .combo-can {
-  height: 250px;
+  position: relative;
   object-fit: contain;
-  filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.6));
+  transform-origin: bottom center;
+  will-change: transform, filter;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), filter 0.45s ease;
 }
-.combo-can.can-1,
-.combo-can.can-3 {
-  height: 210px;
+
+/* Can 1: Ultra Punk Punch (Left, Pink) */
+.combo-can.can-1 {
+  height: 275px;
+  margin-right: -42px;
+  margin-bottom: 8px;
+  z-index: 1;
+  filter: drop-shadow(0 14px 22px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 16px rgba(255, 20, 147, 0.28));
+  animation: floatCanLeft 4.2s ease-in-out infinite;
 }
+
+/* Can 2: Monster Original (Center, Black/Neon Green) - Prominent Star */
 .combo-can.can-2 {
-  margin: 0 -18px;
+  height: 330px;
+  margin: 0;
+  z-index: 3;
+  filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.9)) drop-shadow(0 0 24px rgba(0, 230, 118, 0.45));
+  animation: floatCanCenter 3.6s ease-in-out infinite;
+}
+
+/* Can 3: Monster Zero Ultra (Right, White) */
+.combo-can.can-3 {
+  height: 275px;
+  margin-left: -42px;
+  margin-bottom: 8px;
+  z-index: 1;
+  filter: drop-shadow(0 14px 22px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 16px rgba(255, 255, 255, 0.25));
+  animation: floatCanRight 4.0s ease-in-out infinite 0.25s;
+}
+
+/* ==========================================================================
+   SYNCHRONIZED HOVER INTERACTION
+   ========================================================================== */
+.combo-cans:hover .combo-aura {
+  transform: translate(-50%, -50%) scale(1.22);
+  filter: blur(34px);
+  opacity: 0.95;
+}
+
+.combo-cans:hover .combo-can.can-1 {
+  animation-play-state: paused;
+  transform: translateX(-24px) translateY(-10px) rotate(-6deg) scale(1.02);
+  filter: drop-shadow(0 22px 32px rgba(0, 0, 0, 0.85)) drop-shadow(0 0 26px rgba(255, 20, 147, 0.55));
   z-index: 2;
+}
+
+.combo-cans:hover .combo-can.can-2 {
+  animation-play-state: paused;
+  transform: translateY(-20px) scale(1.06);
+  filter: drop-shadow(0 28px 40px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 40px rgba(0, 230, 118, 0.8));
+  z-index: 4;
+}
+
+.combo-cans:hover .combo-can.can-3 {
+  animation-play-state: paused;
+  transform: translateX(24px) translateY(-10px) rotate(6deg) scale(1.02);
+  filter: drop-shadow(0 22px 32px rgba(0, 0, 0, 0.85)) drop-shadow(0 0 26px rgba(255, 255, 255, 0.55));
+  z-index: 2;
+}
+
+/* Floating Keyframes */
+@keyframes floatCanCenter {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-13px);
+  }
+}
+
+@keyframes floatCanLeft {
+  0%, 100% {
+    transform: translateY(0) rotate(-2deg);
+  }
+  50% {
+    transform: translateY(-9px) rotate(-3.5deg);
+  }
+}
+
+@keyframes floatCanRight {
+  0%, 100% {
+    transform: translateY(0) rotate(2deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(3.5deg);
+  }
+}
+
+@keyframes comboAuraPulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(0.96);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.12);
+    opacity: 0.85;
+  }
 }
 
 /* Testimonials */
@@ -3362,13 +3481,24 @@ button {
 
 @media (max-width: 992px) {
   .combo-banner { grid-template-columns: 1fr; }
-  .combo-can { height: 200px; }
+  .combo-cans { min-height: 290px; padding: 20px 0 10px; }
+  .combo-aura { width: 250px; height: 250px; }
+  .combo-can.can-2 { height: 270px; }
   .combo-can.can-1,
-  .combo-can.can-3 { height: 170px; }
+  .combo-can.can-3 { height: 220px; }
+  .combo-can.can-1 { margin-right: -32px; }
+  .combo-can.can-3 { margin-left: -32px; }
   .review-grid { grid-template-columns: 1fr; }
   .trust-strip { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 640px) {
+  .combo-cans { min-height: 240px; padding: 15px 0 5px; }
+  .combo-aura { width: 190px; height: 190px; }
+  .combo-can.can-2 { height: 225px; }
+  .combo-can.can-1,
+  .combo-can.can-3 { height: 185px; }
+  .combo-can.can-1 { margin-right: -24px; }
+  .combo-can.can-3 { margin-left: -24px; }
   .trust-strip { grid-template-columns: 1fr; }
   .combo-title { font-size: 1.6rem; }
 }
