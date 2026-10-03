@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Giỏ Hàng Tĩnh | MONSTER ENERGY STORE</title>
-  <meta name="description" content="Giỏ hàng nước tăng lực Monster Energy chính hãng, hỗ trợ giao hàng hỏa tốc 2 giờ." />
+  <title>Giỏ Hàng Tĩnh | ENERGY BOOST STORE</title>
+  <meta name="description" content="Giỏ hàng nước tăng lực Monster Energy và Redbull chính hãng tại Energy Boost Store, hỗ trợ giao hàng hỏa tốc 2 giờ." />
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="../css/style.css" />
@@ -20,7 +20,8 @@
       </div>
       <div class="top-links">
         <a href="../index.html"><i class="fas fa-arrow-left"></i> Tiếp Tục Mua Sắm</a>
-        <a href="../index.html#features"><i class="fas fa-headset"></i> Hỗ Trợ 24/7</a>
+        <a href="orders.html"><i class="fas fa-clock-rotate-left"></i> Lịch Sử Đặt Hàng</a>
+        <a href="account.html"><i class="fas fa-user-circle"></i> Tài Khoản</a>
         <a href="login.html"><i class="fas fa-sign-in-alt"></i> Đăng Nhập</a>
       </div>
     </div>
@@ -33,8 +34,8 @@
         <a href="../index.html" class="logo">
           <div class="logo-icon"><i class="fas fa-bolt"></i></div>
           <div class="logo-text">
-            <span class="logo-title">MONSTER<span>ENERGY</span></span>
-            <span class="logo-subtitle">UNLEASH THE BEAST</span>
+            <span class="logo-title">ENERGY<span>BOOST</span></span>
+            <span class="logo-subtitle">HỆ THỐNG NƯỚC TĂNG LỰC CHÍNH HÃNG</span>
           </div>
         </a>
 
@@ -43,9 +44,13 @@
         </div>
 
         <div class="header-actions">
+          <a href="orders.html" class="action-btn" title="Xem lịch sử đặt hàng">
+            <i class="fas fa-receipt" style="color: var(--accent-cyan);"></i>
+            <span style="font-size: 0.85rem; font-weight: 700;">Lịch Sử Đơn</span>
+          </a>
           <a href="../index.html" class="action-btn">
             <i class="fas fa-store" style="color: var(--primary);"></i>
-            <span style="font-size: 0.85rem; font-weight: 700;">Xem Thêm Lon Nước</span>
+            <span style="font-size: 0.85rem; font-weight: 700;">Mua Thêm Nước</span>
           </a>
         </div>
       </div>
@@ -70,18 +75,18 @@
               <th>Đơn giá</th>
               <th>Số lượng</th>
               <th>Thành tiền</th>
-              <th></th>
+              <th>Thao tác</th>
             </tr>
           </thead>
           <tbody>
-            <!-- Sample Item 1 -->
+            <!-- Sample Item 1: Monster Original -->
             <tr id="cart-row-1">
               <td>
                 <div class="cart-item-info">
                   <img src="../assets/images/monster/original.webp" alt="Monster Energy Original" class="cart-item-img" onerror="this.src='../assets/images/monster/original.webp'" />
                   <div>
-                    <h4 class="cart-item-title"><a href="product-detail.html">Monster Energy Original 500ml</a></h4>
-                    <span class="cart-item-cat">Original Series | 160mg Caffeine</span>
+                    <h4 class="cart-item-title"><a href="product-detail.html">Monster Energy Original 355ml</a></h4>
+                    <span class="cart-item-cat">Brand: Monster Energy (Hà Lan) | 355ml</span>
                   </div>
                 </div>
               </td>
@@ -95,24 +100,25 @@
               </td>
               <td><span style="color: var(--primary); font-weight: 700; font-family: var(--font-heading); font-size: 1.1rem;">90.000đ</span></td>
               <td>
-                <button class="cart-del-btn" title="Xóa món này" onclick="document.getElementById('cart-row-1').style.display='none'; showToast('Đã xóa lon Monster Original khỏi giỏ mẫu!', 'info')">
+                <!-- Nút xóa bị vô hiệu hóa -->
+                <button type="button" class="cart-del-btn" title="Chức năng xóa đã bị vô hiệu hóa" aria-disabled="true" style="cursor: not-allowed; opacity: 0.45; filter: grayscale(1); pointer-events: auto;" onclick="showToast('Chức năng xóa đã bị vô hiệu hóa trong giỏ hàng mẫu!', 'warning')">
                   <i class="fas fa-trash-alt"></i>
                 </button>
               </td>
             </tr>
 
-            <!-- Sample Item 2 -->
+            <!-- Sample Item 2: Redbull Original -->
             <tr id="cart-row-2">
               <td>
                 <div class="cart-item-info">
-                  <img src="../assets/images/monster/ultra-white.webp" alt="Monster Zero Ultra White" class="cart-item-img" onerror="this.src='../assets/images/monster/ultra-white.webp'" />
+                  <img src="../assets/images/redbull/redbull-original.webp" alt="Redbull Original" class="cart-item-img" onerror="this.src='../assets/images/redbull/redbull original.webp'" />
                   <div>
-                    <h4 class="cart-item-title"><a href="product-detail.html">Monster Zero Ultra White 500ml</a></h4>
-                    <span class="cart-item-cat">Monster Ultra | 0 Đường - 0 Calo</span>
+                    <h4 class="cart-item-title"><a href="product-detail-redbull.html">Nước Tăng Lực Redbull Original 250ml</a></h4>
+                    <span class="cart-item-cat">Brand: Redbull (Thái Lan) | Kẽm & Vitamin | 250ml</span>
                   </div>
                 </div>
               </td>
-              <td><span style="font-weight: 600;">48.000đ</span></td>
+              <td><span style="font-weight: 600;">18.000đ</span></td>
               <td>
                 <div class="qty-control" style="width: fit-content;">
                   <button class="qty-btn" style="height: 32px; width: 30px;" onclick="showToast('Cập nhật số lượng', 'info')">-</button>
@@ -120,9 +126,38 @@
                   <button class="qty-btn" style="height: 32px; width: 30px;" onclick="showToast('Cập nhật số lượng', 'info')">+</button>
                 </div>
               </td>
-              <td><span style="color: var(--primary); font-weight: 700; font-family: var(--font-heading); font-size: 1.1rem;">144.000đ</span></td>
+              <td><span style="color: var(--primary); font-weight: 700; font-family: var(--font-heading); font-size: 1.1rem;">54.000đ</span></td>
               <td>
-                <button class="cart-del-btn" title="Xóa món này" onclick="document.getElementById('cart-row-2').style.display='none'; showToast('Đã xóa lon Monster Zero Ultra White khỏi giỏ mẫu!', 'info')">
+                <!-- Nút xóa bị vô hiệu hóa -->
+                <button type="button" class="cart-del-btn" title="Chức năng xóa đã bị vô hiệu hóa" aria-disabled="true" style="cursor: not-allowed; opacity: 0.45; filter: grayscale(1); pointer-events: auto;" onclick="showToast('Chức năng xóa đã bị vô hiệu hóa trong giỏ hàng mẫu!', 'warning')">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </td>
+            </tr>
+
+            <!-- Sample Item 3: Monster Ultra White -->
+            <tr id="cart-row-3">
+              <td>
+                <div class="cart-item-info">
+                  <img src="../assets/images/monster/ultra-white.webp" alt="Monster Zero Ultra White" class="cart-item-img" onerror="this.src='../assets/images/monster/ultra-white.webp'" />
+                  <div>
+                    <h4 class="cart-item-title"><a href="product-detail.html">Monster Zero Ultra White 500ml</a></h4>
+                    <span class="cart-item-cat">Brand: Monster Energy | 0 Đường - 0 Calo | 500ml</span>
+                  </div>
+                </div>
+              </td>
+              <td><span style="font-weight: 600;">48.000đ</span></td>
+              <td>
+                <div class="qty-control" style="width: fit-content;">
+                  <button class="qty-btn" style="height: 32px; width: 30px;" onclick="showToast('Cập nhật số lượng', 'info')">-</button>
+                  <input type="text" class="qty-input" style="height: 32px; width: 36px;" value="2" readonly />
+                  <button class="qty-btn" style="height: 32px; width: 30px;" onclick="showToast('Cập nhật số lượng', 'info')">+</button>
+                </div>
+              </td>
+              <td><span style="color: var(--primary); font-weight: 700; font-family: var(--font-heading); font-size: 1.1rem;">96.000đ</span></td>
+              <td>
+                <!-- Nút xóa bị vô hiệu hóa -->
+                <button type="button" class="cart-del-btn" title="Chức năng xóa đã bị vô hiệu hóa" aria-disabled="true" style="cursor: not-allowed; opacity: 0.45; filter: grayscale(1); pointer-events: auto;" onclick="showToast('Chức năng xóa đã bị vô hiệu hóa trong giỏ hàng mẫu!', 'warning')">
                   <i class="fas fa-trash-alt"></i>
                 </button>
               </td>
@@ -130,24 +165,24 @@
           </tbody>
         </table>
 
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border-color);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border-color); flex-wrap: wrap; gap: 12px;">
           <a href="../index.html" class="btn-view-detail"><i class="fas fa-arrow-left"></i> Tiếp Tục Chọn Hương Vị</a>
-          <button class="btn-view-detail" onclick="showToast('Giỏ hàng tĩnh đã được làm mới!', 'info')"><i class="fas fa-sync-alt"></i> Cập Nhật Giỏ</button>
+          <a href="orders.html" class="btn-view-detail" style="border-color: var(--accent-cyan); color: var(--accent-cyan);"><i class="fas fa-history"></i> Xem Lịch Sử Đơn Hàng</a>
         </div>
       </div>
 
-      <!-- Right: Order Summary Box -->
+      <!-- Right: Order Summary Box & Smart Checkout -->
       <div class="cart-summary-box">
         <h3 class="cart-summary-title">TÓM TẮT ĐƠN HÀNG</h3>
 
         <div class="summary-line">
-          <span>Tạm tính (5 lon):</span>
-          <span style="color: #FFF; font-weight: 600;">234.000đ</span>
+          <span>Tạm tính (7 lon):</span>
+          <span style="color: #FFF; font-weight: 600;">240.000đ</span>
         </div>
 
         <div class="summary-line" style="color: var(--primary);">
-          <span>Mã giảm giá (MONSTER10):</span>
-          <span>-23.400đ</span>
+          <span>Mã giảm giá (ENERGY10):</span>
+          <span>-24.000đ</span>
         </div>
 
         <div class="summary-line">
@@ -157,66 +192,59 @@
 
         <!-- Coupon Box -->
         <div class="coupon-box">
-          <input type="text" class="coupon-input" value="MONSTER10" placeholder="Mã giảm giá..." />
-          <button class="btn-apply-coupon" onclick="showToast('Đã áp dụng mã ưu đãi MONSTER10 thành công!', 'success')">ÁP DỤNG</button>
+          <input type="text" class="coupon-input" value="ENERGY10" placeholder="Mã giảm giá..." />
+          <button class="btn-apply-coupon" onclick="showToast('Đã áp dụng mã ưu đãi ENERGY10 thành công!', 'success')">ÁP DỤNG</button>
         </div>
 
         <div class="summary-line total">
           <span>TỔNG THANH TOÁN:</span>
-          <span>210.600đ</span>
+          <span>216.000đ</span>
         </div>
 
-        <!-- Receiver Information Form -->
-        <div class="checkout-receiver-box">
-          <h4 class="checkout-subhead"><i class="fas fa-truck-fast" style="color: var(--primary);"></i> THÔNG TIN NHẬN HÀNG HỎA TỐC (2H)</h4>
-          <div class="form-group-checkout">
-            <label for="order-fullname">Họ và tên người nhận <span class="required-star" style="color: #EF4444;">*</span></label>
-            <input type="text" id="order-fullname" class="checkout-input" value="Trần Minh Thuận" placeholder="Ví dụ: Nguyễn Văn An" autocomplete="name" required />
+        <!-- Smart Checkout: Địa chỉ & Phương thức thanh toán -->
+        <div style="margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border-color);">
+          <div style="font-size: 0.85rem; font-weight: 700; color: #FFF; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
+            <i class="fas fa-location-dot" style="color: var(--primary);"></i> ĐỊA CHỈ NHẬN HÀNG HỎA TỐC 2H
           </div>
-          <div class="form-group-checkout">
-            <label for="order-phone">Số điện thoại nhận hàng <span class="required-star" style="color: #EF4444;">*</span></label>
-            <input type="tel" id="order-phone" class="checkout-input" value="0912345678" placeholder="10 số, bắt đầu bằng 0 (VD: 0912345678)" autocomplete="tel" required />
+          <div class="form-group" style="margin-bottom: 10px;">
+            <input type="text" id="checkout-name" class="form-control" placeholder="Họ và tên người nhận..." value="Thuận Trần" />
           </div>
-          <div class="form-group-checkout">
-            <label for="order-address">Địa chỉ giao hàng chi tiết <span class="required-star" style="color: #EF4444;">*</span></label>
-            <input type="text" id="order-address" class="checkout-input" value="123 Lê Lợi, Phường Bến Nghé, Quận 1, TP.HCM" placeholder="Số nhà, tên đường, Phường/Xã, Quận/Huyện, Tỉnh/TP..." autocomplete="street-address" required />
+          <div class="form-group" style="margin-bottom: 10px;">
+            <input type="tel" id="checkout-phone" class="form-control" placeholder="Số điện thoại nhận hàng..." value="0912.888.999" />
           </div>
-          <div class="form-group-checkout">
-            <label for="order-notes">Ghi chú đơn hàng (tuỳ chọn)</label>
-            <input type="text" id="order-notes" class="checkout-input" placeholder="Ướp lạnh sẵn lon nước, gọi trước khi đến..." />
+          <div class="form-group" style="margin-bottom: 14px;">
+            <input type="text" id="checkout-address" class="form-control" placeholder="Địa chỉ giao hàng (Số nhà, tên đường, quận)..." value="88 Nguyễn Huệ, Bến Nghé, Quận 1, TP.HCM" />
           </div>
-        </div>
 
-        <!-- Payment Channels Switcher -->
-        <div class="checkout-payment-box">
-          <h4 class="checkout-subhead"><i class="fas fa-credit-card" style="color: var(--secondary);"></i> PHƯƠNG THỨC THANH TOÁN</h4>
+          <div style="font-size: 0.85rem; font-weight: 700; color: #FFF; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
+            <i class="fas fa-credit-card" style="color: var(--accent-cyan);"></i> PHƯƠNG THỨC THANH TOÁN
+          </div>
           <div class="payment-methods-grid">
-            <!-- Option 1: VietQR (Checked Default) -->
-            <label class="payment-method-card" for="pay-vietqr">
-              <input type="radio" id="pay-vietqr" name="payment_method" value="vietqr" class="payment-radio" checked />
-              <div class="payment-card-body">
-                <div class="payment-card-head">
-                  <i class="fas fa-qrcode" style="color: var(--primary);"></i>
-                  <span class="payment-card-title">VietQR Nhanh</span>
-                  <span class="payment-badge-popular">Khuyên dùng</span>
-                </div>
-                <p class="payment-card-desc">Quét mã QR mọi App Ngân hàng (Napas247) tự động khớp tức thì</p>
-              </div>
-            </label>
-
-            <!-- Option 2: COD -->
+            <!-- Option 1: COD -->
             <label class="payment-method-card" for="pay-cod">
-              <input type="radio" id="pay-cod" name="payment_method" value="cod" class="payment-radio" />
+              <input type="radio" id="pay-cod" name="payment_method" value="cod" class="payment-radio" checked />
               <div class="payment-card-body">
                 <div class="payment-card-head">
-                  <i class="fas fa-hand-holding-dollar" style="color: var(--secondary);"></i>
-                  <span class="payment-card-title">Tiền Mặt (COD)</span>
+                  <i class="fas fa-hand-holding-dollar" style="color: var(--primary);"></i>
+                  <span class="payment-card-title">COD - Tiền Mặt Khi Nhận Hàng</span>
                 </div>
                 <p class="payment-card-desc">Kiểm tra thùng nước lạnh rồi thanh toán trực tiếp cho shipper</p>
               </div>
             </label>
 
-            <!-- Option 3: Ví MoMo / VNPay -->
+            <!-- Option 2: QR Chuyển khoản -->
+            <label class="payment-method-card" for="pay-qr">
+              <input type="radio" id="pay-qr" name="payment_method" value="qr" class="payment-radio" />
+              <div class="payment-card-body">
+                <div class="payment-card-head">
+                  <i class="fas fa-qrcode" style="color: var(--secondary);"></i>
+                  <span class="payment-card-title">Quét Mã QR Ngân Hàng</span>
+                </div>
+                <p class="payment-card-desc">Chuyển khoản VietQR tự động xác nhận trong 30 giây</p>
+              </div>
+            </label>
+
+            <!-- Option 3: Ví MoMo -->
             <label class="payment-method-card" for="pay-momo">
               <input type="radio" id="pay-momo" name="payment_method" value="momo" class="payment-radio" />
               <div class="payment-card-body">
@@ -227,23 +255,11 @@
                 <p class="payment-card-desc">Thanh toán qua ví điện tử liên kết tài khoản ngân hàng</p>
               </div>
             </label>
-
-            <!-- Option 4: Thẻ Visa / Master -->
-            <label class="payment-method-card" for="pay-card">
-              <input type="radio" id="pay-card" name="payment_method" value="card" class="payment-radio" />
-              <div class="payment-card-body">
-                <div class="payment-card-head">
-                  <i class="fas fa-credit-card" style="color: var(--text-dim);"></i>
-                  <span class="payment-card-title">Thẻ Quốc Tế</span>
-                </div>
-                <p class="payment-card-desc">Thẻ tín dụng / ghi nợ quốc tế Visa, MasterCard, JCB</p>
-              </div>
-            </label>
           </div>
         </div>
 
         <button type="button" class="btn-checkout-now" onclick="processCheckout()">
-          <i class="fas fa-bolt"></i> XÁC NHẬN ĐẶT HÀNG (210.600đ)
+          <i class="fas fa-bolt"></i> XÁC NHẬN ĐẶT HÀNG (216.000đ)
         </button>
 
         <a href="../index.html" class="btn-back-shopping">
@@ -251,7 +267,7 @@
         </a>
 
         <div style="margin-top: 24px; padding: 14px; background: rgba(0, 230, 118, 0.08); border: 1px dashed var(--primary); border-radius: var(--radius-sm); font-size: 0.8rem; color: var(--text-muted);">
-          <i class="fas fa-shield-halved" style="color: var(--primary);"></i> <strong>Cam kết Monster Store:</strong> Lon date mới nhất 2026, ướp lạnh sẵn khi giao, đóng thùng chống va đập 100%.
+          <i class="fas fa-shield-halved" style="color: var(--primary);"></i> <strong>Cam kết Energy Boost Store:</strong> Lon date mới nhất 2026, ướp lạnh sẵn khi giao, đóng thùng chống va đập 100%.
         </div>
       </div>
     </div>
@@ -260,7 +276,7 @@
   <!-- Footer -->
   <footer class="footer">
     <div class="container footer-bottom">
-      <p>&copy; 2026 MONSTER ENERGY STORE. Built with Pure Static HTML5 & CSS3. All Rights Reserved.</p>
+      <p>&copy; 2026 ENERGY BOOST STORE. Built with Pure Static HTML5 & CSS3. All Rights Reserved.</p>
       <a href="../index.html" style="color: var(--primary);"><i class="fas fa-arrow-left"></i> Trang chủ</a>
     </div>
   </footer>

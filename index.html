@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MONSTER ENERGY STORE | Unleash The Beast - Nước Tăng Lực Chính Hãng</title>
-  <meta name="description" content="Khám phá trọn bộ sưu tập nước tăng lực Monster Energy chính hãng từ Mỹ: Monster Original, Monster Ultra 0 đường (Ultra White, Paradise, Watermelon, Sunrise, Blue Hawaiian, Punk Punch) và Strawberry Shot." />
+  <title>ENERGY BOOST | Hệ Thống Nước Tăng Lực Chính Hãng Số 1</title>
+  <meta name="description" content="Khám phá trọn bộ sưu tập nước tăng lực chính hãng: Monster Energy và Redbull Thái Lan nhập khẩu tại Energy Boost Store. Giao 2H hỏa tốc, cam kết 100% chính hãng." />
   
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
@@ -20,12 +20,12 @@
     <div class="container">
       <div class="announcement-text">
         <i class="fas fa-bolt"></i>
-        <span>UNLEASH THE BEAST: Nhập mã <span class="coupon-badge" onclick="showToast('Đã chép mã giảm giá MONSTER10!', 'info')">MONSTER10</span> giảm ngay 10% cho đơn hàng đầu tiên!</span>
+        <span>ENERGY BOOST: Nhập mã <span class="coupon-badge" onclick="showToast('Đã chép mã giảm giá ENERGY10!', 'info')">ENERGY10</span> giảm ngay 10% cho đơn hàng đầu tiên!</span>
       </div>
       <div class="top-links">
         <a href="#features"><i class="fas fa-truck-fast"></i> Giao 2H Hoả Tốc</a>
-        <a href="#features"><i class="fas fa-certificate"></i> 100% Nhập Khẩu Chính Hãng</a>
-        <a href="#features"><i class="fas fa-headset"></i> Hỗ Trợ 24/7</a>
+        <a href="pages/orders.html"><i class="fas fa-clock-rotate-left"></i> Lịch Sử Đặt Hàng</a>
+        <a href="pages/account.html"><i class="fas fa-user-circle"></i> Tài Khoản</a>
         <a href="pages/login.html"><i class="fas fa-sign-in-alt"></i> Đăng Nhập</a>
       </div>
     </div>
@@ -43,29 +43,40 @@
             <i class="fas fa-bolt"></i>
           </div>
           <div class="logo-text">
-            <span class="logo-title">MONSTER<span>ENERGY</span></span>
-            <span class="logo-subtitle">UNLEASH THE BEAST</span>
+            <span class="logo-title">ENERGY<span>BOOST</span></span>
+            <span class="logo-subtitle">HỆ THỐNG NƯỚC TĂNG LỰC CHÍNH HÃNG</span>
           </div>
         </a>
 
         <!-- Search Bar (Static) -->
         <div class="search-box">
           <div class="search-input-group">
-            <input type="text" class="search-input" placeholder="Tìm kiếm Original, Ultra White, Paradise, Punk Punch..." />
-            <button class="search-btn" onclick="showToast('Đang tìm kiếm sản phẩm Monster Energy...', 'info')"><i class="fas fa-search"></i></button>
+            <input type="text" class="search-input" placeholder="Tìm kiếm Monster Energy, Redbull Thái Lan..." />
+            <button class="search-btn" onclick="showToast('Đang tìm kiếm sản phẩm Energy Boost...', 'info')"><i class="fas fa-search"></i></button>
           </div>
         </div>
 
         <!-- Header Actions -->
         <div class="header-actions">
-          <!-- User Account Link (href động theo trạng thái đăng nhập) -->
-          <a href="pages/login.html" id="header-account-link" class="action-btn">
+          <!-- Order History Shortcut -->
+          <a href="pages/orders.html" class="action-btn" title="Lịch sử đơn hàng">
+            <div class="action-icon-wrapper">
+              <i class="fas fa-receipt" style="color: var(--accent-cyan);"></i>
+            </div>
+            <div class="action-text">
+              <span class="action-label">Đơn hàng</span>
+              <span class="action-value" style="color: var(--accent-cyan);">Lịch sử</span>
+            </div>
+          </a>
+
+          <!-- User Account Link -->
+          <a href="pages/account.html" id="header-account-link" class="action-btn">
             <div class="action-icon-wrapper">
               <i class="fas fa-user"></i>
             </div>
             <div class="action-text">
               <span class="action-label">Tài khoản</span>
-              <span class="action-value" id="header-account-value">Đăng nhập</span>
+              <span class="action-value" id="header-account-value">Thành viên</span>
             </div>
           </a>
 
@@ -77,7 +88,7 @@
             </div>
             <div class="action-text">
               <span class="action-label">Giỏ hàng</span>
-              <span class="action-value" style="color: var(--primary);">210.600đ</span>
+              <span class="action-value" style="color: var(--primary);">216.000đ</span>
             </div>
           </a>
         </div>
@@ -90,9 +101,10 @@
         <ul class="nav-menu">
           <li><a href="index.html" class="nav-link active"><i class="fas fa-fire" style="color: var(--secondary);"></i> Tất Cả Hương Vị</a></li>
           <li><a href="#flash-sale" class="nav-link">Flash Sale Giờ Vàng</a></li>
-          <li><a href="#main-products" class="nav-link">Monster Original</a></li>
-          <li><a href="#main-products" class="nav-link">Monster Ultra Series</a></li>
-          <li><a href="#main-products" class="nav-link">Punch & Shots</a></li>
+          <li><a href="#monster-products" class="nav-link">Monster Original</a></li>
+          <li><a href="#monster-products" class="nav-link">Monster Ultra Series</a></li>
+          <li><a href="#monster-products" class="nav-link">Punch & Shots</a></li>
+          <li><a href="#redbull-products" class="nav-link">Redbull Thái Lan</a></li>
         </ul>
       </div>
     </nav>
@@ -116,35 +128,35 @@
         <div class="hero-editorial">
           <div class="hero-badge-pill">
             <span class="hero-badge-dot"></span>
-            <span class="hero-badge-text">CỬA HÀNG CHÍNH HÃNG VIỆT NAM • 100% NHẬP KHẨU</span>
+            <span class="hero-badge-text">ENERGY BOOST VIỆT NAM • 100% CHÍNH HÃNG</span>
           </div>
 
           <div>
-            <p class="hero-brand-tag">UNLEASH THE BEAST</p>
+            <p class="hero-brand-tag">ENERGY BOOST STORE</p>
             <h1 class="hero-main-title">
-              KHƠI MỞ <br />
-              <span class="gradient-text">BẢN LĨNH</span>
+              BỨT PHÁ <br />
+              <span class="gradient-text">NĂNG LƯỢNG</span>
             </h1>
           </div>
 
           <p class="hero-desc">
-            Sức mạnh bùng nổ vượt ngưỡng giới hạn cùng tinh chất Taurine, Nhân sâm tự nhiên và phức hợp Vitamin B nạp năng lượng tức thì. Cùng các chiến binh eSports và vận động viên mạo hiểm làm chủ cuộc chơi.
+            Nơi hội tụ hai đại diện nước tăng lực quyền lực nhất thế giới: <strong>Monster Energy</strong> mạnh mẽ đậm chất thể thao mạo hiểm và <strong>Redbull Thái Lan</strong> huyền thoại nạp năng lượng tức thì. Giao lạnh siêu tốc trong 2 giờ!
           </p>
 
           <!-- CTAs -->
           <div class="hero-cta-group">
-            <a href="#main-products" class="btn-stitch-primary">
+            <a href="#monster-products" class="btn-stitch-primary">
               <i class="fas fa-bolt"></i>
-              <span>MUA NGAY HÔM NAY</span>
+              <span>KHÁM PHÁ MONSTER</span>
             </a>
-            <a href="#flash-sale" class="btn-stitch-secondary">
+            <a href="#redbull-products" class="btn-stitch-secondary">
               <i class="fas fa-fire" style="color: var(--secondary);"></i>
-              <span>KHÁM PHÁ CÁC VỊ MỚI</span>
+              <span>KHÁM PHÁ REDBULL</span>
             </a>
           </div>
 
           <!-- Feature Badges Strip -->
-          <div class="feature-strip-grid">
+          <div id="features" class="feature-strip-grid">
             <div class="feature-strip-item">
               <div class="feature-icon-box green">
                 <i class="fas fa-truck-fast"></i>
@@ -161,7 +173,7 @@
               </div>
               <div>
                 <p class="feature-title">100% Chính Hãng</p>
-                <p class="feature-sub">Mã vạch chuẩn USA</p>
+                <p class="feature-sub">Hà Lan & Thái Lan</p>
               </div>
             </div>
 
@@ -171,25 +183,25 @@
               </div>
               <div>
                 <p class="feature-title">Giao Hoả Tốc 2H</p>
-                <p class="feature-sub">Nội thành HN & TP.HCM</p>
+                <p class="feature-sub">Ướp lạnh sẵn khi giao</p>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Right 3D Visual Duo Stage -->
+        <!-- Right 3D Visual Duo Stage: Monster & Redbull -->
         <div class="hero-stage-3d">
           <div class="stage-spotlight-disc"></div>
           <div class="can-stage-duo">
-            <!-- Original Can Stage -->
-            <div class="can-stage-card original" onclick="openLightbox('assets/images/monster/original.webp', 'Monster Energy Original 500ml')">
-              <img src="assets/images/monster/original.webp" alt="Monster Energy Original 500ml" />
-              <span class="can-stage-pill green">Original Green</span>
+            <!-- Monster Original Can Stage -->
+            <div class="can-stage-card original" onclick="openLightbox('assets/images/monster/original.webp', 'Monster Energy Original 355ml')">
+              <img src="assets/images/monster/original.webp" alt="Monster Energy Original 355ml" />
+              <span class="can-stage-pill green">Monster Original 355ml</span>
             </div>
-            <!-- Ultra White Can Stage -->
-            <div class="can-stage-card ultra" onclick="openLightbox('assets/images/monster/ultra-white.webp', 'Monster Zero Ultra White 500ml')">
-              <img src="assets/images/monster/ultra-white.webp" alt="Monster Zero Ultra White 500ml" />
-              <span class="can-stage-pill cyan">Ultra White 0 Đường</span>
+            <!-- Redbull Original Can Stage -->
+            <div class="can-stage-card ultra" onclick="openLightbox('assets/images/redbull/redbull-original.webp', 'Nước Tăng Lực Redbull Original 250ml')">
+              <img src="assets/images/redbull/redbull-original.webp" alt="Nước Tăng Lực Redbull Original 250ml" onerror="this.src='assets/images/redbull/redbull original.webp'" />
+              <span class="can-stage-pill" style="background: rgba(255, 215, 0, 0.25); color: #FFD700; border: 1px solid rgba(255, 215, 0, 0.4);">Redbull Thái 250ml</span>
             </div>
           </div>
         </div>
@@ -205,7 +217,7 @@
       <div class="flash-sale-header">
         <div class="flash-sale-title">
           <i class="fas fa-fire"></i>
-          <h2>FLASH SALE GIỜ VÀNG - SỐ LƯỢNG CÓ HẠN</h2>
+          <h2>FLASH SALE GIỜ VÀNG - GIÁ SIÊU ƯU ĐÃI</h2>
         </div>
         <div class="countdown-box">
           <span>Kết thúc trong:</span>
@@ -218,26 +230,22 @@
       <!-- Flash Sale Grid - 4 Cans (Stitch Glassmorphism) -->
       <div class="flash-products-grid">
         
-        <!-- Product 1 -->
+        <!-- Product 1: Monster Original -->
         <div class="product-card product-card-stitch">
           <div class="product-card-micro-glow" style="background: #39FF14;"></div>
           <div class="stitch-badge-group">
             <span class="stitch-badge sale">-18%</span>
             <span class="stitch-badge original">BÁN CHẠY</span>
           </div>
-          <div class="product-img-wrapper" onclick="openLightbox('assets/images/monster/original.webp', 'Monster Energy Original 500ml')">
-            <img src="assets/images/monster/original.webp" alt="Monster Energy Original 500ml" class="product-img" loading="lazy" onerror="this.src='assets/images/monster/original.webp'" />
+          <div class="product-img-wrapper" onclick="openLightbox('assets/images/monster/original.webp', 'Monster Energy Original 355ml')">
+            <img src="assets/images/monster/original.webp" alt="Monster Energy Original 355ml" class="product-img" loading="lazy" />
           </div>
           <div class="product-info">
-            <span class="product-cat">Original Series</span>
-            <h3 class="product-title">Monster Energy Original 500ml</h3>
+            <span class="product-cat">Monster Energy</span>
+            <h3 class="product-title">Monster Energy Original 355ml</h3>
             <div class="product-specs">
-              <span><i class="fas fa-wine-bottle"></i> 500ml</span>
-              <span><i class="fas fa-bolt"></i> 160mg Caffeine</span>
-            </div>
-            <div class="product-rating">
-              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-              <span>(1.850)</span>
+              <span><i class="fas fa-wine-bottle"></i> 355ml</span>
+              <span><i class="fas fa-shield-halved"></i> Sẵn hàng</span>
             </div>
             <div class="product-bottom">
               <div class="product-price">
@@ -252,7 +260,37 @@
           </div>
         </div>
 
-        <!-- Product 2 -->
+        <!-- Product 2: Redbull Original -->
+        <div class="product-card product-card-stitch">
+          <div class="product-card-micro-glow" style="background: #FFD700;"></div>
+          <div class="stitch-badge-group">
+            <span class="stitch-badge sale">-18%</span>
+            <span class="stitch-badge best" style="background: #FFD700; color: #000;">HOT DEAL</span>
+          </div>
+          <div class="product-img-wrapper" onclick="openLightbox('assets/images/redbull/redbull-original.webp', 'Nước Tăng Lực Redbull Original 250ml')">
+            <img src="assets/images/redbull/redbull-original.webp" alt="Nước Tăng Lực Redbull Original 250ml" class="product-img" loading="lazy" onerror="this.src='assets/images/redbull/redbull original.webp'" />
+          </div>
+          <div class="product-info">
+            <span class="product-cat">Redbull Thái Lan</span>
+            <h3 class="product-title">Nước Tăng Lực Redbull Original 250ml</h3>
+            <div class="product-specs">
+              <span><i class="fas fa-wine-bottle"></i> 250ml</span>
+              <span><i class="fas fa-shield-halved"></i> Sẵn hàng</span>
+            </div>
+            <div class="product-bottom">
+              <div class="product-price">
+                <span class="price-current">18.000đ</span>
+                <span class="price-old">22.000đ</span>
+              </div>
+              <div class="btn-card-group">
+                <a href="pages/product-detail-redbull.html" class="btn-view-detail"><i class="fas fa-eye"></i> Xem</a>
+                <button class="btn-add-stitch" title="Thêm vào giỏ" onclick="showToast('Đã thêm Redbull Original vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 3: Monster Ultra White -->
         <div class="product-card product-card-stitch">
           <div class="product-card-micro-glow" style="background: #00E5FF;"></div>
           <div class="stitch-badge-group">
@@ -267,11 +305,7 @@
             <h3 class="product-title">Monster Zero Ultra White 500ml</h3>
             <div class="product-specs">
               <span><i class="fas fa-wine-bottle"></i> 500ml</span>
-              <span><i class="fas fa-feather"></i> 0 Calo - 0 Đường</span>
-            </div>
-            <div class="product-rating">
-              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
-              <span>(980)</span>
+              <span><i class="fas fa-feather"></i> 0 Đường</span>
             </div>
             <div class="product-bottom">
               <div class="product-price">
@@ -286,69 +320,31 @@
           </div>
         </div>
 
-        <!-- Product 3 -->
+        <!-- Product 4: Redbull Nắp Bật -->
         <div class="product-card product-card-stitch">
-          <div class="product-card-micro-glow" style="background: #00FF66;"></div>
+          <div class="product-card-micro-glow" style="background: #FF6B00;"></div>
           <div class="stitch-badge-group">
-            <span class="stitch-badge sale">-17%</span>
-            <span class="stitch-badge zero">KIWI CHANH</span>
+            <span class="stitch-badge sale">-20%</span>
+            <span class="stitch-badge punch">NẮP BẬT</span>
           </div>
-          <div class="product-img-wrapper" onclick="openLightbox('assets/images/monster/ultra-paradise.webp', 'Monster Ultra Paradise 500ml')">
-            <img src="assets/images/monster/ultra-paradise.webp" alt="Monster Ultra Paradise 500ml" class="product-img" loading="lazy" onerror="this.src='assets/images/monster/original.webp'" />
+          <div class="product-img-wrapper" onclick="openLightbox('assets/images/redbull/redbull-lon-vua.webp', 'Nước Tăng Lực Redbull Nắp Bật 250ml')">
+            <img src="assets/images/redbull/redbull-lon-vua.webp" alt="Nước Tăng Lực Redbull Nắp Bật 250ml" class="product-img" loading="lazy" onerror="this.src='assets/images/redbull/lon vừa.webp'" />
           </div>
           <div class="product-info">
-            <span class="product-cat">Monster Ultra</span>
-            <h3 class="product-title">Monster Ultra Paradise 500ml</h3>
+            <span class="product-cat">Redbull Thái Lan</span>
+            <h3 class="product-title">Nước Tăng Lực Redbull Nắp Bật 250ml</h3>
             <div class="product-specs">
-              <span><i class="fas fa-wine-bottle"></i> 500ml</span>
-              <span><i class="fas fa-leaf"></i> 0 Đường - 160mg</span>
-            </div>
-            <div class="product-rating">
-              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-              <span>(890)</span>
+              <span><i class="fas fa-wine-bottle"></i> 250ml</span>
+              <span><i class="fas fa-shield-halved"></i> Sẵn hàng</span>
             </div>
             <div class="product-bottom">
               <div class="product-price">
-                <span class="price-current">48.000đ</span>
-                <span class="price-old">58.000đ</span>
+                <span class="price-current">20.000đ</span>
+                <span class="price-old">25.000đ</span>
               </div>
               <div class="btn-card-group">
-                <a href="pages/product-detail.html" class="btn-view-detail"><i class="fas fa-eye"></i> Xem</a>
-                <button class="btn-add-stitch" title="Thêm vào giỏ" onclick="showToast('Đã thêm Monster Ultra Paradise vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Product 4 -->
-        <div class="product-card product-card-stitch">
-          <div class="product-card-micro-glow" style="background: #FF1493;"></div>
-          <div class="stitch-badge-group">
-            <span class="stitch-badge sale">-17%</span>
-            <span class="stitch-badge punch">PUNK PUNCH</span>
-          </div>
-          <div class="product-img-wrapper" onclick="openLightbox('assets/images/monster/ultra-punk-punch.webp', 'Monster Ultra Punk Punch 500ml')">
-            <img src="assets/images/monster/ultra-punk-punch.webp" alt="Monster Ultra Punk Punch 500ml" class="product-img" loading="lazy" onerror="this.src='assets/images/monster/original.webp'" />
-          </div>
-          <div class="product-info">
-            <span class="product-cat">Monster Ultra</span>
-            <h3 class="product-title">Monster Ultra Punk Punch 500ml</h3>
-            <div class="product-specs">
-              <span><i class="fas fa-wine-bottle"></i> 500ml</span>
-              <span><i class="fas fa-bolt"></i> Vị Trái Cây Đậm</span>
-            </div>
-            <div class="product-rating">
-              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-              <span>(1.100)</span>
-            </div>
-            <div class="product-bottom">
-              <div class="product-price">
-                <span class="price-current">50.000đ</span>
-                <span class="price-old">60.000đ</span>
-              </div>
-              <div class="btn-card-group">
-                <a href="pages/product-detail.html" class="btn-view-detail"><i class="fas fa-eye"></i> Xem</a>
-                <button class="btn-add-stitch" title="Thêm vào giỏ" onclick="showToast('Đã thêm Monster Ultra Punk Punch vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
+                <a href="pages/product-detail-redbull.html" class="btn-view-detail"><i class="fas fa-eye"></i> Xem</a>
+                <button class="btn-add-stitch" title="Thêm vào giỏ" onclick="showToast('Đã thêm Redbull Nắp Bật vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
               </div>
             </div>
           </div>
@@ -359,37 +355,33 @@
   </section>
 
   <!-- ==========================================================================
-       MAIN PRODUCTS CATALOG (STATIC HTML)
+       MAIN PRODUCTS CATALOG - BRAND 1: MONSTER ENERGY
        ========================================================================== -->
-  <section id="main-products" class="main-products-section">
+  <section id="monster-products" class="main-products-section">
     <div class="container">
       <div class="section-title-wrapper">
-        <h2 class="section-title">THẾ GIỚI HƯƠNG VỊ <span>MONSTER ENERGY</span></h2>
+        <h2 class="section-title">THƯƠNG HIỆU <span>MONSTER ENERGY</span></h2>
         <a href="pages/cart.html" class="btn-view-detail" style="font-size: 0.95rem; padding: 10px 18px;"><i class="fas fa-shopping-basket"></i> Xem Giỏ Hàng (5 lon)</a>
       </div>
 
-      <!-- Main Products Grid - 8 Cans (Stitch Glassmorphism) -->
+      <!-- Monster Products Grid - 4 Cans (Đã loại bỏ 4 lon theo yêu cầu) -->
       <div class="products-grid">
 
-        <!-- Can 1: Original -->
+        <!-- Can 1: Monster Original -->
         <div class="product-card product-card-stitch">
           <div class="product-card-micro-glow" style="background: #39FF14;"></div>
           <div class="stitch-badge-group">
-            <span class="stitch-badge original">CỔ ĐIỂN</span>
+            <span class="stitch-badge original">HÀ LAN</span>
           </div>
-          <div class="product-img-wrapper" onclick="openLightbox('assets/images/monster/original.webp', 'Monster Energy Original 500ml')">
-            <img src="assets/images/monster/original.webp" alt="Monster Energy Original" class="product-img" loading="lazy" onerror="this.src='assets/images/monster/original.webp'" />
+          <div class="product-img-wrapper" onclick="openLightbox('assets/images/monster/original.webp', 'Monster Energy Original 355ml')">
+            <img src="assets/images/monster/original.webp" alt="Monster Energy Original 355ml" class="product-img" loading="lazy" />
           </div>
           <div class="product-info">
-            <span class="product-cat">Original Series</span>
-            <h3 class="product-title">Monster Energy Original 500ml</h3>
+            <span class="product-cat">Monster Energy</span>
+            <h3 class="product-title">Monster Energy Original 355ml</h3>
             <div class="product-specs">
-              <span><i class="fas fa-wine-bottle"></i> 500ml</span>
-              <span><i class="fas fa-bolt"></i> 160mg Caffeine</span>
-            </div>
-            <div class="product-rating">
-              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-              <span>(1.850)</span>
+              <span><i class="fas fa-wine-bottle"></i> 355ml</span>
+              <span><i class="fas fa-bolt"></i> Malaysia SX</span>
             </div>
             <div class="product-bottom">
               <div class="product-price">
@@ -419,10 +411,6 @@
               <span><i class="fas fa-wine-bottle"></i> 500ml</span>
               <span><i class="fas fa-leaf"></i> 0 Đường</span>
             </div>
-            <div class="product-rating">
-              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
-              <span>(980)</span>
-            </div>
             <div class="product-bottom">
               <div class="product-price">
                 <span class="price-current">48.000đ</span>
@@ -450,10 +438,6 @@
             <div class="product-specs">
               <span><i class="fas fa-wine-bottle"></i> 500ml</span>
               <span><i class="fas fa-leaf"></i> 0 Calo - 0 Đường</span>
-            </div>
-            <div class="product-rating">
-              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-              <span>(890)</span>
             </div>
             <div class="product-bottom">
               <div class="product-price">
@@ -483,10 +467,6 @@
               <span><i class="fas fa-wine-bottle"></i> 500ml</span>
               <span><i class="fas fa-cocktail"></i> Fruit Punch</span>
             </div>
-            <div class="product-rating">
-              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-              <span>(1.100)</span>
-            </div>
             <div class="product-bottom">
               <div class="product-price">
                 <span class="price-current">50.000đ</span>
@@ -499,129 +479,102 @@
           </div>
         </div>
 
-        <!-- Can 5: Ultra Watermelon -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       MAIN PRODUCTS CATALOG - BRAND 2: REDBULL THÁI LAN
+       ========================================================================== -->
+  <section id="redbull-products" class="main-products-section" style="padding-top: 20px;">
+    <div class="container">
+      <div class="section-title-wrapper">
+        <h2 class="section-title">THƯƠNG HIỆU <span>REDBULL (THÁI LAN)</span></h2>
+        <a href="pages/product-detail-redbull.html" class="btn-view-detail" style="font-size: 0.95rem; padding: 10px 18px;"><i class="fas fa-info-circle"></i> Xem Chi Tiết Redbull</a>
+      </div>
+
+      <!-- Redbull Products Grid - 3 Cans -->
+      <div class="products-grid">
+
+        <!-- Redbull 1: Redbull Original -->
         <div class="product-card product-card-stitch">
-          <div class="product-card-micro-glow" style="background: #FF3366;"></div>
+          <div class="product-card-micro-glow" style="background: #FFD700;"></div>
           <div class="stitch-badge-group">
-            <span class="stitch-badge zero">DƯA HẤU TƯƠI</span>
+            <span class="stitch-badge original" style="background: #FFD700; color: #000;">ORIGINAL</span>
           </div>
-          <div class="product-img-wrapper" onclick="openLightbox('assets/images/monster/ultra-watermelon.webp', 'Monster Ultra Watermelon 500ml')">
-            <img src="assets/images/monster/ultra-watermelon.webp" alt="Monster Ultra Watermelon" class="product-img" loading="lazy" onerror="this.src='assets/images/monster/original.webp'" />
+          <div class="product-img-wrapper" onclick="openLightbox('assets/images/redbull/redbull-original.webp', 'Nước Tăng Lực Redbull Original 250ml')">
+            <img src="assets/images/redbull/redbull-original.webp" alt="Nước Tăng Lực Redbull Original 250ml" class="product-img" loading="lazy" onerror="this.src='assets/images/redbull/redbull original.webp'" />
           </div>
           <div class="product-info">
-            <span class="product-cat">Monster Ultra</span>
-            <h3 class="product-title">Monster Ultra Watermelon 500ml</h3>
+            <span class="product-cat">Redbull Energy</span>
+            <h3 class="product-title">Nước Tăng Lực Redbull Original 250ml</h3>
             <div class="product-specs">
-              <span><i class="fas fa-wine-bottle"></i> 500ml</span>
-              <span><i class="fas fa-leaf"></i> 0 Calo - 0 Đường</span>
-            </div>
-            <div class="product-rating">
-              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-              <span>(750)</span>
+              <span><i class="fas fa-wine-bottle"></i> 250ml</span>
+              <span><i class="fas fa-bolt"></i> Kẽm & Vitamin</span>
             </div>
             <div class="product-bottom">
               <div class="product-price">
-                <span class="price-current">48.000đ</span>
+                <span class="price-current">18.000đ</span>
               </div>
               <div class="btn-card-group">
-                <a href="pages/product-detail.html" class="btn-view-detail"><i class="fas fa-eye"></i> Chi tiết</a>
-                <button class="btn-add-stitch" title="Thêm vào giỏ" onclick="showToast('Đã thêm Monster Ultra Watermelon vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
+                <a href="pages/product-detail-redbull.html" class="btn-view-detail"><i class="fas fa-eye"></i> Chi tiết</a>
+                <button class="btn-add-stitch" title="Thêm vào giỏ" onclick="showToast('Đã thêm Redbull Original vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Can 6: Ultra Sunrise -->
+        <!-- Redbull 2: Redbull Thái Lan Vàng -->
+        <div class="product-card product-card-stitch">
+          <div class="product-card-micro-glow" style="background: #FFD700;"></div>
+          <div class="stitch-badge-group">
+            <span class="stitch-badge best" style="background: #FF9900; color: #000;">THÁI LAN</span>
+          </div>
+          <div class="product-img-wrapper" onclick="openLightbox('assets/images/redbull/redbull-thai.jpg', 'Nước Tăng Lực Redbull Thái Lan 250ml')">
+            <img src="assets/images/redbull/redbull-thai.jpg" alt="Nước Tăng Lực Redbull Thái Lan 250ml" class="product-img" loading="lazy" onerror="this.src='assets/images/redbull/redbull thái.jpg'" />
+          </div>
+          <div class="product-info">
+            <span class="product-cat">Redbull Energy</span>
+            <h3 class="product-title">Nước Tăng Lực Redbull Thái Lan 250ml</h3>
+            <div class="product-specs">
+              <span><i class="fas fa-wine-bottle"></i> 250ml</span>
+              <span><i class="fas fa-flag"></i> Nhập Thái Lan</span>
+            </div>
+            <div class="product-bottom">
+              <div class="product-price">
+                <span class="price-current">18.000đ</span>
+              </div>
+              <div class="btn-card-group">
+                <a href="pages/product-detail-redbull.html" class="btn-view-detail"><i class="fas fa-eye"></i> Chi tiết</a>
+                <button class="btn-add-stitch" title="Thêm vào giỏ" onclick="showToast('Đã thêm Redbull Thái Lan vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Redbull 3: Redbull Lon Vừa Nắp Bật -->
         <div class="product-card product-card-stitch">
           <div class="product-card-micro-glow" style="background: #FF6B00;"></div>
           <div class="stitch-badge-group">
-            <span class="stitch-badge zero">CAM BÌNH MINH</span>
+            <span class="stitch-badge hit">NẮP BẬT</span>
           </div>
-          <div class="product-img-wrapper" onclick="openLightbox('assets/images/monster/ultra-sunrise.webp', 'Monster Ultra Sunrise 500ml')">
-            <img src="assets/images/monster/ultra-sunrise.webp" alt="Monster Ultra Sunrise" class="product-img" loading="lazy" onerror="this.src='assets/images/monster/original.webp'" />
+          <div class="product-img-wrapper" onclick="openLightbox('assets/images/redbull/redbull-lon-vua.webp', 'Nước Tăng Lực Redbull Nắp Bật 250ml')">
+            <img src="assets/images/redbull/redbull-lon-vua.webp" alt="Nước Tăng Lực Redbull Nắp Bật 250ml" class="product-img" loading="lazy" onerror="this.src='assets/images/redbull/lon vừa.webp'" />
           </div>
           <div class="product-info">
-            <span class="product-cat">Monster Ultra</span>
-            <h3 class="product-title">Monster Ultra Sunrise 500ml</h3>
+            <span class="product-cat">Redbull Energy</span>
+            <h3 class="product-title">Nước Tăng Lực Redbull Nắp Bật 250ml</h3>
             <div class="product-specs">
-              <span><i class="fas fa-wine-bottle"></i> 500ml</span>
-              <span><i class="fas fa-feather"></i> 0 Đường</span>
-            </div>
-            <div class="product-rating">
-              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
-              <span>(620)</span>
+              <span><i class="fas fa-wine-bottle"></i> 250ml</span>
+              <span><i class="fas fa-shield-halved"></i> Dáng Vừa Tiện Lợi</span>
             </div>
             <div class="product-bottom">
               <div class="product-price">
-                <span class="price-current">48.000đ</span>
+                <span class="price-current">20.000đ</span>
               </div>
               <div class="btn-card-group">
-                <a href="pages/product-detail.html" class="btn-view-detail"><i class="fas fa-eye"></i> Chi tiết</a>
-                <button class="btn-add-stitch" title="Thêm vào giỏ" onclick="showToast('Đã thêm Monster Ultra Sunrise vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Can 7: Ultra Blue Hawaiian -->
-        <div class="product-card product-card-stitch">
-          <div class="product-card-micro-glow" style="background: #00E5FF;"></div>
-          <div class="stitch-badge-group">
-            <span class="stitch-badge zero">POLYNESIA</span>
-          </div>
-          <div class="product-img-wrapper" onclick="openLightbox('assets/images/monster/ultra-blue-hawaiian.webp', 'Monster Ultra Blue Hawaiian 500ml')">
-            <img src="assets/images/monster/ultra-blue-hawaiian.webp" alt="Monster Ultra Blue Hawaiian" class="product-img" loading="lazy" onerror="this.src='assets/images/monster/original.webp'" />
-          </div>
-          <div class="product-info">
-            <span class="product-cat">Monster Ultra</span>
-            <h3 class="product-title">Monster Ultra Blue Hawaiian 500ml</h3>
-            <div class="product-specs">
-              <span><i class="fas fa-wine-bottle"></i> 500ml</span>
-              <span><i class="fas fa-bolt"></i> Vị Polynesia</span>
-            </div>
-            <div class="product-rating">
-              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-              <span>(810)</span>
-            </div>
-            <div class="product-bottom">
-              <div class="product-price">
-                <span class="price-current">50.000đ</span>
-              </div>
-              <div class="btn-card-group">
-                <a href="pages/product-detail.html" class="btn-view-detail"><i class="fas fa-eye"></i> Chi tiết</a>
-                <button class="btn-add-stitch" title="Thêm vào giỏ" onclick="showToast('Đã thêm Monster Ultra Blue Hawaiian vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Can 8: Strawberry Shot -->
-        <div class="product-card product-card-stitch">
-          <div class="product-card-micro-glow" style="background: #FF0055;"></div>
-          <div class="stitch-badge-group">
-            <span class="stitch-badge sale">DÂU TÂY ĐẬM</span>
-          </div>
-          <div class="product-img-wrapper" onclick="openLightbox('assets/images/monster/strawberry-shot.webp', 'Monster Energy Strawberry Shot 500ml')">
-            <img src="assets/images/monster/strawberry-shot.webp" alt="Monster Energy Strawberry Shot" class="product-img" loading="lazy" onerror="this.src='assets/images/monster/original.webp'" />
-          </div>
-          <div class="product-info">
-            <span class="product-cat">Original Series</span>
-            <h3 class="product-title">Monster Energy Strawberry Shot 500ml</h3>
-            <div class="product-specs">
-              <span><i class="fas fa-wine-bottle"></i> 500ml</span>
-              <span><i class="fas fa-bolt"></i> Vị Dâu Tây</span>
-            </div>
-            <div class="product-rating">
-              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-              <span>(530)</span>
-            </div>
-            <div class="product-bottom">
-              <div class="product-price">
-                <span class="price-current">50.000đ</span>
-              </div>
-              <div class="btn-card-group">
-                <a href="pages/product-detail.html" class="btn-view-detail"><i class="fas fa-eye"></i> Chi tiết</a>
-                <button class="btn-add-stitch" title="Thêm vào giỏ" onclick="showToast('Đã thêm Monster Strawberry Shot vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
+                <a href="pages/product-detail-redbull.html" class="btn-view-detail"><i class="fas fa-eye"></i> Chi tiết</a>
+                <button class="btn-add-stitch" title="Thêm vào giỏ" onclick="showToast('Đã thêm Redbull Nắp Bật vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
               </div>
             </div>
           </div>
@@ -640,9 +593,9 @@
         <div class="combo-content">
           <span class="combo-badge"><i class="fas fa-bolt"></i> ƯU ĐÃI ĐỘC QUYỀN THÁNG NÀY</span>
           <h2 class="combo-title">COMBO THÙNG 24 LON<br /><span>TIẾT KIỆM 15% + TẶNG QUÀ</span></h2>
-          <p class="combo-desc">Rinh nguyên thùng 24 lon Monster Energy 500ml tự chọn vị: Original cổ điển, Ultra White 0 đường, Punk Punch bùng nổ. Đóng thùng chống móp, ướp lạnh sẵn khi giao.</p>
+          <p class="combo-desc">Rinh nguyên thùng 24 lon nước tăng lực tự chọn vị Monster Energy & Redbull Thái Lan. Đóng thùng chống móp, ướp lạnh sẵn sàng khi giao hỏa tốc 2 giờ.</p>
           <div class="combo-stats">
-            <div class="combo-stat"><strong>24 Lon</strong><span>500ml/lon</span></div>
+            <div class="combo-stat"><strong>24 Lon</strong><span>Monster & Redbull</span></div>
             <div class="combo-stat"><strong>Tiết Kiệm 15%</strong><span>1.080.000đ → 918.000đ</span></div>
             <div class="combo-stat"><strong>Quà 350K</strong><span>Tote + sticker độc quyền</span></div>
           </div>
@@ -650,11 +603,11 @@
             <i class="fas fa-box-open"></i> ĐẶT HÀNG COMBO NGAY - 918.000đ
           </button>
         </div>
-        <div class="combo-cans" aria-label="Bộ ba lon Monster Energy nổi bật">
+        <div class="combo-cans" aria-label="Bộ ba lon nước tăng lực nổi bật">
           <div class="combo-aura"></div>
           <img src="assets/images/monster/ultra-punk-punch.webp" alt="Monster Ultra Punk Punch" class="combo-can can-1" loading="lazy" />
           <img src="assets/images/monster/original.webp" alt="Monster Energy Original" class="combo-can can-2" loading="lazy" />
-          <img src="assets/images/monster/ultra-white.webp" alt="Monster Zero Ultra White" class="combo-can can-3" loading="lazy" />
+          <img src="assets/images/redbull/redbull-original.webp" alt="Redbull Original" class="combo-can can-3" loading="lazy" onerror="this.src='assets/images/monster/ultra-white.webp'" />
         </div>
       </div>
     </div>
@@ -666,52 +619,43 @@
   <section class="testimonials-section">
     <div class="container">
       <div class="testimonials-head">
-        <span class="section-kicker"><i class="fas fa-award"></i> 12.400+ ĐÁNH GIÁ 5 SAO</span>
+        <span class="section-kicker"><i class="fas fa-award"></i> 12.400+ KHÁCH HÀNG TIN DÙNG</span>
         <h2 class="section-title">ĐƯỢC TIN DÙNG BỞI GIỚI <span>CHUYÊN NGHIỆP</span></h2>
-        <p class="section-sub">Từ chiến binh eSports tới dân thể hình - ai cũng có một lon Monster tủ của riêng mình.</p>
+        <p class="section-sub">Từ chiến binh eSports, dân thể hình tới tài xế lái xe đường dài - ai cũng có một lon nước tủ nạp năng lượng.</p>
       </div>
 
       <div class="review-grid">
         <div class="review-card">
-          <div class="review-stars">
-            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-          </div>
-          <p class="review-text">"Uống 1 lon Original trước giờ leo rank là tỉnh táo hẳn. Vị đậm đúng gu dân cày đêm, giao 2H còn ướp lạnh sẵn."</p>
-          <div class="review-user">
+          <div class="review-user" style="margin-bottom: 12px;">
             <div class="review-avatar">Q</div>
             <div>
               <div class="review-name">Minh "Beast" Quân</div>
               <div class="review-role">Game thủ eSports - Hà Nội</div>
             </div>
           </div>
+          <p class="review-text">"Uống 1 lon Original trước giờ leo rank là tỉnh táo hẳn. Vị đậm đúng gu dân cày đêm, giao 2H còn ướp lạnh sẵn."</p>
         </div>
 
         <div class="review-card">
-          <div class="review-stars">
-            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-          </div>
-          <p class="review-text">"Tập nặng buổi sáng chỉ tin Ultra White: 0 đường mà vẫn bốc. Shop đóng thùng kỹ, chưa móp lon nào."</p>
-          <div class="review-user">
+          <div class="review-user" style="margin-bottom: 12px;">
             <div class="review-avatar">A</div>
             <div>
               <div class="review-name">Đức Anh</div>
               <div class="review-role">PT thể hình - TP.HCM</div>
             </div>
           </div>
+          <p class="review-text">"Tập nặng buổi sáng chỉ tin Ultra White 0 đường hoặc Redbull Thái Lan. Shop đóng thùng kỹ, chưa móp lon nào."</p>
         </div>
 
         <div class="review-card">
-          <div class="review-stars">
-            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-          </div>
-          <p class="review-text">"Chạy xe cả ngày, làm 1 lon Punk Punch là tươi lại ngay. Date mới, tem phụ đầy đủ, yên tâm chính hãng."</p>
-          <div class="review-user">
+          <div class="review-user" style="margin-bottom: 12px;">
             <div class="review-avatar">K</div>
             <div>
               <div class="review-name">Tuấn Kiệt</div>
               <div class="review-role">Tài xế công nghệ - Đà Nẵng</div>
             </div>
           </div>
+          <p class="review-text">"Chạy xe cả ngày làm 1 lon Redbull nắp bật là tươi lại ngay. Date mới, tem phụ đầy đủ, yên tâm chính hãng."</p>
         </div>
       </div>
 
@@ -719,7 +663,7 @@
       <div class="trust-strip">
         <div class="trust-item">
           <div class="trust-icon"><i class="fas fa-shield-halved"></i></div>
-          <div><strong>100% CHÍNH HÃNG</strong><span>Nhập khẩu USA</span></div>
+          <div><strong>100% CHÍNH HÃNG</strong><span>Hà Lan & Thái Lan</span></div>
         </div>
         <div class="trust-item">
           <div class="trust-icon"><i class="fas fa-rotate-left"></i></div>
@@ -746,8 +690,8 @@
 
       <div class="faq-list">
         <details class="faq-item" open>
-          <summary class="faq-question">Mỗi lon Monster chứa bao nhiêu Caffeine? Có an toàn không? <i class="fas fa-chevron-down"></i></summary>
-          <p class="faq-answer">Mỗi lon 500ml chứa 160mg Caffeine tự nhiên (tương đương 2 shot Espresso), kết hợp Taurine 1.000mg và Vitamin B. Người trưởng thành khỏe mạnh dùng 1 lon/ngày, không dùng cho trẻ em, phụ nữ mang thai và người mẫn cảm với Caffeine.</p>
+          <summary class="faq-question">Các dòng nước tăng lực tại Energy Boost gồm những thương hiệu nào? <i class="fas fa-chevron-down"></i></summary>
+          <p class="faq-answer">Energy Boost chuyên phân phối chính hãng hai dòng thương hiệu hàng đầu: Monster Energy (Original 355ml, Ultra White, Ultra Paradise, Punk Punch) và Redbull Thái Lan (Original 250ml, Lon Nắp Bật 250ml).</p>
         </details>
 
         <details class="faq-item">
@@ -756,13 +700,13 @@
         </details>
 
         <details class="faq-item">
-          <summary class="faq-question">Combo thùng 24 lon gồm những vị nào? Quà tặng 350K là gì? <i class="fas fa-chevron-down"></i></summary>
-          <p class="faq-answer">Bạn được tự chọn/mix 8 vị đang bán (Original, Ultra White, Paradise, Punk Punch, Watermelon, Sunrise, Blue Hawaiian, Strawberry Shot). Quà tặng gồm túi tote Monster + bộ sticker độc quyền trị giá 350.000đ.</p>
+          <summary class="faq-question">Combo thùng 24 lon gồm những loại nào? Quà tặng 350K là gì? <i class="fas fa-chevron-down"></i></summary>
+          <p class="faq-answer">Bạn được tự chọn/mix giữa các dòng Monster Energy và Redbull Thái Lan. Quà tặng gồm túi tote độc quyền + bộ sticker trị giá 350.000đ.</p>
         </details>
 
         <details class="faq-item">
-          <summary class="faq-question">Làm sao phân biệt Monster chính hãng? <i class="fas fa-chevron-down"></i></summary>
-          <p class="faq-answer">Lon chính hãng có date in sắc nét dưới đáy lon, tem phụ tiếng Việt đầy đủ, nắp bật nguyên seal. 100% hàng tại shop nhập khẩu chính ngạch USA, bao đổi trả nếu phát hiện hàng giả.</p>
+          <summary class="faq-question">Làm sao phân biệt sản phẩm chính hãng tại Energy Boost? <i class="fas fa-chevron-down"></i></summary>
+          <p class="faq-answer">Tất cả sản phẩm đều có mã vạch sắc nét, date in chuẩn dưới đáy lon, tem phụ tiếng Việt đầy đủ và nắp bật nguyên seal. Cam kết 100% chính hãng, đền gấp 10 lần nếu phát hiện hàng giả.</p>
         </details>
       </div>
     </div>
@@ -779,23 +723,23 @@
           <div class="logo" style="margin-bottom: 16px;">
             <div class="logo-icon"><i class="fas fa-bolt"></i></div>
             <div class="logo-text">
-              <span class="logo-title">MONSTER<span>ENERGY</span></span>
-              <span class="logo-subtitle">UNLEASH THE BEAST</span>
+              <span class="logo-title">ENERGY<span>BOOST</span></span>
+              <span class="logo-subtitle">HỆ THỐNG NƯỚC TĂNG LỰC CHÍNH HÃNG</span>
             </div>
           </div>
-          <p>Hệ thống cung cấp nước tăng lực Monster Energy nhập khẩu chính hãng số 1 tại Việt Nam. Nơi tiếp sức đam mê thể thao điện tử, thể thao mạo hiểm và lối sống bứt phá mọi giới hạn.</p>
+          <p>Hệ thống cung cấp nước tăng lực Monster Energy và Redbull Thái Lan chính hãng số 1 tại Việt Nam. Nơi tiếp sức đam mê thể thao điện tử, thể thao mạo hiểm và lối sống bứt phá mọi giới hạn.</p>
           <p><i class="fas fa-map-marker-alt" style="color: var(--primary);"></i> 88 Nguyễn Huệ, Quận 1, TP. Hồ Chí Minh</p>
           <p><i class="fas fa-phone-alt" style="color: var(--secondary);"></i> Hotline: 1900 6868 (8:00 - 22:00)</p>
         </div>
 
         <div class="footer-col">
-          <h3>CÁC DÒNG HƯƠNG VỊ</h3>
+          <h3>CÁC DÒNG SẢN PHẨM</h3>
           <ul class="footer-links">
-            <li><a href="#main-products">Monster Original Cổ Điển</a></li>
-            <li><a href="#main-products">Monster Zero Ultra White</a></li>
-            <li><a href="#main-products">Monster Ultra Paradise & Watermelon</a></li>
-            <li><a href="#main-products">Monster Ultra Punk Punch</a></li>
-            <li><a href="#main-products">Monster Strawberry Shot</a></li>
+            <li><a href="#monster-products">Monster Original 355ml</a></li>
+            <li><a href="#monster-products">Monster Zero Ultra White</a></li>
+            <li><a href="#monster-products">Monster Ultra Punk Punch</a></li>
+            <li><a href="#redbull-products">Redbull Original 250ml</a></li>
+            <li><a href="#redbull-products">Redbull Thái Lan Nắp Bật</a></li>
           </ul>
         </div>
 
@@ -803,17 +747,18 @@
           <h3>HỆ THỐNG TRANG</h3>
           <ul class="footer-links">
             <li><a href="index.html">Trang Chủ (Index)</a></li>
-            <li><a href="pages/product-detail.html">Chi Tiết Lon Nước</a></li>
-            <li><a href="pages/cart.html">Giỏ Hàng (5)</a></li>
-            <li><a href="pages/login.html">Trang Đăng Nhập</a></li>
-            <li><a href="#features">Chính Sách Bảo Mật</a></li>
+            <li><a href="pages/product-detail.html">Monster Original Detail</a></li>
+            <li><a href="pages/product-detail-redbull.html">Redbull Thái Detail</a></li>
+            <li><a href="pages/cart.html">Giỏ Hàng Mẫu</a></li>
+            <li><a href="pages/orders.html">Lịch Sử Đặt Hàng</a></li>
+            <li><a href="pages/account.html">Tài Khoản Thành Viên</a></li>
           </ul>
         </div>
 
         <div class="footer-col">
           <h3>NHẬN VOUCHER ƯU ĐÃI</h3>
-          <p>Đăng ký email để nhận ngay mã giảm giá 15% cho thùng nước Monster Energy đầu tiên!</p>
-          <form class="newsletter-form" onsubmit="event.preventDefault(); showToast('Đã đăng ký nhận tin Monster thành công!', 'success');">
+          <p>Đăng ký email để nhận ngay mã giảm giá 15% cho thùng nước tăng lực đầu tiên!</p>
+          <form class="newsletter-form" onsubmit="event.preventDefault(); showToast('Đã đăng ký nhận tin Energy Boost thành công!', 'success');">
             <input type="email" class="newsletter-input" placeholder="Nhập email của bạn..." required />
             <button type="submit" class="btn-newsletter"><i class="fas fa-paper-plane"></i></button>
           </form>
@@ -821,7 +766,7 @@
       </div>
 
       <div class="footer-bottom">
-        <p>&copy; 2026 MONSTER ENERGY STORE. Built with Pure Static HTML5 & CSS3. All Rights Reserved.</p>
+        <p>&copy; 2026 ENERGY BOOST STORE. Built with Pure Static HTML5 & CSS3. All Rights Reserved.</p>
         <div style="display: flex; gap: 16px; font-size: 1.2rem; color: var(--text-dim);">
           <i class="fab fa-cc-visa"></i>
           <i class="fab fa-cc-mastercard"></i>

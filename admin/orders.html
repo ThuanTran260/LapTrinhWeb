@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Quản Lý Đơn Hàng | MONSTER ADMIN</title>
-  <meta name="description" content="Quản lý đơn hàng nước tăng lực Monster Energy." />
+  <title>Quản Lý Đơn Hàng | ENERGY BOOST ADMIN</title>
+  <meta name="description" content="Quản lý đơn hàng nước tăng lực Monster Energy và Redbull tại Energy Boost." />
   <meta name="robots" content="noindex, nofollow" />
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
@@ -21,7 +21,7 @@
             <i class="fas fa-bolt"></i>
           </div>
           <div class="logo-text">
-            <span class="logo-title" style="font-size: 1.4rem;">MONSTER<span>ADMIN</span></span>
+            <span class="logo-title" style="font-size: 1.4rem;">ENERGY<span>BOOST</span></span>
             <span class="logo-subtitle">HỆ THỐNG QUẢN TRỊ</span>
           </div>
         </a>
@@ -30,7 +30,7 @@
       <ul class="admin-menu">
         <li><a href="index.html" class="admin-menu-link"><i class="fas fa-chart-pie"></i> Tổng Quan Dashboard</a></li>
         <li><a href="orders.html" class="admin-menu-link active"><i class="fas fa-shopping-bag"></i> Quản Lý Đơn Hàng</a></li>
-        <li><a href="inventory.html" class="admin-menu-link"><i class="fas fa-boxes-stacked"></i> Kho Lon Nước</a></li>
+        <li><a href="inventory.html" class="admin-menu-link"><i class="fas fa-boxes-stacked"></i> Kho Nước Tăng Lực</a></li>
         <li><a href="revenue.html" class="admin-menu-link"><i class="fas fa-wallet"></i> Báo Cáo Doanh Thu</a></li>
         <li><a href="customers.html" class="admin-menu-link"><i class="fas fa-users"></i> Khách Hàng VIP</a></li>
         <li><a href="settings.html" class="admin-menu-link"><i class="fas fa-sliders"></i> Cài Đặt Hệ Thống</a></li>
@@ -80,7 +80,7 @@
             <tr>
               <th>Mã Đơn</th>
               <th>Khách Hàng</th>
-              <th>Chi Tiết Lon Đặt</th>
+              <th>Chi Tiết Nước Đặt</th>
               <th>Tổng Tiền</th>
               <th>Trạng Thái</th>
               <th>Thao Tác</th>
@@ -88,65 +88,65 @@
           </thead>
           <tbody>
             <tr>
-              <td><strong>#ME-8801</strong></td>
+              <td><strong>#EB-8801</strong></td>
               <td>Nguyễn Văn An<br><span style="font-size: 0.78rem; color: var(--text-dim);">0912.345.678</span></td>
-              <td>2x Monster Original, 1x Ultra Punk Punch</td>
-              <td><strong style="color: var(--primary);">140.000đ</strong></td>
+              <td>2x Monster Original 355ml, 2x Redbull Original</td>
+              <td><strong style="color: var(--primary);">126.000đ</strong></td>
               <td><span class="badge-status success">ĐÃ THANH TOÁN</span></td>
               <td>
-                <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="showToast('Chi tiết đơn #ME-8801: Giao hỏa tốc Quận 1', 'info')">
+                <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="showToast('Chi tiết đơn #EB-8801: Giao hỏa tốc Quận 1', 'info')">
                   <i class="fas fa-eye"></i> Xem
                 </button>
               </td>
             </tr>
 
             <tr>
-              <td><strong>#ME-8802</strong></td>
+              <td><strong>#EB-8802</strong></td>
               <td>Trần Thị Bích<br><span style="font-size: 0.78rem; color: var(--text-dim);">0988.765.432</span></td>
-              <td>4x Ultra White, 2x Ultra Blue Hawaiian</td>
-              <td><strong style="color: var(--primary);">292.000đ</strong></td>
+              <td>4x Ultra White, 3x Redbull Thái Lan</td>
+              <td><strong style="color: var(--primary);">246.000đ</strong></td>
               <td><span class="badge-status warning">ĐANG GIAO 2H</span></td>
               <td>
-                <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="showToast('Chi tiết đơn #ME-8802: Shipper đang trên đường giao', 'info')">
+                <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="showToast('Chi tiết đơn #EB-8802: Shipper đang trên đường giao', 'info')">
                   <i class="fas fa-eye"></i> Xem
                 </button>
               </td>
             </tr>
 
             <tr>
-              <td><strong>#ME-8803</strong></td>
+              <td><strong>#EB-8803</strong></td>
               <td>Lê Hoàng Nam<br><span style="font-size: 0.78rem; color: var(--text-dim);">0903.111.222</span></td>
-              <td>1x Monster Strawberry Shot 500ml</td>
-              <td><strong style="color: var(--primary);">50.000đ</strong></td>
+              <td>2x Redbull Nắp Bật 250ml</td>
+              <td><strong style="color: var(--primary);">40.000đ</strong></td>
               <td><span class="badge-status info">CHỜ XÁC NHẬN</span></td>
               <td>
-                <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="showToast('Đã xác nhận đơn hàng #ME-8803!', 'success')">
+                <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="showToast('Đã xác nhận đơn hàng #EB-8803!', 'success')">
                   <i class="fas fa-check"></i> Duyệt
                 </button>
               </td>
             </tr>
 
             <tr>
-              <td><strong>#ME-8804</strong></td>
+              <td><strong>#EB-8804</strong></td>
               <td>Phạm Minh Tuấn<br><span style="font-size: 0.78rem; color: var(--text-dim);">0977.888.999</span></td>
-              <td>1 Thùng 24 Lon Monster Original</td>
-              <td><strong style="color: var(--primary);">980.000đ</strong></td>
+              <td>1 Thùng 24 Lon Monster & Redbull Mix</td>
+              <td><strong style="color: var(--primary);">918.000đ</strong></td>
               <td><span class="badge-status success">ĐÃ THANH TOÁN</span></td>
               <td>
-                <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="showToast('Chi tiết đơn #ME-8804: Đã bàn giao xe tải', 'info')">
+                <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="showToast('Chi tiết đơn #EB-8804: Đã bàn giao xe tải', 'info')">
                   <i class="fas fa-eye"></i> Xem
                 </button>
               </td>
             </tr>
 
             <tr>
-              <td><strong>#ME-8805</strong></td>
+              <td><strong>#EB-8805</strong></td>
               <td>Vũ Thảo My<br><span style="font-size: 0.78rem; color: var(--text-dim);">0934.555.666</span></td>
-              <td>3x Ultra Paradise, 2x Ultra Watermelon</td>
-              <td><strong style="color: var(--primary);">240.000đ</strong></td>
+              <td>3x Ultra Paradise, 3x Redbull Original</td>
+              <td><strong style="color: var(--primary);">198.000đ</strong></td>
               <td><span class="badge-status warning">ĐANG GIAO 2H</span></td>
               <td>
-                <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="showToast('Chi tiết đơn #ME-8805: Dự kiến giao lúc 11:30', 'info')">
+                <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="showToast('Chi tiết đơn #EB-8805: Dự kiến giao lúc 11:30', 'info')">
                   <i class="fas fa-eye"></i> Xem
                 </button>
               </td>

@@ -3,49 +3,118 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tài Khoản Của Tôi | MONSTER ENERGY STORE</title>
-  <meta name="description" content="Thông tin tài khoản thành viên Monster Energy Store." />
+  <title>Tài Khoản & Lịch Sử Đơn Hàng | ENERGY BOOST STORE</title>
+  <meta name="description" content="Quản lý tài khoản thành viên và tra cứu lịch sử đặt hàng nước tăng lực tại Energy Boost Store." />
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="../css/style.css" />
 </head>
-<body class="login-body-wrapper">
+<body class="login-body-wrapper" style="align-items: flex-start; padding: 40px 15px;">
 
-  <div class="login-card">
+  <div class="login-card" style="max-width: 680px; text-align: left;">
     <!-- Brand Logo -->
-    <div class="login-logo">
+    <div class="login-logo" style="justify-content: center; margin-bottom: 18px;">
       <a href="../index.html" class="logo">
-        <div class="logo-icon" style="width: 52px; height: 52px; font-size: 1.8rem;">
+        <div class="logo-icon" style="width: 48px; height: 48px; font-size: 1.6rem;">
           <i class="fas fa-bolt"></i>
+        </div>
+        <div class="logo-text">
+          <span class="logo-title" style="font-size: 1.4rem;">ENERGY<span>BOOST</span></span>
+          <span class="logo-subtitle">TÀI KHOẢN THÀNH VIÊN</span>
         </div>
       </a>
     </div>
 
-    <h1 class="login-title">TÀI KHOẢN <span>MONSTER</span></h1>
-    <p class="login-desc">Thông tin thành viên của bạn:</p>
-
-    <!-- Account Info -->
-    <div style="display: flex; align-items: center; gap: 14px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 16px; margin-bottom: 16px; text-align: left;">
-      <div id="account-avatar" style="width: 52px; height: 52px; border-radius: 50%; background: var(--primary); color: #000; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.4rem; flex-shrink: 0;">?</div>
-      <div style="min-width: 0;">
-        <div id="account-display-name" style="font-size: 1.05rem; font-weight: 700; color: #FFF; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">...</div>
-        <div style="font-size: 0.8rem; color: var(--primary);"><i class="fas fa-medal"></i> Thành viên Bạc - 860 điểm VIP</div>
+    <!-- Account Profile Box -->
+    <div style="display: flex; align-items: center; justify-content: space-between; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 18px; margin-bottom: 24px; flex-wrap: wrap; gap: 14px;">
+      <div style="display: flex; align-items: center; gap: 14px;">
+        <div id="account-avatar" style="width: 52px; height: 52px; border-radius: 50%; background: var(--primary); color: #000; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.4rem; flex-shrink: 0;">TT</div>
+        <div>
+          <div id="account-display-name" style="font-size: 1.15rem; font-weight: 700; color: #FFF;">Thuận Trần</div>
+          <div style="font-size: 0.8rem; color: var(--primary);"><i class="fas fa-medal"></i> Thành viên Bạc VIP - 860 Điểm Tích Lũy</div>
+        </div>
+      </div>
+      <div>
+        <button type="button" class="btn-login-admin" style="padding: 8px 16px; font-size: 0.85rem;" onclick="logout()">
+          <i class="fas fa-sign-out-alt"></i> Đăng Xuất
+        </button>
       </div>
     </div>
 
-    <div class="login-actions">
-      <a href="../index.html" class="btn-login-user">
-        <i class="fas fa-store"></i> TIẾP TỤC MUA SẮM
-      </a>
+    <!-- Section: LỊCH SỬ ĐẶT HÀNG GẦN ĐÂY -->
+    <div id="order-history" style="margin-bottom: 24px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
+        <h2 style="font-family: var(--font-heading); font-size: 1.25rem; color: #FFF; text-transform: uppercase; display: flex; align-items: center; gap: 8px;">
+          <i class="fas fa-receipt" style="color: var(--secondary);"></i> LỊCH SỬ ĐẶT HÀNG
+        </h2>
+        <a href="orders.html" style="font-size: 0.82rem; color: var(--primary); font-weight: 600;">Xem tất cả (3 đơn) <i class="fas fa-arrow-right"></i></a>
+      </div>
 
-      <button type="button" class="btn-login-admin" onclick="logout()">
-        <i class="fas fa-sign-out-alt"></i> ĐĂNG XUẤT
-      </button>
+      <!-- Order Card 1: Giao hỏa tốc 2H -->
+      <div style="background: rgba(20, 24, 32, 0.7); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 16px; margin-bottom: 12px; transition: var(--transition);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 0.85rem; border-bottom: 1px dashed rgba(255, 255, 255, 0.08); padding-bottom: 8px;">
+          <div>
+            <strong style="color: #FFF;">Mã đơn: #EB-2026</strong>
+            <span style="color: var(--text-dim); margin-left: 8px;">03/10/2026 - 09:30</span>
+          </div>
+          <span class="badge-status success" style="font-size: 0.75rem;"><i class="fas fa-truck-fast"></i> ĐÃ GIAO HỎA TỐC 2H</span>
+        </div>
+        <div style="display: flex; gap: 14px; align-items: center; margin-bottom: 10px;">
+          <img src="../assets/images/monster/original.webp" style="width: 38px; height: 48px; object-fit: contain; background: #0B0C10; border-radius: 4px; padding: 2px;" alt="Monster Original" />
+          <img src="../assets/images/redbull/redbull-original.webp" style="width: 38px; height: 48px; object-fit: contain; background: #0B0C10; border-radius: 4px; padding: 2px;" alt="Redbull Original" />
+          <div style="font-size: 0.88rem; color: var(--text-muted); flex: 1;">
+            <div>2x Monster Energy Original 355ml (Hà Lan)</div>
+            <div>2x Nước Tăng Lực Redbull Original 250ml (Thái Lan)</div>
+          </div>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 8px; border-top: 1px solid rgba(255, 255, 255, 0.06); font-size: 0.88rem;">
+          <div>Tổng thanh toán: <strong style="color: var(--primary); font-size: 1.05rem;">126.000đ</strong> (Đã trả COD)</div>
+          <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="showToast('Đã thêm lại các món của đơn #EB-2026 vào giỏ!', 'success')">
+            <i class="fas fa-rotate-left"></i> Mua Lại
+          </button>
+        </div>
+      </div>
+
+      <!-- Order Card 2: Combo Thùng 24 Lon -->
+      <div style="background: rgba(20, 24, 32, 0.7); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 16px; margin-bottom: 12px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 0.85rem; border-bottom: 1px dashed rgba(255, 255, 255, 0.08); padding-bottom: 8px;">
+          <div>
+            <strong style="color: #FFF;">Mã đơn: #EB-2025</strong>
+            <span style="color: var(--text-dim); margin-left: 8px;">28/09/2026 - 15:45</span>
+          </div>
+          <span class="badge-status success" style="font-size: 0.75rem;"><i class="fas fa-check-circle"></i> HOÀN THÀNH</span>
+        </div>
+        <div style="display: flex; gap: 14px; align-items: center; margin-bottom: 10px;">
+          <img src="../assets/images/monster/original.webp" style="width: 38px; height: 48px; object-fit: contain; background: #0B0C10; border-radius: 4px; padding: 2px;" alt="Combo 24 Lon" />
+          <div style="font-size: 0.88rem; color: var(--text-muted); flex: 1;">
+            <div>1x Combo Thùng 24 Lon Đấu Trường (Mix vị tự do)</div>
+            <div style="font-size: 0.78rem; color: var(--primary);"><i class="fas fa-gift"></i> Tặng Bình Giữ Nhiệt Monster Chiến Binh (Trị giá 280.000đ)</div>
+          </div>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 8px; border-top: 1px solid rgba(255, 255, 255, 0.06); font-size: 0.88rem;">
+          <div>Tổng thanh toán: <strong style="color: var(--primary); font-size: 1.05rem;">918.000đ</strong> (VietQR)</div>
+          <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="showToast('Đã thêm lại Combo 24 lon vào giỏ!', 'success')">
+            <i class="fas fa-rotate-left"></i> Mua Lại
+          </button>
+        </div>
+      </div>
     </div>
 
-    <a href="../index.html" class="back-home-link">
-      <i class="fas fa-arrow-left"></i> Quay lại trang chủ mua sắm
-    </a>
+    <!-- Navigation Actions -->
+    <div class="login-actions" style="margin-top: 20px;">
+      <a href="../index.html" class="btn-login-user" style="text-align: center;">
+        <i class="fas fa-store"></i> TIẾP TỤC MUA SẮM
+      </a>
+      <a href="cart.html" class="btn-login-admin" style="text-align: center; border-color: var(--accent-cyan); color: var(--accent-cyan);">
+        <i class="fas fa-shopping-cart"></i> XEM GIỎ HÀNG HIỆN TẠI
+      </a>
+    </div>
+
+    <div style="text-align: center; margin-top: 16px;">
+      <a href="../index.html" class="back-home-link">
+        <i class="fas fa-arrow-left"></i> Quay lại trang chủ Energy Boost
+      </a>
+    </div>
   </div>
 
   <div id="toast-container" class="toast-container"></div>

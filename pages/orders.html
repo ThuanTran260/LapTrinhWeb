@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lịch Sử Đặt Hàng | ENERGY BOOST STORE</title>
+  <meta name="description" content="Tra cứu lịch sử đơn hàng nước tăng lực Monster Energy và Redbull tại Energy Boost Store." />
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="container">
+      <div class="announcement-text">
+        <i class="fas fa-truck-fast" style="color: var(--primary);"></i>
+        <span>ĐƠN HÀNG HỎA TỐC: <strong>Cam kết giao lạnh trong 2H</strong> tại TP.HCM & Hà Nội!</span>
+      </div>
+      <div class="top-links">
+        <a href="../index.html"><i class="fas fa-arrow-left"></i> Tiếp Tục Mua Sắm</a>
+        <a href="cart.html"><i class="fas fa-shopping-cart"></i> Giỏ Hàng</a>
+        <a href="account.html"><i class="fas fa-user-circle"></i> Tài Khoản</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-main">
+        <a href="../index.html" class="logo">
+          <div class="logo-icon"><i class="fas fa-bolt"></i></div>
+          <div class="logo-text">
+            <span class="logo-title">ENERGY<span>BOOST</span></span>
+            <span class="logo-subtitle">HỆ THỐNG NƯỚC TĂNG LỰC CHÍNH HÃNG</span>
+          </div>
+        </a>
+
+        <div style="font-family: var(--font-heading); font-size: 1.3rem; color: #FFF; display: flex; align-items: center; gap: 8px;">
+          <i class="fas fa-receipt" style="color: var(--secondary);"></i> LỊCH SỬ ĐẶT HÀNG
+        </div>
+
+        <div class="header-actions">
+          <a href="cart.html" class="action-btn">
+            <i class="fas fa-shopping-cart" style="color: var(--primary);"></i>
+            <span style="font-size: 0.85rem; font-weight: 700;">Giỏ Hàng (5 lon)</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container cart-page-section">
+    <div class="breadcrumb">
+      <a href="../index.html">Trang chủ</a>
+      <span>/</span>
+      <a href="account.html">Tài khoản</a>
+      <span>/</span>
+      <span>Lịch sử đơn hàng</span>
+    </div>
+
+    <div class="admin-section-box">
+      <div class="admin-section-header" style="flex-wrap: wrap; gap: 12px;">
+        <h2 class="admin-section-title"><i class="fas fa-clock-rotate-left" style="color: var(--primary);"></i> CÁC ĐƠN HÀNG CỦA BẠN (3 ĐƠN)</h2>
+        <div style="display: flex; gap: 8px;">
+          <button class="filter-pill active" onclick="showToast('Hiển thị tất cả đơn hàng', 'info')">Tất Cả (3)</button>
+          <button class="filter-pill" onclick="showToast('Lọc đơn đang giao', 'info')">Đang Giao (1)</button>
+          <button class="filter-pill" onclick="showToast('Lọc đơn hoàn thành', 'info')">Đã Nhận (2)</button>
+        </div>
+      </div>
+
+      <table class="cart-table">
+        <thead>
+          <tr>
+            <th>Mã Đơn</th>
+            <th>Ngày Đặt</th>
+            <th>Chi Tiết Sản Phẩm</th>
+            <th>Tổng Tiền</th>
+            <th>Trạng Thái</th>
+            <th>Thao Tác</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Order 1 -->
+          <tr>
+            <td><strong style="color: #FFF;">#EB-2026</strong></td>
+            <td>03/10/2026<br><span style="font-size: 0.78rem; color: var(--text-dim);">09:30 AM</span></td>
+            <td>
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <img src="../assets/images/monster/original.webp" style="width: 32px; height: 42px; object-fit: contain;" alt="Monster Original" />
+                <img src="../assets/images/redbull/redbull-original.webp" style="width: 32px; height: 42px; object-fit: contain;" alt="Redbull Original" />
+                <div>
+                  <strong>2x Monster Original 355ml</strong><br>
+                  <span style="font-size: 0.8rem; color: var(--text-muted);">2x Redbull Original 250ml</span>
+                </div>
+              </div>
+            </td>
+            <td><strong style="color: var(--primary); font-size: 1.05rem;">126.000đ</strong><br><span style="font-size: 0.75rem; color: var(--text-dim);">COD khi nhận</span></td>
+            <td><span class="badge-status success"><i class="fas fa-truck-fast"></i> ĐÃ GIAO 2H</span></td>
+            <td>
+              <button class="btn-view-detail" style="padding: 6px 12px; font-size: 0.8rem;" onclick="showToast('Đã thêm lại các món của đơn #EB-2026 vào giỏ hàng!', 'success')">
+                <i class="fas fa-cart-plus"></i> Mua Lại
+              </button>
+            </td>
+          </tr>
+
+          <!-- Order 2 -->
+          <tr>
+            <td><strong style="color: #FFF;">#EB-2025</strong></td>
+            <td>28/09/2026<br><span style="font-size: 0.78rem; color: var(--text-dim);">15:45 PM</span></td>
+            <td>
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <img src="../assets/images/monster/original.webp" style="width: 32px; height: 42px; object-fit: contain;" alt="Combo Thùng" />
+                <div>
+                  <strong>1x Combo Thùng 24 Lon Đấu Trường</strong><br>
+                  <span style="font-size: 0.8rem; color: var(--primary);"><i class="fas fa-gift"></i> Tặng Bình Giữ Nhiệt Monster (Trị giá 280K)</span>
+                </div>
+              </div>
+            </td>
+            <td><strong style="color: var(--primary); font-size: 1.05rem;">918.000đ</strong><br><span style="font-size: 0.75rem; color: var(--text-dim);">Chuyển khoản VietQR</span></td>
+            <td><span class="badge-status success"><i class="fas fa-check-circle"></i> HOÀN THÀNH</span></td>
+            <td>
+              <button class="btn-view-detail" style="padding: 6px 12px; font-size: 0.8rem;" onclick="showToast('Đã thêm lại Combo 24 lon vào giỏ hàng!', 'success')">
+                <i class="fas fa-cart-plus"></i> Mua Lại
+              </button>
+            </td>
+          </tr>
+
+          <!-- Order 3 -->
+          <tr>
+            <td><strong style="color: #FFF;">#EB-2024</strong></td>
+            <td>20/09/2026<br><span style="font-size: 0.78rem; color: var(--text-dim);">11:15 AM</span></td>
+            <td>
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <img src="../assets/images/redbull/redbull-lon-vua.webp" style="width: 32px; height: 42px; object-fit: contain;" alt="Redbull Lon Vừa" />
+                <div>
+                  <strong>3x Nước Tăng Lực Redbull Nắp Bật 250ml</strong><br>
+                  <span style="font-size: 0.8rem; color: var(--text-muted);">Thương hiệu: Redbull Thái Lan</span>
+                </div>
+              </div>
+            </td>
+            <td><strong style="color: var(--primary); font-size: 1.05rem;">60.000đ</strong><br><span style="font-size: 0.75rem; color: var(--text-dim);">Ví MoMo</span></td>
+            <td><span class="badge-status success"><i class="fas fa-check-circle"></i> HOÀN THÀNH</span></td>
+            <td>
+              <button class="btn-view-detail" style="padding: 6px 12px; font-size: 0.8rem;" onclick="showToast('Đã thêm lại Redbull nắp bật vào giỏ hàng!', 'success')">
+                <i class="fas fa-cart-plus"></i> Mua Lại
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border-color); flex-wrap: wrap; gap: 12px;">
+        <a href="../index.html" class="btn-view-detail"><i class="fas fa-arrow-left"></i> Quay lại cửa hàng</a>
+        <a href="cart.html" class="btn-add-cart" style="text-decoration: none;"><i class="fas fa-shopping-basket"></i> Mua Sắm Ngay</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-bottom">
+      <p>&copy; 2026 ENERGY BOOST STORE. Built with Pure Static HTML5 & CSS3. All Rights Reserved.</p>
+      <a href="../index.html" style="color: var(--primary);"><i class="fas fa-arrow-left"></i> Trang chủ</a>
+    </div>
+  </footer>
+
+  <div id="toast-container" class="toast-container"></div>
+  <script src="../js/app.js"></script>
+</body>
+</html>

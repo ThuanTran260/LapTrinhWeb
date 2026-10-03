@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kho Lon Nước | MONSTER ADMIN</title>
-  <meta name="description" content="Quản lý kho lon nước Monster Energy." />
+  <title>Kho Nước Tăng Lực | ENERGY BOOST ADMIN</title>
+  <meta name="description" content="Quản lý kho nước tăng lực Monster Energy và Redbull Thái Lan tại Energy Boost." />
   <meta name="robots" content="noindex, nofollow" />
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
@@ -21,7 +21,7 @@
             <i class="fas fa-bolt"></i>
           </div>
           <div class="logo-text">
-            <span class="logo-title" style="font-size: 1.4rem;">MONSTER<span>ADMIN</span></span>
+            <span class="logo-title" style="font-size: 1.4rem;">ENERGY<span>BOOST</span></span>
             <span class="logo-subtitle">HỆ THỐNG QUẢN TRỊ</span>
           </div>
         </a>
@@ -30,7 +30,7 @@
       <ul class="admin-menu">
         <li><a href="index.html" class="admin-menu-link"><i class="fas fa-chart-pie"></i> Tổng Quan Dashboard</a></li>
         <li><a href="orders.html" class="admin-menu-link"><i class="fas fa-shopping-bag"></i> Quản Lý Đơn Hàng</a></li>
-        <li><a href="inventory.html" class="admin-menu-link active"><i class="fas fa-boxes-stacked"></i> Kho Lon Nước</a></li>
+        <li><a href="inventory.html" class="admin-menu-link active"><i class="fas fa-boxes-stacked"></i> Kho Nước Tăng Lực</a></li>
         <li><a href="revenue.html" class="admin-menu-link"><i class="fas fa-wallet"></i> Báo Cáo Doanh Thu</a></li>
         <li><a href="customers.html" class="admin-menu-link"><i class="fas fa-users"></i> Khách Hàng VIP</a></li>
         <li><a href="settings.html" class="admin-menu-link"><i class="fas fa-sliders"></i> Cài Đặt Hệ Thống</a></li>
@@ -52,14 +52,14 @@
       <div class="admin-topbar">
         <div>
           <h1 style="font-family: var(--font-heading); font-size: 2rem; color: #FFF; text-transform: uppercase;">
-            KHO <span>LON NƯỚC</span>
+            KHO <span>NƯỚC TĂNG LỰC</span>
           </h1>
-          <p style="font-size: 0.85rem; color: var(--text-muted);">8 hương vị chính thức - 595 lon tồn kho</p>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">2 Thương hiệu lớn (Monster Energy & Redbull) - Sẵn sàng xuất kho</p>
         </div>
 
         <div style="display: flex; align-items: center; gap: 16px;">
           <button class="btn-add-cart" style="padding: 10px 18px;" onclick="showToast('Mở hộp thoại thêm lon nước mới (Demo tĩnh)', 'info')">
-            <i class="fas fa-plus-circle"></i> Thêm Lon Mới
+            <i class="fas fa-plus-circle"></i> Thêm Sản Phẩm Mới
           </button>
 
           <div class="admin-user-pill">
@@ -75,31 +75,30 @@
       <!-- Inventory Table -->
       <section class="admin-section-box">
         <div class="admin-section-header">
-          <h2 class="admin-section-title"><i class="fas fa-boxes-stacked" style="color: var(--primary);"></i> QUẢN LÝ KHO LON NƯỚC MONSTER ENERGY (TĨNH)</h2>
-          <span style="font-size: 0.85rem; color: var(--text-muted);">Hiển thị 8 hương vị chính thức</span>
+          <h2 class="admin-section-title"><i class="fas fa-boxes-stacked" style="color: var(--primary);"></i> QUẢN LÝ KHO SẢN PHẨM ENERGY BOOST (TĨNH)</h2>
+          <span style="font-size: 0.85rem; color: var(--text-muted);">Phân nhóm Monster Energy & Redbull</span>
         </div>
 
         <table class="cart-table">
           <thead>
             <tr>
               <th>Ảnh</th>
-              <th>Tên Hương Vị Lon Nước</th>
-              <th>Dòng Sản Phẩm</th>
+              <th>Tên Sản Phẩm</th>
+              <th>Thương Hiệu / Dòng</th>
               <th>Thể Tích</th>
               <th>Giá Bán</th>
-              <th>Tồn Kho</th>
               <th>Trạng Thái</th>
               <th>Thao Tác</th>
             </tr>
           </thead>
           <tbody>
+            <!-- Monster 1: Original -->
             <tr>
-              <td><img src="../assets/images/monster/original.webp" alt="Monster Energy Original" style="width: 36px; height: 46px; object-fit: contain;" onerror="this.src='../assets/images/monster/original.webp'" /></td>
-              <td><strong>Monster Energy Original</strong></td>
-              <td>Original Series</td>
-              <td>500ml</td>
+              <td><img src="../assets/images/monster/original.webp" alt="Monster Energy Original 355ml" style="width: 36px; height: 46px; object-fit: contain;" /></td>
+              <td><strong>Monster Energy Original 355ml</strong><br/><small style="color: var(--text-muted);">SX Malaysia / Hà Lan</small></td>
+              <td>Monster Energy</td>
+              <td>355ml</td>
               <td>45.000đ</td>
-              <td>150 lon</td>
               <td><span class="badge-status success">CÒN HÀNG</span></td>
               <td>
                 <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" onclick="showToast('Sửa thông tin: Monster Original', 'info')"><i class="fas fa-edit"></i></button>
@@ -107,13 +106,13 @@
               </td>
             </tr>
 
+            <!-- Monster 2: Zero Ultra White -->
             <tr>
-              <td><img src="../assets/images/monster/ultra-white.webp" alt="Monster Zero Ultra White" style="width: 36px; height: 46px; object-fit: contain;" onerror="this.src='../assets/images/monster/ultra-white.webp'" /></td>
-              <td><strong>Monster Zero Ultra White</strong></td>
-              <td>Monster Ultra (0 Đường)</td>
+              <td><img src="../assets/images/monster/ultra-white.webp" alt="Monster Zero Ultra White" style="width: 36px; height: 46px; object-fit: contain;" onerror="this.src='../assets/images/monster/original.webp'" /></td>
+              <td><strong>Monster Zero Ultra White 500ml</strong><br/><small style="color: var(--text-muted);">0 Đường - 0 Calo</small></td>
+              <td>Monster Ultra</td>
               <td>500ml</td>
               <td>48.000đ</td>
-              <td>95 lon</td>
               <td><span class="badge-status success">CÒN HÀNG</span></td>
               <td>
                 <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" onclick="showToast('Sửa thông tin: Monster Zero Ultra', 'info')"><i class="fas fa-edit"></i></button>
@@ -121,13 +120,13 @@
               </td>
             </tr>
 
+            <!-- Monster 3: Ultra Paradise -->
             <tr>
-              <td><img src="../assets/images/monster/ultra-paradise.webp" alt="Monster Ultra Paradise" style="width: 36px; height: 46px; object-fit: contain;" onerror="this.src='../assets/images/monster/ultra-paradise.webp'" /></td>
-              <td><strong>Monster Ultra Paradise</strong></td>
-              <td>Monster Ultra (0 Đường)</td>
+              <td><img src="../assets/images/monster/ultra-paradise.webp" alt="Monster Ultra Paradise" style="width: 36px; height: 46px; object-fit: contain;" onerror="this.src='../assets/images/monster/original.webp'" /></td>
+              <td><strong>Monster Ultra Paradise 500ml</strong><br/><small style="color: var(--text-muted);">Kiwi Chanh - 0 Calo</small></td>
+              <td>Monster Ultra</td>
               <td>500ml</td>
               <td>48.000đ</td>
-              <td>85 lon</td>
               <td><span class="badge-status success">CÒN HÀNG</span></td>
               <td>
                 <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" onclick="showToast('Sửa thông tin: Ultra Paradise', 'info')"><i class="fas fa-edit"></i></button>
@@ -135,13 +134,13 @@
               </td>
             </tr>
 
+            <!-- Monster 4: Ultra Punk Punch -->
             <tr>
-              <td><img src="../assets/images/monster/ultra-punk-punch.webp" alt="Monster Ultra Punk Punch" style="width: 36px; height: 46px; object-fit: contain;" onerror="this.src='../assets/images/monster/ultra-punk-punch.webp'" /></td>
-              <td><strong>Monster Ultra Punk Punch</strong></td>
-              <td>Monster Ultra (Nhiệt Đới)</td>
+              <td><img src="../assets/images/monster/ultra-punk-punch.webp" alt="Monster Ultra Punk Punch" style="width: 36px; height: 46px; object-fit: contain;" onerror="this.src='../assets/images/monster/original.webp'" /></td>
+              <td><strong>Monster Ultra Punk Punch 500ml</strong><br/><small style="color: var(--text-muted);">Trái Cây Nhiệt Đới</small></td>
+              <td>Punch & Shots</td>
               <td>500ml</td>
               <td>50.000đ</td>
-              <td>70 lon</td>
               <td><span class="badge-status success">CÒN HÀNG</span></td>
               <td>
                 <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" onclick="showToast('Sửa thông tin: Ultra Punk Punch', 'info')"><i class="fas fa-edit"></i></button>
@@ -149,58 +148,44 @@
               </td>
             </tr>
 
+            <!-- Redbull 1: Original -->
             <tr>
-              <td><img src="../assets/images/monster/ultra-watermelon.webp" alt="Monster Ultra Watermelon" style="width: 36px; height: 46px; object-fit: contain;" onerror="this.src='../assets/images/monster/ultra-watermelon.webp'" /></td>
-              <td><strong>Monster Ultra Watermelon</strong></td>
-              <td>Monster Ultra (Dưa Hấu)</td>
-              <td>500ml</td>
-              <td>48.000đ</td>
-              <td>60 lon</td>
+              <td><img src="../assets/images/redbull/redbull-original.webp" alt="Nước Tăng Lực Redbull Original 250ml" style="width: 36px; height: 46px; object-fit: contain;" onerror="this.src='../assets/images/redbull/redbull original.webp'" /></td>
+              <td><strong>Nước Tăng Lực Redbull Original 250ml</strong><br/><small style="color: var(--text-muted);">Kẽm & Vitamin</small></td>
+              <td>Redbull Thái Lan</td>
+              <td>250ml</td>
+              <td>18.000đ</td>
               <td><span class="badge-status success">CÒN HÀNG</span></td>
               <td>
-                <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" onclick="showToast('Sửa thông tin: Ultra Watermelon', 'info')"><i class="fas fa-edit"></i></button>
+                <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" onclick="showToast('Sửa thông tin: Redbull Original', 'info')"><i class="fas fa-edit"></i></button>
                 <button class="cart-del-btn" style="padding: 4px 8px;" onclick="showToast('Mẫu lon không thể xóa trên bản demo', 'warning')"><i class="fas fa-trash"></i></button>
               </td>
             </tr>
 
+            <!-- Redbull 2: Thái Lan Nhập Khẩu -->
             <tr>
-              <td><img src="../assets/images/monster/ultra-sunrise.webp" alt="Monster Ultra Sunrise" style="width: 36px; height: 46px; object-fit: contain;" onerror="this.src='../assets/images/monster/ultra-sunrise.webp'" /></td>
-              <td><strong>Monster Ultra Sunrise</strong></td>
-              <td>Monster Ultra (Cam Tươi)</td>
-              <td>500ml</td>
-              <td>48.000đ</td>
-              <td>50 lon</td>
+              <td><img src="../assets/images/redbull/redbull-thai.jpg" alt="Nước Tăng Lực Redbull Thái Lan 250ml" style="width: 36px; height: 46px; object-fit: contain;" onerror="this.src='../assets/images/redbull/redbull thái.jpg'" /></td>
+              <td><strong>Nước Tăng Lực Redbull Thái Lan 250ml</strong><br/><small style="color: var(--text-muted);">Nhập Khẩu Thái Lan</small></td>
+              <td>Redbull Thái Lan</td>
+              <td>250ml</td>
+              <td>18.000đ</td>
               <td><span class="badge-status success">CÒN HÀNG</span></td>
               <td>
-                <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" onclick="showToast('Sửa thông tin: Ultra Sunrise', 'info')"><i class="fas fa-edit"></i></button>
+                <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" onclick="showToast('Sửa thông tin: Redbull Thái Lan', 'info')"><i class="fas fa-edit"></i></button>
                 <button class="cart-del-btn" style="padding: 4px 8px;" onclick="showToast('Mẫu lon không thể xóa trên bản demo', 'warning')"><i class="fas fa-trash"></i></button>
               </td>
             </tr>
 
+            <!-- Redbull 3: Nắp Bật -->
             <tr>
-              <td><img src="../assets/images/monster/ultra-blue-hawaiian.webp" alt="Monster Ultra Blue Hawaiian" style="width: 36px; height: 46px; object-fit: contain;" onerror="this.src='../assets/images/monster/ultra-blue-hawaiian.webp'" /></td>
-              <td><strong>Monster Ultra Blue Hawaiian</strong></td>
-              <td>Monster Ultra (Hawaii)</td>
-              <td>500ml</td>
-              <td>50.000đ</td>
-              <td>45 lon</td>
+              <td><img src="../assets/images/redbull/redbull-lon-vua.webp" alt="Nước Tăng Lực Redbull Nắp Bật 250ml" style="width: 36px; height: 46px; object-fit: contain;" onerror="this.src='../assets/images/redbull/lon vừa.webp'" /></td>
+              <td><strong>Nước Tăng Lực Redbull Nắp Bật 250ml</strong><br/><small style="color: var(--text-muted);">Dáng Vừa Nắp Bật</small></td>
+              <td>Redbull Thái Lan</td>
+              <td>250ml</td>
+              <td>20.000đ</td>
               <td><span class="badge-status success">CÒN HÀNG</span></td>
               <td>
-                <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" onclick="showToast('Sửa thông tin: Ultra Blue Hawaiian', 'info')"><i class="fas fa-edit"></i></button>
-                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="showToast('Mẫu lon không thể xóa trên bản demo', 'warning')"><i class="fas fa-trash"></i></button>
-              </td>
-            </tr>
-
-            <tr>
-              <td><img src="../assets/images/monster/strawberry-shot.webp" alt="Monster Strawberry Shot" style="width: 36px; height: 46px; object-fit: contain;" onerror="this.src='../assets/images/monster/strawberry-shot.webp'" /></td>
-              <td><strong>Monster Strawberry Shot</strong></td>
-              <td>Monster Shot (Dâu Tây)</td>
-              <td>500ml</td>
-              <td>50.000đ</td>
-              <td>40 lon</td>
-              <td><span class="badge-status success">CÒN HÀNG</span></td>
-              <td>
-                <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" onclick="showToast('Sửa thông tin: Strawberry Shot', 'info')"><i class="fas fa-edit"></i></button>
+                <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" onclick="showToast('Sửa thông tin: Redbull Nắp Bật', 'info')"><i class="fas fa-edit"></i></button>
                 <button class="cart-del-btn" style="padding: 4px 8px;" onclick="showToast('Mẫu lon không thể xóa trên bản demo', 'warning')"><i class="fas fa-trash"></i></button>
               </td>
             </tr>
