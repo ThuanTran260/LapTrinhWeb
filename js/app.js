@@ -351,3 +351,106 @@ function initOrderSuccess() {
     }
   }
 }
+
+// ==========================================================================
+// 9. Admin Interactive Modals (Dark Neon Glassmorphism)
+// ==========================================================================
+function openAdminModal(modalId) {
+  const modal = document.getElementById(modalId);
+  if (modal) {
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function closeAdminModal(modalId) {
+  if (modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) modal.classList.remove('active');
+  } else {
+    document.querySelectorAll('.admin-modal-overlay.active').forEach(m => m.classList.remove('active'));
+  }
+  const remaining = document.querySelectorAll('.admin-modal-overlay.active');
+  if (remaining.length === 0) {
+    document.body.style.overflow = '';
+  }
+}
+
+// Global modal overlay click and ESC key listeners
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeAdminModal();
+  }
+});
+
+document.addEventListener('click', (e) => {
+  if (e.target && e.target.classList && e.target.classList.contains('admin-modal-overlay')) {
+    closeAdminModal();
+  }
+});
+
+// 9a. Product Edit Modal Logic (Đồng bộ tuyệt đối 100%)
+function openProductEditModal(productId) {
+  const modal = document.getElementById('modal-edit-product');
+  if (!modal) return;
+
+  const nameEl = document.getElementById('edit-prod-name');
+  const brandEl = document.getElementById('edit-prod-brand');
+  const originEl = document.getElementById('edit-prod-origin');
+  const priceEl = document.getElementById('edit-prod-price');
+  const oldPriceEl = document.getElementById('edit-prod-oldprice');
+  const volumeEl = document.getElementById('edit-prod-volume');
+  const ingredientsEl = document.getElementById('edit-prod-ingredients');
+  const usageEl = document.getElementById('edit-prod-usage');
+  const storageEl = document.getElementById('edit-prod-storage');
+  const statusEl = document.getElementById('edit-prod-status');
+
+  if (nameEl) nameEl.value = 'Monster Energy Original 355ml';
+  if (brandEl) brandEl.value = 'Monster Energy (Hà Lan)';
+  if (originEl) originEl.value = 'Malaysia';
+  if (priceEl) priceEl.value = '45.000đ';
+  if (oldPriceEl) oldPriceEl.value = '55.000đ';
+  if (volumeEl) volumeEl.value = '355ml';
+  if (ingredientsEl) ingredientsEl.value = 'Nước bão hòa CO2, Sucroza, chiết xuất đường nho, chiết xuất nhân sâm,...';
+  if (usageEl) usageEl.value = 'Lắc nhẹ trước khi uống, dùng ngay sau khi mở nắp. Ngon hơn khi uống lạnh.';
+  if (storageEl) storageEl.value = 'Để nơi khô ráo, thoáng mát, tránh ánh sáng trực tiếp hoặc nơi có nhiệt độ cao.';
+  if (statusEl) statusEl.value = 'Còn hàng';
+
+  openAdminModal('modal-edit-product');
+}
+
+function saveProductEdit(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  const nameEl = document.getElementById('edit-prod-name');
+  const name = nameEl ? nameEl.value : 'Monster Energy Original 355ml';
+  showToast('Đã lưu thay đổi thông tin sản phẩm "' + name + '" thành công!', 'success');
+  closeAdminModal('modal-edit-product');
+}
+
+// 9b. Add Product Modal Logic
+function openAddProductModal() {
+  const form = document.getElementById('form-add-product');
+  if (form) form.reset();
+  openAdminModal('modal-add-product');
+}
+
+function saveAddProduct(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  const nameEl = document.getElementById('add-prod-name');
+  const name = (nameEl && nameEl.value) ? nameEl.value : 'Nước Tăng Lực Mới';
+  showToast('Đã thêm sản phẩm "' + name + '" vào kho hàng thành công!', 'success');
+  closeAdminModal('modal-add-product');
+}
+
+// 9c. Customer VIP Detail Modal Logic
+function openCustomerDetailModal(customerName) {
+  // Dù bấm Tuấn hay An hay Bích,... đều mở chi tiết hồ sơ VIP của Phạm Minh Tuấn
+  openAdminModal('modal-customer-detail');
+}
+
+// 9d. Order Detail Modal Logic
+function openOrderDetailModal(orderId) {
+  // Mở popup chi tiết đơn hàng mẫu #EB-8801
+  openAdminModal('modal-order-detail');
+}
+

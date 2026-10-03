@@ -94,7 +94,7 @@
               <td><strong style="color: var(--primary);">126.000đ</strong></td>
               <td><span class="badge-status success">ĐÃ THANH TOÁN</span></td>
               <td>
-                <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="showToast('Chi tiết đơn #EB-8801: Giao hỏa tốc Quận 1', 'info')">
+                <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="openOrderDetailModal('EB-8801')">
                   <i class="fas fa-eye"></i> Xem
                 </button>
               </td>
@@ -107,7 +107,7 @@
               <td><strong style="color: var(--primary);">246.000đ</strong></td>
               <td><span class="badge-status warning">ĐANG GIAO 2H</span></td>
               <td>
-                <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="showToast('Chi tiết đơn #EB-8802: Shipper đang trên đường giao', 'info')">
+                <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="openOrderDetailModal('EB-8802')">
                   <i class="fas fa-eye"></i> Xem
                 </button>
               </td>
@@ -133,7 +133,7 @@
               <td><strong style="color: var(--primary);">918.000đ</strong></td>
               <td><span class="badge-status success">ĐÃ THANH TOÁN</span></td>
               <td>
-                <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="showToast('Chi tiết đơn #EB-8804: Đã bàn giao xe tải', 'info')">
+                <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="openOrderDetailModal('EB-8804')">
                   <i class="fas fa-eye"></i> Xem
                 </button>
               </td>
@@ -146,7 +146,7 @@
               <td><strong style="color: var(--primary);">198.000đ</strong></td>
               <td><span class="badge-status warning">ĐANG GIAO 2H</span></td>
               <td>
-                <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="showToast('Chi tiết đơn #EB-8805: Dự kiến giao lúc 11:30', 'info')">
+                <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="openOrderDetailModal('EB-8805')">
                   <i class="fas fa-eye"></i> Xem
                 </button>
               </td>
@@ -155,6 +155,78 @@
         </table>
       </section>
     </main>
+  </div>
+
+  <!-- Modal Chi Tiết Đơn Hàng (#EB-8801) -->
+  <div id="modal-order-detail" class="admin-modal-overlay">
+    <div class="admin-modal-card">
+      <div class="admin-modal-header">
+        <h3 class="admin-modal-title"><i class="fas fa-file-invoice" style="color: var(--secondary);"></i> Chi Tiết Đơn Hàng #EB-8801</h3>
+        <button type="button" class="admin-modal-close" onclick="closeAdminModal('modal-order-detail')">&times;</button>
+      </div>
+      <div class="admin-modal-body">
+        <div class="order-summary-box">
+          <div>
+            <div style="font-size: 0.8rem; color: var(--text-muted);">MÃ ĐƠN HÀNG</div>
+            <div style="font-family: var(--font-heading); font-size: 1.3rem; color: #FFF; font-weight: 800;">#EB-8801</div>
+          </div>
+          <span class="badge-status success"><i class="fas fa-check-circle"></i> ĐÃ THANH TOÁN (VIETQR)</span>
+        </div>
+
+        <div class="vip-info-list" style="margin-bottom: 8px;">
+          <div class="vip-info-item">
+            <span class="label"><i class="fas fa-user" style="color: var(--primary);"></i> Khách hàng</span>
+            <span class="val">Nguyễn Văn An (0912 345 678)</span>
+          </div>
+          <div class="vip-info-item">
+            <span class="label"><i class="fas fa-location-dot" style="color: var(--secondary);"></i> Địa chỉ nhận</span>
+            <span class="val">45 Lê Duẩn, P. Bến Nghé, Quận 1, TP.HCM</span>
+          </div>
+          <div class="vip-info-item">
+            <span class="label"><i class="fas fa-bolt" style="color: var(--accent-cyan);"></i> Vận chuyển</span>
+            <span class="val">Giao Hỏa Tốc 2H Nội Thành</span>
+          </div>
+        </div>
+
+        <div style="border: 1px solid rgba(255, 255, 255, 0.06); border-radius: var(--radius-sm); overflow: hidden;">
+          <table class="order-items-table">
+            <thead>
+              <tr>
+                <th>Sản Phẩm</th>
+                <th style="text-align: center;">SL</th>
+                <th style="text-align: right;">Đơn Giá</th>
+                <th style="text-align: right;">Thành Tiền</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Monster Energy Original 355ml</strong><br/><small style="color: var(--text-muted);">Hà Lan / SX Malaysia</small></td>
+                <td style="text-align: center;">2</td>
+                <td style="text-align: right;">45.000đ</td>
+                <td style="text-align: right; color: var(--primary); font-weight: 700;">90.000đ</td>
+              </tr>
+              <tr>
+                <td><strong>Nước Tăng Lực Redbull Original 250ml</strong><br/><small style="color: var(--text-muted);">Kẽm & Vitamin Thái Lan</small></td>
+                <td style="text-align: center;">2</td>
+                <td style="text-align: right;">18.000đ</td>
+                <td style="text-align: right; color: var(--primary); font-weight: 700;">36.000đ</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="order-total-row">
+          <span>Tổng Cộng (Đã bao gồm VAT & Free Ship)</span>
+          <span class="price">126.000đ</span>
+        </div>
+      </div>
+      <div class="admin-modal-footer">
+        <button type="button" class="btn-modal-cancel" onclick="closeAdminModal('modal-order-detail')">Đóng</button>
+        <button type="button" class="btn-modal-save" onclick="showToast('Đang in phiếu giao hàng #EB-8801...', 'info')">
+          <i class="fas fa-print"></i> In Hóa Đơn
+        </button>
+      </div>
+    </div>
   </div>
 
   <div id="toast-container" class="toast-container"></div>

@@ -94,7 +94,7 @@
               <td><span class="badge-status success">KIM CƯƠNG</span></td>
               <td><strong style="color: var(--primary);">15.200.000đ</strong></td>
               <td>
-                <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="showToast('Hồ sơ VIP: Phạm Minh Tuấn - 15.2M', 'info')">
+                <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="openCustomerDetailModal('tuan')">
                   <i class="fas fa-eye"></i> Xem
                 </button>
               </td>
@@ -106,7 +106,7 @@
               <td><span class="badge-status success">KIM CƯƠNG</span></td>
               <td><strong style="color: var(--primary);">12.400.000đ</strong></td>
               <td>
-                <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="showToast('Hồ sơ VIP: Nguyễn Văn An - 12.4M', 'info')">
+                <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="openCustomerDetailModal('an')">
                   <i class="fas fa-eye"></i> Xem
                 </button>
               </td>
@@ -118,7 +118,7 @@
               <td><span class="badge-status warning">VÀNG</span></td>
               <td><strong style="color: var(--primary);">9.600.000đ</strong></td>
               <td>
-                <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="showToast('Hồ sơ VIP: Trần Thị Bích - 9.6M', 'info')">
+                <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="openCustomerDetailModal('bich')">
                   <i class="fas fa-eye"></i> Xem
                 </button>
               </td>
@@ -130,7 +130,7 @@
               <td><span class="badge-status warning">VÀNG</span></td>
               <td><strong style="color: var(--primary);">7.800.000đ</strong></td>
               <td>
-                <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="showToast('Hồ sơ VIP: Lê Hoàng Nam - 7.8M', 'info')">
+                <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="openCustomerDetailModal('nam')">
                   <i class="fas fa-eye"></i> Xem
                 </button>
               </td>
@@ -142,7 +142,7 @@
               <td><span class="badge-status info">BẠC</span></td>
               <td><strong style="color: var(--primary);">5.400.000đ</strong></td>
               <td>
-                <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="showToast('Hồ sơ VIP: Vũ Thảo My - 5.4M', 'info')">
+                <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="openCustomerDetailModal('my')">
                   <i class="fas fa-eye"></i> Xem
                 </button>
               </td>
@@ -154,7 +154,7 @@
               <td><span class="badge-status info">BẠC</span></td>
               <td><strong style="color: var(--primary);">4.100.000đ</strong></td>
               <td>
-                <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="showToast('Hồ sơ VIP: Hoàng Đức Long - 4.1M', 'info')">
+                <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="openCustomerDetailModal('long')">
                   <i class="fas fa-eye"></i> Xem
                 </button>
               </td>
@@ -163,6 +163,73 @@
         </table>
       </section>
     </main>
+  </div>
+
+  <!-- Modal Chi Tiết Khách Hàng VIP (Phạm Minh Tuấn) -->
+  <div id="modal-customer-detail" class="admin-modal-overlay">
+    <div class="admin-modal-card">
+      <div class="admin-modal-header">
+        <h3 class="admin-modal-title"><i class="fas fa-crown" style="color: var(--accent-gold);"></i> Hồ Sơ Thành Viên VIP</h3>
+        <button type="button" class="admin-modal-close" onclick="closeAdminModal('modal-customer-detail')">&times;</button>
+      </div>
+      <div class="admin-modal-body">
+        <div class="vip-profile-header">
+          <div class="vip-avatar">PT</div>
+          <div class="vip-profile-info">
+            <h3>Phạm Minh Tuấn</h3>
+            <span class="vip-badge-diamond"><i class="fas fa-gem"></i> HẠNG KIM CƯƠNG</span>
+          </div>
+        </div>
+
+        <div class="vip-stats-grid">
+          <div class="vip-stat-box">
+            <div class="vip-stat-val">3.120</div>
+            <div class="vip-stat-lbl">Điểm tích lũy</div>
+          </div>
+          <div class="vip-stat-box">
+            <div class="vip-stat-val">15.200.000đ</div>
+            <div class="vip-stat-lbl">Tổng chi tiêu</div>
+          </div>
+          <div class="vip-stat-box">
+            <div class="vip-stat-val" style="color: var(--accent-gold);">18 Đơn</div>
+            <div class="vip-stat-lbl">Đơn hoàn tất</div>
+          </div>
+        </div>
+
+        <div class="vip-info-list">
+          <div class="vip-info-item">
+            <span class="label"><i class="fas fa-phone-alt" style="color: var(--primary);"></i> Số điện thoại</span>
+            <span class="val">0977 888 999</span>
+          </div>
+          <div class="vip-info-item">
+            <span class="label"><i class="fas fa-envelope" style="color: var(--accent-cyan);"></i> Email liên hệ</span>
+            <span class="val">minhtuan.pham@gmail.com</span>
+          </div>
+          <div class="vip-info-item">
+            <span class="label"><i class="fas fa-map-marker-alt" style="color: var(--secondary);"></i> Địa chỉ giao hàng</span>
+            <span class="val">88 Nguyễn Huệ, P. Bến Nghé, Quận 1, TP.HCM</span>
+          </div>
+          <div class="vip-info-item">
+            <span class="label"><i class="fas fa-box" style="color: var(--accent-gold);"></i> Đơn hàng gần nhất</span>
+            <span class="val">#EB-8804 (1 Thùng 24 Lon Mix - 918.000đ)</span>
+          </div>
+          <div class="vip-info-item">
+            <span class="label"><i class="fas fa-calendar-check" style="color: var(--primary);"></i> Ngày gia nhập</span>
+            <span class="val">15/01/2024</span>
+          </div>
+          <div class="vip-info-item">
+            <span class="label"><i class="fas fa-shield-halved" style="color: var(--primary);"></i> Đặc quyền VIP</span>
+            <span class="val" style="color: var(--primary);">Miễn phí ship hỏa tốc + Chiết khấu 10%</span>
+          </div>
+        </div>
+      </div>
+      <div class="admin-modal-footer">
+        <button type="button" class="btn-modal-cancel" onclick="closeAdminModal('modal-customer-detail')">Đóng</button>
+        <button type="button" class="btn-modal-save" onclick="showToast('Đã gửi voucher tri ân VIP 15% tới Phạm Minh Tuấn!', 'success'); closeAdminModal('modal-customer-detail');">
+          <i class="fas fa-gift"></i> Tặng Voucher VIP
+        </button>
+      </div>
+    </div>
   </div>
 
   <div id="toast-container" class="toast-container"></div>
