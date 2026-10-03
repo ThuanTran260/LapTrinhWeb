@@ -1636,11 +1636,10 @@ button {
   justify-content: space-between;
   padding: 18px 24px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(14, 17, 23, 0.7);
+  background: #141820;
   position: sticky;
   top: 0;
-  z-index: 2;
-  backdrop-filter: blur(8px);
+  z-index: 10;
 }
 
 .admin-modal-title {
@@ -1685,11 +1684,10 @@ button {
   gap: 12px;
   padding: 16px 24px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(14, 17, 23, 0.5);
+  background: #141820;
   position: sticky;
   bottom: 0;
-  z-index: 2;
-  backdrop-filter: blur(8px);
+  z-index: 10;
 }
 
 .admin-form-grid {

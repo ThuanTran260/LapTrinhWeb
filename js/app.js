@@ -389,10 +389,16 @@ document.addEventListener('click', (e) => {
   }
 });
 
+// Variable to track active table row being edited
+let currentEditingRow = null;
+
 // 9a. Product Edit Modal Logic (Đồng bộ tuyệt đối 100%)
-function openProductEditModal(productId) {
+function openProductEditModal(productId, triggerBtn) {
   const modal = document.getElementById('modal-edit-product');
   if (!modal) return;
+
+  const btn = triggerBtn || (window.event && window.event.target ? window.event.target.closest('button') : null);
+  currentEditingRow = btn ? btn.closest('tr') : null;
 
   const nameEl = document.getElementById('edit-prod-name');
   const brandEl = document.getElementById('edit-prod-brand');
@@ -422,7 +428,33 @@ function openProductEditModal(productId) {
 function saveProductEdit(e) {
   if (e && e.preventDefault) e.preventDefault();
   const nameEl = document.getElementById('edit-prod-name');
+  const brandEl = document.getElementById('edit-prod-brand');
+  const priceEl = document.getElementById('edit-prod-price');
+  const volumeEl = document.getElementById('edit-prod-volume');
+  const statusEl = document.getElementById('edit-prod-status');
+
   const name = nameEl ? nameEl.value : 'Monster Energy Original 355ml';
+
+  // Live update the table row in DOM
+  if (currentEditingRow) {
+    const cells = currentEditingRow.cells;
+    if (cells && cells.length >= 6) {
+      if (cells[1]) {
+        const strong = cells[1].querySelector('strong');
+        if (strong) strong.textContent = name;
+        else cells[1].innerHTML = '<strong>' + name + '</strong>';
+      }
+      if (cells[2] && brandEl) cells[2].textContent = brandEl.value;
+      if (cells[3] && volumeEl) cells[3].textContent = volumeEl.value;
+      if (cells[4] && priceEl) cells[4].textContent = priceEl.value;
+      if (cells[5] && statusEl) {
+        const isAvail = statusEl.value === 'Còn hàng';
+        const badgeClass = isAvail ? 'success' : (statusEl.value.includes('Sắp') ? 'warning' : 'danger');
+        cells[5].innerHTML = '<span class="badge-status ' + badgeClass + '">' + statusEl.value.toUpperCase() + '</span>';
+      }
+    }
+  }
+
   showToast('Đã lưu thay đổi thông tin sản phẩm "' + name + '" thành công!', 'success');
   closeAdminModal('modal-edit-product');
 }
@@ -437,7 +469,38 @@ function openAddProductModal() {
 function saveAddProduct(e) {
   if (e && e.preventDefault) e.preventDefault();
   const nameEl = document.getElementById('add-prod-name');
+  const brandEl = document.getElementById('add-prod-brand');
+  const priceEl = document.getElementById('add-prod-price');
+  const volumeEl = document.getElementById('add-prod-volume');
+  const statusEl = document.getElementById('add-prod-status');
+
   const name = (nameEl && nameEl.value) ? nameEl.value : 'Nước Tăng Lực Mới';
+  const brand = (brandEl && brandEl.value) ? brandEl.value : 'Monster Energy';
+  const price = (priceEl && priceEl.value) ? priceEl.value : '48.000đ';
+  const volume = (volumeEl && volumeEl.value) ? volumeEl.value : '355ml';
+  const status = (statusEl && statusEl.value) ? statusEl.value : 'Còn hàng';
+
+  // Live append to table in DOM
+  const tbody = document.querySelector('#inventory-section table.cart-table tbody') || document.querySelector('table.cart-table tbody');
+  if (tbody) {
+    const isAvail = status === 'Còn hàng';
+    const badgeClass = isAvail ? 'success' : 'warning';
+    const newTr = document.createElement('tr');
+    newTr.innerHTML = `
+      <td><img src="../assets/images/monster/original.webp" alt="${name}" style="width: 36px; height: 46px; object-fit: contain;" /></td>
+      <td><strong>${name}</strong></td>
+      <td>${brand}</td>
+      <td>${volume}</td>
+      <td>${price}</td>
+      <td><span class="badge-status ${badgeClass}">${status.toUpperCase()}</span></td>
+      <td>
+        <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" onclick="openProductEditModal('custom', this)" title="Chỉnh sửa sản phẩm"><i class="fas fa-edit"></i></button>
+        <button class="cart-del-btn" style="padding: 4px 8px;" onclick="this.closest('tr').remove(); showToast('Đã xóa sản phẩm khỏi danh sách!', 'info')" title="Xóa"><i class="fas fa-trash"></i></button>
+      </td>
+    `;
+    tbody.prepend(newTr);
+  }
+
   showToast('Đã thêm sản phẩm "' + name + '" vào kho hàng thành công!', 'success');
   closeAdminModal('modal-add-product');
 }
