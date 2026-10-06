@@ -7,6 +7,7 @@
   <meta name="description" content="Nước Tăng Lực Sting Dâu Tây Đỏ Sleek 330ml chính hãng Suntory PepsiCo tại Energy Boost Store. Giao lạnh siêu tốc trong 2H!" />
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="preload" as="image" href="../assets/images/sting/sting-dau.webp" type="image/webp" fetchpriority="high" />
   <link rel="stylesheet" href="../css/style.css" />
 </head>
 <body>
@@ -85,7 +86,7 @@
       <!-- Left Column: Gallery với 1 ảnh Sting Dâu duy nhất -->
       <div class="detail-gallery">
         <div class="detail-main-img-box" style="position: relative; overflow: hidden; background: radial-gradient(circle, rgba(255, 0, 85, 0.18) 0%, rgba(20, 24, 30, 0.7) 65%); border: 1px solid var(--border-glass); border-radius: var(--radius-lg); box-shadow: 0 12px 36px rgba(0, 0, 0, 0.7);">
-          <img id="main-product-image" src="../assets/images/sting/sting-dau.webp" alt="Nước Tăng Lực Sting Dâu Tây Đỏ Sleek 330ml" class="detail-main-img" onerror="this.src='../assets/images/sting/nuoc-tang-luc-sting-dau-sleek-lon-330ml_202509291421449068.webp'" />
+          <img id="main-product-image" src="../assets/images/sting/sting-dau.webp" fetchpriority="high" alt="Nước Tăng Lực Sting Dâu Tây Đỏ Sleek 330ml" class="detail-main-img" onerror="this.src='../assets/images/sting/nuoc-tang-luc-sting-dau-sleek-lon-330ml_202509291421449068.webp'" />
         </div>
         
         <!-- Thumbnail Gallery: Chỉ giữ 1 ảnh của chính lon nước -->
@@ -164,17 +165,19 @@
         </table>
 
         <!-- Actions -->
-        <div class="detail-actions">
+        <div class="detail-actions-row">
           <div class="qty-control">
-            <button class="qty-btn" onclick="decreaseQty()">-</button>
-            <input type="text" id="detail-qty" class="qty-input" value="1" readonly />
-            <button class="qty-btn" onclick="increaseQty()">+</button>
+            <button class="qty-btn" onclick="showToast('Điều chỉnh số lượng', 'info')">-</button>
+            <input type="text" class="qty-input" value="1" readonly />
+            <button class="qty-btn" onclick="showToast('Điều chỉnh số lượng', 'info')">+</button>
           </div>
-          <button class="btn-detail-add" style="background: linear-gradient(135deg, #FF0055 0%, #D60046 100%); box-shadow: 0 4px 20px rgba(255, 0, 85, 0.4);" onclick="addToCartDetail('Sting Dâu Tây Đỏ 330ml')">
-            <i class="fas fa-cart-plus"></i> Thêm Vào Giỏ Hàng
+
+          <button class="btn-detail-add-cart" onclick="showToast('Đã thêm 1 lon Sting Dâu Tây Đỏ 330ml vào giỏ hàng!', 'success')">
+            <i class="fas fa-cart-plus"></i> Thêm Vào Giỏ
           </button>
-          <a href="cart.html" class="btn-detail-buy">
-            <i class="fas fa-bolt"></i> Mua Ngay
+
+          <a href="cart.html" class="btn-detail-buy-now">
+            <i class="fas fa-credit-card"></i> Mua Ngay (Giao 2H)
           </a>
         </div>
 

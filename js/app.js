@@ -668,4 +668,22 @@ function saveStandaloneEdit(e, productName) {
   showToast('Đã lưu thành công các thay đổi cho "' + name + '"!', 'success');
 }
 
+// 12. Dynamic Quantity Control Handler (.qty-control)
+document.addEventListener('click', function(e) {
+  const btn = e.target.closest('.qty-btn');
+  if (!btn) return;
+  const control = btn.closest('.qty-control');
+  if (!control) return;
+  const input = control.querySelector('.qty-input');
+  if (!input) return;
+  let val = parseInt(input.value, 10) || 1;
+  const text = btn.textContent.trim();
+  if (text === '+') {
+    input.value = Math.min(99, val + 1);
+  } else if (text === '-') {
+    input.value = Math.max(1, val - 1);
+  }
+});
+
+
 
