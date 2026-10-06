@@ -157,21 +157,23 @@
               <td>18.000đ</td>
               <td><span class="badge-status success">CÒN HÀNG</span></td>
               <td>
-                <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" onclick="openProductEditModal('redbull-original')" title="Chỉnh sửa sản phẩm"><i class="fas fa-edit"></i></button>
+                <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" onclick="openProductEditModal('redbull-original', this)" title="Chỉnh sửa nhanh qua Modal"><i class="fas fa-edit"></i></button>
+                <a href="edit-redbull-original.html" class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" title="Mở trang chỉnh sửa độc lập"><i class="fas fa-file-pen"></i></a>
                 <button class="cart-del-btn" style="padding: 4px 8px;" onclick="showToast('Mẫu lon không thể xóa trên bản demo', 'warning')"><i class="fas fa-trash"></i></button>
               </td>
             </tr>
 
             <!-- Redbull 2: Thái Lan Nhập Khẩu -->
             <tr>
-              <td><img src="../assets/images/redbull/redbull-thai.jpg" alt="Nước Tăng Lực Redbull Thái Lan 250ml" style="width: 36px; height: 46px; object-fit: contain;" onerror="this.src='../assets/images/redbull/redbull thái.jpg'" /></td>
+              <td><img src="../assets/images/redbull/redbull-thai.webp" alt="Nước Tăng Lực Redbull Thái Lan 250ml" style="width: 36px; height: 46px; object-fit: contain;" onerror="this.src='../assets/images/redbull/redbull-thai.jpg'" /></td>
               <td><strong>Nước Tăng Lực Redbull Thái Lan 250ml</strong><br/><small style="color: var(--text-muted);">Nhập Khẩu Thái Lan</small></td>
               <td>Redbull Thái Lan</td>
               <td>250ml</td>
               <td>18.000đ</td>
               <td><span class="badge-status success">CÒN HÀNG</span></td>
               <td>
-                <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" onclick="openProductEditModal('redbull-thai')" title="Chỉnh sửa sản phẩm"><i class="fas fa-edit"></i></button>
+                <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" onclick="openProductEditModal('redbull-thai', this)" title="Chỉnh sửa nhanh qua Modal"><i class="fas fa-edit"></i></button>
+                <a href="edit-redbull-thai.html" class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" title="Mở trang chỉnh sửa độc lập"><i class="fas fa-file-pen"></i></a>
                 <button class="cart-del-btn" style="padding: 4px 8px;" onclick="showToast('Mẫu lon không thể xóa trên bản demo', 'warning')"><i class="fas fa-trash"></i></button>
               </td>
             </tr>
@@ -185,7 +187,8 @@
               <td>20.000đ</td>
               <td><span class="badge-status success">CÒN HÀNG</span></td>
               <td>
-                <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" onclick="openProductEditModal('redbull-nap-bat')" title="Chỉnh sửa sản phẩm"><i class="fas fa-edit"></i></button>
+                <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" onclick="openProductEditModal('redbull-nap-bat', this)" title="Chỉnh sửa nhanh qua Modal"><i class="fas fa-edit"></i></button>
+                <a href="edit-redbull-lonvua.html" class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" title="Mở trang chỉnh sửa độc lập"><i class="fas fa-file-pen"></i></a>
                 <button class="cart-del-btn" style="padding: 4px 8px;" onclick="showToast('Mẫu lon không thể xóa trên bản demo', 'warning')"><i class="fas fa-trash"></i></button>
               </td>
             </tr>
@@ -252,6 +255,7 @@
           </div>
         </div>
         <div class="admin-modal-footer">
+          <a id="modal-standalone-btn" href="#" class="btn-modal-cancel" style="margin-right: auto; text-decoration: none; display: none; align-items: center; gap: 6px; border-color: rgba(255,204,0,0.4); color: #ffcc00;"><i class="fas fa-external-link-alt"></i> Mở Trang Độc Lập</a>
           <button type="button" class="btn-modal-cancel" onclick="closeAdminModal('modal-edit-product')">Hủy bỏ</button>
           <button type="submit" class="btn-modal-save"><i class="fas fa-save"></i> Lưu Thay Đổi</button>
         </div>

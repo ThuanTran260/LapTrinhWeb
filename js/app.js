@@ -392,13 +392,76 @@ document.addEventListener('click', (e) => {
 // Variable to track active table row being edited
 let currentEditingRow = null;
 
-// 9a. Product Edit Modal Logic (Đồng bộ tuyệt đối 100%)
+// Product Data Registry for Admin Modals and Standalone Pages
+const PRODUCT_DATA_REGISTRY = {
+  'monster-original': {
+    id: 'monster-original',
+    name: 'Monster Energy Original 355ml',
+    brand: 'Monster Energy (Hà Lan)',
+    origin: 'Malaysia',
+    price: '45.000đ',
+    oldPrice: '55.000đ',
+    volume: '355ml',
+    ingredients: 'Nước bão hòa CO2, Sucroza, chiết xuất đường nho, chiết xuất nhân sâm,...',
+    usage: 'Lắc nhẹ trước khi uống, dùng ngay sau khi mở nắp. Ngon hơn khi uống lạnh.',
+    storage: 'Để nơi khô ráo, thoáng mát, tránh ánh sáng trực tiếp hoặc nơi có nhiệt độ cao.',
+    status: 'Còn hàng',
+    editPage: 'inventory.html'
+  },
+  'redbull-original': {
+    id: 'redbull-original',
+    name: 'Nước Tăng Lực Redbull Original 250ml',
+    brand: 'Redbull (Thái Lan / Việt Nam)',
+    origin: 'Thái Lan (Nhượng quyền T.C. Pharmaceutical)',
+    price: '18.000đ',
+    oldPrice: '22.000đ',
+    volume: '250ml',
+    ingredients: 'Nước, đường mía, chất tạo ngọt, Taurine, Caffeine (50mg), Inositol, Cholin Bitartrate, Kẽm, Vitamin B3, B5, B6, B12...',
+    usage: 'Lắc nhẹ trước khi uống, dùng ngay sau khi mở nắp. Ngon hơn khi uống lạnh.',
+    storage: 'Để nơi khô ráo, thoáng mát, tránh ánh sáng trực tiếp hoặc nơi có nhiệt độ cao.',
+    status: 'Còn hàng',
+    editPage: 'edit-redbull-original.html'
+  },
+  'redbull-thai': {
+    id: 'redbull-thai',
+    name: 'Nước Tăng Lực Redbull Thái Lan Nhập Khẩu 250ml',
+    brand: 'Redbull Krating Daeng (T.C. Pharmaceutical)',
+    origin: '100% Nhập Khẩu Nguyên Lon từ Vương Quốc Thái Lan',
+    price: '18.000đ',
+    oldPrice: '22.000đ',
+    volume: '250ml',
+    ingredients: 'Nước khoáng thiên nhiên, Sucrose nguyên chất, Taurine hàm lượng cao 1000mg, Caffeine 50mg, Inositol, Vitamin B3, B6, B12...',
+    usage: 'Uống trực tiếp khi cần tập trung cao độ, thi đấu thể thao hoặc thức khuya. Ướp đá lạnh tuyệt hảo.',
+    storage: 'Bảo quản nhiệt độ phòng hoặc ngăn mát tủ lạnh (4°C - 8°C). Tránh ánh nắng gắt.',
+    status: 'Còn hàng',
+    editPage: 'edit-redbull-thai.html'
+  },
+  'redbull-nap-bat': {
+    id: 'redbull-nap-bat',
+    name: 'Nước Tăng Lực Redbull Nắp Bật 250ml',
+    brand: 'Redbull Energy Drink (Sleek Edition)',
+    origin: 'Thái Lan (Công nghệ Sleek Can quốc tế)',
+    price: '20.000đ',
+    oldPrice: '25.000đ',
+    volume: '250ml',
+    ingredients: 'Nước bão hòa CO2 nhẹ, Đường tinh luyện, Taurine 800mg, Caffeine 80mg, Nhân sâm tự nhiên, Kẽm sinh học, Vitamin B-Complex...',
+    usage: 'Bật nắp lon thưởng thức ngay, thích hợp cho người lái xe đường dài, game thủ và tập gym.',
+    storage: 'Nơi khô ráo, thoáng mát, tránh va đập mạnh hoặc phơi nắng lâu.',
+    status: 'Còn hàng',
+    editPage: 'edit-redbull-lonvua.html'
+  }
+};
+
+// 9a. Product Edit Modal Logic (Đồng bộ từng lon riêng biệt)
 function openProductEditModal(productId, triggerBtn) {
   const modal = document.getElementById('modal-edit-product');
   if (!modal) return;
 
   const btn = triggerBtn || (window.event && window.event.target ? window.event.target.closest('button') : null);
   currentEditingRow = btn ? btn.closest('tr') : null;
+
+  const prodKey = productId || 'monster-original';
+  const data = PRODUCT_DATA_REGISTRY[prodKey] || PRODUCT_DATA_REGISTRY['monster-original'];
 
   const nameEl = document.getElementById('edit-prod-name');
   const brandEl = document.getElementById('edit-prod-brand');
@@ -410,17 +473,27 @@ function openProductEditModal(productId, triggerBtn) {
   const usageEl = document.getElementById('edit-prod-usage');
   const storageEl = document.getElementById('edit-prod-storage');
   const statusEl = document.getElementById('edit-prod-status');
+  const standaloneBtn = document.getElementById('modal-standalone-btn');
 
-  if (nameEl) nameEl.value = 'Monster Energy Original 355ml';
-  if (brandEl) brandEl.value = 'Monster Energy (Hà Lan)';
-  if (originEl) originEl.value = 'Malaysia';
-  if (priceEl) priceEl.value = '45.000đ';
-  if (oldPriceEl) oldPriceEl.value = '55.000đ';
-  if (volumeEl) volumeEl.value = '355ml';
-  if (ingredientsEl) ingredientsEl.value = 'Nước bão hòa CO2, Sucroza, chiết xuất đường nho, chiết xuất nhân sâm,...';
-  if (usageEl) usageEl.value = 'Lắc nhẹ trước khi uống, dùng ngay sau khi mở nắp. Ngon hơn khi uống lạnh.';
-  if (storageEl) storageEl.value = 'Để nơi khô ráo, thoáng mát, tránh ánh sáng trực tiếp hoặc nơi có nhiệt độ cao.';
-  if (statusEl) statusEl.value = 'Còn hàng';
+  if (nameEl) nameEl.value = data.name;
+  if (brandEl) brandEl.value = data.brand;
+  if (originEl) originEl.value = data.origin;
+  if (priceEl) priceEl.value = data.price;
+  if (oldPriceEl) oldPriceEl.value = data.oldPrice;
+  if (volumeEl) volumeEl.value = data.volume;
+  if (ingredientsEl) ingredientsEl.value = data.ingredients;
+  if (usageEl) usageEl.value = data.usage;
+  if (storageEl) storageEl.value = data.storage;
+  if (statusEl) statusEl.value = data.status;
+
+  if (standaloneBtn) {
+    if (data.editPage && data.editPage !== 'inventory.html') {
+      standaloneBtn.style.display = 'inline-flex';
+      standaloneBtn.onclick = () => { window.location.href = data.editPage; };
+    } else {
+      standaloneBtn.style.display = 'none';
+    }
+  }
 
   openAdminModal('modal-edit-product');
 }
@@ -433,7 +506,7 @@ function saveProductEdit(e) {
   const volumeEl = document.getElementById('edit-prod-volume');
   const statusEl = document.getElementById('edit-prod-status');
 
-  const name = nameEl ? nameEl.value : 'Monster Energy Original 355ml';
+  const name = nameEl ? nameEl.value : 'Sản phẩm';
 
   // Live update the table row in DOM
   if (currentEditingRow) {
@@ -516,4 +589,42 @@ function openOrderDetailModal(orderId) {
   // Mở popup chi tiết đơn hàng mẫu #EB-8801
   openAdminModal('modal-order-detail');
 }
+
+// 10. Order History Live Filter Pill Tabs
+function filterOrderList(status, btn) {
+  const group = btn ? btn.closest('.order-filter-group') : null;
+  if (group) {
+    group.querySelectorAll('.filter-pill').forEach(b => {
+      b.classList.remove('active');
+      b.setAttribute('aria-selected', 'false');
+    });
+    btn.classList.add('active');
+    btn.setAttribute('aria-selected', 'true');
+  }
+
+  const rows = document.querySelectorAll('#orders-tbody tr');
+  let count = 0;
+  rows.forEach(row => {
+    const rowStatus = row.getAttribute('data-status');
+    if (status === 'all' || rowStatus === status) {
+      row.style.display = '';
+      count++;
+    } else {
+      row.style.display = 'none';
+    }
+  });
+
+  const msg = status === 'all' 
+    ? 'Đang hiển thị tất cả ' + count + ' đơn hàng' 
+    : (status === 'shipping' ? 'Đang lọc 1 đơn hàng giao hỏa tốc' : 'Đang lọc ' + count + ' đơn hàng đã nhận thành công');
+  showToast(msg, 'info');
+}
+
+// 11. Standalone Admin Product Edit Form Save
+function saveStandaloneEdit(e, productName) {
+  if (e && e.preventDefault) e.preventDefault();
+  const name = productName || 'Sản phẩm Redbull';
+  showToast('Đã lưu thành công các thay đổi cho "' + name + '"!', 'success');
+}
+
 

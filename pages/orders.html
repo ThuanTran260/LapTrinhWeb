@@ -64,10 +64,16 @@
     <div class="admin-section-box">
       <div class="admin-section-header" style="flex-wrap: wrap; gap: 12px;">
         <h2 class="admin-section-title"><i class="fas fa-clock-rotate-left" style="color: var(--primary);"></i> CÁC ĐƠN HÀNG CỦA BẠN (3 ĐƠN)</h2>
-        <div style="display: flex; gap: 8px;">
-          <button class="filter-pill active" onclick="showToast('Hiển thị tất cả đơn hàng', 'info')">Tất Cả (3)</button>
-          <button class="filter-pill" onclick="showToast('Lọc đơn đang giao', 'info')">Đang Giao (1)</button>
-          <button class="filter-pill" onclick="showToast('Lọc đơn hoàn thành', 'info')">Đã Nhận (2)</button>
+        <div class="order-filter-group" role="tablist" aria-label="Bộ lọc trạng thái đơn hàng">
+          <button class="filter-pill active" role="tab" aria-selected="true" onclick="filterOrderList('all', this)">
+            <i class="fas fa-boxes-stacked"></i> Tất Cả <span class="pill-count">3</span>
+          </button>
+          <button class="filter-pill filter-shipping" role="tab" aria-selected="false" onclick="filterOrderList('shipping', this)">
+            <i class="fas fa-truck-fast"></i> Đang Giao <span class="pill-count">1</span>
+          </button>
+          <button class="filter-pill filter-delivered" role="tab" aria-selected="false" onclick="filterOrderList('delivered', this)">
+            <i class="fas fa-circle-check"></i> Đã Nhận <span class="pill-count">2</span>
+          </button>
         </div>
       </div>
 
@@ -82,9 +88,9 @@
             <th>Thao Tác</th>
           </tr>
         </thead>
-        <tbody>
-          <!-- Order 1 -->
-          <tr>
+        <tbody id="orders-tbody">
+          <!-- Order 1: Đang Giao Hỏa Tốc -->
+          <tr data-status="shipping">
             <td><strong style="color: #FFF;">#EB-2026</strong></td>
             <td>03/10/2026<br><span style="font-size: 0.78rem; color: var(--text-dim);">09:30 AM</span></td>
             <td>
@@ -98,16 +104,16 @@
               </div>
             </td>
             <td><strong style="color: var(--primary); font-size: 1.05rem;">126.000đ</strong><br><span style="font-size: 0.75rem; color: var(--text-dim);">COD khi nhận</span></td>
-            <td><span class="badge-status success"><i class="fas fa-truck-fast"></i> ĐÃ GIAO 2H</span></td>
+            <td><span class="badge-status warning"><i class="fas fa-truck-fast"></i> ĐANG GIAO (2H)</span></td>
             <td>
-              <button class="btn-view-detail" style="padding: 6px 12px; font-size: 0.8rem;" onclick="showToast('Đã thêm lại các món của đơn #EB-2026 vào giỏ hàng!', 'success')">
-                <i class="fas fa-cart-plus"></i> Mua Lại
+              <button class="btn-view-detail" style="padding: 6px 12px; font-size: 0.8rem;" onclick="showToast('Đơn #EB-2026 đang được tài xế hỏa tốc giao đến bạn!', 'info')">
+                <i class="fas fa-location-dot"></i> Định Vị
               </button>
             </td>
           </tr>
 
-          <!-- Order 2 -->
-          <tr>
+          <!-- Order 2: Đã Nhận -->
+          <tr data-status="delivered">
             <td><strong style="color: #FFF;">#EB-2025</strong></td>
             <td>28/09/2026<br><span style="font-size: 0.78rem; color: var(--text-dim);">15:45 PM</span></td>
             <td>
@@ -120,7 +126,7 @@
               </div>
             </td>
             <td><strong style="color: var(--primary); font-size: 1.05rem;">918.000đ</strong><br><span style="font-size: 0.75rem; color: var(--text-dim);">Chuyển khoản VietQR</span></td>
-            <td><span class="badge-status success"><i class="fas fa-check-circle"></i> HOÀN THÀNH</span></td>
+            <td><span class="badge-status success"><i class="fas fa-check-circle"></i> ĐÃ NHẬN</span></td>
             <td>
               <button class="btn-view-detail" style="padding: 6px 12px; font-size: 0.8rem;" onclick="showToast('Đã thêm lại Combo 24 lon vào giỏ hàng!', 'success')">
                 <i class="fas fa-cart-plus"></i> Mua Lại
@@ -128,8 +134,8 @@
             </td>
           </tr>
 
-          <!-- Order 3 -->
-          <tr>
+          <!-- Order 3: Đã Nhận -->
+          <tr data-status="delivered">
             <td><strong style="color: #FFF;">#EB-2024</strong></td>
             <td>20/09/2026<br><span style="font-size: 0.78rem; color: var(--text-dim);">11:15 AM</span></td>
             <td>
@@ -142,7 +148,7 @@
               </div>
             </td>
             <td><strong style="color: var(--primary); font-size: 1.05rem;">60.000đ</strong><br><span style="font-size: 0.75rem; color: var(--text-dim);">Ví MoMo</span></td>
-            <td><span class="badge-status success"><i class="fas fa-check-circle"></i> HOÀN THÀNH</span></td>
+            <td><span class="badge-status success"><i class="fas fa-check-circle"></i> ĐÃ NHẬN</span></td>
             <td>
               <button class="btn-view-detail" style="padding: 6px 12px; font-size: 0.8rem;" onclick="showToast('Đã thêm lại Redbull nắp bật vào giỏ hàng!', 'success')">
                 <i class="fas fa-cart-plus"></i> Mua Lại

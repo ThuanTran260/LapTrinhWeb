@@ -3888,3 +3888,156 @@ button {
   .combo-title { font-size: 1.6rem; }
 }
 
+/* ==========================================================================
+   Order History Filter Pills (Dark Neon Glassmorphism)
+   ========================================================================== */
+.order-filter-group {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.filter-pill {
+  padding: 8px 18px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  font-family: var(--font-body);
+  background: rgba(255, 255, 255, 0.05);
+  color: #94A3B8;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  user-select: none;
+  text-decoration: none;
+}
+
+.filter-pill:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #FFFFFF;
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+}
+
+.filter-pill:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.filter-pill.active {
+  background: linear-gradient(135deg, rgba(57, 255, 20, 0.2), rgba(0, 229, 255, 0.12));
+  color: var(--primary);
+  border-color: var(--primary);
+  box-shadow: 0 0 16px rgba(57, 255, 20, 0.28);
+}
+
+.filter-pill.active.filter-shipping {
+  background: linear-gradient(135deg, rgba(255, 184, 0, 0.2), rgba(255, 107, 0, 0.15));
+  color: #FFB800;
+  border-color: #FFB800;
+  box-shadow: 0 0 16px rgba(255, 184, 0, 0.28);
+}
+
+.filter-pill.active.filter-delivered {
+  background: linear-gradient(135deg, rgba(0, 229, 255, 0.2), rgba(16, 185, 129, 0.15));
+  color: var(--accent-cyan);
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 16px rgba(0, 229, 255, 0.28);
+}
+
+.filter-pill .pill-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: inherit;
+}
+
+.filter-pill.active .pill-count {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+/* Clickable product elements */
+.product-img-wrapper {
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.product-img-wrapper:hover {
+  transform: translateY(-4px) scale(1.03);
+}
+
+.product-title-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+.product-title-link:hover .product-title {
+  color: var(--primary);
+}
+
+/* Standalone Admin Edit Page Styling */
+.admin-standalone-edit-page {
+  padding: 30px 0 60px;
+}
+.admin-edit-layout {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 28px;
+  align-items: start;
+}
+@media (max-width: 992px) {
+  .admin-edit-layout {
+    grid-template-columns: 1fr;
+  }
+}
+.admin-edit-preview-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-glass);
+  text-align: center;
+  position: sticky;
+  top: 100px;
+}
+.admin-edit-preview-img {
+  width: 100%;
+  max-width: 220px;
+  height: 280px;
+  object-fit: contain;
+  margin: 0 auto 18px;
+  filter: drop-shadow(0 12px 24px rgba(0,0,0,0.6));
+  transition: transform 0.3s ease;
+}
+.admin-edit-preview-img:hover {
+  transform: scale(1.04);
+}
+.admin-edit-form-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  box-shadow: var(--shadow-glass);
+}
+.admin-edit-top-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+
