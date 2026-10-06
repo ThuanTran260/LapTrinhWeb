@@ -454,6 +454,48 @@ const PRODUCT_DATA_REGISTRY = {
     storage: 'Nơi khô ráo, thoáng mát, tránh va đập mạnh hoặc phơi nắng lâu.',
     status: 'Còn hàng',
     editPage: 'edit-redbull-lonvua.html'
+  },
+  'sting-dau': {
+    id: 'sting-dau',
+    name: 'Nước Tăng Lực Sting Dâu Tây Đỏ Sleek 330ml',
+    brand: 'Sting (Suntory PepsiCo)',
+    origin: 'Việt Nam',
+    price: '12.000đ',
+    oldPrice: '15.000đ',
+    volume: '330ml',
+    ingredients: 'Nước bão hòa CO2, đường mía, chất điều chỉnh độ acid, nhân sâm, Taurine, Caffeine, Inositol, Vitamin B3, B6, B12, phẩm màu tổng hợp...',
+    usage: 'Dùng trực tiếp, ngon hơn khi uống lạnh. Lắc nhẹ trước khi mở nắp.',
+    storage: 'Để nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp hoặc nơi có nhiệt độ cao.',
+    status: 'Còn hàng',
+    editPage: 'inventory.html'
+  },
+  'sting-gold': {
+    id: 'sting-gold',
+    name: 'Nước Tăng Lực Sting Vàng Nhân Sâm Sleek 330ml',
+    brand: 'Sting (Suntory PepsiCo)',
+    origin: 'Việt Nam',
+    price: '12.000đ',
+    oldPrice: '15.000đ',
+    volume: '330ml',
+    ingredients: 'Nước bão hòa CO2, đường mía, chiết xuất nhân sâm tự nhiên, Taurine, Caffeine, Inositol, Vitamin B3, B6, B12...',
+    usage: 'Dùng trực tiếp, ngon hơn khi uống lạnh. Lắc nhẹ trước khi mở nắp.',
+    storage: 'Để nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp hoặc nơi có nhiệt độ cao.',
+    status: 'Còn hàng',
+    editPage: 'inventory.html'
+  },
+  'sting-blue': {
+    id: 'sting-blue',
+    name: 'Nước Tăng Lực Sting Blue Sleek Hương Việt Quất 320ml',
+    brand: 'Sting (Suntory PepsiCo)',
+    origin: 'Việt Nam',
+    price: '13.000đ',
+    oldPrice: '16.000đ',
+    volume: '320ml',
+    ingredients: 'Nước bão hòa CO2, đường mía, hương việt quất tự nhiên và tổng hợp, Taurine, Caffeine, Inositol, Vitamin B3, B6, B12...',
+    usage: 'Dùng trực tiếp, ngon hơn khi uống lạnh. Lắc nhẹ trước khi mở nắp.',
+    storage: 'Để nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp hoặc nơi có nhiệt độ cao.',
+    status: 'Còn hàng',
+    editPage: 'inventory.html'
   }
 };
 
