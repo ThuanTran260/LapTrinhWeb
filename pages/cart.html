@@ -207,13 +207,13 @@
             <i class="fas fa-location-dot" style="color: var(--primary);"></i> ĐỊA CHỈ NHẬN HÀNG HỎA TỐC 2H
           </div>
           <div class="form-group" style="margin-bottom: 10px;">
-            <input type="text" id="checkout-name" class="form-control" placeholder="Họ và tên người nhận..." value="Thuận Trần" />
+            <input type="text" id="checkout-name" name="fullname" class="form-control" placeholder="Họ và tên người nhận..." value="Thuận Trần" aria-label="Họ và tên người nhận hàng" autocomplete="name" required />
           </div>
           <div class="form-group" style="margin-bottom: 10px;">
-            <input type="tel" id="checkout-phone" class="form-control" placeholder="Số điện thoại nhận hàng..." value="0912.888.999" />
+            <input type="tel" id="checkout-phone" name="phone" class="form-control" placeholder="Số điện thoại nhận hàng..." value="0912.888.999" aria-label="Số điện thoại nhận hàng" autocomplete="tel" required />
           </div>
           <div class="form-group" style="margin-bottom: 14px;">
-            <input type="text" id="checkout-address" class="form-control" placeholder="Địa chỉ giao hàng (Số nhà, tên đường, quận)..." value="88 Nguyễn Huệ, Bến Nghé, Quận 1, TP.HCM" />
+            <input type="text" id="checkout-address" name="address" class="form-control" placeholder="Địa chỉ giao hàng (Số nhà, tên đường, quận)..." value="88 Nguyễn Huệ, Bến Nghé, Quận 1, TP.HCM" aria-label="Địa chỉ giao hàng" autocomplete="street-address" required />
           </div>
 
           <div style="font-size: 0.85rem; font-weight: 700; color: #FFF; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">

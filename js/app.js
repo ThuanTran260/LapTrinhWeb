@@ -175,13 +175,13 @@ document.addEventListener('keydown', (e) => {
 
 // 5. Checkout Logic - Validate & Pass Data via URLSearchParams
 function processCheckout() {
-  const nameEl = document.getElementById('order-fullname');
-  const phoneEl = document.getElementById('order-phone');
-  const addrEl = document.getElementById('order-address');
-  const notesEl = document.getElementById('order-notes');
+  const nameEl = document.getElementById('checkout-name') || document.getElementById('order-fullname');
+  const phoneEl = document.getElementById('checkout-phone') || document.getElementById('order-phone');
+  const addrEl = document.getElementById('checkout-address') || document.getElementById('order-address');
+  const notesEl = document.getElementById('checkout-notes') || document.getElementById('order-notes');
 
   const name = (nameEl ? nameEl.value : '').trim();
-  const phone = (phoneEl ? phoneEl.value : '').trim();
+  let phone = (phoneEl ? phoneEl.value : '').trim();
   const address = (addrEl ? addrEl.value : '').trim();
   const notes = (notesEl ? notesEl.value : '').trim();
 
@@ -192,10 +192,11 @@ function processCheckout() {
     return;
   }
 
-  // Validate Số điện thoại chuẩn Việt Nam: 10 chữ số bắt đầu bằng 0
+  // Normalize & Validate Số điện thoại chuẩn Việt Nam: 10 chữ số bắt đầu bằng 0 (hỗ trợ dấu chấm, khoảng trắng, gạch nối)
+  const cleanPhone = phone.replace(/[\s.-]/g, '');
   const phoneRegex = /^0\d{9}$/;
-  if (!phoneRegex.test(phone)) {
-    showToast('Số điện thoại không hợp lệ! Vui lòng nhập đúng 10 chữ số bắt đầu bằng 0 (VD: 0912345678).', 'warning');
+  if (!phoneRegex.test(cleanPhone)) {
+    showToast('Số điện thoại không hợp lệ! Vui lòng nhập đúng 10 chữ số bắt đầu bằng 0 (VD: 0912.888.999 hoặc 0912345678).', 'warning');
     if (phoneEl) phoneEl.focus();
     return;
   }
@@ -215,6 +216,10 @@ function processCheckout() {
   }
   const method = methodRadio.value;
 
+  // Lấy tổng tiền động từ giao diện giỏ hàng
+  const totalEl = document.querySelector('.summary-line.total span:last-child');
+  const amount = totalEl ? totalEl.textContent.trim() : '216.000đ';
+
   // Sinh mã đơn hàng động duy nhất
   const orderId = 'ME-' + Date.now().toString().slice(-4);
 
@@ -222,12 +227,12 @@ function processCheckout() {
   const params = new URLSearchParams({
     order: orderId,
     name: name,
-    phone: phone,
+    phone: cleanPhone,
     address: address,
     notes: notes,
     method: method,
-    amount: '210.600đ',
-    items: '5'
+    amount: amount,
+    items: '7'
   });
 
   showToast('Thông tin hợp lệ! Đang khởi tạo đơn hàng ' + orderId + '...', 'info');
@@ -590,7 +595,7 @@ function openOrderDetailModal(orderId) {
   openAdminModal('modal-order-detail');
 }
 
-// 10. Order History Live Filter Pill Tabs
+// 10. Order History Live Filter Pill Tabs (Vô hiệu hóa ẩn dòng, giữ trạng thái active & thông báo Toast)
 function filterOrderList(status, btn) {
   const group = btn ? btn.closest('.order-filter-group') : null;
   if (group) {
@@ -602,21 +607,15 @@ function filterOrderList(status, btn) {
     btn.setAttribute('aria-selected', 'true');
   }
 
+  // Vô hiệu hóa việc ẩn dòng đơn hàng (luôn giữ hiển thị toàn bộ 3 đơn hàng)
   const rows = document.querySelectorAll('#orders-tbody tr');
-  let count = 0;
   rows.forEach(row => {
-    const rowStatus = row.getAttribute('data-status');
-    if (status === 'all' || rowStatus === status) {
-      row.style.display = '';
-      count++;
-    } else {
-      row.style.display = 'none';
-    }
+    row.style.display = '';
   });
 
   const msg = status === 'all' 
-    ? 'Đang hiển thị tất cả ' + count + ' đơn hàng' 
-    : (status === 'shipping' ? 'Đang lọc 1 đơn hàng giao hỏa tốc' : 'Đang lọc ' + count + ' đơn hàng đã nhận thành công');
+    ? 'Đang hiển thị tất cả 3 đơn hàng' 
+    : (status === 'shipping' ? 'Đang lọc 1 đơn hàng giao hỏa tốc (#EB-2026)' : 'Đang lọc 2 đơn hàng đã nhận thành công (#EB-2025, #EB-2024)');
   showToast(msg, 'info');
 }
 
