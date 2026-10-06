@@ -625,9 +625,145 @@ function saveAddProduct(e) {
   closeAdminModal('modal-add-product');
 }
 
-// 9c. Customer VIP Detail Modal Logic
-function openCustomerDetailModal(customerName) {
-  // Dù bấm Tuấn hay An hay Bích,... đều mở chi tiết hồ sơ VIP của Phạm Minh Tuấn
+// 9c. Customer VIP Detail Modal Logic & Registry
+const CUSTOMER_DATA_REGISTRY = {
+  'tuan': {
+    name: 'Phạm Minh Tuấn',
+    initials: 'PT',
+    phone: '0977 888 999',
+    email: 'minhtuan.pham@gmail.com',
+    tier: 'HẠNG KIM CƯƠNG',
+    tierClass: 'vip-badge-diamond',
+    tierIcon: 'fa-gem',
+    points: '3.120',
+    spent: '15.200.000đ',
+    ordersCount: '18 Đơn',
+    address: '88 Nguyễn Huệ, P. Bến Nghé, Quận 1, TP.HCM',
+    latestOrder: '#EB-8804 (1 Thùng 24 Lon Mix - 918.000đ)',
+    joinDate: '15/01/2024',
+    privileges: 'Miễn phí ship hỏa tốc + Chiết khấu 10%'
+  },
+  'an': {
+    name: 'Nguyễn Văn An',
+    initials: 'NA',
+    phone: '0912 345 678',
+    email: 'vanan.nguyen@gmail.com',
+    tier: 'HẠNG KIM CƯƠNG',
+    tierClass: 'vip-badge-diamond',
+    tierIcon: 'fa-gem',
+    points: '2.450',
+    spent: '12.400.000đ',
+    ordersCount: '15 Đơn',
+    address: '45 Lê Duẩn, P. Bến Nghé, Quận 1, TP.HCM',
+    latestOrder: '#EB-8801 (2x Monster, 2x Redbull - 126.000đ)',
+    joinDate: '20/02/2024',
+    privileges: 'Miễn phí ship hỏa tốc + Chiết khấu 10%'
+  },
+  'bich': {
+    name: 'Trần Thị Bích',
+    initials: 'TB',
+    phone: '0988 765 432',
+    email: 'bich.tran@gmail.com',
+    tier: 'HẠNG VÀNG',
+    tierClass: 'vip-badge-gold',
+    tierIcon: 'fa-crown',
+    points: '1.980',
+    spent: '9.600.000đ',
+    ordersCount: '11 Đơn',
+    address: '120 Hai Bà Trưng, P. Đa Kao, Quận 1, TP.HCM',
+    latestOrder: '#EB-8802 (4x Ultra White, 3x Redbull - 246.000đ)',
+    joinDate: '10/04/2024',
+    privileges: 'Chiết khấu 7% toàn bộ đơn hàng'
+  },
+  'nam': {
+    name: 'Lê Hoàng Nam',
+    initials: 'LN',
+    phone: '0903 111 222',
+    email: 'nam.lehoang@gmail.com',
+    tier: 'HẠNG VÀNG',
+    tierClass: 'vip-badge-gold',
+    tierIcon: 'fa-crown',
+    points: '1.540',
+    spent: '7.800.000đ',
+    ordersCount: '9 Đơn',
+    address: '25 Lý Tự Trọng, P. Bến Nghé, Quận 1, TP.HCM',
+    latestOrder: '#EB-8803 (2x Redbull Nắp Bật - 40.000đ)',
+    joinDate: '05/06/2024',
+    privileges: 'Chiết khấu 7% toàn bộ đơn hàng'
+  },
+  'my': {
+    name: 'Vũ Thảo My',
+    initials: 'VM',
+    phone: '0934 555 666',
+    email: 'thaomy.vu@gmail.com',
+    tier: 'HẠNG BẠC',
+    tierClass: 'vip-badge-silver',
+    tierIcon: 'fa-medal',
+    points: '1.120',
+    spent: '5.400.000đ',
+    ordersCount: '6 Đơn',
+    address: '15 Nam Kỳ Khởi Nghĩa, Quận 1, TP.HCM',
+    latestOrder: '#EB-8805 (3x Ultra Paradise, 3x Redbull - 198.000đ)',
+    joinDate: '12/08/2024',
+    privileges: 'Tích điểm đổi quà VIP độc quyền'
+  },
+  'long': {
+    name: 'Hoàng Đức Long',
+    initials: 'HL',
+    phone: '0938 222 111',
+    email: 'duclong.hoang@gmail.com',
+    tier: 'HẠNG BẠC',
+    tierClass: 'vip-badge-silver',
+    tierIcon: 'fa-medal',
+    points: '860',
+    spent: '4.100.000đ',
+    ordersCount: '5 Đơn',
+    address: '77 Điện Biên Phủ, P. Đa Kao, Quận 1, TP.HCM',
+    latestOrder: '#EB-8806 (2x Sting Dâu Tây Đỏ - 24.000đ)',
+    joinDate: '28/08/2024',
+    privileges: 'Tích điểm đổi quà VIP độc quyền'
+  }
+};
+
+function openCustomerDetailModal(customerKey) {
+  const data = CUSTOMER_DATA_REGISTRY[customerKey] || CUSTOMER_DATA_REGISTRY['tuan'];
+  
+  const elAvatar = document.getElementById('vip-modal-avatar');
+  const elName = document.getElementById('vip-modal-name');
+  const elBadge = document.getElementById('vip-modal-badge');
+  const elPoints = document.getElementById('vip-modal-points');
+  const elSpent = document.getElementById('vip-modal-spent');
+  const elOrders = document.getElementById('vip-modal-orders');
+  const elPhone = document.getElementById('vip-modal-phone');
+  const elEmail = document.getElementById('vip-modal-email');
+  const elAddress = document.getElementById('vip-modal-address');
+  const elLatest = document.getElementById('vip-modal-latest-order');
+  const elJoin = document.getElementById('vip-modal-joindate');
+  const elPrivilege = document.getElementById('vip-modal-privilege');
+  const elBtn = document.getElementById('vip-modal-gift-btn');
+
+  if (elAvatar) elAvatar.textContent = data.initials;
+  if (elName) elName.textContent = data.name;
+  if (elBadge) {
+    elBadge.className = data.tierClass;
+    elBadge.innerHTML = `<i class="fas ${data.tierIcon}"></i> ${data.tier}`;
+  }
+  if (elPoints) elPoints.textContent = data.points;
+  if (elSpent) elSpent.textContent = data.spent;
+  if (elOrders) elOrders.textContent = data.ordersCount;
+  if (elPhone) elPhone.textContent = data.phone;
+  if (elEmail) elEmail.textContent = data.email;
+  if (elAddress) elAddress.textContent = data.address;
+  if (elLatest) elLatest.textContent = data.latestOrder;
+  if (elJoin) elJoin.textContent = data.joinDate;
+  if (elPrivilege) elPrivilege.textContent = data.privileges;
+  if (elBtn) {
+    elBtn.onclick = function() {
+      showToast('Đã gửi voucher tri ân VIP tới ' + data.name + '!', 'success');
+      closeAdminModal('modal-customer-detail');
+    };
+  }
+
   openAdminModal('modal-customer-detail');
 }
 

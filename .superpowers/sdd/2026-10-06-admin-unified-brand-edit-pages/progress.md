@@ -6,4 +6,4 @@
 - Task 3: complete (added auto-redirects to edit-redbull-thai.html and edit-redbull-lonvua.html)
 - Task 4: complete (synchronized action buttons in admin/inventory.html, 2 buttons per row, verified 66/66 checks)
 - Task 5: complete (synchronized action buttons in admin/index.html, 2 buttons per row, verified 66/66 checks)
-- Task 6: Kiểm Thử Toàn Diện & Git Commit Cục Bộ
+- Task 6: complete (verified 66/66 tests pass, committed 13f7e2b, working tree clean)
