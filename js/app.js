@@ -250,7 +250,7 @@ function processCheckout() {
 function initPaymentGateway() {
   const params = new URLSearchParams(window.location.search);
   const orderId = params.get('order') || ('ME-' + Date.now().toString().slice(-4));
-  const amount = params.get('amount') || '210.600đ';
+  const amount = params.get('amount') || '216.000đ';
   const method = params.get('method') || 'vietqr';
 
   const orderEl = document.getElementById('gateway-order-id');
@@ -305,8 +305,9 @@ function initPaymentGateway() {
 function confirmMockPayment() {
   const params = new URLSearchParams(window.location.search);
   const orderId = params.get('order') || 'ME-8809';
+  const payAmount = params.get('amount') || '216.000đ';
 
-  showToast('Xác nhận đã nhận 210.600đ thành công cho đơn hàng ' + orderId + '! Đang hoàn tất...', 'success');
+  showToast('Xác nhận đã nhận ' + payAmount + ' thành công cho đơn hàng ' + orderId + '! Đang hoàn tất...', 'success');
   setTimeout(() => {
     window.location.href = SITE_ROOT + 'pages/order-success.html?' + params.toString();
   }, 900);
@@ -320,7 +321,7 @@ function initOrderSuccess() {
   const phone = params.get('phone') || '0912345678';
   const address = params.get('address') || '123 Lê Lợi, Phường Bến Nghé, Quận 1, TP.HCM';
   const method = params.get('method') || 'vietqr';
-  const amount = params.get('amount') || '210.600đ';
+  const amount = params.get('amount') || '216.000đ';
 
   const orderEl = document.getElementById('success-order-id');
   const nameEl = document.getElementById('success-name');

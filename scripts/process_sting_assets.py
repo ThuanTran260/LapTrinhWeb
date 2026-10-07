@@ -2,7 +2,7 @@ import os
 from PIL import Image, ImageDraw
 
 def process_sting_images():
-    base_dir = r"d:\LapTrinhWeb\assets\images\sting"
+    base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "assets", "images", "sting"))
     
     image_tasks = [
         {
