@@ -76,7 +76,46 @@
       <section class="admin-section-box">
         <div class="admin-section-header">
           <h2 class="admin-section-title"><i class="fas fa-boxes-stacked" style="color: var(--primary);"></i> QUẢN LÝ KHO SẢN PHẨM ENERGY BOOST (TĨNH)</h2>
-          <span style="font-size: 0.85rem; color: var(--text-muted);">Phân nhóm: Monster Energy, Redbull & Sting PepsiCo</span>
+        </div>
+
+        <!-- Admin Inventory Filter Bar (Rubric 2.3 & 2.4: Phân loại / Tồn kho / Tìm kiếm) -->
+        <div class="admin-filter-bar">
+          <div class="admin-filter-groups">
+            <div class="admin-filter-group">
+              <label class="admin-filter-label"><i class="fas fa-tags" style="color: var(--primary);"></i> Phân loại:</label>
+              <select id="filter-inv-brand" class="admin-filter-select">
+                <option value="all">Tất cả thương hiệu (10 sản phẩm)</option>
+                <option value="monster">Monster Energy (4 dòng)</option>
+                <option value="redbull">Redbull Thái Lan (3 dòng)</option>
+                <option value="sting">Sting PepsiCo (3 dòng)</option>
+              </select>
+            </div>
+
+            <div class="admin-filter-group">
+              <label class="admin-filter-label"><i class="fas fa-boxes-stacked" style="color: var(--secondary);"></i> Tình trạng kho:</label>
+              <select id="filter-inv-stock" class="admin-filter-select">
+                <option value="all">Tất cả trạng thái</option>
+                <option value="instock" selected>CÒN HÀNG (Sẵn sàng xuất)</option>
+                <option value="lowstock">SẮP HẾT HÀNG</option>
+              </select>
+            </div>
+
+            <div class="admin-filter-group">
+              <div class="admin-filter-search">
+                <i class="fas fa-search"></i>
+                <input type="text" id="filter-inv-keyword" class="admin-filter-input" placeholder="Tên sản phẩm, SKU..." />
+              </div>
+            </div>
+          </div>
+
+          <div class="admin-filter-actions">
+            <button type="button" class="btn-filter-apply" onclick="applyAdminInventoryFilter()">
+              <i class="fas fa-filter"></i> Lọc Kho Hàng
+            </button>
+            <button type="button" class="btn-filter-reset" onclick="resetAdminInventoryFilter()">
+              <i class="fas fa-rotate-left"></i> Đặt Lại
+            </button>
+          </div>
         </div>
 
         <table class="cart-table">
@@ -102,7 +141,7 @@
               <td><span class="badge-status success">CÒN HÀNG</span></td>
               <td>
                 <a href="edit-monster.html" class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" title="Chỉnh sửa sản phẩm"><i class="fas fa-edit"></i></a>
-                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="showToast('Mẫu lon không thể xóa trên bản demo', 'warning')"><i class="fas fa-trash"></i></button>
+                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="handleAdminDeleteProduct('Monster Energy Original 355ml', true)"><i class="fas fa-trash"></i></button>
               </td>
             </tr>
 
@@ -116,7 +155,7 @@
               <td><span class="badge-status success">CÒN HÀNG</span></td>
               <td>
                 <a href="edit-monster.html" class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" title="Chỉnh sửa sản phẩm"><i class="fas fa-edit"></i></a>
-                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="showToast('Mẫu lon không thể xóa trên bản demo', 'warning')"><i class="fas fa-trash"></i></button>
+                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="handleAdminDeleteProduct('Monster Zero Ultra White 500ml', true)"><i class="fas fa-trash"></i></button>
               </td>
             </tr>
 
@@ -130,7 +169,7 @@
               <td><span class="badge-status success">CÒN HÀNG</span></td>
               <td>
                 <a href="edit-monster.html" class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" title="Chỉnh sửa sản phẩm"><i class="fas fa-edit"></i></a>
-                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="showToast('Mẫu lon không thể xóa trên bản demo', 'warning')"><i class="fas fa-trash"></i></button>
+                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="handleAdminDeleteProduct('Monster Ultra Paradise 500ml', true)"><i class="fas fa-trash"></i></button>
               </td>
             </tr>
 
@@ -144,7 +183,7 @@
               <td><span class="badge-status success">CÒN HÀNG</span></td>
               <td>
                 <a href="edit-monster.html" class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" title="Chỉnh sửa sản phẩm"><i class="fas fa-edit"></i></a>
-                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="showToast('Mẫu lon không thể xóa trên bản demo', 'warning')"><i class="fas fa-trash"></i></button>
+                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="handleAdminDeleteProduct('Monster Ultra Punk Punch 500ml', true)"><i class="fas fa-trash"></i></button>
               </td>
             </tr>
 
@@ -158,7 +197,7 @@
               <td><span class="badge-status success">CÒN HÀNG</span></td>
               <td>
                 <a href="edit-redbull-original.html" class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" title="Chỉnh sửa sản phẩm"><i class="fas fa-edit"></i></a>
-                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="showToast('Mẫu lon không thể xóa trên bản demo', 'warning')"><i class="fas fa-trash"></i></button>
+                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="handleAdminDeleteProduct('Nước Tăng Lực Redbull Original 250ml', true)"><i class="fas fa-trash"></i></button>
               </td>
             </tr>
 
@@ -172,7 +211,7 @@
               <td><span class="badge-status success">CÒN HÀNG</span></td>
               <td>
                 <a href="edit-redbull-original.html" class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" title="Chỉnh sửa sản phẩm"><i class="fas fa-edit"></i></a>
-                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="showToast('Mẫu lon không thể xóa trên bản demo', 'warning')"><i class="fas fa-trash"></i></button>
+                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="handleAdminDeleteProduct('Nước Tăng Lực Redbull Thái Lan 250ml', true)"><i class="fas fa-trash"></i></button>
               </td>
             </tr>
 
@@ -186,7 +225,7 @@
               <td><span class="badge-status success">CÒN HÀNG</span></td>
               <td>
                 <a href="edit-redbull-original.html" class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" title="Chỉnh sửa sản phẩm"><i class="fas fa-edit"></i></a>
-                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="showToast('Mẫu lon không thể xóa trên bản demo', 'warning')"><i class="fas fa-trash"></i></button>
+                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="handleAdminDeleteProduct('Nước Tăng Lực Redbull Nắp Bật 250ml', true)"><i class="fas fa-trash"></i></button>
               </td>
             </tr>
 
@@ -200,7 +239,7 @@
               <td><span class="badge-status success">CÒN HÀNG</span></td>
               <td>
                 <a href="edit-sting.html" class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" title="Chỉnh sửa sản phẩm"><i class="fas fa-edit"></i></a>
-                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="showToast('Mẫu lon không thể xóa trên bản demo', 'warning')"><i class="fas fa-trash"></i></button>
+                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="handleAdminDeleteProduct('Nước Tăng Lực Sting Dâu Tây Đỏ 330ml', true)"><i class="fas fa-trash"></i></button>
               </td>
             </tr>
 
@@ -214,7 +253,7 @@
               <td><span class="badge-status success">CÒN HÀNG</span></td>
               <td>
                 <a href="edit-sting.html" class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" title="Chỉnh sửa sản phẩm"><i class="fas fa-edit"></i></a>
-                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="showToast('Mẫu lon không thể xóa trên bản demo', 'warning')"><i class="fas fa-trash"></i></button>
+                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="handleAdminDeleteProduct('Nước Tăng Lực Sting Vàng Sleek 330ml', true)"><i class="fas fa-trash"></i></button>
               </td>
             </tr>
 
@@ -228,7 +267,7 @@
               <td><span class="badge-status success">CÒN HÀNG</span></td>
               <td>
                 <a href="edit-sting.html" class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" title="Chỉnh sửa sản phẩm"><i class="fas fa-edit"></i></a>
-                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="showToast('Mẫu lon không thể xóa trên bản demo', 'warning')"><i class="fas fa-trash"></i></button>
+                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="handleAdminDeleteProduct('Nước Tăng Lực Sting Blue Sleek 320ml', true)"><i class="fas fa-trash"></i></button>
               </td>
             </tr>
           </tbody>

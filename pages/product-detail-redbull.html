@@ -41,8 +41,85 @@
 
         <div class="search-box">
           <div class="search-input-group">
-            <input type="text" class="search-input" placeholder="Tìm kiếm sản phẩm Redbull, Monster..." />
-            <button class="search-btn" onclick="showToast('Đang tìm kiếm...', 'info')"><i class="fas fa-search"></i></button>
+            <input type="text" class="search-input" placeholder="Tìm kiếm Redbull, Monster, Sting..." autocomplete="off" onfocus="openSearchDropdown()" onclick="openSearchDropdown()" />
+            <button class="search-btn" type="button" onclick="toggleSearchDropdown()" title="Tìm kiếm"><i class="fas fa-search"></i></button>
+          </div>
+
+          <!-- Static Search Dropdown Menu -->
+          <div id="search-dropdown-menu" class="search-results-dropdown">
+            <div class="search-dropdown-header">
+              <span><i class="fas fa-fire" style="color: var(--secondary);"></i> SẢN PHẨM PHỔ BIẾN</span>
+              <span style="font-size: 0.72rem; color: var(--text-dim);">5 sản phẩm hot</span>
+            </div>
+            <div class="search-quick-tags">
+              <a href="product-detail-redbull.html" class="search-quick-tag">#RedbullThai</a>
+              <a href="product-detail.html" class="search-quick-tag">#MonsterOriginal</a>
+              <a href="product-detail-sting.html" class="search-quick-tag">#StingDau</a>
+              <a href="product-detail.html" class="search-quick-tag">#UltraWhite</a>
+              <a href="../index.html#combo-section" class="search-quick-tag">#Combo24Lon</a>
+            </div>
+            <div class="search-static-list">
+              <a href="product-detail-redbull.html" class="search-static-item">
+                <div class="search-item-left">
+                  <img src="../assets/images/redbull/redbull-original.webp" alt="Redbull Original" class="search-item-thumb" />
+                  <div class="search-item-info">
+                    <h5>Nước Tăng Lực Redbull Original 250ml</h5>
+                    <span class="brand-badge redbull">Redbull Thái Lan</span>
+                  </div>
+                </div>
+                <div class="search-item-right">
+                  <span class="search-item-price">18.000đ</span>
+                </div>
+              </a>
+              <a href="product-detail.html" class="search-static-item">
+                <div class="search-item-left">
+                  <img src="../assets/images/monster/original.webp" alt="Monster Original" class="search-item-thumb" />
+                  <div class="search-item-info">
+                    <h5>Monster Energy Original 355ml</h5>
+                    <span class="brand-badge monster">Monster Energy</span>
+                  </div>
+                </div>
+                <div class="search-item-right">
+                  <span class="search-item-price">45.000đ</span>
+                </div>
+              </a>
+              <a href="product-detail-sting.html" class="search-static-item">
+                <div class="search-item-left">
+                  <img src="../assets/images/sting/sting-dau.webp" alt="Sting Dâu Đỏ" class="search-item-thumb" />
+                  <div class="search-item-info">
+                    <h5>Nước Tăng Lực Sting Dâu Tây Đỏ 330ml</h5>
+                    <span class="brand-badge sting">Sting PepsiCo</span>
+                  </div>
+                </div>
+                <div class="search-item-right">
+                  <span class="search-item-price">12.000đ</span>
+                </div>
+              </a>
+              <a href="product-detail.html" class="search-static-item">
+                <div class="search-item-left">
+                  <img src="../assets/images/monster/ultra-white.webp" alt="Monster Ultra White" class="search-item-thumb" />
+                  <div class="search-item-info">
+                    <h5>Monster Energy Ultra White 355ml</h5>
+                    <span class="brand-badge monster">Monster Zero Sugar</span>
+                  </div>
+                </div>
+                <div class="search-item-right">
+                  <span class="search-item-price">48.000đ</span>
+                </div>
+              </a>
+              <a href="../index.html#combo-section" class="search-static-item">
+                <div class="search-item-left">
+                  <img src="../assets/images/monster/original.webp" alt="Combo 24 Lon" class="search-item-thumb" />
+                  <div class="search-item-info">
+                    <h5>Combo Thùng 24 Lon Monster & Redbull</h5>
+                    <span class="brand-badge combo">Combo Tiết Kiệm</span>
+                  </div>
+                </div>
+                <div class="search-item-right">
+                  <span class="search-item-price">918.000đ</span>
+                </div>
+              </a>
+            </div>
           </div>
         </div>
 

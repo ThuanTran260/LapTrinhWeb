@@ -72,7 +72,55 @@
       <section class="admin-section-box">
         <div class="admin-section-header">
           <h2 class="admin-section-title"><i class="fas fa-receipt" style="color: var(--secondary);"></i> DANH SÁCH ĐƠN HÀNG (TĨNH)</h2>
-          <button class="btn-view-detail" onclick="showToast('Đã làm mới danh sách đơn hàng!', 'info')"><i class="fas fa-rotate"></i> Làm mới</button>
+        </div>
+
+        <!-- Admin Orders Filter Bar (Rubric 2.6: Tình trạng / Thời gian / Địa điểm) -->
+        <div class="admin-filter-bar">
+          <div class="admin-filter-groups">
+            <div class="admin-filter-group">
+              <label class="admin-filter-label"><i class="fas fa-filter" style="color: var(--secondary);"></i> Tình trạng:</label>
+              <select id="filter-order-status" class="admin-filter-select">
+                <option value="all">Tất cả tình trạng (6 đơn)</option>
+                <option value="paid">ĐÃ THANH TOÁN (3 đơn)</option>
+                <option value="shipping">ĐANG GIAO 2H (2 đơn)</option>
+                <option value="pending">CHỜ XÁC NHẬN (1 đơn)</option>
+              </select>
+            </div>
+
+            <div class="admin-filter-group">
+              <label class="admin-filter-label"><i class="fas fa-calendar-alt" style="color: var(--accent-cyan);"></i> Đặt từ:</label>
+              <input type="date" id="filter-order-date-from" class="admin-filter-input" value="2026-10-01" />
+              <label class="admin-filter-label">đến:</label>
+              <input type="date" id="filter-order-date-to" class="admin-filter-input" value="2026-10-17" />
+            </div>
+
+            <div class="admin-filter-group">
+              <label class="admin-filter-label"><i class="fas fa-map-marker-alt" style="color: var(--primary);"></i> Địa điểm:</label>
+              <select id="filter-order-location" class="admin-filter-select">
+                <option value="all">Tất cả quận/huyện (TP.HCM)</option>
+                <option value="q1">Quận 1 (Trung tâm)</option>
+                <option value="q3">Quận 3</option>
+                <option value="q5">Quận 5</option>
+                <option value="binhthanh">Bình Thạnh</option>
+              </select>
+            </div>
+
+            <div class="admin-filter-group">
+              <div class="admin-filter-search">
+                <i class="fas fa-search"></i>
+                <input type="text" id="filter-order-keyword" class="admin-filter-input" placeholder="Mã đơn / Khách hàng..." />
+              </div>
+            </div>
+          </div>
+
+          <div class="admin-filter-actions">
+            <button type="button" class="btn-filter-apply" onclick="applyAdminOrderFilter()">
+              <i class="fas fa-filter"></i> Lọc Đơn Hàng
+            </button>
+            <button type="button" class="btn-filter-reset" onclick="resetAdminOrderFilter()">
+              <i class="fas fa-rotate-left"></i> Đặt Lại
+            </button>
+          </div>
         </div>
 
         <table class="cart-table">

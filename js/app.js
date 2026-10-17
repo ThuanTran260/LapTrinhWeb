@@ -821,5 +821,265 @@ document.addEventListener('click', function(e) {
   }
 });
 
+// ==========================================================================
+// 13. STATIC SEARCH DROPDOWN & ADVANCED SEARCH (RUBRIC COMPLIANCE)
+// ==========================================================================
+function openSearchDropdown() {
+  const dropdown = document.getElementById('search-dropdown-menu');
+  if (dropdown) dropdown.classList.add('is-open');
+}
+
+function closeSearchDropdown() {
+  const dropdown = document.getElementById('search-dropdown-menu');
+  if (dropdown) dropdown.classList.remove('is-open');
+}
+
+function toggleSearchDropdown() {
+  const dropdown = document.getElementById('search-dropdown-menu');
+  if (dropdown) {
+    dropdown.classList.toggle('is-open');
+  }
+}
+
+function openAdvancedSearchModal() {
+  const modal = document.getElementById('modal-adv-search');
+  if (modal) {
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function closeAdvancedSearchModal() {
+  const modal = document.getElementById('modal-adv-search');
+  if (modal) {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+}
+
+function handleAdvancedSearch(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  const kwEl = document.getElementById('adv-search-keyword');
+  const keyword = (kwEl ? kwEl.value : 'Original').trim();
+  const brandEl = document.getElementById('adv-search-brand');
+  const brandName = brandEl ? brandEl.options[brandEl.selectedIndex].text : 'Monster Energy';
+  const priceEl = document.getElementById('adv-search-price');
+  const priceName = priceEl ? priceEl.options[priceEl.selectedIndex].text : '20.000đ - 50.000đ';
+
+  closeAdvancedSearchModal();
+  showToast('Đã lọc nâng cao: "' + keyword + '" | ' + brandName + ' | ' + priceName, 'success');
+}
+
+// Global click outside & Escape listeners for search dropdown
+document.addEventListener('click', function(e) {
+  const searchBox = e.target.closest('.search-box');
+  if (!searchBox) {
+    closeSearchDropdown();
+  }
+});
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    closeSearchDropdown();
+    closeAdvancedSearchModal();
+  }
+});
+
+// ==========================================================================
+// 14. AUTH TABS & REGISTRATION LOGIC (RUBRIC COMPLIANCE)
+// ==========================================================================
+function switchAuthTab(mode) {
+  const loginBtn = document.getElementById('tab-login-btn');
+  const registerBtn = document.getElementById('tab-register-btn');
+  const formLogin = document.getElementById('form-login');
+  const formRegister = document.getElementById('form-register');
+  const titleEl = document.getElementById('auth-card-title');
+  const descEl = document.getElementById('auth-card-desc');
+
+  if (mode === 'register') {
+    if (loginBtn) loginBtn.classList.remove('active');
+    if (registerBtn) registerBtn.classList.add('active');
+    if (formLogin) formLogin.style.display = 'none';
+    if (formRegister) formRegister.style.display = 'block';
+    if (titleEl) titleEl.innerHTML = 'ĐĂNG KÝ <span>THÀNH VIÊN VIP</span>';
+    if (descEl) descEl.innerText = 'Đăng ký tài khoản người mua hàng để nhận ưu đãi thành viên và tích điểm đổi quà:';
+  } else {
+    if (loginBtn) loginBtn.classList.add('active');
+    if (registerBtn) registerBtn.classList.remove('active');
+    if (formLogin) formLogin.style.display = 'block';
+    if (formRegister) formRegister.style.display = 'none';
+    if (titleEl) titleEl.innerHTML = 'ĐĂNG NHẬP <span>ENERGY BOOST</span>';
+    if (descEl) descEl.innerText = 'Đăng nhập tài khoản để nhận ưu đãi thành viên và theo dõi đơn hàng:';
+  }
+}
+
+function handleRegister(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  const nameEl = document.getElementById('register-fullname');
+  const emailEl = document.getElementById('register-email');
+  const passEl = document.getElementById('register-password');
+  const confirmEl = document.getElementById('register-confirm-password');
+
+  const fullName = nameEl ? nameEl.value.trim() : 'Khách Hàng Mới';
+  const email = emailEl ? emailEl.value.trim() : '';
+  const pass = passEl ? passEl.value : '';
+  const confirm = confirmEl ? confirmEl.value : '';
+
+  if (pass !== confirm) {
+    showToast('Mật khẩu xác nhận không khớp! Vui lòng kiểm tra lại.', 'warning');
+    return;
+  }
+
+  try {
+    localStorage.setItem('monster_user', fullName);
+  } catch (err) { }
+
+  showToast('Đăng ký tài khoản thành công! Chào mừng ' + fullName + ' gia nhập Energy Boost VIP.', 'success');
+
+  setTimeout(() => {
+    const loginUserEl = document.getElementById('login-username');
+    if (loginUserEl) loginUserEl.value = email || fullName;
+    switchAuthTab('login');
+  }, 1200);
+}
+
+function togglePasswordVisibility(inputId, iconId) {
+  const input = document.getElementById(inputId);
+  const icon = document.getElementById(iconId);
+  if (!input) return;
+  if (input.type === 'password') {
+    input.type = 'text';
+    if (icon) {
+      icon.classList.remove('fa-eye');
+      icon.classList.add('fa-eye-slash');
+    }
+  } else {
+    input.type = 'password';
+    if (icon) {
+      icon.classList.remove('fa-eye-slash');
+      icon.classList.add('fa-eye');
+    }
+  }
+}
+
+// Check URL hash for direct tab opening (e.g. login.html#register)
+window.addEventListener('DOMContentLoaded', () => {
+  if (window.location.hash === '#register') {
+    switchAuthTab('register');
+  }
+});
+
+// ==========================================================================
+// 15. ADMIN STATIC FILTER & SMART SAFE DELETE (RUBRIC COMPLIANCE)
+// ==========================================================================
+function applyAdminOrderFilter() {
+  const statusEl = document.getElementById('filter-order-status');
+  const status = statusEl ? statusEl.options[statusEl.selectedIndex].text : 'Tất cả';
+  const fromEl = document.getElementById('filter-order-date-from');
+  const toEl = document.getElementById('filter-order-date-to');
+  const from = fromEl ? fromEl.value : '';
+  const to = toEl ? toEl.value : '';
+  const locEl = document.getElementById('filter-order-location');
+  const loc = locEl ? locEl.options[locEl.selectedIndex].text : 'Tất cả';
+  const kwEl = document.getElementById('filter-order-keyword');
+  const kw = (kwEl ? kwEl.value : '').trim();
+
+  let msg = 'Đã áp dụng bộ lọc đơn hàng: [' + status + '] | Khu vực: [' + loc + ']';
+  if (from && to) msg += ' | Từ: ' + from + ' đến ' + to;
+  if (kw) msg += ' | Từ khóa: "' + kw + '"';
+  showToast(msg, 'success');
+}
+
+function resetAdminOrderFilter() {
+  const statusEl = document.getElementById('filter-order-status');
+  if (statusEl) statusEl.value = 'all';
+  const locEl = document.getElementById('filter-order-location');
+  if (locEl) locEl.value = 'all';
+  const kwEl = document.getElementById('filter-order-keyword');
+  if (kwEl) kwEl.value = '';
+  showToast('Đã đặt lại bộ lọc đơn hàng mặc định', 'info');
+}
+
+function applyAdminInventoryFilter() {
+  const brandEl = document.getElementById('filter-inv-brand');
+  const brand = brandEl ? brandEl.options[brandEl.selectedIndex].text : 'Tất cả';
+  const stockEl = document.getElementById('filter-inv-stock');
+  const stock = stockEl ? stockEl.options[stockEl.selectedIndex].text : 'Tất cả';
+  const kwEl = document.getElementById('filter-inv-keyword');
+  const kw = (kwEl ? kwEl.value : '').trim();
+
+  const msg = 'Đã lọc kho hàng: [' + brand + '] | Trạng thái: [' + stock + ']' + (kw ? ' | SKU: "' + kw + '"' : '');
+  showToast(msg, 'success');
+}
+
+function resetAdminInventoryFilter() {
+  const brandEl = document.getElementById('filter-inv-brand');
+  if (brandEl) brandEl.value = 'all';
+  const stockEl = document.getElementById('filter-inv-stock');
+  if (stockEl) stockEl.value = 'all';
+  const kwEl = document.getElementById('filter-inv-keyword');
+  if (kwEl) kwEl.value = '';
+  showToast('Đã đặt lại bộ lọc kho hàng mặc định', 'info');
+}
+
+function applyAdminCustomerFilter() {
+  const tierEl = document.getElementById('filter-customer-tier');
+  const tier = tierEl ? tierEl.options[tierEl.selectedIndex].text : 'Tất cả';
+  const fromEl = document.getElementById('stat-customer-from');
+  const toEl = document.getElementById('stat-customer-to');
+  const from = fromEl ? fromEl.value : '2026-01-01';
+  const to = toEl ? toEl.value : '2026-10-17';
+
+  showToast('Đã thống kê Top 5 khách hàng mua cao nhất (' + from + ' đến ' + to + ') - Phân loại: ' + tier, 'success');
+}
+
+function resetAdminCustomerFilter() {
+  const tierEl = document.getElementById('filter-customer-tier');
+  if (tierEl) tierEl.value = 'all';
+  const kwEl = document.getElementById('filter-customer-keyword');
+  if (kwEl) kwEl.value = '';
+  showToast('Đã đặt lại bộ lọc khách hàng VIP', 'info');
+}
+
+function applyDashboardFilter(type) {
+  if (type === 'orders') {
+    const statusEl = document.getElementById('dash-order-status');
+    const status = statusEl ? statusEl.options[statusEl.selectedIndex].text : 'Tất cả';
+    showToast('Dashboard: Đang lọc đơn hàng [' + status + ']', 'info');
+  } else {
+    const brandEl = document.getElementById('dash-inv-brand');
+    const brand = brandEl ? brandEl.options[brandEl.selectedIndex].text : 'Tất cả';
+    showToast('Dashboard: Đang lọc kho hàng [' + brand + ']', 'info');
+  }
+}
+
+function resetDashboardFilter(type) {
+  if (type === 'orders') {
+    const statusEl = document.getElementById('dash-order-status');
+    if (statusEl) statusEl.value = 'all';
+    const kwEl = document.getElementById('dash-order-keyword');
+    if (kwEl) kwEl.value = '';
+  } else {
+    const brandEl = document.getElementById('dash-inv-brand');
+    if (brandEl) brandEl.value = 'all';
+    const kwEl = document.getElementById('dash-inv-keyword');
+    if (kwEl) kwEl.value = '';
+  }
+  showToast('Đã đặt lại bộ lọc trên Dashboard', 'info');
+}
+
+// Rubric 2.5: Xóa sản phẩm an toàn (nếu đã bán -> ẩn; nếu chưa bán -> xác nhận)
+function handleAdminDeleteProduct(productName, hasOrders) {
+  const name = productName || 'Sản phẩm';
+  if (hasOrders) {
+    showToast('Sản phẩm "' + name + '" đã phát sinh đơn hàng xuất bán! Hệ thống chuyển sang chế độ ẨN khỏi web để bảo toàn lịch sử bán hàng.', 'warning');
+  } else {
+    showToast('Đã chuyển sản phẩm "' + name + '" vào thùng rác lưu trữ.', 'info');
+  }
+}
+
+
+
+
 
 

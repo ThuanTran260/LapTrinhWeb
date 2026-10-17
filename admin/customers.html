@@ -72,7 +72,44 @@
       <section class="admin-section-box">
         <div class="admin-section-header">
           <h2 class="admin-section-title"><i class="fas fa-crown" style="color: var(--accent-gold);"></i> THÀNH VIÊN THÂN THIẾT (TĨNH)</h2>
-          <button class="btn-view-detail" onclick="showToast('Đã làm mới danh sách VIP!', 'info')"><i class="fas fa-rotate"></i> Làm mới</button>
+        </div>
+
+        <!-- Admin VIP Customers & Top 5 Statistics Bar (Rubric 2.6) -->
+        <div class="admin-filter-bar">
+          <div class="admin-filter-groups">
+            <div class="admin-filter-group">
+              <label class="admin-filter-label"><i class="fas fa-crown" style="color: var(--accent-gold);"></i> Cấp bậc:</label>
+              <select id="filter-customer-tier" class="admin-filter-select">
+                <option value="all">Tất cả cấp bậc (6 khách)</option>
+                <option value="diamond">Hạng Kim Cương (2 khách)</option>
+                <option value="gold">Hạng Vàng (2 khách)</option>
+                <option value="silver">Hạng Bạc (2 khách)</option>
+              </select>
+            </div>
+
+            <div class="admin-filter-group">
+              <label class="admin-filter-label"><i class="fas fa-calendar-alt" style="color: var(--accent-cyan);"></i> Thống kê từ:</label>
+              <input type="date" id="stat-customer-from" class="admin-filter-input" value="2026-01-01" />
+              <label class="admin-filter-label">đến:</label>
+              <input type="date" id="stat-customer-to" class="admin-filter-input" value="2026-10-17" />
+            </div>
+
+            <div class="admin-filter-group">
+              <div class="admin-filter-search">
+                <i class="fas fa-search"></i>
+                <input type="text" id="filter-customer-keyword" class="admin-filter-input" placeholder="Tên khách hàng / SĐT..." />
+              </div>
+            </div>
+          </div>
+
+          <div class="admin-filter-actions">
+            <button type="button" class="btn-filter-apply" onclick="applyAdminCustomerFilter()">
+              <i class="fas fa-chart-line"></i> Thống Kê Top 5 VIP
+            </button>
+            <button type="button" class="btn-filter-reset" onclick="resetAdminCustomerFilter()">
+              <i class="fas fa-rotate-left"></i> Đặt Lại
+            </button>
+          </div>
         </div>
 
         <table class="cart-table">
