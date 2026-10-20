@@ -1441,9 +1441,58 @@ function handleSaveVoucherSettings(e) {
   showToast(`Đã lưu thành công cấu hình Voucher "${code}" & chính sách vận chuyển!`, 'success');
 }
 
+function openAddVoucherModal() {
+  const form = document.getElementById('form-add-voucher');
+  if (form) form.reset();
+  const dateInput = document.getElementById('add-voucher-expiry');
+  if (dateInput && !dateInput.value) {
+    dateInput.value = '2026-12-31';
+  }
+  openAdminModal('modal-add-voucher');
+}
 
+function saveAddVoucher(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  const codeEl = document.getElementById('add-voucher-code');
+  const typeEl = document.getElementById('add-voucher-type');
+  const amountEl = document.getElementById('add-voucher-amount');
+  const minSpendEl = document.getElementById('add-voucher-min-spend');
+  const maxDiscountEl = document.getElementById('add-voucher-max-discount');
+  const expiryEl = document.getElementById('add-voucher-expiry');
 
+  const code = (codeEl && codeEl.value) ? codeEl.value.trim().toUpperCase() : 'ENERGY20';
+  const type = typeEl ? typeEl.value : 'percent';
+  const amount = (amountEl && amountEl.value) ? amountEl.value.trim() : '15%';
+  const minSpend = (minSpendEl && minSpendEl.value) ? minSpendEl.value.trim() : '150.000đ';
+  const maxDiscount = (maxDiscountEl && maxDiscountEl.value) ? maxDiscountEl.value.trim() : '40.000đ';
 
+  // Live update ticket preview & form inputs so newly created voucher is reflected
+  const mainCodeInput = document.getElementById('voucher-code');
+  const mainTypeInput = document.getElementById('voucher-type');
+  const mainAmountInput = document.getElementById('voucher-amount');
+  const mainMinSpendInput = document.getElementById('voucher-min-spend');
+  const mainMaxDiscountInput = document.getElementById('voucher-max-discount');
+  const mainExpiryInput = document.getElementById('voucher-expiry');
 
+  if (mainCodeInput) mainCodeInput.value = code;
+  if (mainTypeInput) mainTypeInput.value = type;
+  if (mainAmountInput) mainAmountInput.value = amount;
+  if (mainMinSpendInput) mainMinSpendInput.value = minSpend;
+  if (mainMaxDiscountInput) mainMaxDiscountInput.value = maxDiscount;
+  if (mainExpiryInput && expiryEl && expiryEl.value) mainExpiryInput.value = expiryEl.value;
 
+  if (typeof updateVoucherLivePreview === 'function') {
+    updateVoucherLivePreview();
+  }
+
+  // Ensure toggle is active
+  const toggle = document.getElementById('voucher-toggle-active');
+  if (toggle && !toggle.checked) {
+    toggle.checked = true;
+    handleVoucherStatusToggle(toggle);
+  }
+
+  closeAdminModal('modal-add-voucher');
+  showToast(`Đã thêm mã Voucher mới "${code}" thành công! Hệ thống đã ghi nhận vào danh sách voucher.`, 'success');
+}
 

@@ -100,12 +100,17 @@
       <section class="admin-section-box" style="max-width: 740px;">
         <div class="admin-section-header">
           <h2 class="admin-section-title"><i class="fas fa-ticket" style="color: var(--secondary);"></i> VOUCHER KHUYẾN MÃI & VẬN CHUYỂN</h2>
-          <div class="custom-toggle-container">
-            <span id="voucher-status-label" style="font-size: 0.8rem; font-weight: 700; color: var(--primary);">ĐANG BẬT</span>
-            <label class="custom-toggle-switch">
-              <input type="checkbox" id="voucher-toggle-active" checked onchange="handleVoucherStatusToggle(this)" />
-              <span class="toggle-slider"></span>
-            </label>
+          <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+            <button type="button" class="btn-add-voucher" id="btn-add-voucher" onclick="openAddVoucherModal()" title="Thêm mã voucher mới (Hỗ trợ quản lý nhiều voucher)">
+              <i class="fas fa-plus-circle"></i> Thêm Mã Mới
+            </button>
+            <div class="custom-toggle-container">
+              <span id="voucher-status-label" style="font-size: 0.8rem; font-weight: 700; color: var(--primary);">ĐANG BẬT</span>
+              <label class="custom-toggle-switch">
+                <input type="checkbox" id="voucher-toggle-active" checked onchange="handleVoucherStatusToggle(this)" />
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
           </div>
         </div>
 
@@ -194,6 +199,76 @@
         </form>
       </section>
     </main>
+  </div>
+
+  <!-- Modal Thêm Mã Voucher Mới (Đại Diện Ý Tưởng Quản Lý Nhiều Voucher) -->
+  <div id="modal-add-voucher" class="admin-modal-overlay">
+    <div class="admin-modal-card" style="max-width: 580px;">
+      <div class="admin-modal-header">
+        <h3 class="admin-modal-title"><i class="fas fa-ticket-simple" style="color: var(--secondary);"></i> Thêm Mã Voucher Mới</h3>
+        <button type="button" class="admin-modal-close" onclick="closeAdminModal('modal-add-voucher')">&times;</button>
+      </div>
+      <form id="form-add-voucher" onsubmit="saveAddVoucher(event)">
+        <div class="admin-modal-body">
+          <div style="font-size: 0.84rem; color: var(--text-dim); margin-bottom: 14px; line-height: 1.4; background: rgba(0, 230, 118, 0.05); border: 1px dashed rgba(0, 230, 118, 0.25); border-radius: 8px; padding: 10px 14px;">
+            <i class="fas fa-circle-info" style="color: var(--primary); margin-right: 6px;"></i>
+            Hệ thống hỗ trợ quản lý nhiều voucher cùng lúc. Bạn có thể tạo thêm voucher chiến dịch mới để phát hành cho khách hàng.
+          </div>
+          <div class="admin-form-grid">
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="add-voucher-code"><i class="fas fa-barcode"></i> Mã Code Voucher <span class="req">*</span></label>
+              <input type="text" id="add-voucher-code" class="admin-form-input" placeholder="VD: SUMMER20, VIPBOOST" style="text-transform: uppercase;" required />
+            </div>
+
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="add-voucher-type"><i class="fas fa-percent"></i> Loại Giảm Giá <span class="req">*</span></label>
+              <select id="add-voucher-type" class="admin-form-select">
+                <option value="percent" selected>Giảm theo phần trăm (%)</option>
+                <option value="fixed">Giảm số tiền cố định (VNĐ)</option>
+              </select>
+            </div>
+
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="add-voucher-amount"><i class="fas fa-tags"></i> Mức Giảm <span class="req">*</span></label>
+              <input type="text" id="add-voucher-amount" class="admin-form-input" placeholder="VD: 15% hoặc 30.000đ" required />
+            </div>
+
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="add-voucher-min-spend"><i class="fas fa-coins"></i> Đơn Tối Thiểu</label>
+              <input type="text" id="add-voucher-min-spend" class="admin-form-input" placeholder="VD: 150.000đ" value="150.000đ" />
+            </div>
+
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="add-voucher-max-discount"><i class="fas fa-shield-alt"></i> Giảm Tối Đa</label>
+              <input type="text" id="add-voucher-max-discount" class="admin-form-input" placeholder="VD: 40.000đ" value="40.000đ" />
+            </div>
+
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="add-voucher-expiry"><i class="fas fa-clock"></i> Ngày Hết Hạn</label>
+              <input type="date" id="add-voucher-expiry" class="admin-form-input" value="2026-12-31" />
+            </div>
+
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="add-voucher-limit"><i class="fas fa-users-viewfinder"></i> Giới Hạn Lượt Dùng</label>
+              <input type="number" id="add-voucher-limit" class="admin-form-input" placeholder="VD: 500" value="500" min="1" />
+            </div>
+
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="add-voucher-target"><i class="fas fa-user-check"></i> Đối Tượng Áp Dụng</label>
+              <select id="add-voucher-target" class="admin-form-select">
+                <option value="all" selected>Tất cả khách hàng</option>
+                <option value="vip">Chỉ khách hàng VIP</option>
+                <option value="new">Chỉ khách hàng mới</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="admin-modal-footer">
+          <button type="button" class="btn-modal-cancel" onclick="closeAdminModal('modal-add-voucher')">Hủy bỏ</button>
+          <button type="submit" class="btn-modal-save"><i class="fas fa-plus-circle"></i> Tạo & Kích Hoạt Voucher</button>
+        </div>
+      </form>
+    </div>
   </div>
 
   <div id="toast-container" class="toast-container"></div>
