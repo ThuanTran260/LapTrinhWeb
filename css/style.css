@@ -1571,6 +1571,46 @@ button {
   color: var(--accent-cyan);
   border: 1px solid var(--accent-cyan);
 }
+.badge-status.locked,
+.badge-status.danger {
+  background: rgba(239, 68, 68, 0.18);
+  color: #EF4444;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+}
+.btn-action-lock {
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  background: rgba(239, 68, 68, 0.1);
+  color: #EF4444;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.btn-action-lock:hover {
+  background: rgba(239, 68, 68, 0.25);
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
+}
+.btn-action-unlock {
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(0, 230, 118, 0.4);
+  background: rgba(0, 230, 118, 0.1);
+  color: var(--primary);
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.btn-action-unlock:hover {
+  background: rgba(0, 230, 118, 0.25);
+  box-shadow: 0 0 10px rgba(0, 230, 118, 0.3);
+}
 
 /* ==========================================================================
    ADMIN INTERACTIVE MODAL SYSTEM (Dark Neon Glassmorphism)

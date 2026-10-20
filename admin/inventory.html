@@ -40,7 +40,7 @@
         <a href="../index.html" class="admin-menu-link" style="color: var(--primary); margin-bottom: 6px;">
           <i class="fas fa-store"></i> Về Trang Bán Hàng
         </a>
-        <a href="../pages/login.html" class="admin-menu-link" style="color: #EF4444;" onclick="showToast('Đã đăng xuất khỏi tài khoản Quản trị!', 'info')">
+        <a href="login.html" class="admin-menu-link" style="color: #EF4444;" onclick="event.preventDefault(); adminLogout();">
           <i class="fas fa-sign-out-alt"></i> Đăng Xuất
         </a>
       </div>
@@ -140,8 +140,8 @@
               <td>45.000đ</td>
               <td><span class="badge-status success">CÒN HÀNG</span></td>
               <td>
-                <a href="edit-monster.html" class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" title="Chỉnh sửa sản phẩm"><i class="fas fa-edit"></i></a>
-                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="handleAdminDeleteProduct('Monster Energy Original 355ml', true)"><i class="fas fa-trash"></i></button>
+                <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" onclick="openProductEditModal('monster-original', this)" title="Chỉnh sửa sản phẩm"><i class="fas fa-edit"></i></button>
+                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="handleAdminDeleteProduct(this, 'Monster Energy Original 355ml', true)"><i class="fas fa-trash"></i></button>
               </td>
             </tr>
 
@@ -154,8 +154,8 @@
               <td>48.000đ</td>
               <td><span class="badge-status success">CÒN HÀNG</span></td>
               <td>
-                <a href="edit-monster.html" class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" title="Chỉnh sửa sản phẩm"><i class="fas fa-edit"></i></a>
-                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="handleAdminDeleteProduct('Monster Zero Ultra White 500ml', true)"><i class="fas fa-trash"></i></button>
+                <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" onclick="openProductEditModal('monster-ultra-white', this)" title="Chỉnh sửa sản phẩm"><i class="fas fa-edit"></i></button>
+                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="handleAdminDeleteProduct(this, 'Monster Zero Ultra White 500ml', true)"><i class="fas fa-trash"></i></button>
               </td>
             </tr>
 
@@ -168,8 +168,8 @@
               <td>48.000đ</td>
               <td><span class="badge-status success">CÒN HÀNG</span></td>
               <td>
-                <a href="edit-monster.html" class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" title="Chỉnh sửa sản phẩm"><i class="fas fa-edit"></i></a>
-                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="handleAdminDeleteProduct('Monster Ultra Paradise 500ml', true)"><i class="fas fa-trash"></i></button>
+                <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" onclick="openProductEditModal('monster-ultra-paradise', this)" title="Chỉnh sửa sản phẩm"><i class="fas fa-edit"></i></button>
+                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="handleAdminDeleteProduct(this, 'Monster Ultra Paradise 500ml', true)"><i class="fas fa-trash"></i></button>
               </td>
             </tr>
 
@@ -182,8 +182,8 @@
               <td>50.000đ</td>
               <td><span class="badge-status success">CÒN HÀNG</span></td>
               <td>
-                <a href="edit-monster.html" class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" title="Chỉnh sửa sản phẩm"><i class="fas fa-edit"></i></a>
-                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="handleAdminDeleteProduct('Monster Ultra Punk Punch 500ml', true)"><i class="fas fa-trash"></i></button>
+                <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" onclick="openProductEditModal('monster-punch', this)" title="Chỉnh sửa sản phẩm"><i class="fas fa-edit"></i></button>
+                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="handleAdminDeleteProduct(this, 'Monster Ultra Punk Punch 500ml', false)"><i class="fas fa-trash"></i></button>
               </td>
             </tr>
 
@@ -196,8 +196,8 @@
               <td>18.000đ</td>
               <td><span class="badge-status success">CÒN HÀNG</span></td>
               <td>
-                <a href="edit-redbull-original.html" class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" title="Chỉnh sửa sản phẩm"><i class="fas fa-edit"></i></a>
-                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="handleAdminDeleteProduct('Nước Tăng Lực Redbull Original 250ml', true)"><i class="fas fa-trash"></i></button>
+                <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" onclick="openProductEditModal('redbull-original', this)" title="Chỉnh sửa sản phẩm"><i class="fas fa-edit"></i></button>
+                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="handleAdminDeleteProduct(this, 'Nước Tăng Lực Redbull Original 250ml', true)"><i class="fas fa-trash"></i></button>
               </td>
             </tr>
 
@@ -210,8 +210,8 @@
               <td>18.000đ</td>
               <td><span class="badge-status success">CÒN HÀNG</span></td>
               <td>
-                <a href="edit-redbull-original.html" class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" title="Chỉnh sửa sản phẩm"><i class="fas fa-edit"></i></a>
-                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="handleAdminDeleteProduct('Nước Tăng Lực Redbull Thái Lan 250ml', true)"><i class="fas fa-trash"></i></button>
+                <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" onclick="openProductEditModal('redbull-thai', this)" title="Chỉnh sửa sản phẩm"><i class="fas fa-edit"></i></button>
+                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="handleAdminDeleteProduct(this, 'Nước Tăng Lực Redbull Thái Lan 250ml', true)"><i class="fas fa-trash"></i></button>
               </td>
             </tr>
 
@@ -224,8 +224,8 @@
               <td>20.000đ</td>
               <td><span class="badge-status success">CÒN HÀNG</span></td>
               <td>
-                <a href="edit-redbull-original.html" class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" title="Chỉnh sửa sản phẩm"><i class="fas fa-edit"></i></a>
-                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="handleAdminDeleteProduct('Nước Tăng Lực Redbull Nắp Bật 250ml', true)"><i class="fas fa-trash"></i></button>
+                <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" onclick="openProductEditModal('redbull-lon-vua', this)" title="Chỉnh sửa sản phẩm"><i class="fas fa-edit"></i></button>
+                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="handleAdminDeleteProduct(this, 'Nước Tăng Lực Redbull Nắp Bật 250ml', true)"><i class="fas fa-trash"></i></button>
               </td>
             </tr>
 
@@ -238,8 +238,8 @@
               <td>12.000đ</td>
               <td><span class="badge-status success">CÒN HÀNG</span></td>
               <td>
-                <a href="edit-sting.html" class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" title="Chỉnh sửa sản phẩm"><i class="fas fa-edit"></i></a>
-                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="handleAdminDeleteProduct('Nước Tăng Lực Sting Dâu Tây Đỏ 330ml', true)"><i class="fas fa-trash"></i></button>
+                <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" onclick="openProductEditModal('sting-dau', this)" title="Chỉnh sửa sản phẩm"><i class="fas fa-edit"></i></button>
+                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="handleAdminDeleteProduct(this, 'Nước Tăng Lực Sting Dâu Tây Đỏ 330ml', true)"><i class="fas fa-trash"></i></button>
               </td>
             </tr>
 
@@ -252,8 +252,8 @@
               <td>12.000đ</td>
               <td><span class="badge-status success">CÒN HÀNG</span></td>
               <td>
-                <a href="edit-sting.html" class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" title="Chỉnh sửa sản phẩm"><i class="fas fa-edit"></i></a>
-                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="handleAdminDeleteProduct('Nước Tăng Lực Sting Vàng Sleek 330ml', true)"><i class="fas fa-trash"></i></button>
+                <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" onclick="openProductEditModal('sting-gold', this)" title="Chỉnh sửa sản phẩm"><i class="fas fa-edit"></i></button>
+                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="handleAdminDeleteProduct(this, 'Nước Tăng Lực Sting Vàng Sleek 330ml', true)"><i class="fas fa-trash"></i></button>
               </td>
             </tr>
 
@@ -266,8 +266,8 @@
               <td>13.000đ</td>
               <td><span class="badge-status success">CÒN HÀNG</span></td>
               <td>
-                <a href="edit-sting.html" class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" title="Chỉnh sửa sản phẩm"><i class="fas fa-edit"></i></a>
-                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="handleAdminDeleteProduct('Nước Tăng Lực Sting Blue Sleek 320ml', true)"><i class="fas fa-trash"></i></button>
+                <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" onclick="openProductEditModal('sting-blue', this)" title="Chỉnh sửa sản phẩm"><i class="fas fa-edit"></i></button>
+                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="handleAdminDeleteProduct(this, 'Nước Tăng Lực Sting Blue Sleek 320ml', false)"><i class="fas fa-trash"></i></button>
               </td>
             </tr>
           </tbody>
@@ -291,8 +291,24 @@
               <input type="text" id="edit-prod-name" class="admin-form-input" value="Monster Energy Original 355ml" required />
             </div>
             <div class="admin-form-group">
-              <label class="admin-form-label">Thương Hiệu <span class="req">*</span></label>
-              <input type="text" id="edit-prod-brand" class="admin-form-input" value="Monster Energy (Hà Lan)" required />
+              <label class="admin-form-label">Thương Hiệu / Dòng <span class="req">*</span></label>
+              <select id="edit-prod-brand-select" class="admin-form-select">
+                <option value="Monster Energy">Monster Energy</option>
+                <option value="Monster Ultra">Monster Ultra</option>
+                <option value="Punch & Shots">Punch & Shots</option>
+                <option value="Redbull Thái Lan">Redbull Thái Lan</option>
+                <option value="Sting (PepsiCo)">Sting (PepsiCo)</option>
+              </select>
+            </div>
+            <div class="admin-form-group full-width">
+              <label class="admin-form-label">Hình Ảnh Sản Phẩm (Nạp ảnh hiện tại & Đổi ảnh mới)</label>
+              <div style="display: flex; align-items: center; gap: 14px;">
+                <img id="edit-prod-img-preview" src="../assets/images/monster/original.webp" alt="Ảnh hiện tại" style="width: 50px; height: 65px; object-fit: contain; border: 1px solid var(--border-color); border-radius: 4px; padding: 4px; background: rgba(0,0,0,0.3);" />
+                <div style="flex: 1;">
+                  <input type="file" id="edit-prod-file" class="admin-form-input" accept="image/*" onchange="previewEditProductImage(this)" />
+                  <small style="color: var(--text-muted); display: block; margin-top: 4px;">Chọn ảnh mới để xem trước tức thì bằng FileReader và cập nhật</small>
+                </div>
+              </div>
             </div>
             <div class="admin-form-group">
               <label class="admin-form-label">Nguồn Gốc / Sản Xuất Tại <span class="req">*</span></label>
@@ -355,6 +371,16 @@
               <label class="admin-form-label">Tên Sản Phẩm Mới <span class="req">*</span></label>
               <input type="text" id="add-prod-name" class="admin-form-input" placeholder="VD: Monster Ultra Sunrise 500ml" required />
             </div>
+            <div class="admin-form-group full-width">
+              <label class="admin-form-label">Hình Ảnh Sản Phẩm (Upload có xem trước) <span class="req">*</span></label>
+              <div style="display: flex; align-items: center; gap: 14px;">
+                <img id="add-prod-preview" src="../assets/images/monster/original.webp" alt="Xem trước ảnh" style="width: 50px; height: 65px; object-fit: contain; border: 1px solid var(--border-color); border-radius: 4px; padding: 4px; background: rgba(0,0,0,0.3);" />
+                <div style="flex: 1;">
+                  <input type="file" id="add-prod-file" class="admin-form-input" accept="image/*" onchange="previewAddProductImage(this)" required />
+                  <small style="color: var(--text-muted); display: block; margin-top: 4px;">Chọn file ảnh từ máy để xem trước tức thì bằng FileReader trước khi thêm</small>
+                </div>
+              </div>
+            </div>
             <div class="admin-form-group">
               <label class="admin-form-label">Thương Hiệu / Dòng <span class="req">*</span></label>
               <select id="add-prod-brand" class="admin-form-select">
@@ -362,6 +388,7 @@
                 <option value="Monster Ultra">Monster Ultra</option>
                 <option value="Punch & Shots">Punch & Shots</option>
                 <option value="Redbull Thái Lan">Redbull Thái Lan</option>
+                <option value="Sting (PepsiCo)">Sting (PepsiCo)</option>
               </select>
             </div>
             <div class="admin-form-group">

@@ -512,6 +512,8 @@ function openProductEditModal(productId, triggerBtn) {
 
   const nameEl = document.getElementById('edit-prod-name');
   const brandEl = document.getElementById('edit-prod-brand');
+  const brandSelect = document.getElementById('edit-prod-brand-select');
+  const imgPreview = document.getElementById('edit-prod-img-preview');
   const originEl = document.getElementById('edit-prod-origin');
   const priceEl = document.getElementById('edit-prod-price');
   const oldPriceEl = document.getElementById('edit-prod-oldprice');
@@ -533,6 +535,29 @@ function openProductEditModal(productId, triggerBtn) {
   if (storageEl) storageEl.value = data.storage;
   if (statusEl) statusEl.value = data.status;
 
+  if (imgPreview) {
+    if (currentEditingRow && currentEditingRow.cells[0]) {
+      const rowImg = currentEditingRow.cells[0].querySelector('img');
+      if (rowImg) imgPreview.src = rowImg.src;
+    } else if (data.image) {
+      imgPreview.src = data.image;
+    }
+  }
+
+  if (brandSelect) {
+    const brandValueToMatch = currentEditingRow && currentEditingRow.cells[2] ? currentEditingRow.cells[2].textContent.trim() : data.brand;
+    let matched = false;
+    Array.from(brandSelect.options).forEach(opt => {
+      if (opt.value === brandValueToMatch || brandValueToMatch.includes(opt.value)) {
+        brandSelect.value = opt.value;
+        matched = true;
+      }
+    });
+    if (!matched && brandSelect.options.length > 0) {
+      brandSelect.selectedIndex = 0;
+    }
+  }
+
   if (standaloneBtn) {
     if (data.editPage && data.editPage !== 'inventory.html') {
       standaloneBtn.style.display = 'inline-flex';
@@ -549,22 +574,29 @@ function saveProductEdit(e) {
   if (e && e.preventDefault) e.preventDefault();
   const nameEl = document.getElementById('edit-prod-name');
   const brandEl = document.getElementById('edit-prod-brand');
+  const brandSelect = document.getElementById('edit-prod-brand-select');
+  const imgPreview = document.getElementById('edit-prod-img-preview');
   const priceEl = document.getElementById('edit-prod-price');
   const volumeEl = document.getElementById('edit-prod-volume');
   const statusEl = document.getElementById('edit-prod-status');
 
   const name = nameEl ? nameEl.value : 'Sản phẩm';
+  const brandVal = brandSelect ? brandSelect.value : (brandEl ? brandEl.value : 'Monster Energy');
 
   // Live update the table row in DOM
   if (currentEditingRow) {
     const cells = currentEditingRow.cells;
     if (cells && cells.length >= 6) {
+      if (cells[0] && imgPreview) {
+        const rowImg = cells[0].querySelector('img');
+        if (rowImg) rowImg.src = imgPreview.src;
+      }
       if (cells[1]) {
         const strong = cells[1].querySelector('strong');
         if (strong) strong.textContent = name;
         else cells[1].innerHTML = '<strong>' + name + '</strong>';
       }
-      if (cells[2] && brandEl) cells[2].textContent = brandEl.value;
+      if (cells[2]) cells[2].textContent = brandVal;
       if (cells[3] && volumeEl) cells[3].textContent = volumeEl.value;
       if (cells[4] && priceEl) cells[4].textContent = priceEl.value;
       if (cells[5] && statusEl) {
@@ -769,7 +801,18 @@ function openCustomerDetailModal(customerKey) {
 
 // 9d. Order Detail Modal Logic
 function openOrderDetailModal(orderId) {
-  // Mở popup chi tiết đơn hàng mẫu #EB-8801
+  const code = orderId || 'EB-8801';
+  const modal = document.getElementById('modal-order-detail');
+  if (modal) {
+    const title = modal.querySelector('.admin-modal-title');
+    if (title) {
+      title.innerHTML = `<i class="fas fa-file-invoice" style="color: var(--secondary);"></i> Chi Tiết Đơn Hàng #${code.replace(/^#/, '')}`;
+    }
+    const orderCodeBox = modal.querySelector('.order-summary-box div:last-child, .order-summary-box [style*="font-family"]');
+    if (orderCodeBox) {
+      orderCodeBox.textContent = '#' + code.replace(/^#/, '');
+    }
+  }
   openAdminModal('modal-order-detail');
 }
 
@@ -1189,14 +1232,296 @@ function resetDashboardFilter(type) {
   showToast('Đã đặt lại bộ lọc trên Dashboard', 'info');
 }
 
-// Rubric 2.5: Xóa sản phẩm an toàn (nếu đã bán -> ẩn; nếu chưa bán -> xác nhận)
-function handleAdminDeleteProduct(productName, hasOrders) {
-  const name = productName || 'Sản phẩm';
-  if (hasOrders) {
-    showToast('Sản phẩm "' + name + '" đã phát sinh đơn hàng xuất bán! Hệ thống chuyển sang chế độ ẨN khỏi web để bảo toàn lịch sử bán hàng.', 'warning');
-  } else {
-    showToast('Đã chuyển sản phẩm "' + name + '" vào thùng rác lưu trữ.', 'info');
+// ==========================================================================
+// 16. ADMIN AUTHENTICATION SIMULATION (R1 COMPLIANCE)
+// ==========================================================================
+function handleAdminLogin(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  const userEl = document.getElementById('admin-user');
+  const user = (userEl ? userEl.value : '').trim();
+  
+  try {
+    localStorage.setItem('admin_logged_in', 'true');
+    localStorage.setItem('admin_user_name', user || 'Thuận Trần (Admin)');
+  } catch (err) {}
+
+  showToast('Xác thực Quản trị viên cấp cao thành công! Đang chuyển vào Dashboard...', 'success');
+  setTimeout(() => {
+    window.location.href = 'index.html';
+  }, 800);
+}
+
+function adminLogout(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  try {
+    localStorage.removeItem('admin_logged_in');
+    localStorage.removeItem('admin_user_name');
+  } catch (err) {}
+  showToast('Đã đăng xuất khỏi tài khoản Quản trị!', 'info');
+  setTimeout(() => {
+    window.location.href = 'login.html';
+  }, 700);
+}
+
+// ==========================================================================
+// 17. USER MANAGEMENT UI HANDLERS (R2 COMPLIANCE)
+// ==========================================================================
+let currentEditingUserRow = null;
+
+function openAddUserModal() {
+  const form = document.getElementById('form-add-user');
+  if (form) form.reset();
+  openAdminModal('modal-add-user');
+}
+
+function saveAddUser(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  const username = (document.getElementById('add-user-username') || {}).value || 'user_new';
+  const fullname = (document.getElementById('add-user-fullname') || {}).value || 'Người Dùng Mới';
+  const email = (document.getElementById('add-user-email') || {}).value || 'user@example.com';
+  const phone = (document.getElementById('add-user-phone') || {}).value || '0900.000.000';
+  const role = (document.getElementById('add-user-role') || {}).value || 'user';
+  const status = (document.getElementById('add-user-status') || {}).value || 'active';
+
+  const tbody = document.querySelector('#users-table tbody') || document.querySelector('.cart-table tbody');
+  if (tbody) {
+    const isAct = status === 'active';
+    const badgeText = isAct ? 'ĐANG HOẠT ĐỘNG' : 'ĐÃ KHOÁ';
+    const badgeClass = isAct ? 'badge-status success' : 'badge-status locked danger';
+    const lockBtnClass = isAct ? 'btn-action-lock' : 'btn-action-unlock';
+    const lockBtnIcon = isAct ? 'fa-lock' : 'fa-lock-open';
+    const lockBtnText = isAct ? 'Khoá' : 'Mở';
+
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><span class="badge-status info">MỚI</span></td>
+      <td><strong>${fullname}</strong><br><small style="color: var(--text-muted);">${username} (${role.toUpperCase()})</small></td>
+      <td>${phone}<br><small style="color: var(--text-dim);">${email}</small></td>
+      <td><span style="color: var(--text-muted); font-size: 0.85rem;">(Chưa có đơn)</span></td>
+      <td><strong style="color: var(--primary);">0đ</strong></td>
+      <td><span class="${badgeClass}">${badgeText}</span></td>
+      <td>
+        <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem;" onclick="openEditUserModal('custom', this)" title="Sửa"><i class="fas fa-edit"></i> Sửa</button>
+        <button class="${lockBtnClass}" onclick="toggleLockUser(this, '${fullname}')"><i class="fas ${lockBtnIcon}"></i> ${lockBtnText}</button>
+      </td>
+    `;
+    tbody.prepend(tr);
   }
+
+  showToast('Đã thêm tài khoản người dùng "' + fullname + '" thành công!', 'success');
+  closeAdminModal('modal-add-user');
+}
+
+function openEditUserModal(customerKey, btn) {
+  currentEditingUserRow = btn ? btn.closest('tr') : null;
+  const nameEl = document.getElementById('edit-user-fullname');
+  const phoneEl = document.getElementById('edit-user-phone');
+  const emailEl = document.getElementById('edit-user-email');
+  const statusEl = document.getElementById('edit-user-status');
+
+  if (currentEditingUserRow) {
+    const strong = currentEditingUserRow.querySelector('strong');
+    if (nameEl && strong) nameEl.value = strong.textContent.trim();
+    if (phoneEl && currentEditingUserRow.cells[2]) {
+      const pText = currentEditingUserRow.cells[2].childNodes[0] ? currentEditingUserRow.cells[2].childNodes[0].textContent.trim() : '';
+      phoneEl.value = pText;
+    }
+    const badge = currentEditingUserRow.querySelector('.badge-status');
+    if (badge && statusEl) {
+      statusEl.value = badge.textContent.includes('KHOÁ') ? 'locked' : 'active';
+    }
+  } else if (typeof CUSTOMER_DATA_REGISTRY !== 'undefined' && CUSTOMER_DATA_REGISTRY[customerKey]) {
+    const data = CUSTOMER_DATA_REGISTRY[customerKey];
+    if (nameEl) nameEl.value = data.name;
+    if (phoneEl) phoneEl.value = data.phone;
+    if (emailEl) emailEl.value = data.email;
+  }
+  openAdminModal('modal-edit-user');
+}
+
+function saveEditUser(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  const nameEl = document.getElementById('edit-user-fullname');
+  const phoneEl = document.getElementById('edit-user-phone');
+  const emailEl = document.getElementById('edit-user-email');
+  const statusEl = document.getElementById('edit-user-status');
+  const name = nameEl ? nameEl.value : 'Người dùng';
+
+  if (currentEditingUserRow) {
+    const strong = currentEditingUserRow.querySelector('strong');
+    if (strong) strong.textContent = name;
+    if (phoneEl && currentEditingUserRow.cells[2]) {
+      const email = emailEl ? emailEl.value : '';
+      currentEditingUserRow.cells[2].innerHTML = `${phoneEl.value}${email ? `<br><small style="color: var(--text-dim);">${email}</small>` : ''}`;
+    }
+    if (statusEl && currentEditingUserRow.cells[5]) {
+      const isAct = statusEl.value === 'active';
+      const badge = currentEditingUserRow.cells[5].querySelector('.badge-status');
+      if (badge) {
+        badge.className = isAct ? 'badge-status success' : 'badge-status locked danger';
+        badge.textContent = isAct ? 'ĐANG HOẠT ĐỘNG' : 'ĐÃ KHOÁ';
+      }
+      const lockBtn = currentEditingUserRow.querySelector('.btn-action-lock, .btn-action-unlock');
+      if (lockBtn) {
+        lockBtn.className = isAct ? 'btn-action-lock' : 'btn-action-unlock';
+        lockBtn.innerHTML = isAct ? '<i class="fas fa-lock"></i> Khoá' : '<i class="fas fa-lock-open"></i> Mở';
+      }
+    }
+  }
+  showToast('Đã lưu thay đổi thông tin người dùng "' + name + '" thành công!', 'success');
+  closeAdminModal('modal-edit-user');
+}
+
+function toggleLockUser(btn, customerName) {
+  const row = btn ? btn.closest('tr') : null;
+  if (!row) return;
+  const badge = row.querySelector('.badge-status');
+  if (!badge) return;
+
+  const isCurrentlyLocked = badge.textContent.includes('KHOÁ');
+  if (isCurrentlyLocked) {
+    badge.className = 'badge-status success';
+    badge.textContent = 'ĐANG HOẠT ĐỘNG';
+    btn.className = 'btn-action-lock';
+    btn.innerHTML = '<i class="fas fa-lock"></i> Khoá';
+    showToast('Đã mở khoá tài khoản "' + customerName + '" thành công!', 'success');
+  } else {
+    badge.className = 'badge-status locked danger';
+    badge.textContent = 'ĐÃ KHOÁ';
+    btn.className = 'btn-action-unlock';
+    btn.innerHTML = '<i class="fas fa-lock-open"></i> Mở';
+    showToast('Đã khoá tài khoản "' + customerName + '" thành công!', 'warning');
+  }
+}
+
+// ==========================================================================
+// 18. FILEREADER IMAGE PREVIEWS & SMART SAFE DELETE (R3 COMPLIANCE)
+// ==========================================================================
+function previewAddProductImage(e) {
+  const input = (e && e.target) ? e.target : e;
+  if (input && input.files && input.files[0]) {
+    const reader = new FileReader();
+    reader.onload = function(evt) {
+      const img = document.getElementById('add-prod-preview');
+      if (img) img.src = evt.target.result;
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+function previewEditProductImage(e) {
+  const input = (e && e.target) ? e.target : e;
+  if (input && input.files && input.files[0]) {
+    const reader = new FileReader();
+    reader.onload = function(evt) {
+      const img = document.getElementById('edit-prod-img-preview');
+      if (img) img.src = evt.target.result;
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+function handleAdminDeleteProduct(btnOrName, productNameOrHasOrders, maybeHasOrders) {
+  let btn = null;
+  let name = 'Sản phẩm';
+  let hasOrders = false;
+
+  if (typeof btnOrName === 'string') {
+    name = btnOrName;
+    hasOrders = !!productNameOrHasOrders;
+  } else {
+    btn = btnOrName;
+    name = productNameOrHasOrders || 'Sản phẩm';
+    hasOrders = !!maybeHasOrders;
+  }
+
+  const row = btn ? btn.closest('tr') : null;
+
+  if (hasOrders) {
+    if (row && row.cells[5]) {
+      row.cells[5].innerHTML = '<span class="badge-status danger" style="background: rgba(239, 68, 68, 0.18); color: #EF4444; border: 1px solid rgba(239, 68, 68, 0.4);">ĐÃ ẨN</span>';
+    }
+    showToast('Không thể xóa sản phẩm "' + name + '" đã có đơn hàng! Đã chuyển trạng thái sang ĐÃ ẨN để bảo toàn lịch sử bán hàng.', 'warning');
+  } else {
+    const isConfirmed = confirm('Bạn có chắc chắn muốn xóa sản phẩm "' + name + '" này khỏi hệ thống kho?');
+    if (isConfirmed) {
+      if (row) {
+        row.remove();
+      }
+      showToast('Đã xóa thành công sản phẩm "' + name + '" khỏi hệ thống kho hàng!', 'success');
+    }
+  }
+}
+
+// ==========================================================================
+// 19. UNIDIRECTIONAL ORDER STATE MACHINE (R4 COMPLIANCE)
+// ==========================================================================
+const ORDER_STATUS_ORDER = {
+  'Chưa xác nhận': ['Đã xác nhận', 'Đã giao (Huỷ đơn)'],
+  'Đã xác nhận': ['Đã giao (Thành công)', 'Đã giao (Huỷ đơn)'],
+  'Đã giao (Thành công)': [],
+  'Đã giao (Huỷ đơn)': []
+};
+
+let currentOrderEditingBtn = null;
+let currentOrderIdForStatus = '';
+
+function openOrderStatusModal(orderId, currentStatus, btn) {
+  currentOrderIdForStatus = orderId;
+  currentOrderEditingBtn = btn;
+  
+  const idEl = document.getElementById('status-modal-order-id');
+  const badgeEl = document.getElementById('status-modal-current-badge');
+  const selectEl = document.getElementById('select-next-status');
+  
+  if (idEl) idEl.textContent = '#' + orderId;
+  if (badgeEl) {
+    badgeEl.textContent = currentStatus;
+    const isSuccess = currentStatus.includes('Thành công');
+    const isCancel = currentStatus.includes('Huỷ');
+    const isWarning = currentStatus.includes('xác nhận') && !currentStatus.includes('Chưa');
+    badgeEl.className = 'badge-status ' + (isSuccess ? 'success' : (isCancel ? 'danger' : (isWarning ? 'warning' : 'info')));
+  }
+  
+  const allowedNext = ORDER_STATUS_ORDER[currentStatus] || [];
+  if (selectEl) {
+    selectEl.innerHTML = '';
+    if (allowedNext.length === 0) {
+      selectEl.innerHTML = '<option value="">(Đơn hàng đã hoàn tất - Không thể cập nhật ngược)</option>';
+      selectEl.disabled = true;
+    } else {
+      selectEl.disabled = false;
+      allowedNext.forEach(st => {
+        const opt = document.createElement('option');
+        opt.value = st;
+        opt.textContent = '➔ ' + st;
+        selectEl.appendChild(opt);
+      });
+    }
+  }
+  openAdminModal('modal-order-status');
+}
+
+function saveOrderStatus() {
+  const selectEl = document.getElementById('select-next-status');
+  if (!selectEl || selectEl.disabled || !selectEl.value) {
+    showToast('Không thể cập nhật! Trạng thái đơn hàng chỉ có thể cập nhật xuôi, không cho phép cập nhật ngược.', 'warning');
+    closeAdminModal('modal-order-status');
+    return;
+  }
+  const nextStatus = selectEl.value;
+  if (currentOrderEditingBtn) {
+    const row = currentOrderEditingBtn.closest('tr');
+    if (row && row.cells[4]) {
+      const isSuccess = nextStatus.includes('Thành công');
+      const isCancel = nextStatus.includes('Huỷ');
+      const badgeClass = isSuccess ? 'success' : (isCancel ? 'danger' : 'warning');
+      row.cells[4].innerHTML = '<span class="badge-status ' + badgeClass + '">' + nextStatus.toUpperCase() + '</span>';
+      currentOrderEditingBtn.setAttribute('onclick', `openOrderStatusModal('${currentOrderIdForStatus}', '${nextStatus}', this)`);
+    }
+  }
+  showToast('Đã cập nhật trạng thái đơn hàng #' + currentOrderIdForStatus + ' thành "' + nextStatus + '" (Quy tắc một chiều)!', 'success');
+  closeAdminModal('modal-order-status');
 }
 
 

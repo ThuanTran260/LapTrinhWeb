@@ -40,7 +40,7 @@
         <a href="../index.html" class="admin-menu-link" style="color: var(--primary); margin-bottom: 6px;">
           <i class="fas fa-store"></i> Về Trang Bán Hàng
         </a>
-        <a href="../pages/login.html" class="admin-menu-link" style="color: #EF4444;" onclick="showToast('Đã đăng xuất khỏi tài khoản Quản trị!', 'info')">
+        <a href="login.html" class="admin-menu-link" style="color: #EF4444;" onclick="event.preventDefault(); adminLogout();">
           <i class="fas fa-sign-out-alt"></i> Đăng Xuất
         </a>
       </div>
@@ -58,6 +58,10 @@
         </div>
 
         <div style="display: flex; align-items: center; gap: 16px;">
+          <button class="btn-add-cart" style="padding: 10px 18px;" onclick="openAddUserModal()">
+            <i class="fas fa-user-plus"></i> Thêm Người Dùng Mới
+          </button>
+
           <div class="admin-user-pill">
             <div class="admin-avatar">AD</div>
             <div>
@@ -71,7 +75,7 @@
       <!-- VIP Customers Table -->
       <section class="admin-section-box">
         <div class="admin-section-header">
-          <h2 class="admin-section-title"><i class="fas fa-crown" style="color: var(--accent-gold);"></i> THÀNH VIÊN THÂN THIẾT (TĨNH)</h2>
+          <h2 class="admin-section-title"><i class="fas fa-crown" style="color: var(--accent-gold);"></i> TOP 5 KHÁCH HÀNG CHI TIÊU CAO NHẤT (SẮP XẾP GIẢM DẦN)</h2>
         </div>
 
         <!-- Admin VIP Customers & Top 5 Statistics Bar (Rubric 2.6) -->
@@ -115,85 +119,100 @@
         <table class="cart-table">
           <thead>
             <tr>
-              <th>Khách Hàng</th>
-              <th>Số Điện Thoại</th>
-              <th>Điểm VIP</th>
-              <th>Hạng Thành Viên</th>
+              <th>Hạng</th>
+              <th>Khách Hàng / User</th>
+              <th>Số Điện Thoại & Email</th>
+              <th>Đơn Hàng Mua (Chi Tiết)</th>
               <th>Tổng Chi Tiêu</th>
+              <th>Trạng Thái</th>
               <th>Thao Tác</th>
             </tr>
           </thead>
           <tbody>
+            <!-- #1 VIP: Phạm Minh Tuấn -->
             <tr>
-              <td><strong>Phạm Minh Tuấn</strong></td>
-              <td>0977***999</td>
-              <td>3.120 điểm</td>
-              <td><span class="badge-status success">KIM CƯƠNG</span></td>
-              <td><strong style="color: var(--primary);">15.200.000đ</strong></td>
+              <td><span class="badge-status" style="background: rgba(255,215,0,0.2); color: #FFD700; border: 1px solid #FFD700; font-weight: 800;">#1 VIP</span></td>
+              <td><strong>Phạm Minh Tuấn</strong><br><small style="color: var(--text-muted);">tuan_vip (KIM CƯƠNG)</small></td>
+              <td>0977.888.999<br><small style="color: var(--text-dim);">minhtuan.pham@gmail.com</small></td>
               <td>
-                <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="openCustomerDetailModal('tuan')">
-                  <i class="fas fa-eye"></i> Xem
-                </button>
+                <a href="javascript:void(0)" onclick="openOrderDetailModal('EB-8804')" style="color: var(--primary); font-weight: 700; text-decoration: underline;">#EB-8804</a>: 918.000đ<br>
+                <a href="javascript:void(0)" onclick="openOrderDetailModal('EB-8801')" style="color: var(--accent-cyan); text-decoration: underline;">#EB-8801</a>: 126.000đ
+              </td>
+              <td><strong style="color: var(--primary); font-size: 1.05rem;">15.200.000đ</strong></td>
+              <td><span class="badge-status success">ĐANG HOẠT ĐỘNG</span></td>
+              <td>
+                <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem;" onclick="openCustomerDetailModal('tuan')" title="Xem Hồ Sơ"><i class="fas fa-eye"></i></button>
+                <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem;" onclick="openEditUserModal('tuan', this)" title="Sửa"><i class="fas fa-edit"></i> Sửa</button>
+                <button class="btn-action-lock" onclick="toggleLockUser(this, 'Phạm Minh Tuấn')" title="Khoá"><i class="fas fa-lock"></i> Khoá</button>
               </td>
             </tr>
+
+            <!-- #2 VIP: Nguyễn Văn An -->
             <tr>
-              <td><strong>Nguyễn Văn An</strong></td>
-              <td>0912***678</td>
-              <td>2.450 điểm</td>
-              <td><span class="badge-status success">KIM CƯƠNG</span></td>
-              <td><strong style="color: var(--primary);">12.400.000đ</strong></td>
+              <td><span class="badge-status" style="background: rgba(192,192,192,0.2); color: #E0E0E0; border: 1px solid #AAA; font-weight: 800;">#2 VIP</span></td>
+              <td><strong>Nguyễn Văn An</strong><br><small style="color: var(--text-muted);">an_nguyen (KIM CƯƠNG)</small></td>
+              <td>0912.345.678<br><small style="color: var(--text-dim);">an.nguyen@gmail.com</small></td>
               <td>
-                <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="openCustomerDetailModal('an')">
-                  <i class="fas fa-eye"></i> Xem
-                </button>
+                <a href="javascript:void(0)" onclick="openOrderDetailModal('EB-8801')" style="color: var(--primary); font-weight: 700; text-decoration: underline;">#EB-8801</a>: 126.000đ<br>
+                <a href="javascript:void(0)" onclick="openOrderDetailModal('EB-8802')" style="color: var(--accent-cyan); text-decoration: underline;">#EB-8802</a>: 246.000đ
+              </td>
+              <td><strong style="color: var(--primary); font-size: 1.05rem;">12.400.000đ</strong></td>
+              <td><span class="badge-status success">ĐANG HOẠT ĐỘNG</span></td>
+              <td>
+                <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem;" onclick="openCustomerDetailModal('an')" title="Xem Hồ Sơ"><i class="fas fa-eye"></i></button>
+                <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem;" onclick="openEditUserModal('an', this)" title="Sửa"><i class="fas fa-edit"></i> Sửa</button>
+                <button class="btn-action-lock" onclick="toggleLockUser(this, 'Nguyễn Văn An')" title="Khoá"><i class="fas fa-lock"></i> Khoá</button>
               </td>
             </tr>
+
+            <!-- #3 VIP: Trần Thị Bích -->
             <tr>
-              <td><strong>Trần Thị Bích</strong></td>
-              <td>0988***432</td>
-              <td>1.980 điểm</td>
-              <td><span class="badge-status warning">VÀNG</span></td>
-              <td><strong style="color: var(--primary);">9.600.000đ</strong></td>
+              <td><span class="badge-status" style="background: rgba(205,127,50,0.2); color: #CD7F32; border: 1px solid #CD7F32; font-weight: 800;">#3 VIP</span></td>
+              <td><strong>Trần Thị Bích</strong><br><small style="color: var(--text-muted);">bich_tran (VÀNG)</small></td>
+              <td>0988.765.432<br><small style="color: var(--text-dim);">bich.tran@gmail.com</small></td>
               <td>
-                <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="openCustomerDetailModal('bich')">
-                  <i class="fas fa-eye"></i> Xem
-                </button>
+                <a href="javascript:void(0)" onclick="openOrderDetailModal('EB-8802')" style="color: var(--primary); font-weight: 700; text-decoration: underline;">#EB-8802</a>: 246.000đ
+              </td>
+              <td><strong style="color: var(--primary); font-size: 1.05rem;">9.600.000đ</strong></td>
+              <td><span class="badge-status success">ĐANG HOẠT ĐỘNG</span></td>
+              <td>
+                <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem;" onclick="openCustomerDetailModal('bich')" title="Xem Hồ Sơ"><i class="fas fa-eye"></i></button>
+                <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem;" onclick="openEditUserModal('bich', this)" title="Sửa"><i class="fas fa-edit"></i> Sửa</button>
+                <button class="btn-action-lock" onclick="toggleLockUser(this, 'Trần Thị Bích')" title="Khoá"><i class="fas fa-lock"></i> Khoá</button>
               </td>
             </tr>
+
+            <!-- #4 VIP: Lê Hoàng Nam -->
             <tr>
-              <td><strong>Lê Hoàng Nam</strong></td>
-              <td>0903***222</td>
-              <td>1.540 điểm</td>
-              <td><span class="badge-status warning">VÀNG</span></td>
-              <td><strong style="color: var(--primary);">7.800.000đ</strong></td>
+              <td><span class="badge-status info" style="font-weight: 800;">#4 VIP</span></td>
+              <td><strong>Lê Hoàng Nam</strong><br><small style="color: var(--text-muted);">nam_le (VÀNG)</small></td>
+              <td>0903.111.222<br><small style="color: var(--text-dim);">nam.le@gmail.com</small></td>
               <td>
-                <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="openCustomerDetailModal('nam')">
-                  <i class="fas fa-eye"></i> Xem
-                </button>
+                <a href="javascript:void(0)" onclick="openOrderDetailModal('EB-8803')" style="color: var(--primary); font-weight: 700; text-decoration: underline;">#EB-8803</a>: 40.000đ
+              </td>
+              <td><strong style="color: var(--primary); font-size: 1.05rem;">7.800.000đ</strong></td>
+              <td><span class="badge-status success">ĐANG HOẠT ĐỘNG</span></td>
+              <td>
+                <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem;" onclick="openCustomerDetailModal('nam')" title="Xem Hồ Sơ"><i class="fas fa-eye"></i></button>
+                <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem;" onclick="openEditUserModal('nam', this)" title="Sửa"><i class="fas fa-edit"></i> Sửa</button>
+                <button class="btn-action-lock" onclick="toggleLockUser(this, 'Lê Hoàng Nam')" title="Khoá"><i class="fas fa-lock"></i> Khoá</button>
               </td>
             </tr>
+
+            <!-- #5 VIP: Vũ Thảo My -->
             <tr>
-              <td><strong>Vũ Thảo My</strong></td>
-              <td>0934***666</td>
-              <td>1.120 điểm</td>
-              <td><span class="badge-status info">BẠC</span></td>
-              <td><strong style="color: var(--primary);">5.400.000đ</strong></td>
+              <td><span class="badge-status info" style="font-weight: 800;">#5 VIP</span></td>
+              <td><strong>Vũ Thảo My</strong><br><small style="color: var(--text-muted);">my_vu (BẠC)</small></td>
+              <td>0934.555.666<br><small style="color: var(--text-dim);">my.vu@gmail.com</small></td>
               <td>
-                <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="openCustomerDetailModal('my')">
-                  <i class="fas fa-eye"></i> Xem
-                </button>
+                <a href="javascript:void(0)" onclick="openOrderDetailModal('EB-8805')" style="color: var(--primary); font-weight: 700; text-decoration: underline;">#EB-8805</a>: 198.000đ
               </td>
-            </tr>
-            <tr>
-              <td><strong>Hoàng Đức Long</strong></td>
-              <td>0938***111</td>
-              <td>860 điểm</td>
-              <td><span class="badge-status info">BẠC</span></td>
-              <td><strong style="color: var(--primary);">4.100.000đ</strong></td>
+              <td><strong style="color: var(--primary); font-size: 1.05rem;">5.400.000đ</strong></td>
+              <td><span class="badge-status locked danger">ĐÃ KHOÁ</span></td>
               <td>
-                <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="openCustomerDetailModal('long')">
-                  <i class="fas fa-eye"></i> Xem
-                </button>
+                <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem;" onclick="openCustomerDetailModal('my')" title="Xem Hồ Sơ"><i class="fas fa-eye"></i></button>
+                <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem;" onclick="openEditUserModal('my', this)" title="Sửa"><i class="fas fa-edit"></i> Sửa</button>
+                <button class="btn-action-unlock" onclick="toggleLockUser(this, 'Vũ Thảo My')" title="Mở khoá"><i class="fas fa-lock-open"></i> Mở</button>
               </td>
             </tr>
           </tbody>
@@ -264,6 +283,172 @@
         <button type="button" class="btn-modal-cancel" onclick="closeAdminModal('modal-customer-detail')">Đóng</button>
         <button type="button" id="vip-modal-gift-btn" class="btn-modal-save" onclick="showToast('Đã gửi voucher tri ân VIP 15% tới Phạm Minh Tuấn!', 'success'); closeAdminModal('modal-customer-detail');">
           <i class="fas fa-gift"></i> Tặng Voucher VIP
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Thêm Người Dùng Mới (R2) -->
+  <div id="modal-add-user" class="admin-modal-overlay">
+    <div class="admin-modal-card" style="max-width: 540px;">
+      <div class="admin-modal-header">
+        <h3 class="admin-modal-title"><i class="fas fa-user-plus" style="color: var(--primary);"></i> Thêm Người Dùng Mới</h3>
+        <button type="button" class="admin-modal-close" onclick="closeAdminModal('modal-add-user')">&times;</button>
+      </div>
+      <form id="form-add-user" onsubmit="saveAddUser(event)">
+        <div class="admin-modal-body">
+          <div class="admin-form-grid">
+            <div class="admin-form-group">
+              <label class="admin-form-label">Tên Đăng Nhập <span class="req">*</span></label>
+              <input type="text" id="add-user-username" class="admin-form-input" placeholder="VD: hoang_long" required />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">Họ và Tên <span class="req">*</span></label>
+              <input type="text" id="add-user-fullname" class="admin-form-input" placeholder="VD: Hoàng Đức Long" required />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">Email Liên Hệ <span class="req">*</span></label>
+              <input type="email" id="add-user-email" class="admin-form-input" placeholder="long.hoang@gmail.com" required />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">Số Điện Thoại <span class="req">*</span></label>
+              <input type="tel" id="add-user-phone" class="admin-form-input" placeholder="0938.222.111" required />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">Phân Quyền / Vai Trò <span class="req">*</span></label>
+              <select id="add-user-role" class="admin-form-select">
+                <option value="user" selected>Khách Hàng (User)</option>
+                <option value="vip">Khách Hàng VIP</option>
+                <option value="staff">Nhân Viên Quản Kho</option>
+                <option value="admin">Quản Trị Viên (Admin)</option>
+              </select>
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">Trạng Thái Tài Khoản <span class="req">*</span></label>
+              <select id="add-user-status" class="admin-form-select">
+                <option value="active" selected>Đang hoạt động</option>
+                <option value="locked">Đã khoá</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="admin-modal-footer">
+          <button type="button" class="btn-modal-cancel" onclick="closeAdminModal('modal-add-user')">Hủy bỏ</button>
+          <button type="submit" class="btn-modal-save"><i class="fas fa-check"></i> Lưu Người Dùng</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal Sửa Thông Tin Người Dùng (R2) -->
+  <div id="modal-edit-user" class="admin-modal-overlay">
+    <div class="admin-modal-card" style="max-width: 540px;">
+      <div class="admin-modal-header">
+        <h3 class="admin-modal-title"><i class="fas fa-user-edit" style="color: var(--primary);"></i> Chỉnh Sửa Thông Tin Người Dùng</h3>
+        <button type="button" class="admin-modal-close" onclick="closeAdminModal('modal-edit-user')">&times;</button>
+      </div>
+      <form id="form-edit-user" onsubmit="saveEditUser(event)">
+        <div class="admin-modal-body">
+          <div class="admin-form-grid">
+            <div class="admin-form-group full-width">
+              <label class="admin-form-label">Họ và Tên <span class="req">*</span></label>
+              <input type="text" id="edit-user-fullname" class="admin-form-input" value="Phạm Minh Tuấn" required />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">Số Điện Thoại <span class="req">*</span></label>
+              <input type="tel" id="edit-user-phone" class="admin-form-input" value="0977.888.999" required />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">Email Liên Hệ <span class="req">*</span></label>
+              <input type="email" id="edit-user-email" class="admin-form-input" value="minhtuan.pham@gmail.com" required />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">Hạng Thành Viên</label>
+              <select id="edit-user-tier" class="admin-form-select">
+                <option value="diamond" selected>Hạng Kim Cương</option>
+                <option value="gold">Hạng Vàng</option>
+                <option value="silver">Hạng Bạc</option>
+                <option value="standard">Khách Hàng Chuẩn</option>
+              </select>
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">Trạng Thái Hoạt Động <span class="req">*</span></label>
+              <select id="edit-user-status" class="admin-form-select">
+                <option value="active" selected>Đang hoạt động</option>
+                <option value="locked">Đã khoá</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="admin-modal-footer">
+          <button type="button" class="btn-modal-cancel" onclick="closeAdminModal('modal-edit-user')">Hủy bỏ</button>
+          <button type="submit" class="btn-modal-save"><i class="fas fa-save"></i> Lưu Thay Đổi</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal Chi Tiết Đơn Hàng (R5) -->
+  <div id="modal-order-detail" class="admin-modal-overlay">
+    <div class="admin-modal-card">
+      <div class="admin-modal-header">
+        <h3 class="admin-modal-title"><i class="fas fa-file-invoice" style="color: var(--secondary);"></i> Chi Tiết Đơn Hàng #EB-8804</h3>
+        <button type="button" class="admin-modal-close" onclick="closeAdminModal('modal-order-detail')">&times;</button>
+      </div>
+      <div class="admin-modal-body">
+        <div class="order-summary-box">
+          <div>
+            <div style="font-size: 0.8rem; color: var(--text-muted);">MÃ ĐƠN HÀNG</div>
+            <div style="font-family: var(--font-heading); font-size: 1.3rem; color: #FFF; font-weight: 800;">#EB-8804</div>
+          </div>
+          <span class="badge-status success"><i class="fas fa-check-circle"></i> ĐÃ GIAO (THÀNH CÔNG)</span>
+        </div>
+
+        <div class="vip-info-list" style="margin-bottom: 8px;">
+          <div class="vip-info-item">
+            <span class="label"><i class="fas fa-user" style="color: var(--primary);"></i> Khách hàng</span>
+            <span class="val">Phạm Minh Tuấn (0977.888.999)</span>
+          </div>
+          <div class="vip-info-item">
+            <span class="label"><i class="fas fa-location-dot" style="color: var(--secondary);"></i> Địa chỉ nhận</span>
+            <span class="val">88 Nguyễn Huệ, P. Bến Nghé, Quận 1, TP.HCM</span>
+          </div>
+          <div class="vip-info-item">
+            <span class="label"><i class="fas fa-bolt" style="color: var(--accent-cyan);"></i> Vận chuyển</span>
+            <span class="val">Giao Hỏa Tốc 2H VIP Nội Thành</span>
+          </div>
+        </div>
+
+        <div style="border: 1px solid rgba(255, 255, 255, 0.06); border-radius: var(--radius-sm); overflow: hidden;">
+          <table class="order-items-table">
+            <thead>
+              <tr>
+                <th>Sản Phẩm</th>
+                <th style="text-align: center;">SL</th>
+                <th style="text-align: right;">Đơn Giá</th>
+                <th style="text-align: right;">Thành Tiền</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>1 Thùng 24 Lon Monster & Redbull Mix</strong><br/><small style="color: var(--text-muted);">Nhập Khẩu Chính Hãng</small></td>
+                <td style="text-align: center;">1</td>
+                <td style="text-align: right;">918.000đ</td>
+                <td style="text-align: right; color: var(--primary); font-weight: 700;">918.000đ</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="order-total-row">
+          <span>Tổng Giá Trị Đơn Hàng</span>
+          <span class="price">918.000đ</span>
+        </div>
+      </div>
+      <div class="admin-modal-footer">
+        <button type="button" class="btn-modal-cancel" onclick="closeAdminModal('modal-order-detail')">Đóng</button>
+        <button type="button" class="btn-modal-save" onclick="showToast('Đang in phiếu hóa đơn đơn hàng...', 'info')">
+          <i class="fas fa-print"></i> In Hóa Đơn
         </button>
       </div>
     </div>
