@@ -1374,8 +1374,103 @@ function saveOrderStatus() {
 }
 
 // ==========================================================================
-// 20. VOUCHER SETTINGS LIVE PREVIEW & CONTROLLER
+// 20. VOUCHER SETTINGS LIVE PREVIEW & MULTI-VOUCHER CONTROLLER
 // ==========================================================================
+
+// Mock registry representing multiple campaign vouchers in the system
+const MOCK_VOUCHERS_LIST = [
+  {
+    code: 'MONSTER10',
+    type: 'percent',
+    amount: '10%',
+    minSpend: '200.000đ',
+    maxDiscount: '50.000đ',
+    expiry: '2026-12-31',
+    target: 'all',
+    targetText: 'Tất cả khách hàng',
+    limit: 1000
+  },
+  {
+    code: 'ENERGY20',
+    type: 'fixed',
+    amount: '20.000đ',
+    minSpend: '150.000đ',
+    maxDiscount: '20.000đ',
+    expiry: '2026-11-30',
+    target: 'new',
+    targetText: 'Chỉ khách hàng mới',
+    limit: 500
+  },
+  {
+    code: 'FREESHIP',
+    type: 'fixed',
+    amount: '25.000đ',
+    minSpend: '200.000đ',
+    maxDiscount: '25.000đ',
+    expiry: '2026-12-31',
+    target: 'vip',
+    targetText: 'Chỉ khách hàng VIP',
+    limit: 300
+  }
+];
+
+let activeVoucherCode = 'MONSTER10';
+
+function getVoucherTag(voucher) {
+  if (voucher.code === 'FREESHIP') return 'FREESHIP';
+  if (voucher.type === 'percent') {
+    const val = voucher.amount.replace(/%/g, '').trim();
+    return `${val}%`;
+  }
+  const num = voucher.amount.replace(/\D/g, '');
+  if (num && parseInt(num, 10) >= 1000) {
+    return `${Math.round(parseInt(num, 10) / 1000)}K`;
+  }
+  return voucher.amount;
+}
+
+function renderVoucherChips() {
+  const container = document.getElementById('voucher-chips-list');
+  if (!container) return;
+
+  container.innerHTML = MOCK_VOUCHERS_LIST.map(v => {
+    const isActive = v.code === activeVoucherCode;
+    const tag = getVoucherTag(v);
+    return `<button type="button" class="voucher-chip ${isActive ? 'active' : ''}" onclick="switchVoucherPreview('${v.code}')" title="Xem & cấu hình mã ${v.code}">
+      ${v.code} <span class="voucher-chip-tag">${tag}</span>
+    </button>`;
+  }).join('');
+}
+
+function switchVoucherPreview(code) {
+  const voucher = MOCK_VOUCHERS_LIST.find(v => v.code === code);
+  if (!voucher) return;
+
+  activeVoucherCode = voucher.code;
+
+  const mainCodeInput = document.getElementById('voucher-code');
+  const mainTypeInput = document.getElementById('voucher-type');
+  const mainAmountInput = document.getElementById('voucher-amount');
+  const mainMinSpendInput = document.getElementById('voucher-min-spend');
+  const mainMaxDiscountInput = document.getElementById('voucher-max-discount');
+  const mainExpiryInput = document.getElementById('voucher-expiry');
+
+  if (mainCodeInput) mainCodeInput.value = voucher.code;
+  if (mainTypeInput) mainTypeInput.value = voucher.type;
+  if (mainAmountInput) mainAmountInput.value = voucher.amount;
+  if (mainMinSpendInput) mainMinSpendInput.value = voucher.minSpend;
+  if (mainMaxDiscountInput) mainMaxDiscountInput.value = voucher.maxDiscount;
+  if (mainExpiryInput) mainExpiryInput.value = voucher.expiry;
+
+  const targetEl = document.getElementById('preview-ticket-target');
+  if (targetEl) targetEl.textContent = voucher.targetText || 'Tất cả khách hàng';
+
+  updateVoucherLivePreview();
+  renderVoucherChips();
+
+  showToast(`Đang xem cấu hình Voucher "${voucher.code}"`, 'info');
+}
+
 function updateVoucherLivePreview() {
   const codeEl = document.getElementById('voucher-code');
   const amountEl = document.getElementById('voucher-amount');
@@ -1390,20 +1485,31 @@ function updateVoucherLivePreview() {
   const previewExpiry = document.getElementById('preview-ticket-expiry');
 
   const code = (codeEl && codeEl.value) ? codeEl.value.trim().toUpperCase() : 'MONSTER10';
-  const amount = (amountEl && amountEl.value) ? amountEl.value.trim() : '10%';
+  const rawAmount = (amountEl && amountEl.value) ? amountEl.value.trim() : '10%';
   const type = typeEl ? typeEl.value : 'percent';
-  const minSpend = (minSpendEl && minSpendEl.value) ? minSpendEl.value.trim() : '200.000đ';
-  const maxDisc = (maxDiscEl && maxDiscEl.value) ? maxDiscEl.value.trim() : '50.000đ';
+  const minSpend = (minSpendEl && minSpendEl.value) ? minSpendEl.value.trim() : '0đ';
+  const maxDisc = (maxDiscEl && maxDiscEl.value) ? maxDiscEl.value.trim() : '';
 
   if (previewCode) {
     previewCode.innerHTML = `<i class="fas fa-copy"></i> ${code}`;
   }
+
   if (previewDiscount) {
-    previewDiscount.textContent = type === 'percent' ? `GIẢM ${amount}` : `GIẢM ${amount} Đ`;
+    if (type === 'percent') {
+      const cleanPercent = rawAmount.replace(/%/g, '').trim();
+      previewDiscount.textContent = `GIẢM ${cleanPercent}%`;
+    } else {
+      const cleanFixed = rawAmount.replace(/\s*(đ|Đ|vnđ|VNĐ)$/i, '').trim();
+      previewDiscount.textContent = `GIẢM ${cleanFixed}đ`;
+    }
   }
+
   if (previewDesc) {
-    previewDesc.textContent = `Áp dụng cho đơn hàng từ ${minSpend} (Tối đa ${maxDisc})`;
+    const minText = (!minSpend || minSpend === '0' || minSpend === '0đ') ? 'mọi đơn hàng' : `đơn từ ${minSpend}`;
+    const maxText = maxDisc ? ` (Tối đa ${maxDisc})` : '';
+    previewDesc.textContent = `Áp dụng cho ${minText}${maxText}`;
   }
+
   if (previewExpiry && expiryEl && expiryEl.value) {
     const parts = expiryEl.value.split('-');
     if (parts.length === 3) {
@@ -1436,9 +1542,49 @@ function handleVoucherStatusToggle(toggle) {
 function handleSaveVoucherSettings(e) {
   if (e && e.preventDefault) e.preventDefault();
   const codeEl = document.getElementById('voucher-code');
+  const typeEl = document.getElementById('voucher-type');
+  const amountEl = document.getElementById('voucher-amount');
+  const minSpendEl = document.getElementById('voucher-min-spend');
+  const maxDiscountEl = document.getElementById('voucher-max-discount');
+  const expiryEl = document.getElementById('voucher-expiry');
+
   const code = (codeEl && codeEl.value) ? codeEl.value.trim().toUpperCase() : 'MONSTER10';
+  const type = typeEl ? typeEl.value : 'percent';
+  const amount = (amountEl && amountEl.value) ? amountEl.value.trim() : '10%';
+  const minSpend = (minSpendEl && minSpendEl.value) ? minSpendEl.value.trim() : '200.000đ';
+  const maxDiscount = (maxDiscountEl && maxDiscountEl.value) ? maxDiscountEl.value.trim() : '50.000đ';
+  const expiry = (expiryEl && expiryEl.value) ? expiryEl.value : '2026-12-31';
+
+  // Update in mock list if matches active voucher
+  const existing = MOCK_VOUCHERS_LIST.find(v => v.code === activeVoucherCode || v.code === code);
+  if (existing) {
+    existing.code = code;
+    existing.type = type;
+    existing.amount = amount;
+    existing.minSpend = minSpend;
+    existing.maxDiscount = maxDiscount;
+    existing.expiry = expiry;
+  }
+  activeVoucherCode = code;
+  renderVoucherChips();
 
   showToast(`Đã lưu thành công cấu hình Voucher "${code}" & chính sách vận chuyển!`, 'success');
+}
+
+function handleAddVoucherTypeChange(type) {
+  const amountInput = document.getElementById('add-voucher-amount');
+  if (amountInput) {
+    amountInput.placeholder = type === 'percent' ? 'VD: 15% hoặc 20%' : 'VD: 30.000đ hoặc 50.000đ';
+  }
+}
+
+function copyVoucherCode(code) {
+  const codeEl = document.getElementById('voucher-code');
+  const codeToCopy = code || (codeEl ? codeEl.value.trim().toUpperCase() : 'MONSTER10');
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(codeToCopy).catch(() => {});
+  }
+  showToast(`Đã sao chép mã voucher "${codeToCopy}" vào bộ nhớ tạm!`, 'info');
 }
 
 function openAddVoucherModal() {
@@ -1459,12 +1605,46 @@ function saveAddVoucher(e) {
   const minSpendEl = document.getElementById('add-voucher-min-spend');
   const maxDiscountEl = document.getElementById('add-voucher-max-discount');
   const expiryEl = document.getElementById('add-voucher-expiry');
+  const targetEl = document.getElementById('add-voucher-target');
+  const limitEl = document.getElementById('add-voucher-limit');
 
   const code = (codeEl && codeEl.value) ? codeEl.value.trim().toUpperCase() : 'ENERGY20';
   const type = typeEl ? typeEl.value : 'percent';
   const amount = (amountEl && amountEl.value) ? amountEl.value.trim() : '15%';
   const minSpend = (minSpendEl && minSpendEl.value) ? minSpendEl.value.trim() : '150.000đ';
   const maxDiscount = (maxDiscountEl && maxDiscountEl.value) ? maxDiscountEl.value.trim() : '40.000đ';
+  const expiry = (expiryEl && expiryEl.value) ? expiryEl.value : '2026-12-31';
+  const target = targetEl ? targetEl.value : 'all';
+  const limit = (limitEl && limitEl.value) ? parseInt(limitEl.value, 10) : 500;
+
+  const targetMap = {
+    all: 'Tất cả khách hàng',
+    vip: 'Chỉ khách hàng VIP',
+    new: 'Chỉ khách hàng mới'
+  };
+  const targetText = targetMap[target] || 'Tất cả khách hàng';
+
+  // Add or update in mock multi-voucher registry
+  const existingIdx = MOCK_VOUCHERS_LIST.findIndex(v => v.code === code);
+  const newVoucher = {
+    code,
+    type,
+    amount,
+    minSpend,
+    maxDiscount,
+    expiry,
+    target,
+    targetText,
+    limit
+  };
+
+  if (existingIdx >= 0) {
+    MOCK_VOUCHERS_LIST[existingIdx] = newVoucher;
+  } else {
+    MOCK_VOUCHERS_LIST.unshift(newVoucher);
+  }
+
+  activeVoucherCode = code;
 
   // Live update ticket preview & form inputs so newly created voucher is reflected
   const mainCodeInput = document.getElementById('voucher-code');
@@ -1473,17 +1653,18 @@ function saveAddVoucher(e) {
   const mainMinSpendInput = document.getElementById('voucher-min-spend');
   const mainMaxDiscountInput = document.getElementById('voucher-max-discount');
   const mainExpiryInput = document.getElementById('voucher-expiry');
+  const previewTarget = document.getElementById('preview-ticket-target');
 
   if (mainCodeInput) mainCodeInput.value = code;
   if (mainTypeInput) mainTypeInput.value = type;
   if (mainAmountInput) mainAmountInput.value = amount;
   if (mainMinSpendInput) mainMinSpendInput.value = minSpend;
   if (mainMaxDiscountInput) mainMaxDiscountInput.value = maxDiscount;
-  if (mainExpiryInput && expiryEl && expiryEl.value) mainExpiryInput.value = expiryEl.value;
+  if (mainExpiryInput) mainExpiryInput.value = expiry;
+  if (previewTarget) previewTarget.textContent = targetText;
 
-  if (typeof updateVoucherLivePreview === 'function') {
-    updateVoucherLivePreview();
-  }
+  updateVoucherLivePreview();
+  renderVoucherChips();
 
   // Ensure toggle is active
   const toggle = document.getElementById('voucher-toggle-active');
@@ -1493,6 +1674,21 @@ function saveAddVoucher(e) {
   }
 
   closeAdminModal('modal-add-voucher');
-  showToast(`Đã thêm mã Voucher mới "${code}" thành công! Hệ thống đã ghi nhận vào danh sách voucher.`, 'success');
+  showToast(`Đã thêm mã Voucher mới "${code}" thành công! Hệ thống hiện đang quản lý ${MOCK_VOUCHERS_LIST.length} mã voucher chiến dịch.`, 'success');
+}
+
+// Auto-initialize voucher chips if on settings page
+if (typeof document !== 'undefined') {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      if (document.getElementById('voucher-chips-list')) {
+        renderVoucherChips();
+      }
+    });
+  } else {
+    if (document.getElementById('voucher-chips-list')) {
+      renderVoucherChips();
+    }
+  }
 }
 

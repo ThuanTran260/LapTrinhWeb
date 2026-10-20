@@ -98,7 +98,7 @@
 
       <!-- Voucher & Shipping Settings (Nâng Cấp Hướng 1: Thẻ Vé Neon Coupon Live Preview) -->
       <section class="admin-section-box" style="max-width: 740px;">
-        <div class="admin-section-header">
+        <div class="admin-section-header" style="flex-wrap: wrap; gap: 12px;">
           <h2 class="admin-section-title"><i class="fas fa-ticket" style="color: var(--secondary);"></i> VOUCHER KHUYẾN MÃI & VẬN CHUYỂN</h2>
           <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
             <button type="button" class="btn-add-voucher" id="btn-add-voucher" onclick="openAddVoucherModal()" title="Thêm mã voucher mới (Hỗ trợ quản lý nhiều voucher)">
@@ -114,24 +114,36 @@
           </div>
         </div>
 
+        <!-- Thanh Quản Lý Danh Sách Nhiều Voucher Chiến Dịch (Interactive Multi-Voucher Chips) -->
+        <div class="voucher-chips-bar" id="voucher-chips-bar">
+          <span style="font-size: 0.8rem; color: var(--text-dim); text-transform: uppercase; font-weight: 700; margin-right: 4px; display: inline-flex; align-items: center; gap: 5px;">
+            <i class="fas fa-layer-group" style="color: var(--primary);"></i> Danh sách mã:
+          </span>
+          <div id="voucher-chips-list" style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+            <button type="button" class="voucher-chip active" onclick="switchVoucherPreview('MONSTER10')">MONSTER10 <span class="voucher-chip-tag">10%</span></button>
+            <button type="button" class="voucher-chip" onclick="switchVoucherPreview('ENERGY20')">ENERGY20 <span class="voucher-chip-tag">20K</span></button>
+            <button type="button" class="voucher-chip" onclick="switchVoucherPreview('FREESHIP')">FREESHIP <span class="voucher-chip-tag">FREESHIP</span></button>
+          </div>
+        </div>
+
         <!-- Thẻ Vé Coupon Neon Trực Quan (Live Preview) -->
         <div id="voucher-ticket-preview" class="voucher-ticket-card">
           <div class="ticket-stub">
             <div class="ticket-stub-icon"><i class="fas fa-bolt"></i></div>
             <div class="ticket-stub-title">ENERGY BOOST</div>
-            <div class="ticket-code-pill" id="preview-ticket-code"><i class="fas fa-copy"></i> MONSTER10</div>
+            <div class="ticket-code-pill" id="preview-ticket-code" onclick="copyVoucherCode()" title="Nhấn để sao chép mã"><i class="fas fa-copy"></i> MONSTER10</div>
           </div>
           <div class="ticket-body">
             <div class="ticket-body-top">
               <div>
                 <div class="ticket-discount-value" id="preview-ticket-discount">GIẢM 10%</div>
-                <div class="ticket-discount-desc" id="preview-ticket-desc">Áp dụng cho đơn hàng từ 200.000đ (Tối đa 50k)</div>
+                <div class="ticket-discount-desc" id="preview-ticket-desc">Áp dụng cho đơn từ 200.000đ (Tối đa 50.000đ)</div>
               </div>
               <span class="badge-status success" id="preview-ticket-badge"><i class="fas fa-circle-check"></i> ĐANG ÁP DỤNG</span>
             </div>
             <div class="ticket-body-bottom">
               <span><i class="fas fa-calendar-alt" style="color: var(--accent-cyan); margin-right: 4px;"></i> Hạn sử dụng: <strong id="preview-ticket-expiry" style="color: #FFF;">31/12/2026</strong></span>
-              <span><i class="fas fa-users" style="color: var(--accent-gold); margin-right: 4px;"></i> Áp dụng: Tất cả khách hàng</span>
+              <span><i class="fas fa-users" style="color: var(--accent-gold); margin-right: 4px;"></i> Áp dụng: <strong id="preview-ticket-target" style="color: #FFF;">Tất cả khách hàng</strong></span>
             </div>
           </div>
         </div>
@@ -139,13 +151,13 @@
         <!-- Form Cấu Hình Chi Tiết Tách Biệt Từng Trường -->
         <form onsubmit="handleSaveVoucherSettings(event)">
           <div style="font-size: 0.88rem; font-weight: 700; color: var(--primary); text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
-            <i class="fas fa-sliders"></i> Chi Tiết Mã Giảm Giá Mặc Định
+            <i class="fas fa-sliders"></i> Cấu Hình Chi Tiết Mã Voucher Đang Chọn
           </div>
 
           <div class="admin-form-grid" style="margin-bottom: 20px;">
             <div class="admin-form-group">
               <label class="admin-form-label" for="voucher-code"><i class="fas fa-barcode"></i> Mã Code Khuyến Mãi <span class="req">*</span></label>
-              <input type="text" id="voucher-code" class="admin-form-input" value="MONSTER10" oninput="updateVoucherLivePreview()" required />
+              <input type="text" id="voucher-code" class="admin-form-input" value="MONSTER10" oninput="updateVoucherLivePreview()" style="text-transform: uppercase;" required />
             </div>
 
             <div class="admin-form-group">
@@ -222,7 +234,7 @@
 
             <div class="admin-form-group">
               <label class="admin-form-label" for="add-voucher-type"><i class="fas fa-percent"></i> Loại Giảm Giá <span class="req">*</span></label>
-              <select id="add-voucher-type" class="admin-form-select">
+              <select id="add-voucher-type" class="admin-form-select" onchange="handleAddVoucherTypeChange(this.value)">
                 <option value="percent" selected>Giảm theo phần trăm (%)</option>
                 <option value="fixed">Giảm số tiền cố định (VNĐ)</option>
               </select>
