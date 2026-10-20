@@ -573,39 +573,7 @@ function openProductEditModal(productId, triggerBtn) {
 function saveProductEdit(e) {
   if (e && e.preventDefault) e.preventDefault();
   const nameEl = document.getElementById('edit-prod-name');
-  const brandEl = document.getElementById('edit-prod-brand');
-  const brandSelect = document.getElementById('edit-prod-brand-select');
-  const imgPreview = document.getElementById('edit-prod-img-preview');
-  const priceEl = document.getElementById('edit-prod-price');
-  const volumeEl = document.getElementById('edit-prod-volume');
-  const statusEl = document.getElementById('edit-prod-status');
-
   const name = nameEl ? nameEl.value : 'Sản phẩm';
-  const brandVal = brandSelect ? brandSelect.value : (brandEl ? brandEl.value : 'Monster Energy');
-
-  // Live update the table row in DOM
-  if (currentEditingRow) {
-    const cells = currentEditingRow.cells;
-    if (cells && cells.length >= 6) {
-      if (cells[0] && imgPreview) {
-        const rowImg = cells[0].querySelector('img');
-        if (rowImg) rowImg.src = imgPreview.src;
-      }
-      if (cells[1]) {
-        const strong = cells[1].querySelector('strong');
-        if (strong) strong.textContent = name;
-        else cells[1].innerHTML = '<strong>' + name + '</strong>';
-      }
-      if (cells[2]) cells[2].textContent = brandVal;
-      if (cells[3] && volumeEl) cells[3].textContent = volumeEl.value;
-      if (cells[4] && priceEl) cells[4].textContent = priceEl.value;
-      if (cells[5] && statusEl) {
-        const isAvail = statusEl.value === 'Còn hàng';
-        const badgeClass = isAvail ? 'success' : (statusEl.value.includes('Sắp') ? 'warning' : 'danger');
-        cells[5].innerHTML = '<span class="badge-status ' + badgeClass + '">' + statusEl.value.toUpperCase() + '</span>';
-      }
-    }
-  }
 
   showToast('Đã lưu thay đổi thông tin sản phẩm "' + name + '" thành công!', 'success');
   closeAdminModal('modal-edit-product');
@@ -621,40 +589,12 @@ function openAddProductModal() {
 function saveAddProduct(e) {
   if (e && e.preventDefault) e.preventDefault();
   const nameEl = document.getElementById('add-prod-name');
-  const brandEl = document.getElementById('add-prod-brand');
-  const priceEl = document.getElementById('add-prod-price');
-  const volumeEl = document.getElementById('add-prod-volume');
-  const statusEl = document.getElementById('add-prod-status');
-
   const name = (nameEl && nameEl.value) ? nameEl.value : 'Nước Tăng Lực Mới';
-  const brand = (brandEl && brandEl.value) ? brandEl.value : 'Monster Energy';
-  const price = (priceEl && priceEl.value) ? priceEl.value : '48.000đ';
-  const volume = (volumeEl && volumeEl.value) ? volumeEl.value : '355ml';
-  const status = (statusEl && statusEl.value) ? statusEl.value : 'Còn hàng';
 
-  // Live append to table in DOM
-  const tbody = document.querySelector('#inventory-section table.cart-table tbody') || document.querySelector('table.cart-table tbody');
-  if (tbody) {
-    const isAvail = status === 'Còn hàng';
-    const badgeClass = isAvail ? 'success' : 'warning';
-    const newTr = document.createElement('tr');
-    newTr.innerHTML = `
-      <td><img src="../assets/images/monster/original.webp" alt="${name}" style="width: 36px; height: 46px; object-fit: contain;" /></td>
-      <td><strong>${name}</strong></td>
-      <td>${brand}</td>
-      <td>${volume}</td>
-      <td>${price}</td>
-      <td><span class="badge-status ${badgeClass}">${status.toUpperCase()}</span></td>
-      <td>
-        <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" onclick="openProductEditModal('custom', this)" title="Chỉnh sửa sản phẩm"><i class="fas fa-edit"></i></button>
-        <button class="cart-del-btn" style="padding: 4px 8px;" onclick="this.closest('tr').remove(); showToast('Đã xóa sản phẩm khỏi danh sách!', 'info')" title="Xóa"><i class="fas fa-trash"></i></button>
-      </td>
-    `;
-    tbody.prepend(newTr);
-  }
-
-  showToast('Đã thêm sản phẩm "' + name + '" vào kho hàng thành công!', 'success');
+  showToast('Đã thêm sản phẩm "' + name + '" vào kho hàng thành công (Mô phỏng)!', 'success');
   closeAdminModal('modal-add-product');
+  const form = document.getElementById('form-add-product');
+  if (form) form.reset();
 }
 
 // 9c. Customer VIP Detail Modal Logic & Registry
@@ -1276,40 +1216,12 @@ function openAddUserModal() {
 
 function saveAddUser(e) {
   if (e && e.preventDefault) e.preventDefault();
-  const username = (document.getElementById('add-user-username') || {}).value || 'user_new';
   const fullname = (document.getElementById('add-user-fullname') || {}).value || 'Người Dùng Mới';
-  const email = (document.getElementById('add-user-email') || {}).value || 'user@example.com';
-  const phone = (document.getElementById('add-user-phone') || {}).value || '0900.000.000';
-  const role = (document.getElementById('add-user-role') || {}).value || 'user';
-  const status = (document.getElementById('add-user-status') || {}).value || 'active';
 
-  const tbody = document.querySelector('#users-table tbody') || document.querySelector('.cart-table tbody');
-  if (tbody) {
-    const isAct = status === 'active';
-    const badgeText = isAct ? 'ĐANG HOẠT ĐỘNG' : 'ĐÃ KHOÁ';
-    const badgeClass = isAct ? 'badge-status success' : 'badge-status locked danger';
-    const lockBtnClass = isAct ? 'btn-action-lock' : 'btn-action-unlock';
-    const lockBtnIcon = isAct ? 'fa-lock' : 'fa-lock-open';
-    const lockBtnText = isAct ? 'Khoá' : 'Mở';
-
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td><span class="badge-status info">MỚI</span></td>
-      <td><strong>${fullname}</strong><br><small style="color: var(--text-muted);">${username} (${role.toUpperCase()})</small></td>
-      <td>${phone}<br><small style="color: var(--text-dim);">${email}</small></td>
-      <td><span style="color: var(--text-muted); font-size: 0.85rem;">(Chưa có đơn)</span></td>
-      <td><strong style="color: var(--primary);">0đ</strong></td>
-      <td><span class="${badgeClass}">${badgeText}</span></td>
-      <td>
-        <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem;" onclick="openEditUserModal('custom', this)" title="Sửa"><i class="fas fa-edit"></i> Sửa</button>
-        <button class="${lockBtnClass}" onclick="toggleLockUser(this, '${fullname}')"><i class="fas ${lockBtnIcon}"></i> ${lockBtnText}</button>
-      </td>
-    `;
-    tbody.prepend(tr);
-  }
-
-  showToast('Đã thêm tài khoản người dùng "' + fullname + '" thành công!', 'success');
+  showToast('Đã thêm tài khoản người dùng "' + fullname + '" thành công (Mô phỏng)!', 'success');
   closeAdminModal('modal-add-user');
+  const form = document.getElementById('form-add-user');
+  if (form) form.reset();
 }
 
 function openEditUserModal(customerKey, btn) {
@@ -1342,56 +1254,14 @@ function openEditUserModal(customerKey, btn) {
 function saveEditUser(e) {
   if (e && e.preventDefault) e.preventDefault();
   const nameEl = document.getElementById('edit-user-fullname');
-  const phoneEl = document.getElementById('edit-user-phone');
-  const emailEl = document.getElementById('edit-user-email');
-  const statusEl = document.getElementById('edit-user-status');
   const name = nameEl ? nameEl.value : 'Người dùng';
 
-  if (currentEditingUserRow) {
-    const strong = currentEditingUserRow.querySelector('strong');
-    if (strong) strong.textContent = name;
-    if (phoneEl && currentEditingUserRow.cells[2]) {
-      const email = emailEl ? emailEl.value : '';
-      currentEditingUserRow.cells[2].innerHTML = `${phoneEl.value}${email ? `<br><small style="color: var(--text-dim);">${email}</small>` : ''}`;
-    }
-    if (statusEl && currentEditingUserRow.cells[5]) {
-      const isAct = statusEl.value === 'active';
-      const badge = currentEditingUserRow.cells[5].querySelector('.badge-status');
-      if (badge) {
-        badge.className = isAct ? 'badge-status success' : 'badge-status locked danger';
-        badge.textContent = isAct ? 'ĐANG HOẠT ĐỘNG' : 'ĐÃ KHOÁ';
-      }
-      const lockBtn = currentEditingUserRow.querySelector('.btn-action-lock, .btn-action-unlock');
-      if (lockBtn) {
-        lockBtn.className = isAct ? 'btn-action-lock' : 'btn-action-unlock';
-        lockBtn.innerHTML = isAct ? '<i class="fas fa-lock"></i> Khoá' : '<i class="fas fa-lock-open"></i> Mở';
-      }
-    }
-  }
   showToast('Đã lưu thay đổi thông tin người dùng "' + name + '" thành công!', 'success');
   closeAdminModal('modal-edit-user');
 }
 
 function toggleLockUser(btn, customerName) {
-  const row = btn ? btn.closest('tr') : null;
-  if (!row) return;
-  const badge = row.querySelector('.badge-status');
-  if (!badge) return;
-
-  const isCurrentlyLocked = badge.textContent.includes('KHOÁ');
-  if (isCurrentlyLocked) {
-    badge.className = 'badge-status success';
-    badge.textContent = 'ĐANG HOẠT ĐỘNG';
-    btn.className = 'btn-action-lock';
-    btn.innerHTML = '<i class="fas fa-lock"></i> Khoá';
-    showToast('Đã mở khoá tài khoản "' + customerName + '" thành công!', 'success');
-  } else {
-    badge.className = 'badge-status locked danger';
-    badge.textContent = 'ĐÃ KHOÁ';
-    btn.className = 'btn-action-unlock';
-    btn.innerHTML = '<i class="fas fa-lock-open"></i> Mở';
-    showToast('Đã khoá tài khoản "' + customerName + '" thành công!', 'warning');
-  }
+  showToast('Đã chuyển đổi trạng thái tài khoản "' + customerName + '" (Mô phỏng giao diện)!', 'info');
 }
 
 // ==========================================================================
@@ -1422,7 +1292,6 @@ function previewEditProductImage(e) {
 }
 
 function handleAdminDeleteProduct(btnOrName, productNameOrHasOrders, maybeHasOrders) {
-  let btn = null;
   let name = 'Sản phẩm';
   let hasOrders = false;
 
@@ -1430,26 +1299,15 @@ function handleAdminDeleteProduct(btnOrName, productNameOrHasOrders, maybeHasOrd
     name = btnOrName;
     hasOrders = !!productNameOrHasOrders;
   } else {
-    btn = btnOrName;
     name = productNameOrHasOrders || 'Sản phẩm';
     hasOrders = !!maybeHasOrders;
   }
 
-  const row = btn ? btn.closest('tr') : null;
-
+  // Quy tắc dự án: Khi xóa chỉ cần thông báo chứ không thực sự xóa hay ẩn (DOM giữ nguyên)
   if (hasOrders) {
-    if (row && row.cells[5]) {
-      row.cells[5].innerHTML = '<span class="badge-status danger" style="background: rgba(239, 68, 68, 0.18); color: #EF4444; border: 1px solid rgba(239, 68, 68, 0.4);">ĐÃ ẨN</span>';
-    }
-    showToast('Không thể xóa sản phẩm "' + name + '" đã có đơn hàng! Đã chuyển trạng thái sang ĐÃ ẨN để bảo toàn lịch sử bán hàng.', 'warning');
+    showToast('Sản phẩm "' + name + '" đã phát sinh đơn hàng xuất bán! Hệ thống chuyển trạng thái sang ĐÃ ẨN khỏi web để bảo toàn lịch sử bán hàng (Mô phỏng).', 'warning');
   } else {
-    const isConfirmed = confirm('Bạn có chắc chắn muốn xóa sản phẩm "' + name + '" này khỏi hệ thống kho?');
-    if (isConfirmed) {
-      if (row) {
-        row.remove();
-      }
-      showToast('Đã xóa thành công sản phẩm "' + name + '" khỏi hệ thống kho hàng!', 'success');
-    }
+    showToast('Đã chuyển sản phẩm "' + name + '" vào thùng rác lưu trữ (Mô phỏng).', 'info');
   }
 }
 
@@ -1510,17 +1368,8 @@ function saveOrderStatus() {
     return;
   }
   const nextStatus = selectEl.value;
-  if (currentOrderEditingBtn) {
-    const row = currentOrderEditingBtn.closest('tr');
-    if (row && row.cells[4]) {
-      const isSuccess = nextStatus.includes('Thành công');
-      const isCancel = nextStatus.includes('Huỷ');
-      const badgeClass = isSuccess ? 'success' : (isCancel ? 'danger' : 'warning');
-      row.cells[4].innerHTML = '<span class="badge-status ' + badgeClass + '">' + nextStatus.toUpperCase() + '</span>';
-      currentOrderEditingBtn.setAttribute('onclick', `openOrderStatusModal('${currentOrderIdForStatus}', '${nextStatus}', this)`);
-    }
-  }
-  showToast('Đã cập nhật trạng thái đơn hàng #' + currentOrderIdForStatus + ' thành "' + nextStatus + '" (Quy tắc một chiều)!', 'success');
+  // Quy tắc dự án: Giữ lại giao diện modal và thông báo nhưng tắt tính năng chuyển (trạng thái trong bảng giữ nguyên)
+  showToast('Đã cập nhật trạng thái đơn hàng #' + currentOrderIdForStatus + ' thành "' + nextStatus + '" (Mô phỏng)!', 'success');
   closeAdminModal('modal-order-status');
 }
 
