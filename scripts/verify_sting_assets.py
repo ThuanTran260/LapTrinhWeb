@@ -1,10 +1,11 @@
 import os
 from PIL import Image
 
+base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "assets", "images", "sting"))
 targets = [
-    r"d:\LapTrinhWeb\assets\images\sting\sting-dau.webp",
-    r"d:\LapTrinhWeb\assets\images\sting\sting-gold.webp",
-    r"d:\LapTrinhWeb\assets\images\sting\sting-vietquat.webp"
+    os.path.join(base_dir, "sting-dau.webp"),
+    os.path.join(base_dir, "sting-gold.webp"),
+    os.path.join(base_dir, "sting-vietquat.webp")
 ]
 
 print("=== FINAL VERIFICATION OF STING ASSETS ===")
