@@ -984,7 +984,10 @@
         <form onsubmit="handleAdvancedSearch(event)">
           <div class="admin-form-group full-width" style="margin-bottom: 14px;">
             <label class="admin-form-label"><i class="fas fa-search" style="color: var(--primary);"></i> Tên sản phẩm / Từ khóa</label>
-            <input type="text" id="adv-search-keyword" class="admin-form-input" placeholder="VD: Original, Ultra, Dâu tây, Chai vàng..." value="Original" />
+            <div class="adv-search-input-wrapper">
+              <input type="text" id="adv-search-keyword" class="admin-form-input" placeholder="VD: Original, Ultra, Dâu tây, Chai vàng..." value="Original" oninput="handleAdvKeywordInput(this.value)" onfocus="handleAdvKeywordInput(this.value)" autocomplete="off" />
+              <div id="adv-search-suggestions" class="adv-search-suggestions"></div>
+            </div>
           </div>
 
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px;">
@@ -1009,7 +1012,7 @@
             </div>
           </div>
 
-          <div style="background: rgba(0, 230, 118, 0.06); border: 1px solid rgba(0, 230, 118, 0.2); border-radius: var(--radius-sm); padding: 12px; margin-bottom: 16px; font-size: 0.82rem; color: var(--text-dim);">
+          <div id="adv-search-preview" style="background: rgba(0, 230, 118, 0.06); border: 1px solid rgba(0, 230, 118, 0.2); border-radius: var(--radius-sm); padding: 12px; margin-bottom: 16px; font-size: 0.82rem; color: var(--text-dim);">
             <i class="fas fa-info-circle" style="color: var(--primary);"></i> Kết quả mẫu phù hợp tiêu chí: <strong style="color: #FFF;">Monster Energy Original 355ml (45.000đ)</strong>
           </div>
 

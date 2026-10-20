@@ -824,6 +824,19 @@ document.addEventListener('click', function(e) {
 // ==========================================================================
 // 13. STATIC SEARCH DROPDOWN & ADVANCED SEARCH (RUBRIC COMPLIANCE)
 // ==========================================================================
+const STATIC_PRODUCTS_CATALOG = [
+  { id: 'mn-1', name: 'Monster Energy Original 355ml', brand: 'Monster Energy', brandKey: 'monster', price: '45.000đ', priceKey: '20to50', image: 'assets/images/monster/original.webp' },
+  { id: 'mn-2', name: 'Monster Zero Ultra White 500ml', brand: 'Monster Energy', brandKey: 'monster', price: '48.000đ', priceKey: '20to50', image: 'assets/images/monster/ultra-white.webp' },
+  { id: 'mn-3', name: 'Monster Ultra Paradise 500ml', brand: 'Monster Energy', brandKey: 'monster', price: '48.000đ', priceKey: '20to50', image: 'assets/images/monster/ultra-paradise.webp' },
+  { id: 'mn-4', name: 'Monster Ultra Punk Punch 500ml', brand: 'Monster Energy', brandKey: 'monster', price: '50.000đ', priceKey: '20to50', image: 'assets/images/monster/ultra-punk-punch.webp' },
+  { id: 'rb-1', name: 'Nước Tăng Lực Redbull Original 250ml', brand: 'Redbull Thái Lan', brandKey: 'redbull', price: '18.000đ', priceKey: 'under20', image: 'assets/images/redbull/redbull-original.webp' },
+  { id: 'rb-2', name: 'Nước Tăng Lực Redbull Thái Lan 250ml', brand: 'Redbull Thái Lan', brandKey: 'redbull', price: '18.000đ', priceKey: 'under20', image: 'assets/images/redbull/redbull-thai.webp' },
+  { id: 'rb-3', name: 'Nước Tăng Lực Redbull Nắp Bật 250ml', brand: 'Redbull Thái Lan', brandKey: 'redbull', price: '20.000đ', priceKey: '20to50', image: 'assets/images/redbull/redbull-lon-vua.webp' },
+  { id: 'st-1', name: 'Nước Tăng Lực Sting Dâu Tây Đỏ 330ml', brand: 'Sting PepsiCo', brandKey: 'sting', price: '12.000đ', priceKey: 'under20', image: 'assets/images/sting/sting-dau.webp' },
+  { id: 'st-2', name: 'Nước Tăng Lực Sting Vàng Sleek 330ml', brand: 'Sting PepsiCo', brandKey: 'sting', price: '12.000đ', priceKey: 'under20', image: 'assets/images/sting/sting-gold.webp' },
+  { id: 'st-3', name: 'Nước Tăng Lực Sting Blue Sleek 320ml', brand: 'Sting PepsiCo', brandKey: 'sting', price: '13.000đ', priceKey: 'under20', image: 'assets/images/sting/sting-vietquat.webp' }
+];
+
 function openSearchDropdown() {
   const dropdown = document.getElementById('search-dropdown-menu');
   if (dropdown) dropdown.classList.add('is-open');
@@ -855,6 +868,7 @@ function closeAdvancedSearchModal() {
     modal.classList.remove('active');
     document.body.style.overflow = '';
   }
+  closeAdvSuggestions();
 }
 
 function handleAdvancedSearch(e) {
@@ -870,11 +884,117 @@ function handleAdvancedSearch(e) {
   showToast('Đã lọc nâng cao: "' + keyword + '" | ' + brandName + ' | ' + priceName, 'success');
 }
 
-// Global click outside & Escape listeners for search dropdown
+function removeVietnameseTones(str) {
+  return (str || '')
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/đ/g, 'd')
+    .replace(/Đ/g, 'D');
+}
+
+function handleAdvKeywordInput(val) {
+  const container = document.getElementById('adv-search-suggestions');
+  if (!container) return;
+
+  const raw = (val || '').trim();
+  let matches = [];
+
+  if (!raw) {
+    matches = [
+      { prod: STATIC_PRODUCTS_CATALOG[0], idx: 0 },
+      { prod: STATIC_PRODUCTS_CATALOG[4], idx: 4 },
+      { prod: STATIC_PRODUCTS_CATALOG[7], idx: 7 }
+    ];
+  } else {
+    const qLower = raw.toLowerCase();
+    const qNorm = removeVietnameseTones(qLower);
+
+    STATIC_PRODUCTS_CATALOG.forEach((prod, idx) => {
+      const nameLower = prod.name.toLowerCase();
+      const brandLower = prod.brand.toLowerCase();
+      const nameNorm = removeVietnameseTones(nameLower);
+      const brandNorm = removeVietnameseTones(brandLower);
+
+      if (
+        nameLower.includes(qLower) ||
+        brandLower.includes(qLower) ||
+        nameNorm.includes(qNorm) ||
+        brandNorm.includes(qNorm)
+      ) {
+        matches.push({ prod, idx });
+      }
+    });
+  }
+
+  if (matches.length === 0) {
+    container.innerHTML = '<div style="padding: 12px; font-size: 0.8rem; color: var(--text-dim); text-align: center;">Không tìm thấy sản phẩm gợi ý phù hợp</div>';
+    container.classList.add('active');
+    return;
+  }
+
+  let html = '';
+  matches.forEach(({ prod, idx }) => {
+    const imgSrc = typeof SITE_ROOT !== 'undefined' ? (SITE_ROOT + prod.image) : prod.image;
+    html += `
+      <div class="adv-suggestion-item" onclick="selectAdvSearchSuggestion(${idx})">
+        <div class="adv-suggestion-left">
+          <img src="${imgSrc}" alt="${prod.name}" class="adv-suggestion-thumb" />
+          <div>
+            <div class="adv-suggestion-name">${prod.name}</div>
+            <div class="adv-suggestion-brand">${prod.brand}</div>
+          </div>
+        </div>
+        <div class="adv-suggestion-price">${prod.price}</div>
+      </div>
+    `;
+  });
+
+  container.innerHTML = html;
+  container.classList.add('active');
+}
+
+function openAdvSuggestions() {
+  const kwEl = document.getElementById('adv-search-keyword');
+  handleAdvKeywordInput(kwEl ? kwEl.value : '');
+}
+
+function selectAdvSearchSuggestion(idx) {
+  const prod = STATIC_PRODUCTS_CATALOG[idx];
+  if (!prod) return;
+
+  const kwEl = document.getElementById('adv-search-keyword');
+  if (kwEl) kwEl.value = prod.name;
+
+  const brandEl = document.getElementById('adv-search-brand');
+  if (brandEl) brandEl.value = prod.brandKey;
+
+  const priceEl = document.getElementById('adv-search-price');
+  if (priceEl) priceEl.value = prod.priceKey;
+
+  const previewEl = document.getElementById('adv-search-preview');
+  if (previewEl) {
+    previewEl.innerHTML = `<i class="fas fa-info-circle" style="color: var(--primary);"></i> Kết quả mẫu phù hợp tiêu chí: <strong style="color: #FFF;">${prod.name} (${prod.price})</strong>`;
+  }
+
+  closeAdvSuggestions();
+}
+
+function closeAdvSuggestions() {
+  const container = document.getElementById('adv-search-suggestions');
+  if (container) {
+    container.classList.remove('active');
+  }
+}
+
+// Global click outside & Escape listeners for search dropdown and advanced suggestions
 document.addEventListener('click', function(e) {
   const searchBox = e.target.closest('.search-box');
   if (!searchBox) {
     closeSearchDropdown();
+  }
+  const advWrapper = e.target.closest('.adv-search-input-wrapper');
+  if (!advWrapper) {
+    closeAdvSuggestions();
   }
 });
 
@@ -882,6 +1002,7 @@ document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') {
     closeSearchDropdown();
     closeAdvancedSearchModal();
+    closeAdvSuggestions();
   }
 });
 
