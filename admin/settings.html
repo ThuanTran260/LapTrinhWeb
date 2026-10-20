@@ -96,25 +96,100 @@
         </form>
       </section>
 
-      <!-- Voucher & Shipping Settings -->
-      <section class="admin-section-box" style="max-width: 680px;">
+      <!-- Voucher & Shipping Settings (Nâng Cấp Hướng 1: Thẻ Vé Neon Coupon Live Preview) -->
+      <section class="admin-section-box" style="max-width: 740px;">
         <div class="admin-section-header">
-          <h2 class="admin-section-title"><i class="fas fa-ticket" style="color: var(--secondary);"></i> VOUCHER & VẬN CHUYỂN</h2>
+          <h2 class="admin-section-title"><i class="fas fa-ticket" style="color: var(--secondary);"></i> VOUCHER KHUYẾN MÃI & VẬN CHUYỂN</h2>
+          <div class="custom-toggle-container">
+            <span id="voucher-status-label" style="font-size: 0.8rem; font-weight: 700; color: var(--primary);">ĐANG BẬT</span>
+            <label class="custom-toggle-switch">
+              <input type="checkbox" id="voucher-toggle-active" checked onchange="handleVoucherStatusToggle(this)" />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
         </div>
 
-        <form onsubmit="event.preventDefault(); showToast('Đã cập nhật voucher & vận chuyển (Demo tĩnh)!', 'success');">
-          <div class="form-group">
-            <label class="form-label" for="voucher-code"><i class="fas fa-percent"></i> Mã giảm giá mặc định</label>
-            <input type="text" id="voucher-code" class="form-control" value="MONSTER10 - Giảm 10% đơn đầu tiên" />
+        <!-- Thẻ Vé Coupon Neon Trực Quan (Live Preview) -->
+        <div id="voucher-ticket-preview" class="voucher-ticket-card">
+          <div class="ticket-stub">
+            <div class="ticket-stub-icon"><i class="fas fa-bolt"></i></div>
+            <div class="ticket-stub-title">ENERGY BOOST</div>
+            <div class="ticket-code-pill" id="preview-ticket-code"><i class="fas fa-copy"></i> MONSTER10</div>
+          </div>
+          <div class="ticket-body">
+            <div class="ticket-body-top">
+              <div>
+                <div class="ticket-discount-value" id="preview-ticket-discount">GIẢM 10%</div>
+                <div class="ticket-discount-desc" id="preview-ticket-desc">Áp dụng cho đơn hàng từ 200.000đ (Tối đa 50k)</div>
+              </div>
+              <span class="badge-status success" id="preview-ticket-badge"><i class="fas fa-circle-check"></i> ĐANG ÁP DỤNG</span>
+            </div>
+            <div class="ticket-body-bottom">
+              <span><i class="fas fa-calendar-alt" style="color: var(--accent-cyan); margin-right: 4px;"></i> Hạn sử dụng: <strong id="preview-ticket-expiry" style="color: #FFF;">31/12/2026</strong></span>
+              <span><i class="fas fa-users" style="color: var(--accent-gold); margin-right: 4px;"></i> Áp dụng: Tất cả khách hàng</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Form Cấu Hình Chi Tiết Tách Biệt Từng Trường -->
+        <form onsubmit="handleSaveVoucherSettings(event)">
+          <div style="font-size: 0.88rem; font-weight: 700; color: var(--primary); text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+            <i class="fas fa-sliders"></i> Chi Tiết Mã Giảm Giá Mặc Định
           </div>
 
-          <div class="form-group">
-            <label class="form-label" for="ship-policy"><i class="fas fa-truck-fast"></i> Chính sách giao hỏa tốc 2H</label>
-            <input type="text" id="ship-policy" class="form-control" value="Miễn phí cho đơn từ 200.000đ" />
+          <div class="admin-form-grid" style="margin-bottom: 20px;">
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="voucher-code"><i class="fas fa-barcode"></i> Mã Code Khuyến Mãi <span class="req">*</span></label>
+              <input type="text" id="voucher-code" class="admin-form-input" value="MONSTER10" oninput="updateVoucherLivePreview()" required />
+            </div>
+
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="voucher-type"><i class="fas fa-percent"></i> Loại Giảm Giá <span class="req">*</span></label>
+              <select id="voucher-type" class="admin-form-select" onchange="updateVoucherLivePreview()">
+                <option value="percent" selected>Giảm theo phần trăm (%)</option>
+                <option value="fixed">Giảm số tiền cố định (VNĐ)</option>
+              </select>
+            </div>
+
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="voucher-amount"><i class="fas fa-tags"></i> Mức Giảm <span class="req">*</span></label>
+              <input type="text" id="voucher-amount" class="admin-form-input" value="10%" oninput="updateVoucherLivePreview()" required />
+            </div>
+
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="voucher-min-spend"><i class="fas fa-coins"></i> Đơn Tối Thiểu</label>
+              <input type="text" id="voucher-min-spend" class="admin-form-input" value="200.000đ" oninput="updateVoucherLivePreview()" />
+            </div>
+
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="voucher-max-discount"><i class="fas fa-shield-alt"></i> Giảm Tối Đa</label>
+              <input type="text" id="voucher-max-discount" class="admin-form-input" value="50.000đ" oninput="updateVoucherLivePreview()" />
+            </div>
+
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="voucher-expiry"><i class="fas fa-clock"></i> Ngày Hết Hạn</label>
+              <input type="date" id="voucher-expiry" class="admin-form-input" value="2026-12-31" onchange="updateVoucherLivePreview()" />
+            </div>
           </div>
 
-          <button type="submit" class="btn-add-cart" style="padding: 12px 24px; margin-top: 8px;">
-            <i class="fas fa-save"></i> Cập Nhật
+          <div style="font-size: 0.88rem; font-weight: 700; color: var(--secondary); text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+            <i class="fas fa-truck-fast"></i> Chính Sách Vận Chuyển Hỏa Tốc 2H
+          </div>
+
+          <div class="admin-form-grid" style="margin-bottom: 16px;">
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="ship-min-free"><i class="fas fa-gift"></i> Miễn Phí Vận Chuyển Từ</label>
+              <input type="text" id="ship-min-free" class="admin-form-input" value="200.000đ" />
+            </div>
+
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="ship-standard-fee"><i class="fas fa-money-bill-wave"></i> Phí Giao Tiêu Chuẩn</label>
+              <input type="text" id="ship-standard-fee" class="admin-form-input" value="25.000đ" />
+            </div>
+          </div>
+
+          <button type="submit" class="btn-add-cart" style="padding: 12px 28px; font-weight: 700;">
+            <i class="fas fa-save"></i> Lưu Cấu Hình Voucher & Vận Chuyển
           </button>
         </form>
       </section>

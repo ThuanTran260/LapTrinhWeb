@@ -1373,6 +1373,75 @@ function saveOrderStatus() {
   closeAdminModal('modal-order-status');
 }
 
+// ==========================================================================
+// 20. VOUCHER SETTINGS LIVE PREVIEW & CONTROLLER
+// ==========================================================================
+function updateVoucherLivePreview() {
+  const codeEl = document.getElementById('voucher-code');
+  const amountEl = document.getElementById('voucher-amount');
+  const typeEl = document.getElementById('voucher-type');
+  const minSpendEl = document.getElementById('voucher-min-spend');
+  const maxDiscEl = document.getElementById('voucher-max-discount');
+  const expiryEl = document.getElementById('voucher-expiry');
+
+  const previewCode = document.getElementById('preview-ticket-code');
+  const previewDiscount = document.getElementById('preview-ticket-discount');
+  const previewDesc = document.getElementById('preview-ticket-desc');
+  const previewExpiry = document.getElementById('preview-ticket-expiry');
+
+  const code = (codeEl && codeEl.value) ? codeEl.value.trim().toUpperCase() : 'MONSTER10';
+  const amount = (amountEl && amountEl.value) ? amountEl.value.trim() : '10%';
+  const type = typeEl ? typeEl.value : 'percent';
+  const minSpend = (minSpendEl && minSpendEl.value) ? minSpendEl.value.trim() : '200.000đ';
+  const maxDisc = (maxDiscEl && maxDiscEl.value) ? maxDiscEl.value.trim() : '50.000đ';
+
+  if (previewCode) {
+    previewCode.innerHTML = `<i class="fas fa-copy"></i> ${code}`;
+  }
+  if (previewDiscount) {
+    previewDiscount.textContent = type === 'percent' ? `GIẢM ${amount}` : `GIẢM ${amount} Đ`;
+  }
+  if (previewDesc) {
+    previewDesc.textContent = `Áp dụng cho đơn hàng từ ${minSpend} (Tối đa ${maxDisc})`;
+  }
+  if (previewExpiry && expiryEl && expiryEl.value) {
+    const parts = expiryEl.value.split('-');
+    if (parts.length === 3) {
+      previewExpiry.textContent = `${parts[2]}/${parts[1]}/${parts[0]}`;
+    }
+  }
+}
+
+function handleVoucherStatusToggle(toggle) {
+  const isChecked = toggle ? toggle.checked : true;
+  const label = document.getElementById('voucher-status-label');
+  const badge = document.getElementById('preview-ticket-badge');
+  const card = document.getElementById('voucher-ticket-preview');
+
+  if (label) {
+    label.textContent = isChecked ? 'ĐANG BẬT' : 'ĐÃ TẮT';
+    label.style.color = isChecked ? 'var(--primary)' : 'var(--text-muted)';
+  }
+  if (badge) {
+    badge.className = isChecked ? 'badge-status success' : 'badge-status danger';
+    badge.innerHTML = isChecked ? '<i class="fas fa-circle-check"></i> ĐANG ÁP DỤNG' : '<i class="fas fa-circle-xmark"></i> TẠM NGƯNG';
+  }
+  if (card) {
+    card.style.opacity = isChecked ? '1' : '0.55';
+    card.style.filter = isChecked ? 'none' : 'grayscale(0.7)';
+  }
+  showToast(isChecked ? 'Đã kích hoạt chương trình Voucher trên toàn hệ thống!' : 'Đã tạm ngưng áp dụng Voucher trên website.', isChecked ? 'success' : 'warning');
+}
+
+function handleSaveVoucherSettings(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  const codeEl = document.getElementById('voucher-code');
+  const code = (codeEl && codeEl.value) ? codeEl.value.trim().toUpperCase() : 'MONSTER10';
+
+  showToast(`Đã lưu thành công cấu hình Voucher "${code}" & chính sách vận chuyển!`, 'success');
+}
+
+
 
 
 
