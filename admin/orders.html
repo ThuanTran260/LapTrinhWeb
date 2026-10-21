@@ -40,7 +40,7 @@
         <a href="../index.html" class="admin-menu-link" style="color: var(--primary); margin-bottom: 6px;">
           <i class="fas fa-store"></i> Về Trang Bán Hàng
         </a>
-        <a href="../pages/login.html" class="admin-menu-link" style="color: #EF4444;" onclick="showToast('Đã đăng xuất khỏi tài khoản Quản trị!', 'info')">
+        <a href="login.html" class="admin-menu-link" style="color: #EF4444;" onclick="event.preventDefault(); adminLogout();">
           <i class="fas fa-sign-out-alt"></i> Đăng Xuất
         </a>
       </div>
@@ -72,7 +72,56 @@
       <section class="admin-section-box">
         <div class="admin-section-header">
           <h2 class="admin-section-title"><i class="fas fa-receipt" style="color: var(--secondary);"></i> DANH SÁCH ĐƠN HÀNG (TĨNH)</h2>
-          <button class="btn-view-detail" onclick="showToast('Đã làm mới danh sách đơn hàng!', 'info')"><i class="fas fa-rotate"></i> Làm mới</button>
+        </div>
+
+        <!-- Admin Orders Filter Bar (Rubric 2.6: Tình trạng / Thời gian / Địa điểm) -->
+        <div class="admin-filter-bar">
+          <div class="admin-filter-groups">
+            <div class="admin-filter-group">
+              <label class="admin-filter-label"><i class="fas fa-filter" style="color: var(--secondary);"></i> Tình trạng:</label>
+              <select id="filter-order-status" class="admin-filter-select">
+                <option value="all">Tất cả tình trạng (6 đơn)</option>
+                <option value="unconfirmed">Chưa xác nhận (1 đơn)</option>
+                <option value="confirmed">Đã xác nhận (2 đơn)</option>
+                <option value="delivered_success">Đã giao (Thành công) (2 đơn)</option>
+                <option value="delivered_canceled">Đã giao (Huỷ đơn) (1 đơn)</option>
+              </select>
+            </div>
+
+            <div class="admin-filter-group">
+              <label class="admin-filter-label"><i class="fas fa-calendar-alt" style="color: var(--accent-cyan);"></i> Đặt từ:</label>
+              <input type="date" id="filter-order-date-from" class="admin-filter-input" value="2026-10-01" />
+              <label class="admin-filter-label">đến:</label>
+              <input type="date" id="filter-order-date-to" class="admin-filter-input" value="2026-10-17" />
+            </div>
+
+            <div class="admin-filter-group">
+              <label class="admin-filter-label"><i class="fas fa-map-marker-alt" style="color: var(--primary);"></i> Địa điểm:</label>
+              <select id="filter-order-location" class="admin-filter-select">
+                <option value="all">Tất cả quận/huyện (TP.HCM)</option>
+                <option value="q1">Quận 1 (Trung tâm)</option>
+                <option value="q3">Quận 3</option>
+                <option value="q5">Quận 5</option>
+                <option value="binhthanh">Bình Thạnh</option>
+              </select>
+            </div>
+
+            <div class="admin-filter-group">
+              <div class="admin-filter-search">
+                <i class="fas fa-search"></i>
+                <input type="text" id="filter-order-keyword" class="admin-filter-input" placeholder="Mã đơn / Khách hàng..." />
+              </div>
+            </div>
+          </div>
+
+          <div class="admin-filter-actions">
+            <button type="button" class="btn-filter-apply" onclick="applyAdminOrderFilter()">
+              <i class="fas fa-filter"></i> Lọc Đơn Hàng
+            </button>
+            <button type="button" class="btn-filter-reset" onclick="resetAdminOrderFilter()">
+              <i class="fas fa-rotate-left"></i> Đặt Lại
+            </button>
+          </div>
         </div>
 
         <table class="cart-table">
@@ -96,10 +145,13 @@
               </td>
               <td>2x Monster Original 355ml, 2x Redbull Original</td>
               <td><strong style="color: var(--primary);">126.000đ</strong></td>
-              <td><span class="badge-status success">ĐÃ THANH TOÁN</span></td>
+              <td><span class="badge-status success">ĐÃ GIAO (THÀNH CÔNG)</span></td>
               <td>
                 <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="openOrderDetailModal('EB-8801')">
                   <i class="fas fa-eye"></i> Xem
+                </button>
+                <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem; background: rgba(0, 230, 118, 0.15); color: var(--primary); border-color: rgba(0, 230, 118, 0.3);" onclick="openOrderStatusModal('EB-8801', 'Đã giao (Thành công)', this)">
+                  <i class="fas fa-arrow-right-arrow-left"></i> Chuyển Trạng Thái
                 </button>
               </td>
             </tr>
@@ -113,10 +165,13 @@
               </td>
               <td>4x Ultra White, 3x Redbull Thái Lan</td>
               <td><strong style="color: var(--primary);">246.000đ</strong></td>
-              <td><span class="badge-status warning">ĐANG GIAO 2H</span></td>
+              <td><span class="badge-status warning">ĐÃ XÁC NHẬN</span></td>
               <td>
                 <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="openOrderDetailModal('EB-8802')">
                   <i class="fas fa-eye"></i> Xem
+                </button>
+                <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem; background: rgba(0, 230, 118, 0.15); color: var(--primary); border-color: rgba(0, 230, 118, 0.3);" onclick="openOrderStatusModal('EB-8802', 'Đã xác nhận', this)">
+                  <i class="fas fa-arrow-right-arrow-left"></i> Chuyển Trạng Thái
                 </button>
               </td>
             </tr>
@@ -130,13 +185,13 @@
               </td>
               <td>2x Redbull Nắp Bật 250ml</td>
               <td><strong style="color: var(--primary);">40.000đ</strong></td>
-              <td><span class="badge-status info">CHỜ XÁC NHẬN</span></td>
+              <td><span class="badge-status info">CHƯA XÁC NHẬN</span></td>
               <td>
                 <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="openOrderDetailModal('EB-8803')">
                   <i class="fas fa-eye"></i> Xem
                 </button>
-                <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem; background: rgba(57, 255, 20, 0.15); color: var(--primary); border-color: rgba(57, 255, 20, 0.3);" onclick="showToast('Đã xác nhận đơn hàng #EB-8803!', 'success')">
-                  <i class="fas fa-check"></i> Duyệt
+                <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem; background: rgba(0, 230, 118, 0.15); color: var(--primary); border-color: rgba(0, 230, 118, 0.3);" onclick="openOrderStatusModal('EB-8803', 'Chưa xác nhận', this)">
+                  <i class="fas fa-arrow-right-arrow-left"></i> Chuyển Trạng Thái
                 </button>
               </td>
             </tr>
@@ -150,10 +205,13 @@
               </td>
               <td>1 Thùng 24 Lon Monster & Redbull Mix</td>
               <td><strong style="color: var(--primary);">918.000đ</strong></td>
-              <td><span class="badge-status success">ĐÃ THANH TOÁN</span></td>
+              <td><span class="badge-status success">ĐÃ GIAO (THÀNH CÔNG)</span></td>
               <td>
                 <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="openOrderDetailModal('EB-8804')">
                   <i class="fas fa-eye"></i> Xem
+                </button>
+                <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem; background: rgba(0, 230, 118, 0.15); color: var(--primary); border-color: rgba(0, 230, 118, 0.3);" onclick="openOrderStatusModal('EB-8804', 'Đã giao (Thành công)', this)">
+                  <i class="fas fa-arrow-right-arrow-left"></i> Chuyển Trạng Thái
                 </button>
               </td>
             </tr>
@@ -167,10 +225,13 @@
               </td>
               <td>3x Ultra Paradise, 3x Redbull Original</td>
               <td><strong style="color: var(--primary);">198.000đ</strong></td>
-              <td><span class="badge-status warning">ĐANG GIAO 2H</span></td>
+              <td><span class="badge-status warning">ĐÃ XÁC NHẬN</span></td>
               <td>
                 <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="openOrderDetailModal('EB-8805')">
                   <i class="fas fa-eye"></i> Xem
+                </button>
+                <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem; background: rgba(0, 230, 118, 0.15); color: var(--primary); border-color: rgba(0, 230, 118, 0.3);" onclick="openOrderStatusModal('EB-8805', 'Đã xác nhận', this)">
+                  <i class="fas fa-arrow-right-arrow-left"></i> Chuyển Trạng Thái
                 </button>
               </td>
             </tr>
@@ -184,10 +245,13 @@
               </td>
               <td>2x Sting Dâu Tây Đỏ Sleek 330ml</td>
               <td><strong style="color: var(--primary);">24.000đ</strong></td>
-              <td><span class="badge-status success">ĐÃ THANH TOÁN</span></td>
+              <td><span class="badge-status danger">ĐÃ GIAO (HUỶ ĐƠN)</span></td>
               <td>
                 <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem;" onclick="openOrderDetailModal('EB-8806')">
                   <i class="fas fa-eye"></i> Xem
+                </button>
+                <button class="btn-view-detail" style="padding: 4px 10px; font-size: 0.8rem; background: rgba(0, 230, 118, 0.15); color: var(--primary); border-color: rgba(0, 230, 118, 0.3);" onclick="openOrderStatusModal('EB-8806', 'Đã giao (Huỷ đơn)', this)">
+                  <i class="fas fa-arrow-right-arrow-left"></i> Chuyển Trạng Thái
                 </button>
               </td>
             </tr>
@@ -195,6 +259,40 @@
         </table>
       </section>
     </main>
+  </div>
+
+  <!-- Modal Cập Nhật Trạng Thái Đơn Hàng (Quy trình một chiều) -->
+  <div id="modal-order-status" class="admin-modal-overlay">
+    <div class="admin-modal-card" style="max-width: 500px;">
+      <div class="admin-modal-header">
+        <h3 class="admin-modal-title"><i class="fas fa-arrow-right-arrow-left" style="color: var(--primary);"></i> Chuyển Trạng Thái Đơn Hàng</h3>
+        <button type="button" class="admin-modal-close" onclick="closeAdminModal('modal-order-status')">&times;</button>
+      </div>
+      <div class="admin-modal-body">
+        <div style="margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between;">
+          <span style="color: var(--text-muted); font-size: 0.9rem;">Mã đơn hàng:</span>
+          <strong id="status-modal-order-id" style="color: #FFF; font-size: 1.1rem;">#EB-8803</strong>
+        </div>
+        <div style="margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between;">
+          <span style="color: var(--text-muted); font-size: 0.9rem;">Trạng thái hiện tại:</span>
+          <span id="status-modal-current-badge" class="badge-status info">Chưa xác nhận</span>
+        </div>
+        <div class="admin-form-group">
+          <label class="admin-form-label">Chọn bước trạng thái tiếp theo (Quy tắc một chiều) <span class="req">*</span></label>
+          <select id="select-next-status" class="admin-form-select">
+            <option value="Đã xác nhận">➔ Đã xác nhận</option>
+            <option value="Đã giao (Huỷ đơn)">➔ Đã giao (Huỷ đơn)</option>
+          </select>
+          <small style="color: var(--text-muted); display: block; margin-top: 8px; line-height: 1.4;">
+            <i class="fas fa-info-circle" style="color: var(--accent-cyan);"></i> Quy trình chuẩn: <code>Chưa xác nhận</code> ➔ <code>Đã xác nhận</code> ➔ <code>Đã giao (Thành công)</code> / <code>Đã giao (Huỷ đơn)</code>. Không cho phép cập nhật lùi.
+          </small>
+        </div>
+      </div>
+      <div class="admin-modal-footer">
+        <button type="button" class="btn-modal-cancel" onclick="closeAdminModal('modal-order-status')">Hủy bỏ</button>
+        <button type="button" class="btn-modal-save" onclick="saveOrderStatus()"><i class="fas fa-check"></i> Xác Nhận Chuyển</button>
+      </div>
+    </div>
   </div>
 
   <!-- Modal Chi Tiết Đơn Hàng (#EB-8801) -->

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ĐĂNG NHẬP HỆ THỐNG QUẢN TRỊ | ENERGY BOOST ADMIN</title>
+  <meta name="description" content="Trang đăng nhập chuyên biệt dành cho Quản trị viên hệ thống Energy Boost Store." />
+  <meta name="robots" content="noindex, nofollow" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body class="login-body-wrapper">
+
+  <div class="login-card" style="max-width: 440px;">
+    <!-- Brand Logo -->
+    <div class="login-logo">
+      <a href="../index.html" class="logo">
+        <div class="logo-icon" style="width: 52px; height: 52px; font-size: 1.8rem;">
+          <i class="fas fa-shield-halved"></i>
+        </div>
+      </a>
+    </div>
+
+    <!-- Admin Badge Header -->
+    <div style="text-align: center; margin-bottom: 12px;">
+      <span class="badge-status info" style="font-size: 0.8rem; letter-spacing: 1px; padding: 5px 12px;">
+        <i class="fas fa-lock"></i> ADMINISTRATIVE PORTAL
+      </span>
+    </div>
+
+    <h1 class="login-title" style="font-size: 1.5rem; text-align: center; line-height: 1.3;">
+      ĐĂNG NHẬP HỆ THỐNG QUẢN TRỊ
+    </h1>
+    <p class="login-desc" style="text-align: center; margin-bottom: 24px;">
+      Khu vực quản trị cấp cao dành riêng cho Quản trị viên hệ thống Energy Boost Store:
+    </p>
+
+    <!-- Dedicated Admin Login Form -->
+    <form id="admin-login-form" onsubmit="handleAdminLogin(event)">
+      <div class="form-group">
+        <label class="form-label" for="admin-user">
+          <i class="fas fa-user-shield"></i> Tên Đăng Nhập Quản Trị
+        </label>
+        <input 
+          type="text" 
+          id="admin-user" 
+          class="form-control" 
+          placeholder="admin hoặc admin@monsterenergy.com" 
+          value="admin" 
+          autocomplete="username" 
+          required 
+        />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="admin-pass">
+          <i class="fas fa-key"></i> Mật Khẩu Quản Trị Viên
+        </label>
+        <input 
+          type="password" 
+          id="admin-pass" 
+          class="form-control" 
+          placeholder="••••••••" 
+          value="admin123" 
+          autocomplete="current-password" 
+          required 
+        />
+      </div>
+
+      <div class="form-extra" style="margin-bottom: 24px;">
+        <label style="cursor: pointer; display: flex; align-items: center; gap: 6px;">
+          <input type="checkbox" checked /> Ghi nhớ phiên quản trị
+        </label>
+        <span style="color: var(--accent-cyan); font-size: 0.85rem;">
+          <i class="fas fa-certificate"></i> SSL 256-Bit
+        </span>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="login-actions" style="margin-bottom: 18px;">
+        <button type="submit" class="btn-login-user" style="background: linear-gradient(135deg, var(--primary) 0%, #00cc55 100%);">
+          <i class="fas fa-sign-in-alt"></i> ĐĂNG NHẬP HỆ THỐNG
+        </button>
+      </div>
+
+      <div style="text-align: center; border-top: 1px solid var(--border-color); padding-top: 16px;">
+        <a href="../index.html" class="admin-menu-link" style="justify-content: center; color: var(--text-muted); font-size: 0.85rem;">
+          <i class="fas fa-arrow-left"></i> Quay Lại Trang Cửa Hàng
+        </a>
+      </div>
+    </form>
+  </div>
+
+  <div id="toast-container" class="toast-container"></div>
+  <script src="../js/app.js"></script>
+</body>
+</html>

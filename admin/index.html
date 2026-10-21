@@ -40,7 +40,7 @@
         <a href="../index.html" class="admin-menu-link" style="color: var(--primary); margin-bottom: 6px;">
           <i class="fas fa-store"></i> Về Trang Bán Hàng
         </a>
-        <a href="../pages/login.html" class="admin-menu-link" style="color: #EF4444;" onclick="showToast('Đã đăng xuất khỏi tài khoản Quản trị!', 'info')">
+        <a href="login.html" class="admin-menu-link" style="color: #EF4444;" onclick="event.preventDefault(); adminLogout();">
           <i class="fas fa-sign-out-alt"></i> Đăng Xuất
         </a>
       </div>
@@ -54,7 +54,7 @@
           <h1 style="font-family: var(--font-heading); font-size: 2rem; color: #FFF; text-transform: uppercase;">
             TỔNG QUAN <span>KHO ENERGY BOOST</span>
           </h1>
-          <p style="font-size: 0.85rem; color: var(--text-muted);">Cập nhật dữ liệu thời gian thực - 2 Thương hiệu chính thức (Monster & Redbull)</p>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Cập nhật dữ liệu thời gian thực - 3 Thương hiệu chính thức</p>
         </div>
 
         <div style="display: flex; align-items: center; gap: 16px;">
@@ -113,7 +113,35 @@
           <h2 class="admin-section-title"><i class="fas fa-receipt" style="color: var(--secondary);"></i> ĐƠN HÀNG MỚI NHẤT (TĨNH)</h2>
           <div style="display: flex; gap: 8px;">
             <a href="orders.html" class="btn-view-detail"><i class="fas fa-list"></i> Xem tất cả</a>
-            <button class="btn-view-detail" onclick="showToast('Đã làm mới danh sách đơn hàng!', 'info')"><i class="fas fa-rotate"></i> Làm mới</button>
+          </div>
+        </div>
+
+        <!-- Admin Dashboard Orders Quick Filter -->
+        <div class="admin-filter-bar" style="margin-bottom: 14px; padding: 10px 14px;">
+          <div class="admin-filter-groups">
+            <div class="admin-filter-group">
+              <label class="admin-filter-label"><i class="fas fa-filter" style="color: var(--secondary);"></i> Trạng thái:</label>
+              <select id="dash-order-status" class="admin-filter-select" style="padding: 5px 10px; font-size: 0.8rem;">
+                <option value="all">Tất cả đơn (6)</option>
+                <option value="paid">ĐÃ THANH TOÁN (3)</option>
+                <option value="shipping">ĐANG GIAO 2H (2)</option>
+                <option value="pending">CHỜ XÁC NHẬN (1)</option>
+              </select>
+            </div>
+            <div class="admin-filter-group">
+              <div class="admin-filter-search">
+                <i class="fas fa-search"></i>
+                <input type="text" id="dash-order-keyword" class="admin-filter-input" placeholder="Tìm mã đơn hoặc khách..." style="padding: 5px 10px 5px 28px; width: 170px; font-size: 0.8rem;" />
+              </div>
+            </div>
+          </div>
+          <div class="admin-filter-actions">
+            <button type="button" class="btn-filter-apply" style="padding: 5px 10px; font-size: 0.8rem;" onclick="applyDashboardFilter('orders')">
+              <i class="fas fa-filter"></i> Lọc
+            </button>
+            <button type="button" class="btn-filter-reset" style="padding: 5px 10px; font-size: 0.8rem;" onclick="resetDashboardFilter('orders')">
+              <i class="fas fa-rotate-left"></i> Đặt lại
+            </button>
           </div>
         </div>
 
@@ -243,7 +271,35 @@
           <h2 class="admin-section-title"><i class="fas fa-boxes-stacked" style="color: var(--primary);"></i> QUẢN LÝ KHO SẢN PHẨM ENERGY BOOST (TĨNH)</h2>
           <div style="display: flex; align-items: center; gap: 12px;">
             <span style="font-size: 0.85rem; color: var(--text-muted);">3 Thương hiệu: Monster, Redbull & Sting</span>
-            <a href="inventory.html" class="btn-view-detail"><i class="fas fa-list"></i> Xem tất cả</a>
+          </div>
+        </div>
+
+        <!-- Admin Dashboard Inventory Quick Filter -->
+        <div class="admin-filter-bar" style="margin-bottom: 14px; padding: 10px 14px;">
+          <div class="admin-filter-groups">
+            <div class="admin-filter-group">
+              <label class="admin-filter-label"><i class="fas fa-tags" style="color: var(--primary);"></i> Phân loại:</label>
+              <select id="dash-inv-brand" class="admin-filter-select" style="padding: 5px 10px; font-size: 0.8rem;">
+                <option value="all">Tất cả thương hiệu (3)</option>
+                <option value="monster">Monster Energy</option>
+                <option value="redbull">Redbull Thái Lan</option>
+                <option value="sting">Sting PepsiCo</option>
+              </select>
+            </div>
+            <div class="admin-filter-group">
+              <div class="admin-filter-search">
+                <i class="fas fa-search"></i>
+                <input type="text" id="dash-inv-keyword" class="admin-filter-input" placeholder="Tìm tên sản phẩm..." style="padding: 5px 10px 5px 28px; width: 170px; font-size: 0.8rem;" />
+              </div>
+            </div>
+          </div>
+          <div class="admin-filter-actions">
+            <button type="button" class="btn-filter-apply" style="padding: 5px 10px; font-size: 0.8rem;" onclick="applyDashboardFilter('inventory')">
+              <i class="fas fa-filter"></i> Lọc
+            </button>
+            <button type="button" class="btn-filter-reset" style="padding: 5px 10px; font-size: 0.8rem;" onclick="resetDashboardFilter('inventory')">
+              <i class="fas fa-rotate-left"></i> Đặt lại
+            </button>
           </div>
         </div>
 
@@ -269,46 +325,46 @@
               <td><span class="badge-status success">CÒN HÀNG</span></td>
               <td>
                 <a href="edit-monster.html" class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" title="Chỉnh sửa sản phẩm"><i class="fas fa-edit"></i></a>
-                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="showToast('Mẫu lon không thể xóa trên bản demo', 'warning')"><i class="fas fa-trash"></i></button>
+                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="handleAdminDeleteProduct('Monster Energy Original 355ml', true)"><i class="fas fa-trash"></i></button>
               </td>
             </tr>
 
             <tr>
               <td><img src="../assets/images/monster/ultra-white.webp" alt="Monster Zero Ultra White" style="width: 36px; height: 46px; object-fit: contain;" onerror="this.src='../assets/images/monster/original.webp'" /></td>
               <td><strong>Monster Zero Ultra White</strong></td>
-              <td>Monster Ultra (0 Đường)</td>
+              <td>Monster Energy</td>
               <td>500ml</td>
               <td>48.000đ</td>
               <td><span class="badge-status success">CÒN HÀNG</span></td>
               <td>
                 <a href="edit-monster.html" class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" title="Chỉnh sửa sản phẩm"><i class="fas fa-edit"></i></a>
-                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="showToast('Mẫu lon không thể xóa trên bản demo', 'warning')"><i class="fas fa-trash"></i></button>
+                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="handleAdminDeleteProduct('Monster Zero Ultra White', true)"><i class="fas fa-trash"></i></button>
               </td>
             </tr>
 
             <tr>
               <td><img src="../assets/images/monster/ultra-paradise.webp" alt="Monster Ultra Paradise" style="width: 36px; height: 46px; object-fit: contain;" onerror="this.src='../assets/images/monster/original.webp'" /></td>
               <td><strong>Monster Ultra Paradise</strong></td>
-              <td>Monster Ultra (0 Đường)</td>
+              <td>Monster Energy</td>
               <td>500ml</td>
               <td>48.000đ</td>
               <td><span class="badge-status success">CÒN HÀNG</span></td>
               <td>
                 <a href="edit-monster.html" class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" title="Chỉnh sửa sản phẩm"><i class="fas fa-edit"></i></a>
-                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="showToast('Mẫu lon không thể xóa trên bản demo', 'warning')"><i class="fas fa-trash"></i></button>
+                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="handleAdminDeleteProduct('Monster Ultra Paradise', true)"><i class="fas fa-trash"></i></button>
               </td>
             </tr>
 
             <tr>
               <td><img src="../assets/images/monster/ultra-punk-punch.webp" alt="Monster Ultra Punk Punch" style="width: 36px; height: 46px; object-fit: contain;" onerror="this.src='../assets/images/monster/original.webp'" /></td>
               <td><strong>Monster Ultra Punk Punch</strong></td>
-              <td>Punch & Shots</td>
+              <td>Monster Energy</td>
               <td>500ml</td>
               <td>50.000đ</td>
               <td><span class="badge-status success">CÒN HÀNG</span></td>
               <td>
                 <a href="edit-monster.html" class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" title="Chỉnh sửa sản phẩm"><i class="fas fa-edit"></i></a>
-                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="showToast('Mẫu lon không thể xóa trên bản demo', 'warning')"><i class="fas fa-trash"></i></button>
+                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="handleAdminDeleteProduct('Monster Ultra Punk Punch', true)"><i class="fas fa-trash"></i></button>
               </td>
             </tr>
 
@@ -321,7 +377,7 @@
               <td><span class="badge-status success">CÒN HÀNG</span></td>
               <td>
                 <a href="edit-redbull-original.html" class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" title="Chỉnh sửa sản phẩm"><i class="fas fa-edit"></i></a>
-                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="showToast('Mẫu lon không thể xóa trên bản demo', 'warning')"><i class="fas fa-trash"></i></button>
+                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="handleAdminDeleteProduct('Nước Tăng Lực Redbull Original 250ml', true)"><i class="fas fa-trash"></i></button>
               </td>
             </tr>
 
@@ -334,7 +390,7 @@
               <td><span class="badge-status success">CÒN HÀNG</span></td>
               <td>
                 <a href="edit-redbull-original.html" class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" title="Chỉnh sửa sản phẩm"><i class="fas fa-edit"></i></a>
-                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="showToast('Mẫu lon không thể xóa trên bản demo', 'warning')"><i class="fas fa-trash"></i></button>
+                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="handleAdminDeleteProduct('Nước Tăng Lực Redbull Thái Lan 250ml', true)"><i class="fas fa-trash"></i></button>
               </td>
             </tr>
 
@@ -347,7 +403,7 @@
               <td><span class="badge-status success">CÒN HÀNG</span></td>
               <td>
                 <a href="edit-redbull-original.html" class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" title="Chỉnh sửa sản phẩm"><i class="fas fa-edit"></i></a>
-                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="showToast('Mẫu lon không thể xóa trên bản demo', 'warning')"><i class="fas fa-trash"></i></button>
+                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="handleAdminDeleteProduct('Nước Tăng Lực Redbull Nắp Bật 250ml', true)"><i class="fas fa-trash"></i></button>
               </td>
             </tr>
 
@@ -361,7 +417,7 @@
               <td><span class="badge-status success">CÒN HÀNG</span></td>
               <td>
                 <a href="edit-sting.html" class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" title="Chỉnh sửa sản phẩm"><i class="fas fa-edit"></i></a>
-                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="showToast('Mẫu lon không thể xóa trên bản demo', 'warning')"><i class="fas fa-trash"></i></button>
+                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="handleAdminDeleteProduct('Nước Tăng Lực Sting Dâu Tây Đỏ 330ml', true)"><i class="fas fa-trash"></i></button>
               </td>
             </tr>
 
@@ -375,7 +431,7 @@
               <td><span class="badge-status success">CÒN HÀNG</span></td>
               <td>
                 <a href="edit-sting.html" class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" title="Chỉnh sửa sản phẩm"><i class="fas fa-edit"></i></a>
-                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="showToast('Mẫu lon không thể xóa trên bản demo', 'warning')"><i class="fas fa-trash"></i></button>
+                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="handleAdminDeleteProduct('Nước Tăng Lực Sting Vàng Sleek 330ml', true)"><i class="fas fa-trash"></i></button>
               </td>
             </tr>
 
@@ -389,7 +445,7 @@
               <td><span class="badge-status success">CÒN HÀNG</span></td>
               <td>
                 <a href="edit-sting.html" class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" title="Chỉnh sửa sản phẩm"><i class="fas fa-edit"></i></a>
-                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="showToast('Mẫu lon không thể xóa trên bản demo', 'warning')"><i class="fas fa-trash"></i></button>
+                <button class="cart-del-btn" style="padding: 4px 8px;" onclick="handleAdminDeleteProduct('Nước Tăng Lực Sting Blue Sleek 320ml', true)"><i class="fas fa-trash"></i></button>
               </td>
             </tr>
           </tbody>
@@ -552,10 +608,9 @@
             <div class="admin-form-group">
               <label class="admin-form-label">Thương Hiệu / Dòng <span class="req">*</span></label>
               <select id="add-prod-brand" class="admin-form-select">
-                <option value="Monster Energy">Monster Energy</option>
-                <option value="Monster Ultra">Monster Ultra</option>
-                <option value="Punch & Shots">Punch & Shots</option>
+                <option value="Monster Energy" selected>Monster Energy</option>
                 <option value="Redbull Thái Lan">Redbull Thái Lan</option>
+                <option value="Sting PepsiCo">Sting PepsiCo</option>
               </select>
             </div>
             <div class="admin-form-group">

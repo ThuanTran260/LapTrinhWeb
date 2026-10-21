@@ -40,7 +40,7 @@
         <a href="../index.html" class="admin-menu-link" style="color: var(--primary); margin-bottom: 6px;">
           <i class="fas fa-store"></i> Về Trang Bán Hàng
         </a>
-        <a href="../pages/login.html" class="admin-menu-link" style="color: #EF4444;" onclick="showToast('Đã đăng xuất khỏi tài khoản Quản trị!', 'info')">
+        <a href="login.html" class="admin-menu-link" style="color: #EF4444;" onclick="event.preventDefault(); adminLogout();">
           <i class="fas fa-sign-out-alt"></i> Đăng Xuất
         </a>
       </div>
@@ -96,29 +96,191 @@
         </form>
       </section>
 
-      <!-- Voucher & Shipping Settings -->
-      <section class="admin-section-box" style="max-width: 680px;">
-        <div class="admin-section-header">
-          <h2 class="admin-section-title"><i class="fas fa-ticket" style="color: var(--secondary);"></i> VOUCHER & VẬN CHUYỂN</h2>
+      <!-- Voucher & Shipping Settings (Nâng Cấp Hướng 1: Thẻ Vé Neon Coupon Live Preview) -->
+      <section class="admin-section-box" style="max-width: 740px;">
+        <div class="admin-section-header" style="flex-wrap: wrap; gap: 12px;">
+          <h2 class="admin-section-title"><i class="fas fa-ticket" style="color: var(--secondary);"></i> VOUCHER KHUYẾN MÃI & VẬN CHUYỂN</h2>
+          <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+            <button type="button" class="btn-add-voucher" id="btn-add-voucher" onclick="openAddVoucherModal()" title="Thêm mã voucher mới (Hỗ trợ quản lý nhiều voucher)">
+              <i class="fas fa-plus-circle"></i> Thêm Mã Mới
+            </button>
+            <div class="custom-toggle-container">
+              <span id="voucher-status-label" style="font-size: 0.8rem; font-weight: 700; color: var(--primary);">ĐANG BẬT</span>
+              <label class="custom-toggle-switch">
+                <input type="checkbox" id="voucher-toggle-active" checked onchange="handleVoucherStatusToggle(this)" />
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
         </div>
 
-        <form onsubmit="event.preventDefault(); showToast('Đã cập nhật voucher & vận chuyển (Demo tĩnh)!', 'success');">
-          <div class="form-group">
-            <label class="form-label" for="voucher-code"><i class="fas fa-percent"></i> Mã giảm giá mặc định</label>
-            <input type="text" id="voucher-code" class="form-control" value="MONSTER10 - Giảm 10% đơn đầu tiên" />
+        <!-- Thanh Quản Lý Danh Sách Nhiều Voucher Chiến Dịch (Interactive Multi-Voucher Chips) -->
+        <div class="voucher-chips-bar" id="voucher-chips-bar">
+          <span style="font-size: 0.8rem; color: var(--text-dim); text-transform: uppercase; font-weight: 700; margin-right: 4px; display: inline-flex; align-items: center; gap: 5px;">
+            <i class="fas fa-layer-group" style="color: var(--primary);"></i> Danh sách mã:
+          </span>
+          <div id="voucher-chips-list" style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+            <button type="button" class="voucher-chip active" onclick="switchVoucherPreview('MONSTER10')">MONSTER10 <span class="voucher-chip-tag">10%</span></button>
+            <button type="button" class="voucher-chip" onclick="switchVoucherPreview('ENERGY20')">ENERGY20 <span class="voucher-chip-tag">20K</span></button>
+            <button type="button" class="voucher-chip" onclick="switchVoucherPreview('FREESHIP')">FREESHIP <span class="voucher-chip-tag">FREESHIP</span></button>
+          </div>
+        </div>
+
+        <!-- Thẻ Vé Coupon Neon Trực Quan (Live Preview) -->
+        <div id="voucher-ticket-preview" class="voucher-ticket-card">
+          <div class="ticket-stub">
+            <div class="ticket-stub-icon"><i class="fas fa-bolt"></i></div>
+            <div class="ticket-stub-title">ENERGY BOOST</div>
+            <div class="ticket-code-pill" id="preview-ticket-code" onclick="copyVoucherCode()" title="Nhấn để sao chép mã"><i class="fas fa-copy"></i> MONSTER10</div>
+          </div>
+          <div class="ticket-body">
+            <div class="ticket-body-top">
+              <div>
+                <div class="ticket-discount-value" id="preview-ticket-discount">GIẢM 10%</div>
+                <div class="ticket-discount-desc" id="preview-ticket-desc">Áp dụng cho đơn từ 200.000đ (Tối đa 50.000đ)</div>
+              </div>
+              <span class="badge-status success" id="preview-ticket-badge"><i class="fas fa-circle-check"></i> ĐANG ÁP DỤNG</span>
+            </div>
+            <div class="ticket-body-bottom">
+              <span><i class="fas fa-calendar-alt" style="color: var(--accent-cyan); margin-right: 4px;"></i> Hạn sử dụng: <strong id="preview-ticket-expiry" style="color: #FFF;">31/12/2026</strong></span>
+              <span><i class="fas fa-users" style="color: var(--accent-gold); margin-right: 4px;"></i> Áp dụng: <strong id="preview-ticket-target" style="color: #FFF;">Tất cả khách hàng</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Form Cấu Hình Chi Tiết Tách Biệt Từng Trường -->
+        <form onsubmit="handleSaveVoucherSettings(event)">
+          <div style="font-size: 0.88rem; font-weight: 700; color: var(--primary); text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+            <i class="fas fa-sliders"></i> Cấu Hình Chi Tiết Mã Voucher Đang Chọn
           </div>
 
-          <div class="form-group">
-            <label class="form-label" for="ship-policy"><i class="fas fa-truck-fast"></i> Chính sách giao hỏa tốc 2H</label>
-            <input type="text" id="ship-policy" class="form-control" value="Miễn phí cho đơn từ 200.000đ" />
+          <div class="admin-form-grid" style="margin-bottom: 20px;">
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="voucher-code"><i class="fas fa-barcode"></i> Mã Code Khuyến Mãi <span class="req">*</span></label>
+              <input type="text" id="voucher-code" class="admin-form-input" value="MONSTER10" oninput="updateVoucherLivePreview()" style="text-transform: uppercase;" required />
+            </div>
+
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="voucher-type"><i class="fas fa-percent"></i> Loại Giảm Giá <span class="req">*</span></label>
+              <select id="voucher-type" class="admin-form-select" onchange="updateVoucherLivePreview()">
+                <option value="percent" selected>Giảm theo phần trăm (%)</option>
+                <option value="fixed">Giảm số tiền cố định (VNĐ)</option>
+              </select>
+            </div>
+
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="voucher-amount"><i class="fas fa-tags"></i> Mức Giảm <span class="req">*</span></label>
+              <input type="text" id="voucher-amount" class="admin-form-input" value="10%" oninput="updateVoucherLivePreview()" required />
+            </div>
+
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="voucher-min-spend"><i class="fas fa-coins"></i> Đơn Tối Thiểu</label>
+              <input type="text" id="voucher-min-spend" class="admin-form-input" value="200.000đ" oninput="updateVoucherLivePreview()" />
+            </div>
+
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="voucher-max-discount"><i class="fas fa-shield-alt"></i> Giảm Tối Đa</label>
+              <input type="text" id="voucher-max-discount" class="admin-form-input" value="50.000đ" oninput="updateVoucherLivePreview()" />
+            </div>
+
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="voucher-expiry"><i class="fas fa-clock"></i> Ngày Hết Hạn</label>
+              <input type="date" id="voucher-expiry" class="admin-form-input" value="2026-12-31" onchange="updateVoucherLivePreview()" />
+            </div>
           </div>
 
-          <button type="submit" class="btn-add-cart" style="padding: 12px 24px; margin-top: 8px;">
-            <i class="fas fa-save"></i> Cập Nhật
+          <div style="font-size: 0.88rem; font-weight: 700; color: var(--secondary); text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+            <i class="fas fa-truck-fast"></i> Chính Sách Vận Chuyển Hỏa Tốc 2H
+          </div>
+
+          <div class="admin-form-grid" style="margin-bottom: 16px;">
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="ship-min-free"><i class="fas fa-gift"></i> Miễn Phí Vận Chuyển Từ</label>
+              <input type="text" id="ship-min-free" class="admin-form-input" value="200.000đ" />
+            </div>
+
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="ship-standard-fee"><i class="fas fa-money-bill-wave"></i> Phí Giao Tiêu Chuẩn</label>
+              <input type="text" id="ship-standard-fee" class="admin-form-input" value="25.000đ" />
+            </div>
+          </div>
+
+          <button type="submit" class="btn-add-cart" style="padding: 12px 28px; font-weight: 700;">
+            <i class="fas fa-save"></i> Lưu Cấu Hình Voucher & Vận Chuyển
           </button>
         </form>
       </section>
     </main>
+  </div>
+
+  <!-- Modal Thêm Mã Voucher Mới (Đại Diện Ý Tưởng Quản Lý Nhiều Voucher) -->
+  <div id="modal-add-voucher" class="admin-modal-overlay">
+    <div class="admin-modal-card" style="max-width: 580px;">
+      <div class="admin-modal-header">
+        <h3 class="admin-modal-title"><i class="fas fa-ticket-simple" style="color: var(--secondary);"></i> Thêm Mã Voucher Mới</h3>
+        <button type="button" class="admin-modal-close" onclick="closeAdminModal('modal-add-voucher')">&times;</button>
+      </div>
+      <form id="form-add-voucher" onsubmit="saveAddVoucher(event)">
+        <div class="admin-modal-body">
+          <div style="font-size: 0.84rem; color: var(--text-dim); margin-bottom: 14px; line-height: 1.4; background: rgba(0, 230, 118, 0.05); border: 1px dashed rgba(0, 230, 118, 0.25); border-radius: 8px; padding: 10px 14px;">
+            <i class="fas fa-circle-info" style="color: var(--primary); margin-right: 6px;"></i>
+            Hệ thống hỗ trợ quản lý nhiều voucher cùng lúc. Bạn có thể tạo thêm voucher chiến dịch mới để phát hành cho khách hàng.
+          </div>
+          <div class="admin-form-grid">
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="add-voucher-code"><i class="fas fa-barcode"></i> Mã Code Voucher <span class="req">*</span></label>
+              <input type="text" id="add-voucher-code" class="admin-form-input" placeholder="VD: SUMMER20, VIPBOOST" style="text-transform: uppercase;" required />
+            </div>
+
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="add-voucher-type"><i class="fas fa-percent"></i> Loại Giảm Giá <span class="req">*</span></label>
+              <select id="add-voucher-type" class="admin-form-select" onchange="handleAddVoucherTypeChange(this.value)">
+                <option value="percent" selected>Giảm theo phần trăm (%)</option>
+                <option value="fixed">Giảm số tiền cố định (VNĐ)</option>
+              </select>
+            </div>
+
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="add-voucher-amount"><i class="fas fa-tags"></i> Mức Giảm <span class="req">*</span></label>
+              <input type="text" id="add-voucher-amount" class="admin-form-input" placeholder="VD: 15% hoặc 30.000đ" required />
+            </div>
+
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="add-voucher-min-spend"><i class="fas fa-coins"></i> Đơn Tối Thiểu</label>
+              <input type="text" id="add-voucher-min-spend" class="admin-form-input" placeholder="VD: 150.000đ" value="150.000đ" />
+            </div>
+
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="add-voucher-max-discount"><i class="fas fa-shield-alt"></i> Giảm Tối Đa</label>
+              <input type="text" id="add-voucher-max-discount" class="admin-form-input" placeholder="VD: 40.000đ" value="40.000đ" />
+            </div>
+
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="add-voucher-expiry"><i class="fas fa-clock"></i> Ngày Hết Hạn</label>
+              <input type="date" id="add-voucher-expiry" class="admin-form-input" value="2026-12-31" />
+            </div>
+
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="add-voucher-limit"><i class="fas fa-users-viewfinder"></i> Giới Hạn Lượt Dùng</label>
+              <input type="number" id="add-voucher-limit" class="admin-form-input" placeholder="VD: 500" value="500" min="1" />
+            </div>
+
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="add-voucher-target"><i class="fas fa-user-check"></i> Đối Tượng Áp Dụng</label>
+              <select id="add-voucher-target" class="admin-form-select">
+                <option value="all" selected>Tất cả khách hàng</option>
+                <option value="vip">Chỉ khách hàng VIP</option>
+                <option value="new">Chỉ khách hàng mới</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="admin-modal-footer">
+          <button type="button" class="btn-modal-cancel" onclick="closeAdminModal('modal-add-voucher')">Hủy bỏ</button>
+          <button type="submit" class="btn-modal-save"><i class="fas fa-plus-circle"></i> Tạo & Kích Hoạt Voucher</button>
+        </div>
+      </form>
+    </div>
   </div>
 
   <div id="toast-container" class="toast-container"></div>

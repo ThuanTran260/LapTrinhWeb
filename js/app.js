@@ -513,6 +513,8 @@ function openProductEditModal(productId, triggerBtn) {
 
   const nameEl = document.getElementById('edit-prod-name');
   const brandEl = document.getElementById('edit-prod-brand');
+  const brandSelect = document.getElementById('edit-prod-brand-select');
+  const imgPreview = document.getElementById('edit-prod-img-preview');
   const originEl = document.getElementById('edit-prod-origin');
   const priceEl = document.getElementById('edit-prod-price');
   const oldPriceEl = document.getElementById('edit-prod-oldprice');
@@ -534,6 +536,29 @@ function openProductEditModal(productId, triggerBtn) {
   if (storageEl) storageEl.value = data.storage;
   if (statusEl) statusEl.value = data.status;
 
+  if (imgPreview) {
+    if (currentEditingRow && currentEditingRow.cells[0]) {
+      const rowImg = currentEditingRow.cells[0].querySelector('img');
+      if (rowImg) imgPreview.src = rowImg.src;
+    } else if (data.image) {
+      imgPreview.src = data.image;
+    }
+  }
+
+  if (brandSelect) {
+    const brandValueToMatch = currentEditingRow && currentEditingRow.cells[2] ? currentEditingRow.cells[2].textContent.trim() : data.brand;
+    let matched = false;
+    Array.from(brandSelect.options).forEach(opt => {
+      if (opt.value === brandValueToMatch || brandValueToMatch.includes(opt.value)) {
+        brandSelect.value = opt.value;
+        matched = true;
+      }
+    });
+    if (!matched && brandSelect.options.length > 0) {
+      brandSelect.selectedIndex = 0;
+    }
+  }
+
   if (standaloneBtn) {
     if (data.editPage && data.editPage !== 'inventory.html') {
       standaloneBtn.style.display = 'inline-flex';
@@ -549,32 +574,7 @@ function openProductEditModal(productId, triggerBtn) {
 function saveProductEdit(e) {
   if (e && e.preventDefault) e.preventDefault();
   const nameEl = document.getElementById('edit-prod-name');
-  const brandEl = document.getElementById('edit-prod-brand');
-  const priceEl = document.getElementById('edit-prod-price');
-  const volumeEl = document.getElementById('edit-prod-volume');
-  const statusEl = document.getElementById('edit-prod-status');
-
   const name = nameEl ? nameEl.value : 'Sản phẩm';
-
-  // Live update the table row in DOM
-  if (currentEditingRow) {
-    const cells = currentEditingRow.cells;
-    if (cells && cells.length >= 6) {
-      if (cells[1]) {
-        const strong = cells[1].querySelector('strong');
-        if (strong) strong.textContent = name;
-        else cells[1].innerHTML = '<strong>' + name + '</strong>';
-      }
-      if (cells[2] && brandEl) cells[2].textContent = brandEl.value;
-      if (cells[3] && volumeEl) cells[3].textContent = volumeEl.value;
-      if (cells[4] && priceEl) cells[4].textContent = priceEl.value;
-      if (cells[5] && statusEl) {
-        const isAvail = statusEl.value === 'Còn hàng';
-        const badgeClass = isAvail ? 'success' : (statusEl.value.includes('Sắp') ? 'warning' : 'danger');
-        cells[5].innerHTML = '<span class="badge-status ' + badgeClass + '">' + statusEl.value.toUpperCase() + '</span>';
-      }
-    }
-  }
 
   showToast('Đã lưu thay đổi thông tin sản phẩm "' + name + '" thành công!', 'success');
   closeAdminModal('modal-edit-product');
@@ -590,40 +590,12 @@ function openAddProductModal() {
 function saveAddProduct(e) {
   if (e && e.preventDefault) e.preventDefault();
   const nameEl = document.getElementById('add-prod-name');
-  const brandEl = document.getElementById('add-prod-brand');
-  const priceEl = document.getElementById('add-prod-price');
-  const volumeEl = document.getElementById('add-prod-volume');
-  const statusEl = document.getElementById('add-prod-status');
-
   const name = (nameEl && nameEl.value) ? nameEl.value : 'Nước Tăng Lực Mới';
-  const brand = (brandEl && brandEl.value) ? brandEl.value : 'Monster Energy';
-  const price = (priceEl && priceEl.value) ? priceEl.value : '48.000đ';
-  const volume = (volumeEl && volumeEl.value) ? volumeEl.value : '355ml';
-  const status = (statusEl && statusEl.value) ? statusEl.value : 'Còn hàng';
 
-  // Live append to table in DOM
-  const tbody = document.querySelector('#inventory-section table.cart-table tbody') || document.querySelector('table.cart-table tbody');
-  if (tbody) {
-    const isAvail = status === 'Còn hàng';
-    const badgeClass = isAvail ? 'success' : 'warning';
-    const newTr = document.createElement('tr');
-    newTr.innerHTML = `
-      <td><img src="../assets/images/monster/original.webp" alt="${name}" style="width: 36px; height: 46px; object-fit: contain;" /></td>
-      <td><strong>${name}</strong></td>
-      <td>${brand}</td>
-      <td>${volume}</td>
-      <td>${price}</td>
-      <td><span class="badge-status ${badgeClass}">${status.toUpperCase()}</span></td>
-      <td>
-        <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem; display: inline-flex;" onclick="openProductEditModal('custom', this)" title="Chỉnh sửa sản phẩm"><i class="fas fa-edit"></i></button>
-        <button class="cart-del-btn" style="padding: 4px 8px;" onclick="this.closest('tr').remove(); showToast('Đã xóa sản phẩm khỏi danh sách!', 'info')" title="Xóa"><i class="fas fa-trash"></i></button>
-      </td>
-    `;
-    tbody.prepend(newTr);
-  }
-
-  showToast('Đã thêm sản phẩm "' + name + '" vào kho hàng thành công!', 'success');
+  showToast('Đã thêm sản phẩm "' + name + '" vào kho hàng thành công (Mô phỏng)!', 'success');
   closeAdminModal('modal-add-product');
+  const form = document.getElementById('form-add-product');
+  if (form) form.reset();
 }
 
 // 9c. Customer VIP Detail Modal Logic & Registry
@@ -770,7 +742,18 @@ function openCustomerDetailModal(customerKey) {
 
 // 9d. Order Detail Modal Logic
 function openOrderDetailModal(orderId) {
-  // Mở popup chi tiết đơn hàng mẫu #EB-8801
+  const code = orderId || 'EB-8801';
+  const modal = document.getElementById('modal-order-detail');
+  if (modal) {
+    const title = modal.querySelector('.admin-modal-title');
+    if (title) {
+      title.innerHTML = `<i class="fas fa-file-invoice" style="color: var(--secondary);"></i> Chi Tiết Đơn Hàng #${code.replace(/^#/, '')}`;
+    }
+    const orderCodeBox = modal.querySelector('.order-summary-box div:last-child, .order-summary-box [style*="font-family"]');
+    if (orderCodeBox) {
+      orderCodeBox.textContent = '#' + code.replace(/^#/, '');
+    }
+  }
   openAdminModal('modal-order-detail');
 }
 
@@ -822,5 +805,891 @@ document.addEventListener('click', function(e) {
   }
 });
 
+// ==========================================================================
+// 13. STATIC SEARCH DROPDOWN & ADVANCED SEARCH (RUBRIC COMPLIANCE)
+// ==========================================================================
+const STATIC_PRODUCTS_CATALOG = [
+  { id: 'mn-1', name: 'Monster Energy Original 355ml', brand: 'Monster Energy', brandKey: 'monster', price: '45.000đ', priceKey: '20to50', image: 'assets/images/monster/original.webp' },
+  { id: 'mn-2', name: 'Monster Zero Ultra White 500ml', brand: 'Monster Energy', brandKey: 'monster', price: '48.000đ', priceKey: '20to50', image: 'assets/images/monster/ultra-white.webp' },
+  { id: 'mn-3', name: 'Monster Ultra Paradise 500ml', brand: 'Monster Energy', brandKey: 'monster', price: '48.000đ', priceKey: '20to50', image: 'assets/images/monster/ultra-paradise.webp' },
+  { id: 'mn-4', name: 'Monster Ultra Punk Punch 500ml', brand: 'Monster Energy', brandKey: 'monster', price: '50.000đ', priceKey: '20to50', image: 'assets/images/monster/ultra-punk-punch.webp' },
+  { id: 'rb-1', name: 'Nước Tăng Lực Redbull Original 250ml', brand: 'Redbull Thái Lan', brandKey: 'redbull', price: '18.000đ', priceKey: 'under20', image: 'assets/images/redbull/redbull-original.webp' },
+  { id: 'rb-2', name: 'Nước Tăng Lực Redbull Thái Lan 250ml', brand: 'Redbull Thái Lan', brandKey: 'redbull', price: '18.000đ', priceKey: 'under20', image: 'assets/images/redbull/redbull-thai.webp' },
+  { id: 'rb-3', name: 'Nước Tăng Lực Redbull Nắp Bật 250ml', brand: 'Redbull Thái Lan', brandKey: 'redbull', price: '20.000đ', priceKey: '20to50', image: 'assets/images/redbull/redbull-lon-vua.webp' },
+  { id: 'st-1', name: 'Nước Tăng Lực Sting Dâu Tây Đỏ 330ml', brand: 'Sting PepsiCo', brandKey: 'sting', price: '12.000đ', priceKey: 'under20', image: 'assets/images/sting/sting-dau.webp' },
+  { id: 'st-2', name: 'Nước Tăng Lực Sting Vàng Sleek 330ml', brand: 'Sting PepsiCo', brandKey: 'sting', price: '12.000đ', priceKey: 'under20', image: 'assets/images/sting/sting-gold.webp' },
+  { id: 'st-3', name: 'Nước Tăng Lực Sting Blue Sleek 320ml', brand: 'Sting PepsiCo', brandKey: 'sting', price: '13.000đ', priceKey: 'under20', image: 'assets/images/sting/sting-vietquat.webp' }
+];
 
+function openSearchDropdown() {
+  const dropdown = document.getElementById('search-dropdown-menu');
+  if (dropdown) dropdown.classList.add('is-open');
+}
+
+function closeSearchDropdown() {
+  const dropdown = document.getElementById('search-dropdown-menu');
+  if (dropdown) dropdown.classList.remove('is-open');
+}
+
+function toggleSearchDropdown() {
+  const dropdown = document.getElementById('search-dropdown-menu');
+  if (dropdown) {
+    dropdown.classList.toggle('is-open');
+  }
+}
+
+function openAdvancedSearchModal() {
+  const modal = document.getElementById('modal-adv-search');
+  if (modal) {
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function closeAdvancedSearchModal() {
+  const modal = document.getElementById('modal-adv-search');
+  if (modal) {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  closeAdvSuggestions();
+}
+
+function handleAdvancedSearch(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  const kwEl = document.getElementById('adv-search-keyword');
+  const keyword = (kwEl ? kwEl.value : 'Original').trim();
+  const brandEl = document.getElementById('adv-search-brand');
+  const brandName = brandEl ? brandEl.options[brandEl.selectedIndex].text : 'Monster Energy';
+  const priceEl = document.getElementById('adv-search-price');
+  const priceName = priceEl ? priceEl.options[priceEl.selectedIndex].text : '20.000đ - 50.000đ';
+
+  closeAdvancedSearchModal();
+  showToast('Đã lọc nâng cao: "' + keyword + '" | ' + brandName + ' | ' + priceName, 'success');
+}
+
+function removeVietnameseTones(str) {
+  return (str || '')
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/đ/g, 'd')
+    .replace(/Đ/g, 'D');
+}
+
+function handleAdvKeywordInput(val) {
+  const container = document.getElementById('adv-search-suggestions');
+  if (!container) return;
+
+  const raw = (val || '').trim();
+  let matches = [];
+
+  if (!raw) {
+    matches = [
+      { prod: STATIC_PRODUCTS_CATALOG[0], idx: 0 },
+      { prod: STATIC_PRODUCTS_CATALOG[4], idx: 4 },
+      { prod: STATIC_PRODUCTS_CATALOG[7], idx: 7 }
+    ];
+  } else {
+    const qLower = raw.toLowerCase();
+    const qNorm = removeVietnameseTones(qLower);
+
+    STATIC_PRODUCTS_CATALOG.forEach((prod, idx) => {
+      const nameLower = prod.name.toLowerCase();
+      const brandLower = prod.brand.toLowerCase();
+      const nameNorm = removeVietnameseTones(nameLower);
+      const brandNorm = removeVietnameseTones(brandLower);
+
+      if (
+        nameLower.includes(qLower) ||
+        brandLower.includes(qLower) ||
+        nameNorm.includes(qNorm) ||
+        brandNorm.includes(qNorm)
+      ) {
+        matches.push({ prod, idx });
+      }
+    });
+  }
+
+  if (matches.length === 0) {
+    container.innerHTML = '<div style="padding: 12px; font-size: 0.8rem; color: var(--text-dim); text-align: center;">Không tìm thấy sản phẩm gợi ý phù hợp</div>';
+    container.classList.add('active');
+    return;
+  }
+
+  let html = '';
+  matches.forEach(({ prod, idx }) => {
+    const imgSrc = typeof SITE_ROOT !== 'undefined' ? (SITE_ROOT + prod.image) : prod.image;
+    html += `
+      <div class="adv-suggestion-item" onclick="selectAdvSearchSuggestion(${idx})">
+        <div class="adv-suggestion-left">
+          <img src="${imgSrc}" alt="${prod.name}" class="adv-suggestion-thumb" />
+          <div>
+            <div class="adv-suggestion-name">${prod.name}</div>
+            <div class="adv-suggestion-brand">${prod.brand}</div>
+          </div>
+        </div>
+        <div class="adv-suggestion-price">${prod.price}</div>
+      </div>
+    `;
+  });
+
+  container.innerHTML = html;
+  container.classList.add('active');
+}
+
+function openAdvSuggestions() {
+  const kwEl = document.getElementById('adv-search-keyword');
+  handleAdvKeywordInput(kwEl ? kwEl.value : '');
+}
+
+function selectAdvSearchSuggestion(idx) {
+  const prod = STATIC_PRODUCTS_CATALOG[idx];
+  if (!prod) return;
+
+  const kwEl = document.getElementById('adv-search-keyword');
+  if (kwEl) kwEl.value = prod.name;
+
+  const brandEl = document.getElementById('adv-search-brand');
+  if (brandEl) brandEl.value = prod.brandKey;
+
+  const priceEl = document.getElementById('adv-search-price');
+  if (priceEl) priceEl.value = prod.priceKey;
+
+  const previewEl = document.getElementById('adv-search-preview');
+  if (previewEl) {
+    previewEl.innerHTML = `<i class="fas fa-info-circle" style="color: var(--primary);"></i> Kết quả mẫu phù hợp tiêu chí: <strong style="color: #FFF;">${prod.name} (${prod.price})</strong>`;
+  }
+
+  closeAdvSuggestions();
+}
+
+function closeAdvSuggestions() {
+  const container = document.getElementById('adv-search-suggestions');
+  if (container) {
+    container.classList.remove('active');
+  }
+}
+
+// Global click outside & Escape listeners for search dropdown and advanced suggestions
+document.addEventListener('click', function(e) {
+  const searchBox = e.target.closest('.search-box');
+  if (!searchBox) {
+    closeSearchDropdown();
+  }
+  const advWrapper = e.target.closest('.adv-search-input-wrapper');
+  if (!advWrapper) {
+    closeAdvSuggestions();
+  }
+});
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    closeSearchDropdown();
+    closeAdvancedSearchModal();
+    closeAdvSuggestions();
+  }
+});
+
+// ==========================================================================
+// 14. AUTH TABS & REGISTRATION LOGIC (RUBRIC COMPLIANCE)
+// ==========================================================================
+function switchAuthTab(mode) {
+  const loginBtn = document.getElementById('tab-login-btn');
+  const registerBtn = document.getElementById('tab-register-btn');
+  const formLogin = document.getElementById('form-login');
+  const formRegister = document.getElementById('form-register');
+  const titleEl = document.getElementById('auth-card-title');
+  const descEl = document.getElementById('auth-card-desc');
+
+  if (mode === 'register') {
+    if (loginBtn) loginBtn.classList.remove('active');
+    if (registerBtn) registerBtn.classList.add('active');
+    if (formLogin) formLogin.style.display = 'none';
+    if (formRegister) formRegister.style.display = 'block';
+    if (titleEl) titleEl.innerHTML = 'ĐĂNG KÝ <span>THÀNH VIÊN VIP</span>';
+    if (descEl) descEl.innerText = 'Đăng ký tài khoản người mua hàng để nhận ưu đãi thành viên và tích điểm đổi quà:';
+  } else {
+    if (loginBtn) loginBtn.classList.add('active');
+    if (registerBtn) registerBtn.classList.remove('active');
+    if (formLogin) formLogin.style.display = 'block';
+    if (formRegister) formRegister.style.display = 'none';
+    if (titleEl) titleEl.innerHTML = 'ĐĂNG NHẬP <span>ENERGY BOOST</span>';
+    if (descEl) descEl.innerText = 'Đăng nhập tài khoản để nhận ưu đãi thành viên và theo dõi đơn hàng:';
+  }
+}
+
+function handleRegister(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  const nameEl = document.getElementById('register-fullname');
+  const emailEl = document.getElementById('register-email');
+  const passEl = document.getElementById('register-password');
+  const confirmEl = document.getElementById('register-confirm-password');
+
+  const fullName = nameEl ? nameEl.value.trim() : 'Khách Hàng Mới';
+  const email = emailEl ? emailEl.value.trim() : '';
+  const pass = passEl ? passEl.value : '';
+  const confirm = confirmEl ? confirmEl.value : '';
+
+  if (pass !== confirm) {
+    showToast('Mật khẩu xác nhận không khớp! Vui lòng kiểm tra lại.', 'warning');
+    return;
+  }
+
+  try {
+    localStorage.setItem('monster_user', fullName);
+  } catch (err) { }
+
+  showToast('Đăng ký tài khoản thành công! Chào mừng ' + fullName + ' gia nhập Energy Boost VIP.', 'success');
+
+  setTimeout(() => {
+    const loginUserEl = document.getElementById('login-username');
+    if (loginUserEl) loginUserEl.value = email || fullName;
+    switchAuthTab('login');
+  }, 1200);
+}
+
+function togglePasswordVisibility(inputId, iconId) {
+  const input = document.getElementById(inputId);
+  const icon = document.getElementById(iconId);
+  if (!input) return;
+  if (input.type === 'password') {
+    input.type = 'text';
+    if (icon) {
+      icon.classList.remove('fa-eye');
+      icon.classList.add('fa-eye-slash');
+    }
+  } else {
+    input.type = 'password';
+    if (icon) {
+      icon.classList.remove('fa-eye-slash');
+      icon.classList.add('fa-eye');
+    }
+  }
+}
+
+// Check URL hash for direct tab opening (e.g. login.html#register)
+window.addEventListener('DOMContentLoaded', () => {
+  if (window.location.hash === '#register') {
+    switchAuthTab('register');
+  }
+});
+
+// ==========================================================================
+// 15. ADMIN STATIC FILTER & SMART SAFE DELETE (RUBRIC COMPLIANCE)
+// ==========================================================================
+function applyAdminOrderFilter() {
+  const statusEl = document.getElementById('filter-order-status');
+  const status = statusEl ? statusEl.options[statusEl.selectedIndex].text : 'Tất cả';
+  const fromEl = document.getElementById('filter-order-date-from');
+  const toEl = document.getElementById('filter-order-date-to');
+  const from = fromEl ? fromEl.value : '';
+  const to = toEl ? toEl.value : '';
+  const locEl = document.getElementById('filter-order-location');
+  const loc = locEl ? locEl.options[locEl.selectedIndex].text : 'Tất cả';
+  const kwEl = document.getElementById('filter-order-keyword');
+  const kw = (kwEl ? kwEl.value : '').trim();
+
+  let msg = 'Đã áp dụng bộ lọc đơn hàng: [' + status + '] | Khu vực: [' + loc + ']';
+  if (from && to) msg += ' | Từ: ' + from + ' đến ' + to;
+  if (kw) msg += ' | Từ khóa: "' + kw + '"';
+  showToast(msg, 'success');
+}
+
+function resetAdminOrderFilter() {
+  const statusEl = document.getElementById('filter-order-status');
+  if (statusEl) statusEl.value = 'all';
+  const locEl = document.getElementById('filter-order-location');
+  if (locEl) locEl.value = 'all';
+  const kwEl = document.getElementById('filter-order-keyword');
+  if (kwEl) kwEl.value = '';
+  showToast('Đã đặt lại bộ lọc đơn hàng mặc định', 'info');
+}
+
+function applyAdminInventoryFilter() {
+  const brandEl = document.getElementById('filter-inv-brand');
+  const brand = brandEl ? brandEl.options[brandEl.selectedIndex].text : 'Tất cả';
+  const stockEl = document.getElementById('filter-inv-stock');
+  const stock = stockEl ? stockEl.options[stockEl.selectedIndex].text : 'Tất cả';
+  const kwEl = document.getElementById('filter-inv-keyword');
+  const kw = (kwEl ? kwEl.value : '').trim();
+
+  const msg = 'Đã lọc kho hàng: [' + brand + '] | Trạng thái: [' + stock + ']' + (kw ? ' | SKU: "' + kw + '"' : '');
+  showToast(msg, 'success');
+}
+
+function resetAdminInventoryFilter() {
+  const brandEl = document.getElementById('filter-inv-brand');
+  if (brandEl) brandEl.value = 'all';
+  const stockEl = document.getElementById('filter-inv-stock');
+  if (stockEl) stockEl.value = 'all';
+  const kwEl = document.getElementById('filter-inv-keyword');
+  if (kwEl) kwEl.value = '';
+  showToast('Đã đặt lại bộ lọc kho hàng mặc định', 'info');
+}
+
+function applyAdminCustomerFilter() {
+  const tierEl = document.getElementById('filter-customer-tier');
+  const tier = tierEl ? tierEl.options[tierEl.selectedIndex].text : 'Tất cả';
+  const fromEl = document.getElementById('stat-customer-from');
+  const toEl = document.getElementById('stat-customer-to');
+  const from = fromEl ? fromEl.value : '2026-01-01';
+  const to = toEl ? toEl.value : '2026-10-17';
+
+  showToast('Đã thống kê Top 5 khách hàng mua cao nhất (' + from + ' đến ' + to + ') - Phân loại: ' + tier, 'success');
+}
+
+function resetAdminCustomerFilter() {
+  const tierEl = document.getElementById('filter-customer-tier');
+  if (tierEl) tierEl.value = 'all';
+  const kwEl = document.getElementById('filter-customer-keyword');
+  if (kwEl) kwEl.value = '';
+  showToast('Đã đặt lại bộ lọc khách hàng VIP', 'info');
+}
+
+function applyDashboardFilter(type) {
+  if (type === 'orders') {
+    const statusEl = document.getElementById('dash-order-status');
+    const status = statusEl ? statusEl.options[statusEl.selectedIndex].text : 'Tất cả';
+    showToast('Dashboard: Đang lọc đơn hàng [' + status + ']', 'info');
+  } else {
+    const brandEl = document.getElementById('dash-inv-brand');
+    const brand = brandEl ? brandEl.options[brandEl.selectedIndex].text : 'Tất cả';
+    showToast('Dashboard: Đang lọc kho hàng [' + brand + ']', 'info');
+  }
+}
+
+function resetDashboardFilter(type) {
+  if (type === 'orders') {
+    const statusEl = document.getElementById('dash-order-status');
+    if (statusEl) statusEl.value = 'all';
+    const kwEl = document.getElementById('dash-order-keyword');
+    if (kwEl) kwEl.value = '';
+  } else {
+    const brandEl = document.getElementById('dash-inv-brand');
+    if (brandEl) brandEl.value = 'all';
+    const kwEl = document.getElementById('dash-inv-keyword');
+    if (kwEl) kwEl.value = '';
+  }
+  showToast('Đã đặt lại bộ lọc trên Dashboard', 'info');
+}
+
+// ==========================================================================
+// 16. ADMIN AUTHENTICATION SIMULATION (R1 COMPLIANCE)
+// ==========================================================================
+function handleAdminLogin(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  const userEl = document.getElementById('admin-user');
+  const user = (userEl ? userEl.value : '').trim();
+  
+  try {
+    localStorage.setItem('admin_logged_in', 'true');
+    localStorage.setItem('admin_user_name', user || 'Thuận Trần (Admin)');
+  } catch (err) {}
+
+  showToast('Xác thực Quản trị viên cấp cao thành công! Đang chuyển vào Dashboard...', 'success');
+  setTimeout(() => {
+    window.location.href = 'index.html';
+  }, 800);
+}
+
+function adminLogout(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  try {
+    localStorage.removeItem('admin_logged_in');
+    localStorage.removeItem('admin_user_name');
+  } catch (err) {}
+  showToast('Đã đăng xuất khỏi tài khoản Quản trị!', 'info');
+  setTimeout(() => {
+    window.location.href = 'login.html';
+  }, 700);
+}
+
+// ==========================================================================
+// 17. USER MANAGEMENT UI HANDLERS (R2 COMPLIANCE)
+// ==========================================================================
+let currentEditingUserRow = null;
+
+function openAddUserModal() {
+  const form = document.getElementById('form-add-user');
+  if (form) form.reset();
+  openAdminModal('modal-add-user');
+}
+
+function saveAddUser(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  const fullname = (document.getElementById('add-user-fullname') || {}).value || 'Người Dùng Mới';
+
+  showToast('Đã thêm tài khoản người dùng "' + fullname + '" thành công (Mô phỏng)!', 'success');
+  closeAdminModal('modal-add-user');
+  const form = document.getElementById('form-add-user');
+  if (form) form.reset();
+}
+
+function openEditUserModal(customerKey, btn) {
+  currentEditingUserRow = btn ? btn.closest('tr') : null;
+  const nameEl = document.getElementById('edit-user-fullname');
+  const phoneEl = document.getElementById('edit-user-phone');
+  const emailEl = document.getElementById('edit-user-email');
+  const statusEl = document.getElementById('edit-user-status');
+
+  if (currentEditingUserRow) {
+    const strong = currentEditingUserRow.querySelector('strong');
+    if (nameEl && strong) nameEl.value = strong.textContent.trim();
+    if (phoneEl && currentEditingUserRow.cells[2]) {
+      const pText = currentEditingUserRow.cells[2].childNodes[0] ? currentEditingUserRow.cells[2].childNodes[0].textContent.trim() : '';
+      phoneEl.value = pText;
+    }
+    const badge = currentEditingUserRow.querySelector('.badge-status');
+    if (badge && statusEl) {
+      statusEl.value = badge.textContent.includes('KHOÁ') ? 'locked' : 'active';
+    }
+  } else if (typeof CUSTOMER_DATA_REGISTRY !== 'undefined' && CUSTOMER_DATA_REGISTRY[customerKey]) {
+    const data = CUSTOMER_DATA_REGISTRY[customerKey];
+    if (nameEl) nameEl.value = data.name;
+    if (phoneEl) phoneEl.value = data.phone;
+    if (emailEl) emailEl.value = data.email;
+  }
+  openAdminModal('modal-edit-user');
+}
+
+function saveEditUser(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  const nameEl = document.getElementById('edit-user-fullname');
+  const name = nameEl ? nameEl.value : 'Người dùng';
+
+  showToast('Đã lưu thay đổi thông tin người dùng "' + name + '" thành công!', 'success');
+  closeAdminModal('modal-edit-user');
+}
+
+function toggleLockUser(btn, customerName) {
+  showToast('Đã chuyển đổi trạng thái tài khoản "' + customerName + '" (Mô phỏng giao diện)!', 'info');
+}
+
+// ==========================================================================
+// 18. FILEREADER IMAGE PREVIEWS & SMART SAFE DELETE (R3 COMPLIANCE)
+// ==========================================================================
+function previewAddProductImage(e) {
+  const input = (e && e.target) ? e.target : e;
+  if (input && input.files && input.files[0]) {
+    const reader = new FileReader();
+    reader.onload = function(evt) {
+      const img = document.getElementById('add-prod-preview');
+      if (img) img.src = evt.target.result;
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+function previewEditProductImage(e) {
+  const input = (e && e.target) ? e.target : e;
+  if (input && input.files && input.files[0]) {
+    const reader = new FileReader();
+    reader.onload = function(evt) {
+      const img = document.getElementById('edit-prod-img-preview');
+      if (img) img.src = evt.target.result;
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+function handleAdminDeleteProduct(btnOrName, productNameOrHasOrders, maybeHasOrders) {
+  let name = 'Sản phẩm';
+  let hasOrders = false;
+
+  if (typeof btnOrName === 'string') {
+    name = btnOrName;
+    hasOrders = !!productNameOrHasOrders;
+  } else {
+    name = productNameOrHasOrders || 'Sản phẩm';
+    hasOrders = !!maybeHasOrders;
+  }
+
+  // Quy tắc dự án: Khi xóa chỉ cần thông báo chứ không thực sự xóa hay ẩn (DOM giữ nguyên)
+  if (hasOrders) {
+    showToast('Sản phẩm "' + name + '" đã phát sinh đơn hàng xuất bán! Hệ thống chuyển trạng thái sang ĐÃ ẨN khỏi web để bảo toàn lịch sử bán hàng (Mô phỏng).', 'warning');
+  } else {
+    showToast('Đã chuyển sản phẩm "' + name + '" vào thùng rác lưu trữ (Mô phỏng).', 'info');
+  }
+}
+
+// ==========================================================================
+// 19. UNIDIRECTIONAL ORDER STATE MACHINE (R4 COMPLIANCE)
+// ==========================================================================
+const ORDER_STATUS_ORDER = {
+  'Chưa xác nhận': ['Đã xác nhận', 'Đã giao (Huỷ đơn)'],
+  'Đã xác nhận': ['Đã giao (Thành công)', 'Đã giao (Huỷ đơn)'],
+  'Đã giao (Thành công)': [],
+  'Đã giao (Huỷ đơn)': []
+};
+
+let currentOrderEditingBtn = null;
+let currentOrderIdForStatus = '';
+
+function openOrderStatusModal(orderId, currentStatus, btn) {
+  currentOrderIdForStatus = orderId;
+  currentOrderEditingBtn = btn;
+  
+  const idEl = document.getElementById('status-modal-order-id');
+  const badgeEl = document.getElementById('status-modal-current-badge');
+  const selectEl = document.getElementById('select-next-status');
+  
+  if (idEl) idEl.textContent = '#' + orderId;
+  if (badgeEl) {
+    badgeEl.textContent = currentStatus;
+    const isSuccess = currentStatus.includes('Thành công');
+    const isCancel = currentStatus.includes('Huỷ');
+    const isWarning = currentStatus.includes('xác nhận') && !currentStatus.includes('Chưa');
+    badgeEl.className = 'badge-status ' + (isSuccess ? 'success' : (isCancel ? 'danger' : (isWarning ? 'warning' : 'info')));
+  }
+  
+  const allowedNext = ORDER_STATUS_ORDER[currentStatus] || [];
+  if (selectEl) {
+    selectEl.innerHTML = '';
+    if (allowedNext.length === 0) {
+      selectEl.innerHTML = '<option value="">(Đơn hàng đã hoàn tất - Không thể cập nhật ngược)</option>';
+      selectEl.disabled = true;
+    } else {
+      selectEl.disabled = false;
+      allowedNext.forEach(st => {
+        const opt = document.createElement('option');
+        opt.value = st;
+        opt.textContent = '➔ ' + st;
+        selectEl.appendChild(opt);
+      });
+    }
+  }
+  openAdminModal('modal-order-status');
+}
+
+function saveOrderStatus() {
+  const selectEl = document.getElementById('select-next-status');
+  if (!selectEl || selectEl.disabled || !selectEl.value) {
+    showToast('Không thể cập nhật! Trạng thái đơn hàng chỉ có thể cập nhật xuôi, không cho phép cập nhật ngược.', 'warning');
+    closeAdminModal('modal-order-status');
+    return;
+  }
+  const nextStatus = selectEl.value;
+  // Quy tắc dự án: Giữ lại giao diện modal và thông báo nhưng tắt tính năng chuyển (trạng thái trong bảng giữ nguyên)
+  showToast('Đã cập nhật trạng thái đơn hàng #' + currentOrderIdForStatus + ' thành "' + nextStatus + '" (Mô phỏng)!', 'success');
+  closeAdminModal('modal-order-status');
+}
+
+// ==========================================================================
+// 20. VOUCHER SETTINGS LIVE PREVIEW & MULTI-VOUCHER CONTROLLER
+// ==========================================================================
+
+// Mock registry representing multiple campaign vouchers in the system
+const MOCK_VOUCHERS_LIST = [
+  {
+    code: 'MONSTER10',
+    type: 'percent',
+    amount: '10%',
+    minSpend: '200.000đ',
+    maxDiscount: '50.000đ',
+    expiry: '2026-12-31',
+    target: 'all',
+    targetText: 'Tất cả khách hàng',
+    limit: 1000
+  },
+  {
+    code: 'ENERGY20',
+    type: 'fixed',
+    amount: '20.000đ',
+    minSpend: '150.000đ',
+    maxDiscount: '20.000đ',
+    expiry: '2026-11-30',
+    target: 'new',
+    targetText: 'Chỉ khách hàng mới',
+    limit: 500
+  },
+  {
+    code: 'FREESHIP',
+    type: 'fixed',
+    amount: '25.000đ',
+    minSpend: '200.000đ',
+    maxDiscount: '25.000đ',
+    expiry: '2026-12-31',
+    target: 'vip',
+    targetText: 'Chỉ khách hàng VIP',
+    limit: 300
+  }
+];
+
+let activeVoucherCode = 'MONSTER10';
+
+function getVoucherTag(voucher) {
+  if (voucher.code === 'FREESHIP') return 'FREESHIP';
+  if (voucher.type === 'percent') {
+    const val = voucher.amount.replace(/%/g, '').trim();
+    return `${val}%`;
+  }
+  const num = voucher.amount.replace(/\D/g, '');
+  if (num && parseInt(num, 10) >= 1000) {
+    return `${Math.round(parseInt(num, 10) / 1000)}K`;
+  }
+  return voucher.amount;
+}
+
+function renderVoucherChips() {
+  const container = document.getElementById('voucher-chips-list');
+  if (!container) return;
+
+  container.innerHTML = MOCK_VOUCHERS_LIST.map(v => {
+    const isActive = v.code === activeVoucherCode;
+    const tag = getVoucherTag(v);
+    return `<button type="button" class="voucher-chip ${isActive ? 'active' : ''}" onclick="switchVoucherPreview('${v.code}')" title="Xem & cấu hình mã ${v.code}">
+      ${v.code} <span class="voucher-chip-tag">${tag}</span>
+    </button>`;
+  }).join('');
+}
+
+function switchVoucherPreview(code) {
+  const voucher = MOCK_VOUCHERS_LIST.find(v => v.code === code);
+  if (!voucher) return;
+
+  activeVoucherCode = voucher.code;
+
+  const mainCodeInput = document.getElementById('voucher-code');
+  const mainTypeInput = document.getElementById('voucher-type');
+  const mainAmountInput = document.getElementById('voucher-amount');
+  const mainMinSpendInput = document.getElementById('voucher-min-spend');
+  const mainMaxDiscountInput = document.getElementById('voucher-max-discount');
+  const mainExpiryInput = document.getElementById('voucher-expiry');
+
+  if (mainCodeInput) mainCodeInput.value = voucher.code;
+  if (mainTypeInput) mainTypeInput.value = voucher.type;
+  if (mainAmountInput) mainAmountInput.value = voucher.amount;
+  if (mainMinSpendInput) mainMinSpendInput.value = voucher.minSpend;
+  if (mainMaxDiscountInput) mainMaxDiscountInput.value = voucher.maxDiscount;
+  if (mainExpiryInput) mainExpiryInput.value = voucher.expiry;
+
+  const targetEl = document.getElementById('preview-ticket-target');
+  if (targetEl) targetEl.textContent = voucher.targetText || 'Tất cả khách hàng';
+
+  updateVoucherLivePreview();
+  renderVoucherChips();
+
+  showToast(`Đang xem cấu hình Voucher "${voucher.code}"`, 'info');
+}
+
+function updateVoucherLivePreview() {
+  const codeEl = document.getElementById('voucher-code');
+  const amountEl = document.getElementById('voucher-amount');
+  const typeEl = document.getElementById('voucher-type');
+  const minSpendEl = document.getElementById('voucher-min-spend');
+  const maxDiscEl = document.getElementById('voucher-max-discount');
+  const expiryEl = document.getElementById('voucher-expiry');
+
+  const previewCode = document.getElementById('preview-ticket-code');
+  const previewDiscount = document.getElementById('preview-ticket-discount');
+  const previewDesc = document.getElementById('preview-ticket-desc');
+  const previewExpiry = document.getElementById('preview-ticket-expiry');
+
+  const code = (codeEl && codeEl.value) ? codeEl.value.trim().toUpperCase() : 'MONSTER10';
+  const rawAmount = (amountEl && amountEl.value) ? amountEl.value.trim() : '10%';
+  const type = typeEl ? typeEl.value : 'percent';
+  const minSpend = (minSpendEl && minSpendEl.value) ? minSpendEl.value.trim() : '0đ';
+  const maxDisc = (maxDiscEl && maxDiscEl.value) ? maxDiscEl.value.trim() : '';
+
+  if (previewCode) {
+    previewCode.innerHTML = `<i class="fas fa-copy"></i> ${code}`;
+  }
+
+  if (previewDiscount) {
+    if (type === 'percent') {
+      const cleanPercent = rawAmount.replace(/%/g, '').trim();
+      previewDiscount.textContent = `GIẢM ${cleanPercent}%`;
+    } else {
+      const cleanFixed = rawAmount.replace(/\s*(đ|Đ|vnđ|VNĐ)$/i, '').trim();
+      previewDiscount.textContent = `GIẢM ${cleanFixed}đ`;
+    }
+  }
+
+  if (previewDesc) {
+    const minText = (!minSpend || minSpend === '0' || minSpend === '0đ') ? 'mọi đơn hàng' : `đơn từ ${minSpend}`;
+    const maxText = maxDisc ? ` (Tối đa ${maxDisc})` : '';
+    previewDesc.textContent = `Áp dụng cho ${minText}${maxText}`;
+  }
+
+  if (previewExpiry && expiryEl && expiryEl.value) {
+    const parts = expiryEl.value.split('-');
+    if (parts.length === 3) {
+      previewExpiry.textContent = `${parts[2]}/${parts[1]}/${parts[0]}`;
+    }
+  }
+}
+
+function handleVoucherStatusToggle(toggle) {
+  const isChecked = toggle ? toggle.checked : true;
+  const label = document.getElementById('voucher-status-label');
+  const badge = document.getElementById('preview-ticket-badge');
+  const card = document.getElementById('voucher-ticket-preview');
+
+  if (label) {
+    label.textContent = isChecked ? 'ĐANG BẬT' : 'ĐÃ TẮT';
+    label.style.color = isChecked ? 'var(--primary)' : 'var(--text-muted)';
+  }
+  if (badge) {
+    badge.className = isChecked ? 'badge-status success' : 'badge-status danger';
+    badge.innerHTML = isChecked ? '<i class="fas fa-circle-check"></i> ĐANG ÁP DỤNG' : '<i class="fas fa-circle-xmark"></i> TẠM NGƯNG';
+  }
+  if (card) {
+    card.style.opacity = isChecked ? '1' : '0.55';
+    card.style.filter = isChecked ? 'none' : 'grayscale(0.7)';
+  }
+  showToast(isChecked ? 'Đã kích hoạt chương trình Voucher trên toàn hệ thống!' : 'Đã tạm ngưng áp dụng Voucher trên website.', isChecked ? 'success' : 'warning');
+}
+
+function handleSaveVoucherSettings(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  const codeEl = document.getElementById('voucher-code');
+  const typeEl = document.getElementById('voucher-type');
+  const amountEl = document.getElementById('voucher-amount');
+  const minSpendEl = document.getElementById('voucher-min-spend');
+  const maxDiscountEl = document.getElementById('voucher-max-discount');
+  const expiryEl = document.getElementById('voucher-expiry');
+
+  const code = (codeEl && codeEl.value) ? codeEl.value.trim().toUpperCase() : 'MONSTER10';
+  const type = typeEl ? typeEl.value : 'percent';
+  const amount = (amountEl && amountEl.value) ? amountEl.value.trim() : '10%';
+  const minSpend = (minSpendEl && minSpendEl.value) ? minSpendEl.value.trim() : '200.000đ';
+  const maxDiscount = (maxDiscountEl && maxDiscountEl.value) ? maxDiscountEl.value.trim() : '50.000đ';
+  const expiry = (expiryEl && expiryEl.value) ? expiryEl.value : '2026-12-31';
+
+  // Update in mock list if matches active voucher
+  const existing = MOCK_VOUCHERS_LIST.find(v => v.code === activeVoucherCode || v.code === code);
+  if (existing) {
+    existing.code = code;
+    existing.type = type;
+    existing.amount = amount;
+    existing.minSpend = minSpend;
+    existing.maxDiscount = maxDiscount;
+    existing.expiry = expiry;
+  }
+  activeVoucherCode = code;
+  renderVoucherChips();
+
+  showToast(`Đã lưu thành công cấu hình Voucher "${code}" & chính sách vận chuyển!`, 'success');
+}
+
+function handleAddVoucherTypeChange(type) {
+  const amountInput = document.getElementById('add-voucher-amount');
+  if (amountInput) {
+    amountInput.placeholder = type === 'percent' ? 'VD: 15% hoặc 20%' : 'VD: 30.000đ hoặc 50.000đ';
+  }
+}
+
+function copyVoucherCode(code) {
+  const codeEl = document.getElementById('voucher-code');
+  const codeToCopy = code || (codeEl ? codeEl.value.trim().toUpperCase() : 'MONSTER10');
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(codeToCopy).catch(() => {});
+  }
+  showToast(`Đã sao chép mã voucher "${codeToCopy}" vào bộ nhớ tạm!`, 'info');
+}
+
+function openAddVoucherModal() {
+  const form = document.getElementById('form-add-voucher');
+  if (form) form.reset();
+  const dateInput = document.getElementById('add-voucher-expiry');
+  if (dateInput && !dateInput.value) {
+    dateInput.value = '2026-12-31';
+  }
+  openAdminModal('modal-add-voucher');
+}
+
+function saveAddVoucher(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  const codeEl = document.getElementById('add-voucher-code');
+  const typeEl = document.getElementById('add-voucher-type');
+  const amountEl = document.getElementById('add-voucher-amount');
+  const minSpendEl = document.getElementById('add-voucher-min-spend');
+  const maxDiscountEl = document.getElementById('add-voucher-max-discount');
+  const expiryEl = document.getElementById('add-voucher-expiry');
+  const targetEl = document.getElementById('add-voucher-target');
+  const limitEl = document.getElementById('add-voucher-limit');
+
+  const code = (codeEl && codeEl.value) ? codeEl.value.trim().toUpperCase() : 'ENERGY20';
+  const type = typeEl ? typeEl.value : 'percent';
+  const amount = (amountEl && amountEl.value) ? amountEl.value.trim() : '15%';
+  const minSpend = (minSpendEl && minSpendEl.value) ? minSpendEl.value.trim() : '150.000đ';
+  const maxDiscount = (maxDiscountEl && maxDiscountEl.value) ? maxDiscountEl.value.trim() : '40.000đ';
+  const expiry = (expiryEl && expiryEl.value) ? expiryEl.value : '2026-12-31';
+  const target = targetEl ? targetEl.value : 'all';
+  const limit = (limitEl && limitEl.value) ? parseInt(limitEl.value, 10) : 500;
+
+  const targetMap = {
+    all: 'Tất cả khách hàng',
+    vip: 'Chỉ khách hàng VIP',
+    new: 'Chỉ khách hàng mới'
+  };
+  const targetText = targetMap[target] || 'Tất cả khách hàng';
+
+  // Add or update in mock multi-voucher registry
+  const existingIdx = MOCK_VOUCHERS_LIST.findIndex(v => v.code === code);
+  const newVoucher = {
+    code,
+    type,
+    amount,
+    minSpend,
+    maxDiscount,
+    expiry,
+    target,
+    targetText,
+    limit
+  };
+
+  if (existingIdx >= 0) {
+    MOCK_VOUCHERS_LIST[existingIdx] = newVoucher;
+  } else {
+    MOCK_VOUCHERS_LIST.unshift(newVoucher);
+  }
+
+  activeVoucherCode = code;
+
+  // Live update ticket preview & form inputs so newly created voucher is reflected
+  const mainCodeInput = document.getElementById('voucher-code');
+  const mainTypeInput = document.getElementById('voucher-type');
+  const mainAmountInput = document.getElementById('voucher-amount');
+  const mainMinSpendInput = document.getElementById('voucher-min-spend');
+  const mainMaxDiscountInput = document.getElementById('voucher-max-discount');
+  const mainExpiryInput = document.getElementById('voucher-expiry');
+  const previewTarget = document.getElementById('preview-ticket-target');
+
+  if (mainCodeInput) mainCodeInput.value = code;
+  if (mainTypeInput) mainTypeInput.value = type;
+  if (mainAmountInput) mainAmountInput.value = amount;
+  if (mainMinSpendInput) mainMinSpendInput.value = minSpend;
+  if (mainMaxDiscountInput) mainMaxDiscountInput.value = maxDiscount;
+  if (mainExpiryInput) mainExpiryInput.value = expiry;
+  if (previewTarget) previewTarget.textContent = targetText;
+
+  updateVoucherLivePreview();
+  renderVoucherChips();
+
+  // Ensure toggle is active
+  const toggle = document.getElementById('voucher-toggle-active');
+  if (toggle && !toggle.checked) {
+    toggle.checked = true;
+    handleVoucherStatusToggle(toggle);
+  }
+
+  closeAdminModal('modal-add-voucher');
+  showToast(`Đã thêm mã Voucher mới "${code}" thành công! Hệ thống hiện đang quản lý ${MOCK_VOUCHERS_LIST.length} mã voucher chiến dịch.`, 'success');
+}
+
+// Auto-initialize voucher chips if on settings page
+if (typeof document !== 'undefined') {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      if (document.getElementById('voucher-chips-list')) {
+        renderVoucherChips();
+      }
+    });
+  } else {
+    if (document.getElementById('voucher-chips-list')) {
+      renderVoucherChips();
+    }
+  }
+}
 
