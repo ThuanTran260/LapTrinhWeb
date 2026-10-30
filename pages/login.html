@@ -67,23 +67,23 @@
     <form id="form-register" style="display: none;" onsubmit="handleRegister(event)">
       <div class="form-group">
         <label class="form-label" for="register-fullname"><i class="fas fa-user"></i> Họ và tên người mua</label>
-        <input type="text" id="register-fullname" class="form-control" placeholder="VD: Nguyễn Văn An" required />
+        <input type="text" id="register-fullname" class="form-control" placeholder="VD: Nguyễn Văn An" />
       </div>
 
       <div class="form-group">
         <label class="form-label" for="register-phone"><i class="fas fa-phone-alt"></i> Số điện thoại nhận hàng</label>
-        <input type="tel" id="register-phone" class="form-control" placeholder="VD: 0912 345 678" required />
+        <input type="tel" id="register-phone" class="form-control" placeholder="VD: 0912 345 678" />
       </div>
 
       <div class="form-group">
         <label class="form-label" for="register-email"><i class="fas fa-envelope"></i> Email / Tên tài khoản</label>
-        <input type="text" id="register-email" class="form-control" placeholder="VD: vanan.nguyen@gmail.com" required autocomplete="username" />
+        <input type="text" id="register-email" class="form-control" placeholder="VD: vanan.nguyen@gmail.com" autocomplete="username" />
       </div>
 
       <div class="form-group">
         <label class="form-label" for="register-password"><i class="fas fa-lock"></i> Mật khẩu</label>
         <div class="password-wrapper">
-          <input type="password" id="register-password" class="form-control" placeholder="Tối thiểu 6 ký tự" required autocomplete="new-password" />
+          <input type="password" id="register-password" class="form-control" placeholder="Tùy chọn mật khẩu" autocomplete="new-password" />
           <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('register-password', 'eye-icon-1')">
             <i class="fas fa-eye" id="eye-icon-1"></i>
           </button>
@@ -93,7 +93,7 @@
       <div class="form-group">
         <label class="form-label" for="register-confirm-password"><i class="fas fa-shield-alt"></i> Xác nhận mật khẩu</label>
         <div class="password-wrapper">
-          <input type="password" id="register-confirm-password" class="form-control" placeholder="Nhập lại mật khẩu" required autocomplete="new-password" />
+          <input type="password" id="register-confirm-password" class="form-control" placeholder="Nhập lại mật khẩu" autocomplete="new-password" />
           <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('register-confirm-password', 'eye-icon-2')">
             <i class="fas fa-eye" id="eye-icon-2"></i>
           </button>
@@ -102,7 +102,7 @@
 
       <div class="form-extra">
         <label style="cursor: pointer; display: flex; align-items: center; gap: 6px; font-size: 0.82rem; color: var(--text-muted);">
-          <input type="checkbox" checked required /> Tôi đồng ý với Điều khoản dịch vụ và Chính sách thành viên Energy Boost
+          <input type="checkbox" checked /> Tôi đồng ý với Điều khoản dịch vụ và Chính sách thành viên Energy Boost
         </label>
       </div>
 

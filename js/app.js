@@ -93,8 +93,9 @@ function closeLightbox() {
 function handleLogin(e) {
   if (e && e.preventDefault) e.preventDefault();
   const userEl = document.getElementById('login-username');
-  const rawName = (userEl ? userEl.value : '').trim();
-  const username = rawName.toLowerCase();
+  const inputVal = (userEl ? userEl.value : '').trim();
+  const rawName = inputVal || 'Khách Hàng VIP';
+  const username = inputVal.toLowerCase();
   const ADMIN_USERS = ['admin', 'admin@monsterenergy.com'];
 
   try {
@@ -105,7 +106,7 @@ function handleLogin(e) {
     showToast('Xác thực Quản trị viên thành công! Đang chuyển hướng...', 'success');
     setTimeout(() => { go('admin/index.html'); }, 900);
   } else {
-    showToast('Đăng nhập thành công! Chào mừng quý khách quay lại mua sắm.', 'success');
+    showToast('Đăng nhập thành công! Chào mừng ' + rawName + ' quay lại mua sắm.', 'success');
     setTimeout(() => { go('index.html'); }, 900);
   }
 }
@@ -1025,15 +1026,10 @@ function handleRegister(e) {
   const passEl = document.getElementById('register-password');
   const confirmEl = document.getElementById('register-confirm-password');
 
-  const fullName = nameEl ? nameEl.value.trim() : 'Khách Hàng Mới';
-  const email = emailEl ? emailEl.value.trim() : '';
+  const fullName = (nameEl && nameEl.value.trim()) || 'Khách Hàng Mới';
+  const email = (emailEl && emailEl.value.trim()) || '';
   const pass = passEl ? passEl.value : '';
   const confirm = confirmEl ? confirmEl.value : '';
-
-  if (pass !== confirm) {
-    showToast('Mật khẩu xác nhận không khớp! Vui lòng kiểm tra lại.', 'warning');
-    return;
-  }
 
   try {
     localStorage.setItem('monster_user', fullName);
@@ -1045,7 +1041,7 @@ function handleRegister(e) {
     const loginUserEl = document.getElementById('login-username');
     if (loginUserEl) loginUserEl.value = email || fullName;
     switchAuthTab('login');
-  }, 1200);
+  }, 1000);
 }
 
 function togglePasswordVisibility(inputId, iconId) {
@@ -1180,10 +1176,12 @@ function handleAdminLogin(e) {
   if (e && e.preventDefault) e.preventDefault();
   const userEl = document.getElementById('admin-user');
   const user = (userEl ? userEl.value : '').trim();
+  const adminName = user || 'Thuận Trần (Admin)';
   
   try {
     localStorage.setItem('admin_logged_in', 'true');
-    localStorage.setItem('admin_user_name', user || 'Thuận Trần (Admin)');
+    localStorage.setItem('admin_user_name', adminName);
+    localStorage.setItem('monster_user', adminName);
   } catch (err) {}
 
   showToast('Xác thực Quản trị viên cấp cao thành công! Đang chuyển vào Dashboard...', 'success');
