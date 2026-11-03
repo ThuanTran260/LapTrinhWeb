@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chi Tiết Đơn Hàng #EB-2026 | ENERGY BOOST STORE</title>
+  <meta name="description" content="Chi tiết đơn hàng nước tăng lực Monster Energy và Redbull tại Energy Boost Store." />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <style>
+    @media print {
+      body {
+        background: #FFF !important;
+        color: #111 !important;
+      }
+      .top-bar,
+      .header,
+      .breadcrumb,
+      .footer,
+      .no-print,
+      .toast-container {
+        display: none !important;
+      }
+      .cart-page-section {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+      .admin-section-box,
+      .order-detail-card {
+        background: #FFF !important;
+        border: 1px solid #DDD !important;
+        color: #111 !important;
+        box-shadow: none !important;
+        padding: 16px !important;
+      }
+      .order-summary-box div,
+      .order-summary-box span,
+      .order-items-table th,
+      .order-items-table td,
+      .order-items-table strong,
+      #order-detail-id,
+      #order-detail-customer,
+      #order-detail-total {
+        color: #111 !important;
+      }
+      .order-items-table th {
+        background: #F3F4F6 !important;
+      }
+      .timeline-stepper {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="container">
+      <div class="announcement-text">
+        <i class="fas fa-truck-fast" style="color: var(--primary);"></i>
+        <span>ĐƠN HÀNG HỎA TỐC: <strong>Cam kết giao lạnh trong 2H</strong> tại TP.HCM &amp; Hà Nội!</span>
+      </div>
+      <div class="top-links">
+        <a href="../index.html"><i class="fas fa-arrow-left"></i> Quay Lại Cửa Hàng</a>
+        <a href="orders.html"><i class="fas fa-clock-rotate-left"></i> Lịch Sử Đặt Hàng</a>
+        <a href="account.html"><i class="fas fa-user-circle"></i> Tài Khoản</a>
+        <a href="login.html"><i class="fas fa-sign-in-alt"></i> Đăng Nhập</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-main">
+        <a href="../index.html" class="logo">
+          <div class="logo-icon"><i class="fas fa-bolt"></i></div>
+          <div class="logo-text">
+            <span class="logo-title">ENERGY<span>BOOST</span></span>
+            <span class="logo-subtitle">HỆ THỐNG NƯỚC TĂNG LỰC CHÍNH HÃNG</span>
+          </div>
+        </a>
+
+        <div style="font-family: var(--font-heading); font-size: 1.3rem; color: #FFF; display: flex; align-items: center; gap: 8px;">
+          <i class="fas fa-receipt" style="color: var(--secondary);"></i> CHI TIẾT ĐƠN HÀNG
+        </div>
+
+        <div class="header-actions">
+          <!-- Order History Shortcut -->
+          <a href="orders.html" class="action-btn" title="Lịch sử đơn hàng">
+            <div class="action-icon-wrapper">
+              <i class="fas fa-receipt" style="color: var(--accent-cyan);"></i>
+            </div>
+            <div class="action-text">
+              <span class="action-label">Đơn hàng</span>
+              <span class="action-value" style="color: var(--accent-cyan);">Lịch sử</span>
+            </div>
+          </a>
+
+          <!-- User Account Link -->
+          <a href="account.html" id="header-account-link" class="action-btn">
+            <div class="action-icon-wrapper">
+              <i class="fas fa-user"></i>
+            </div>
+            <div class="action-text">
+              <span class="action-label">Tài khoản</span>
+              <span class="action-value" id="header-account-value">Thành viên</span>
+            </div>
+          </a>
+
+          <!-- Cart Link -->
+          <a href="cart.html" class="action-btn">
+            <div class="action-icon-wrapper">
+              <i class="fas fa-shopping-cart"></i>
+              <span class="action-badge">5</span>
+            </div>
+            <div class="action-text">
+              <span class="action-label">Giỏ hàng</span>
+              <span class="action-value" style="color: var(--primary);">216.000đ</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main content -->
+  <main class="container cart-page-section">
+    <!-- Semantic breadcrumb -->
+    <div class="breadcrumb">
+      <a href="../index.html">Trang chủ</a>
+      <span>/</span>
+      <a href="account.html">Tài khoản</a>
+      <span>/</span>
+      <a href="orders.html">Lịch sử đơn hàng</a>
+      <span>/</span>
+      <span>Chi tiết đơn <span id="order-breadcrumb-id">#EB-2026</span></span>
+    </div>
+
+    <!-- Detailed Receipt Box -->
+    <div class="admin-section-box order-detail-card" style="margin-bottom: 24px;">
+      <!-- Header bar with Mã đơn, Ngày đặt, Badge trạng thái -->
+      <div class="order-summary-box" style="margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+        <div>
+          <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">MÃ ĐƠN HÀNG</div>
+          <strong id="order-detail-id" style="font-family: var(--font-heading); font-size: 1.3rem; color: #FFF;">#EB-2026</strong>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; color: var(--text-muted); font-size: 0.95rem;">
+          <i class="fas fa-calendar-alt" style="color: var(--accent-cyan);"></i>
+          <span>Ngày đặt: <span id="order-detail-date" style="color: #FFF; font-weight: 600;">03/10/2026 - 09:30 AM</span></span>
+        </div>
+        <div>
+          <span id="order-detail-status" class="badge-status success"><i class="fas fa-truck-fast"></i> ĐÃ GIAO HỎA TỐC 2H</span>
+        </div>
+      </div>
+
+      <!-- Delivery Timeline Stepper -->
+      <div style="margin-bottom: 30px; background: rgba(255, 255, 255, 0.02); border-radius: var(--radius-md); padding: 20px 16px; border: 1px solid rgba(255, 255, 255, 0.05);">
+        <h3 style="font-family: var(--font-heading); font-size: 1rem; color: #FFF; margin-bottom: 20px; display: flex; align-items: center; gap: 8px;">
+          <i class="fas fa-route" style="color: var(--primary);"></i> TIẾN ĐỘ GIAO HÀNG HỎA TỐC 2H
+        </h3>
+        <div class="timeline-stepper" id="order-timeline-stepper">
+          <!-- Step 1: Đã đặt hàng -->
+          <div class="timeline-step completed" id="timeline-step-1">
+            <div class="step-indicator">
+              <i class="fas fa-receipt"></i>
+            </div>
+            <div class="step-details">
+              <span class="step-label">Bước 1</span>
+              <h4 class="step-name">Đã đặt hàng</h4>
+              <p class="step-desc">Đơn hàng đã ghi nhận</p>
+            </div>
+          </div>
+          <div class="timeline-line completed" id="timeline-line-1"></div>
+
+          <!-- Step 2: Đã xác nhận -->
+          <div class="timeline-step completed" id="timeline-step-2">
+            <div class="step-indicator">
+              <i class="fas fa-clipboard-check"></i>
+            </div>
+            <div class="step-details">
+              <span class="step-label">Bước 2</span>
+              <h4 class="step-name">Đã xác nhận</h4>
+              <p class="step-desc">Đóng thùng &amp; ướp lạnh</p>
+            </div>
+          </div>
+          <div class="timeline-line completed" id="timeline-line-2"></div>
+
+          <!-- Step 3: Đang giao hàng -->
+          <div class="timeline-step active" id="timeline-step-3">
+            <div class="step-indicator pulse-active">
+              <i class="fas fa-motorcycle"></i>
+            </div>
+            <div class="step-details">
+              <span class="step-label">Bước 3</span>
+              <h4 class="step-name">Đang giao hàng</h4>
+              <p class="step-desc">Shipper đang giao 2H</p>
+            </div>
+          </div>
+          <div class="timeline-line" id="timeline-line-3"></div>
+
+          <!-- Step 4: Đã nhận hàng -->
+          <div class="timeline-step" id="timeline-step-4">
+            <div class="step-indicator">
+              <i class="fas fa-circle-check"></i>
+            </div>
+            <div class="step-details">
+              <span class="step-label">Bước 4</span>
+              <h4 class="step-name">Đã nhận hàng</h4>
+              <p class="step-desc">Giao tận tay thành công</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Customer Delivery Information Grid -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin-bottom: 28px;">
+        <!-- Card 1: Người nhận & Địa chỉ -->
+        <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: var(--radius-md); padding: 18px;">
+          <h4 style="font-family: var(--font-heading); font-size: 0.95rem; color: #FFF; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid rgba(255, 255, 255, 0.06); padding-bottom: 8px;">
+            <i class="fas fa-location-dot" style="color: var(--primary);"></i> THÔNG TIN NGƯỜI NHẬN
+          </h4>
+          <div style="display: flex; flex-direction: column; gap: 10px; font-size: 0.88rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="color: var(--text-dim); font-size: 0.82rem;">Người nhận:</span>
+              <strong style="color: #FFF;"><span id="order-detail-customer">Thuận Trần</span></strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="color: var(--text-dim); font-size: 0.82rem;">Số điện thoại:</span>
+              <span style="color: var(--accent-cyan); font-weight: 600;"><span id="order-detail-phone">0912.888.999</span></span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+              <span style="color: var(--text-dim); font-size: 0.82rem; white-space: nowrap;">Địa chỉ giao hàng:</span>
+              <span style="color: #E2E8F0; text-align: right;"><span id="order-detail-address">88 Nguyễn Huệ, Bến Nghé, Quận 1, TP.HCM</span></span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+              <span style="color: var(--text-dim); font-size: 0.82rem; white-space: nowrap;">Ghi chú:</span>
+              <span style="color: var(--accent-gold); font-style: italic; text-align: right;"><span id="order-detail-notes">Giao hàng ướp lạnh, gọi trước khi đến 15 phút</span></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: Vận chuyển & Thanh toán -->
+        <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: var(--radius-md); padding: 18px;">
+          <h4 style="font-family: var(--font-heading); font-size: 0.95rem; color: #FFF; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid rgba(255, 255, 255, 0.06); padding-bottom: 8px;">
+            <i class="fas fa-credit-card" style="color: var(--secondary);"></i> VẬN CHUYỂN &amp; THANH TOÁN
+          </h4>
+          <div style="display: flex; flex-direction: column; gap: 10px; font-size: 0.88rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="color: var(--text-dim); font-size: 0.82rem;">Hình thức thanh toán:</span>
+              <span style="color: var(--accent-gold); font-weight: 600;"><span id="order-detail-payment">COD - Tiền mặt khi nhận hàng</span></span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="color: var(--text-dim); font-size: 0.82rem;">Vận chuyển:</span>
+              <span style="color: var(--accent-cyan); font-weight: 600;"><span id="order-detail-shipping">Giao Hỏa Tốc 2H Nội Thành</span></span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="color: var(--text-dim); font-size: 0.82rem;">Thời gian cam kết:</span>
+              <span style="color: var(--primary); font-weight: 600;"><i class="fas fa-bolt"></i> Giao lạnh trong 120 phút</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="color: var(--text-dim); font-size: 0.82rem;">Cam kết dịch vụ:</span>
+              <span style="color: var(--text-muted); font-size: 0.82rem;">Đồng kiểm hàng, 1 đổi 1 tận nơi</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Itemized Product Table -->
+      <div style="margin-bottom: 24px;">
+        <h4 style="font-family: var(--font-heading); font-size: 1rem; color: #FFF; margin-bottom: 14px; display: flex; align-items: center; gap: 8px;">
+          <i class="fas fa-boxes-stacked" style="color: var(--accent-cyan);"></i> DANH SÁCH SẢN PHẨM ĐÃ ĐẶT
+        </h4>
+        <div style="overflow-x: auto; border: 1px solid rgba(255, 255, 255, 0.06); border-radius: var(--radius-sm);">
+          <table class="order-items-table">
+            <thead>
+              <tr>
+                <th>Sản phẩm</th>
+                <th>Phân loại</th>
+                <th style="text-align: right; width: 130px;">Đơn giá</th>
+                <th style="text-align: center; width: 90px;">SL</th>
+                <th style="text-align: right; width: 140px;">Thành tiền</th>
+              </tr>
+            </thead>
+            <tbody id="order-items-tbody">
+              <tr>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 12px;">
+                    <img src="../assets/images/monster/original.webp" alt="Monster Energy Original 355ml" style="width: 36px; height: 46px; object-fit: contain; border-radius: 4px; background: rgba(255, 255, 255, 0.03); padding: 2px;" />
+                    <strong style="color: #FFF;">Monster Energy Original 355ml</strong>
+                  </div>
+                </td>
+                <td style="color: var(--text-muted); font-size: 0.88rem;">Lon Sleek 355ml - Nhập khẩu chính hãng</td>
+                <td style="text-align: right; color: var(--text-muted);">45.000đ</td>
+                <td style="text-align: center; font-weight: 600;">2</td>
+                <td style="text-align: right; color: var(--primary); font-weight: 700;">90.000đ</td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 12px;">
+                    <img src="../assets/images/redbull/redbull-original.webp" alt="Redbull Original 250ml" style="width: 36px; height: 46px; object-fit: contain; border-radius: 4px; background: rgba(255, 255, 255, 0.03); padding: 2px;" />
+                    <strong style="color: #FFF;">Redbull Original 250ml</strong>
+                  </div>
+                </td>
+                <td style="color: var(--text-muted); font-size: 0.88rem;">Lon lùn 250ml - Kẽm &amp; Vitamin Thái Lan</td>
+                <td style="text-align: right; color: var(--text-muted);">18.000đ</td>
+                <td style="text-align: center; font-weight: 600;">2</td>
+                <td style="text-align: right; color: var(--primary); font-weight: 700;">36.000đ</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Price summary -->
+      <div style="display: flex; justify-content: flex-end; margin-bottom: 28px;">
+        <div style="width: 100%; max-width: 420px; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: var(--radius-md); padding: 20px; display: flex; flex-direction: column; gap: 12px;">
+          <div style="display: flex; justify-content: space-between; font-size: 0.92rem; color: var(--text-muted);">
+            <span>Tạm tính:</span>
+            <span id="order-detail-subtotal" style="color: #FFF; font-weight: 600;">126.000đ</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.92rem; color: var(--text-muted);">
+            <span>Phí vận chuyển:</span>
+            <span id="order-detail-shipping-fee" style="color: #FFF; font-weight: 600;">0đ (Miễn phí)</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.92rem; color: var(--text-muted);">
+            <span>Giảm giá:</span>
+            <span id="order-detail-discount" style="color: #FFF; font-weight: 600;">0đ</span>
+          </div>
+          <div class="summary-divider" style="height: 1px; background: rgba(255, 255, 255, 0.08); margin: 4px 0;"></div>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 1.05rem; font-weight: 700; color: #FFF;">Tổng cộng:</span>
+            <span id="order-detail-total" style="color: var(--primary); font-size: 1.3rem; font-weight: 800;">126.000đ</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer navigation buttons -->
+      <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 20px; flex-wrap: wrap; gap: 12px;" class="no-print">
+        <a href="orders.html" class="btn-view-detail"><i class="fas fa-arrow-left"></i> Quay lại lịch sử đơn hàng</a>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+          <button type="button" class="btn-view-detail" onclick="window.print()"><i class="fas fa-print"></i> In Hóa Đơn</button>
+          <a href="../index.html" class="btn-add-cart" style="text-decoration:none;"><i class="fas fa-shopping-basket"></i> Tiếp tục mua sắm</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-bottom">
+      <p>&copy; 2026 ENERGY BOOST STORE. Built with Pure Static HTML5 &amp; CSS3. All Rights Reserved.</p>
+      <a href="../index.html" style="color: var(--primary);"><i class="fas fa-arrow-left"></i> Trang chủ</a>
+    </div>
+  </footer>
+
+  <div id="toast-container" class="toast-container"></div>
+  <script src="../js/app.js"></script>
+  <script>
+    function updateCustomerOrderTimeline() {
+      const statusEl = document.getElementById('order-detail-status');
+      if (!statusEl) return;
+      const statusText = statusEl.textContent.toUpperCase();
+
+      const step1 = document.getElementById('timeline-step-1');
+      const step2 = document.getElementById('timeline-step-2');
+      const step3 = document.getElementById('timeline-step-3');
+      const step4 = document.getElementById('timeline-step-4');
+      const line1 = document.getElementById('timeline-line-1');
+      const line2 = document.getElementById('timeline-line-2');
+      const line3 = document.getElementById('timeline-line-3');
+
+      // Reset classes
+      [step1, step2, step3, step4].forEach(s => { if (s) s.className = 'timeline-step'; });
+      [line1, line2, line3].forEach(l => { if (l) l.className = 'timeline-line'; });
+
+      if (statusText.includes('CHƯA XÁC NHẬN') || statusText.includes('MỚI ĐẶT')) {
+        if (step1) step1.className = 'timeline-step active';
+      } else if (statusText.includes('ĐÃ XÁC NHẬN')) {
+        if (step1) step1.className = 'timeline-step completed';
+        if (line1) line1.className = 'timeline-line completed';
+        if (step2) step2.className = 'timeline-step active';
+      } else if (statusText.includes('ĐANG GIAO')) {
+        if (step1) step1.className = 'timeline-step completed';
+        if (line1) line1.className = 'timeline-line completed';
+        if (step2) step2.className = 'timeline-step completed';
+        if (line2) line2.className = 'timeline-line completed';
+        if (step3) step3.className = 'timeline-step active pulse-active';
+      } else {
+        // ĐÃ GIAO / ĐÃ NHẬN / THÀNH CÔNG
+        if (step1) step1.className = 'timeline-step completed';
+        if (line1) line1.className = 'timeline-line completed';
+        if (step2) step2.className = 'timeline-step completed';
+        if (line2) line2.className = 'timeline-line completed';
+        if (step3) step3.className = 'timeline-step completed';
+        if (line3) line3.className = 'timeline-line completed';
+        if (step4) step4.className = 'timeline-step completed';
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initOrderDetailPage('customer');
+      updateCustomerOrderTimeline();
+    });
+  </script>
+</body>
+</html>
