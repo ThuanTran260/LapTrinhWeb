@@ -1323,20 +1323,68 @@ function handleAdvancedSearch(e) {
   showToast('Đã áp dụng bộ lọc nâng cao cho danh mục sản phẩm!', 'success');
 }
 
+function renderAdvSuggestions() {
+  const container = document.getElementById('adv-search-suggestions');
+  if (!container) return;
+
+  const root = typeof SITE_ROOT !== 'undefined' ? SITE_ROOT : '';
+  let html = '';
+  STATIC_PRODUCTS_CATALOG.forEach((prod, idx) => {
+    const imgSrc = root + prod.image;
+    html += `
+      <div class="adv-suggestion-item" onclick="selectAdvSearchSuggestion(${idx})">
+        <div class="adv-suggestion-left">
+          <img src="${imgSrc}" alt="${prod.name}" class="adv-suggestion-thumb" />
+          <div>
+            <div class="adv-suggestion-name">${prod.name}</div>
+            <div class="adv-suggestion-brand">${prod.brand}</div>
+          </div>
+        </div>
+        <div class="adv-suggestion-price">${prod.price}</div>
+      </div>
+    `;
+  });
+  container.innerHTML = html;
+}
+
 function handleAdvKeywordInput(val) {
-  // Pure static mockup: no dynamic suggestions
+  // Pure static mockup: menu vẫn mở danh sách các lon nước mẫu cố định, KHÔNG chạy thuật toán lọc mảng theo text để bảo đảm tiêu chí đồ án tĩnh (UI Mockup)
+  openAdvSuggestions();
 }
 
 function openAdvSuggestions() {
-  // Pure static mockup
+  const container = document.getElementById('adv-search-suggestions');
+  if (!container) return;
+  renderAdvSuggestions();
+  container.classList.add('active');
 }
 
 function selectAdvSearchSuggestion(idx) {
-  // Pure static mockup
+  const prod = STATIC_PRODUCTS_CATALOG[idx];
+  if (!prod) return;
+
+  const kwEl = document.getElementById('adv-search-keyword');
+  if (kwEl) kwEl.value = prod.name;
+
+  const brandEl = document.getElementById('adv-search-brand');
+  if (brandEl) brandEl.value = prod.brandKey;
+
+  const priceEl = document.getElementById('adv-search-price');
+  if (priceEl) priceEl.value = prod.priceKey;
+
+  const previewEl = document.getElementById('adv-search-preview');
+  if (previewEl) {
+    previewEl.innerHTML = `<i class="fas fa-info-circle" style="color: var(--primary);"></i> Kết quả mẫu phù hợp tiêu chí: <strong style="color: #FFF;">${prod.name} (${prod.price})</strong>`;
+  }
+
+  closeAdvSuggestions();
 }
 
 function closeAdvSuggestions() {
-  // Pure static mockup
+  const container = document.getElementById('adv-search-suggestions');
+  if (container) {
+    container.classList.remove('active');
+  }
 }
 
 // Global click outside & Escape listeners for search dropdown and advanced suggestions
