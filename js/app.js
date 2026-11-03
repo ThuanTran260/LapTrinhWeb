@@ -1121,6 +1121,12 @@ function initOrderDetailPage(role) {
   const shipEl = document.getElementById('order-detail-shipping');
   if (shipEl) shipEl.textContent = order.shippingMethod;
 
+  // #order-detail-notes & #order-detail-note
+  const noteEl = document.getElementById('order-detail-notes') || document.getElementById('order-detail-note');
+  if (noteEl) {
+    noteEl.textContent = order.notes || order.note || 'Giao hàng ướp lạnh, gọi trước khi đến 15 phút';
+  }
+
   // #order-items-tbody
   const tbodyEl = document.getElementById('order-items-tbody');
   if (tbodyEl && Array.isArray(order.items)) {
