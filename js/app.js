@@ -1908,24 +1908,6 @@ function switchVoucherPreview(code) {
 
   activeVoucherCode = voucher.code;
 
-  const mainCodeInput = document.getElementById('voucher-code');
-  const mainTypeInput = document.getElementById('voucher-type');
-  const mainAmountInput = document.getElementById('voucher-amount');
-  const mainMinSpendInput = document.getElementById('voucher-min-spend');
-  const mainMaxDiscountInput = document.getElementById('voucher-max-discount');
-  const mainExpiryInput = document.getElementById('voucher-expiry');
-
-  if (mainCodeInput) mainCodeInput.value = voucher.code;
-  if (mainTypeInput) mainTypeInput.value = voucher.type;
-  if (mainAmountInput) mainAmountInput.value = voucher.amount;
-  if (mainMinSpendInput) mainMinSpendInput.value = voucher.minSpend;
-  if (mainMaxDiscountInput) mainMaxDiscountInput.value = voucher.maxDiscount;
-  if (mainExpiryInput) mainExpiryInput.value = voucher.expiry;
-
-  const targetEl = document.getElementById('preview-ticket-target');
-  if (targetEl) targetEl.textContent = voucher.targetText || 'Tất cả khách hàng';
-
-  updateVoucherLivePreview();
   renderVoucherChips();
 
   showToast(`Đang xem cấu hình Voucher "${voucher.code}"`, 'info');
@@ -2106,24 +2088,6 @@ function saveAddVoucher(e) {
 
   activeVoucherCode = code;
 
-  // Live update ticket preview & form inputs so newly created voucher is reflected
-  const mainCodeInput = document.getElementById('voucher-code');
-  const mainTypeInput = document.getElementById('voucher-type');
-  const mainAmountInput = document.getElementById('voucher-amount');
-  const mainMinSpendInput = document.getElementById('voucher-min-spend');
-  const mainMaxDiscountInput = document.getElementById('voucher-max-discount');
-  const mainExpiryInput = document.getElementById('voucher-expiry');
-  const previewTarget = document.getElementById('preview-ticket-target');
-
-  if (mainCodeInput) mainCodeInput.value = code;
-  if (mainTypeInput) mainTypeInput.value = type;
-  if (mainAmountInput) mainAmountInput.value = amount;
-  if (mainMinSpendInput) mainMinSpendInput.value = minSpend;
-  if (mainMaxDiscountInput) mainMaxDiscountInput.value = maxDiscount;
-  if (mainExpiryInput) mainExpiryInput.value = expiry;
-  if (previewTarget) previewTarget.textContent = targetText;
-
-  updateVoucherLivePreview();
   renderVoucherChips();
 
   // Ensure toggle is active

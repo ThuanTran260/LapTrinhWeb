@@ -158,6 +158,34 @@ def test_modal_cleanup_and_links():
         assert content is not None, f"File {f} không tồn tại!"
         assert "order-detail.html?id=" in content, f"File {f} thiếu link sang order-detail.html?id="
 
+# --- Test 8: Voucher Chips Visual Feedback & Static 10% Rubric Integrity ---
+@test("8. Settings Voucher: switchVoucherPreview giữ cố định 10% tĩnh và cập nhật active chip + toast")
+def test_switch_voucher_preview_static_integrity():
+    content = read_text("js/app.js")
+    assert content is not None, "File js/app.js không tồn tại!"
+    
+    # Extract function switchVoucherPreview
+    match = re.search(r"function\s+switchVoucherPreview\s*\([^)]*\)\s*\{([\s\S]*?)\n\}", content)
+    assert match, "Không tìm thấy hàm switchVoucherPreview trong js/app.js"
+    fn_body = match.group(1)
+    
+    # Verify no dynamic overwriting of form inputs
+    assert "mainAmountInput" not in fn_body, "switchVoucherPreview vẫn còn chứa mainAmountInput!"
+    assert "mainCodeInput" not in fn_body, "switchVoucherPreview vẫn còn chứa mainCodeInput!"
+    assert "updateVoucherLivePreview" not in fn_body, "switchVoucherPreview không được gọi updateVoucherLivePreview!"
+    
+    # Verify active state update and toast
+    assert "activeVoucherCode =" in fn_body, "switchVoucherPreview thiếu cập nhật activeVoucherCode"
+    assert "renderVoucherChips()" in fn_body, "switchVoucherPreview phải gọi renderVoucherChips() để cập nhật active class"
+    assert "showToast" in fn_body, "switchVoucherPreview phải gọi showToast để hiển thị phản hồi tương tác"
+
+    # Verify admin/settings.html keeps static 10% rubric template
+    settings_html = read_text("admin/settings.html")
+    assert settings_html is not None, "File admin/settings.html không tồn tại!"
+    assert 'value="MONSTER10"' in settings_html, "Form voucher-code phải có default value='MONSTER10'"
+    assert 'value="10%"' in settings_html, "Form voucher-amount phải có default value='10%'"
+    assert "GIẢM 10%" in settings_html, "Vé xem trước preview-ticket-discount phải chứa 'GIẢM 10%'"
+
 def main():
     print("=" * 75)
     print("XÁC MINH CÁC TÍNH NĂNG ĐẶC BIỆT: TRANG CHI TIẾT ĐƠN HÀNG, HEADER & KHO HÀNG")
@@ -174,7 +202,7 @@ def main():
     print("=" * 75)
     
     if passed == total:
-        print("🎉 TẤT CẢ 7/7 NHÓM TIÊU CHÍ ĐỀU ĐẠT CHUẨN XUẤT SẮC!")
+        print(f"🎉 TẤT CẢ {passed}/{total} NHÓM TIÊU CHÍ ĐỀU ĐẠT CHUẨN XUẤT SẮC!")
         sys.exit(0)
     else:
         print(f"⚠️ CÓ {total - passed} TIÊU CHÍ THẤT BẠI. CẦN SỬA LẠI!")
