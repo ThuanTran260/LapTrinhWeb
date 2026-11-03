@@ -1125,6 +1125,8 @@ function initOrderDetailPage(role) {
   const tbodyEl = document.getElementById('order-items-tbody');
   if (tbodyEl && Array.isArray(order.items)) {
     const isSubdir = typeof window !== 'undefined' && (window.location.pathname.includes('/pages/') || window.location.pathname.includes('/admin/'));
+    const tableEl = tbodyEl.closest('table');
+    const has5Cols = tableEl && tableEl.querySelectorAll('thead th').length === 5;
     tbodyEl.innerHTML = order.items.map(item => {
       let imgSrc = item.img || '';
       if (imgSrc && !imgSrc.startsWith('http') && !imgSrc.startsWith('data:')) {
@@ -1133,6 +1135,20 @@ function initOrderDetailPage(role) {
         } else {
           imgSrc = imgSrc.replace(/^\.\.\//, '');
         }
+      }
+      if (has5Cols) {
+        return `<tr>
+        <td>
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <img src="${imgSrc}" alt="${item.name}" style="width: 36px; height: 46px; object-fit: contain; border-radius: 4px; background: rgba(255, 255, 255, 0.03); padding: 2px;" />
+            <strong style="color: #FFF;">${item.name}</strong>
+          </div>
+        </td>
+        <td style="color: var(--text-muted); font-size: 0.88rem;">${item.desc || 'Tiêu chuẩn'}</td>
+        <td style="text-align: right; color: var(--text-muted);">${item.price}</td>
+        <td style="text-align: center; font-weight: 600;">${item.qty}</td>
+        <td style="text-align: right; color: var(--primary); font-weight: 700;">${item.total}</td>
+      </tr>`;
       }
       return `<tr>
         <td>
