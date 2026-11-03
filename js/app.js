@@ -1319,117 +1319,24 @@ function closeAdvancedSearchModal() {
 
 function handleAdvancedSearch(e) {
   if (e && e.preventDefault) e.preventDefault();
-  const kwEl = document.getElementById('adv-search-keyword');
-  const keyword = (kwEl ? kwEl.value : 'Original').trim();
-  const brandEl = document.getElementById('adv-search-brand');
-  const brandName = brandEl ? brandEl.options[brandEl.selectedIndex].text : 'Monster Energy';
-  const priceEl = document.getElementById('adv-search-price');
-  const priceName = priceEl ? priceEl.options[priceEl.selectedIndex].text : '20.000đ - 50.000đ';
-
   closeAdvancedSearchModal();
-  showToast('Đã lọc nâng cao: "' + keyword + '" | ' + brandName + ' | ' + priceName, 'success');
-}
-
-function removeVietnameseTones(str) {
-  return (str || '')
-    .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
-    .replace(/đ/g, 'd')
-    .replace(/Đ/g, 'D');
+  showToast('Đã áp dụng bộ lọc nâng cao cho danh mục sản phẩm!', 'success');
 }
 
 function handleAdvKeywordInput(val) {
-  const container = document.getElementById('adv-search-suggestions');
-  if (!container) return;
-
-  const raw = (val || '').trim();
-  let matches = [];
-
-  if (!raw) {
-    matches = [
-      { prod: STATIC_PRODUCTS_CATALOG[0], idx: 0 },
-      { prod: STATIC_PRODUCTS_CATALOG[4], idx: 4 },
-      { prod: STATIC_PRODUCTS_CATALOG[7], idx: 7 }
-    ];
-  } else {
-    const qLower = raw.toLowerCase();
-    const qNorm = removeVietnameseTones(qLower);
-
-    STATIC_PRODUCTS_CATALOG.forEach((prod, idx) => {
-      const nameLower = prod.name.toLowerCase();
-      const brandLower = prod.brand.toLowerCase();
-      const nameNorm = removeVietnameseTones(nameLower);
-      const brandNorm = removeVietnameseTones(brandLower);
-
-      if (
-        nameLower.includes(qLower) ||
-        brandLower.includes(qLower) ||
-        nameNorm.includes(qNorm) ||
-        brandNorm.includes(qNorm)
-      ) {
-        matches.push({ prod, idx });
-      }
-    });
-  }
-
-  if (matches.length === 0) {
-    container.innerHTML = '<div style="padding: 12px; font-size: 0.8rem; color: var(--text-dim); text-align: center;">Không tìm thấy sản phẩm gợi ý phù hợp</div>';
-    container.classList.add('active');
-    return;
-  }
-
-  let html = '';
-  matches.forEach(({ prod, idx }) => {
-    const imgSrc = typeof SITE_ROOT !== 'undefined' ? (SITE_ROOT + prod.image) : prod.image;
-    html += `
-      <div class="adv-suggestion-item" onclick="selectAdvSearchSuggestion(${idx})">
-        <div class="adv-suggestion-left">
-          <img src="${imgSrc}" alt="${prod.name}" class="adv-suggestion-thumb" />
-          <div>
-            <div class="adv-suggestion-name">${prod.name}</div>
-            <div class="adv-suggestion-brand">${prod.brand}</div>
-          </div>
-        </div>
-        <div class="adv-suggestion-price">${prod.price}</div>
-      </div>
-    `;
-  });
-
-  container.innerHTML = html;
-  container.classList.add('active');
+  // Pure static mockup: no dynamic suggestions
 }
 
 function openAdvSuggestions() {
-  const kwEl = document.getElementById('adv-search-keyword');
-  handleAdvKeywordInput(kwEl ? kwEl.value : '');
+  // Pure static mockup
 }
 
 function selectAdvSearchSuggestion(idx) {
-  const prod = STATIC_PRODUCTS_CATALOG[idx];
-  if (!prod) return;
-
-  const kwEl = document.getElementById('adv-search-keyword');
-  if (kwEl) kwEl.value = prod.name;
-
-  const brandEl = document.getElementById('adv-search-brand');
-  if (brandEl) brandEl.value = prod.brandKey;
-
-  const priceEl = document.getElementById('adv-search-price');
-  if (priceEl) priceEl.value = prod.priceKey;
-
-  const previewEl = document.getElementById('adv-search-preview');
-  if (previewEl) {
-    previewEl.innerHTML = `<i class="fas fa-info-circle" style="color: var(--primary);"></i> Kết quả mẫu phù hợp tiêu chí: <strong style="color: #FFF;">${prod.name} (${prod.price})</strong>`;
-  }
-
-  closeAdvSuggestions();
+  // Pure static mockup
 }
 
 function closeAdvSuggestions() {
-  const container = document.getElementById('adv-search-suggestions');
-  if (container) {
-    container.classList.remove('active');
-  }
+  // Pure static mockup
 }
 
 // Global click outside & Escape listeners for search dropdown and advanced suggestions
