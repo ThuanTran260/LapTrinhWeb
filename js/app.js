@@ -775,6 +775,7 @@ const MOCK_ORDER_DATABASE = {
     statusClass: 'success',
     paymentMethod: 'VietQR',
     shippingMethod: 'Giao Hỏa Tốc (2H Nội Thành)',
+    notes: 'Giao giờ hành chính, gọi trước 15 phút',
     items: [
       {
         name: 'Monster Energy Original 355ml',
@@ -809,6 +810,7 @@ const MOCK_ORDER_DATABASE = {
     statusClass: 'warning',
     paymentMethod: 'COD',
     shippingMethod: 'Giao hàng tiêu chuẩn (Tiết kiệm)',
+    notes: 'Gọi trước khi tới giao hàng',
     items: [
       {
         name: 'Monster Energy Ultra White 355ml',
@@ -843,6 +845,7 @@ const MOCK_ORDER_DATABASE = {
     statusClass: 'info',
     paymentMethod: 'VietQR',
     shippingMethod: 'Giao Hỏa Tốc (2H Nội Thành)',
+    notes: 'Để trước cửa phòng trọ nếu đi vắng',
     items: [
       {
         name: 'Combo Thùng 24 Lon Đấu Trường',
@@ -869,6 +872,7 @@ const MOCK_ORDER_DATABASE = {
     statusClass: 'success',
     paymentMethod: 'VietQR',
     shippingMethod: 'Giao hàng tiêu chuẩn',
+    notes: 'Đóng gói kỹ làm quà tặng hội thảo esport',
     items: [
       {
         name: 'Monster Energy Ultra Paradise 355ml',
@@ -903,6 +907,7 @@ const MOCK_ORDER_DATABASE = {
     statusClass: 'warning',
     paymentMethod: 'COD',
     shippingMethod: 'Giao hàng hỏa tốc',
+    notes: 'Giao nhanh trước 17h chiều',
     items: [
       {
         name: 'Redbull Nắp Bật 250ml',
@@ -937,6 +942,7 @@ const MOCK_ORDER_DATABASE = {
     statusClass: 'success',
     paymentMethod: 'VietQR',
     shippingMethod: 'Giao hàng tiêu chuẩn',
+    notes: 'Đơn hàng VIP ưu tiên xử lý',
     items: [
       {
         name: 'Monster Energy Ultra Punk Punch 355ml',
@@ -963,6 +969,7 @@ const MOCK_ORDER_DATABASE = {
     statusClass: 'warning',
     paymentMethod: 'COD khi nhận',
     shippingMethod: 'Giao Hỏa Tốc (2H)',
+    notes: 'Giao hỏa tốc 2H, giao tận tay người nhận',
     items: [
       {
         name: 'Monster Energy Original 355ml',
@@ -997,6 +1004,7 @@ const MOCK_ORDER_DATABASE = {
     statusClass: 'success',
     paymentMethod: 'Chuyển khoản VietQR',
     shippingMethod: 'Giao hàng tiêu chuẩn',
+    notes: 'Kèm bình giữ nhiệt quà tặng sự kiện',
     items: [
       {
         name: 'Combo Thùng 24 Lon Đấu Trường',
@@ -1023,6 +1031,7 @@ const MOCK_ORDER_DATABASE = {
     statusClass: 'success',
     paymentMethod: 'Ví MoMo',
     shippingMethod: 'Giao hàng tiêu chuẩn',
+    notes: 'Khách hàng thành viên thân thiết',
     items: [
       {
         name: 'Redbull Nắp Bật 250ml',
@@ -1065,7 +1074,7 @@ function initOrderDetailPage(role) {
   const shortId = cleanId.replace(/^EB-/, '');
 
   const db = (typeof MOCK_ORDER_DATABASE !== 'undefined' && MOCK_ORDER_DATABASE) || window.MOCK_ORDER_DATABASE || {};
-  const order = db[cleanId] || db[orderId] || db[shortId] || Object.values(db)[0];
+  const order = db[cleanId] || db[orderId] || db[shortId] || (role === 'admin' ? db['EB-8801'] : db['EB-2026']) || Object.values(db)[0];
 
   if (!order) return;
 
@@ -1188,6 +1197,9 @@ function initOrderDetailPage(role) {
   // #order-detail-total
   const totalEl = document.getElementById('order-detail-total');
   if (totalEl) totalEl.textContent = order.totalAmount;
+
+  if (typeof updateOrderTimelineFromStatus === 'function') updateOrderTimelineFromStatus();
+  if (typeof updateCustomerOrderTimeline === 'function') updateCustomerOrderTimeline();
 }
 window.initOrderDetailPage = initOrderDetailPage;
 
