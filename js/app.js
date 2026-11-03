@@ -614,7 +614,7 @@ function saveAddProduct(e) {
   const nameEl = document.getElementById('add-prod-name');
   const name = (nameEl && nameEl.value) ? nameEl.value : 'Nước Tăng Lực Mới';
 
-  showToast('Đã thêm sản phẩm "' + name + '" vào kho hàng thành công (Mô phỏng)!', 'success');
+  showToast('Đã thêm sản phẩm "' + name + '" vào kho hàng thành công!', 'success');
   closeAdminModal('modal-add-product');
   const form = document.getElementById('form-add-product');
   if (form) form.reset();
@@ -1585,7 +1585,7 @@ function saveAddUser(e) {
   if (e && e.preventDefault) e.preventDefault();
   const fullname = (document.getElementById('add-user-fullname') || {}).value || 'Người Dùng Mới';
 
-  showToast('Đã thêm tài khoản người dùng "' + fullname + '" thành công (Mô phỏng)!', 'success');
+  showToast('Đã tạo tài khoản thành viên "' + fullname + '" thành công!', 'success');
   closeAdminModal('modal-add-user');
   const form = document.getElementById('form-add-user');
   if (form) form.reset();
@@ -1628,7 +1628,7 @@ function saveEditUser(e) {
 }
 
 function toggleLockUser(btn, customerName) {
-  showToast('Đã chuyển đổi trạng thái tài khoản "' + customerName + '" (Mô phỏng giao diện)!', 'info');
+  showToast('Đã cập nhật trạng thái tài khoản "' + customerName + '" thành công!', 'info');
 }
 
 // ==========================================================================
@@ -1672,9 +1672,9 @@ function handleAdminDeleteProduct(btnOrName, productNameOrHasOrders, maybeHasOrd
 
   // Quy tắc dự án: Khi xóa chỉ cần thông báo chứ không thực sự xóa hay ẩn (DOM giữ nguyên)
   if (hasOrders) {
-    showToast('Sản phẩm "' + name + '" đã phát sinh đơn hàng xuất bán! Hệ thống chuyển trạng thái sang ĐÃ ẨN khỏi web để bảo toàn lịch sử bán hàng (Mô phỏng).', 'warning');
+    showToast('Sản phẩm "' + name + '" đã phát sinh đơn hàng xuất bán! Hệ thống đã chuyển trạng thái sang ĐÃ ẨN để bảo toàn lịch sử giao dịch.', 'warning');
   } else {
-    showToast('Đã chuyển sản phẩm "' + name + '" vào thùng rác lưu trữ (Mô phỏng).', 'info');
+    showToast('Đã xóa sản phẩm "' + name + '" khỏi hệ thống kho hàng.', 'info');
   }
 }
 
@@ -1736,7 +1736,7 @@ function saveOrderStatus() {
   }
   const nextStatus = selectEl.value;
   // Quy tắc dự án: Giữ lại giao diện modal và thông báo nhưng tắt tính năng chuyển (trạng thái trong bảng giữ nguyên)
-  showToast('Đã cập nhật trạng thái đơn hàng #' + currentOrderIdForStatus + ' thành "' + nextStatus + '" (Mô phỏng)!', 'success');
+  showToast('Đã cập nhật trạng thái đơn hàng #' + currentOrderIdForStatus + ' thành "' + nextStatus + '"!', 'success');
   closeAdminModal('modal-order-status');
 }
 
