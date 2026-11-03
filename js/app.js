@@ -762,22 +762,428 @@ function openCustomerDetailModal(customerKey) {
   openAdminModal('modal-customer-detail');
 }
 
-// 9d. Order Detail Modal Logic
-function openOrderDetailModal(orderId) {
-  const code = orderId || 'EB-8801';
-  const modal = document.getElementById('modal-order-detail');
-  if (modal) {
-    const title = modal.querySelector('.admin-modal-title');
-    if (title) {
-      title.innerHTML = `<i class="fas fa-file-invoice" style="color: var(--secondary);"></i> Chi Tiết Đơn Hàng #${code.replace(/^#/, '')}`;
-    }
-    const orderCodeBox = modal.querySelector('.order-summary-box div:last-child, .order-summary-box [style*="font-family"]');
-    if (orderCodeBox) {
-      orderCodeBox.textContent = '#' + code.replace(/^#/, '');
-    }
+// 9d. Mock Order Database & Routing Logic
+const MOCK_ORDER_DATABASE = {
+  'EB-8801': {
+    id: 'EB-8801',
+    code: 'EB-8801',
+    customerName: 'Nguyễn Văn An',
+    phone: '0912 345 678',
+    address: '45 Lê Duẩn, P. Bến Nghé, Quận 1, TP.HCM',
+    date: '02/10/2026 14:30',
+    status: 'ĐÃ GIAO (THÀNH CÔNG)',
+    statusClass: 'success',
+    paymentMethod: 'VietQR',
+    shippingMethod: 'Giao Hỏa Tốc (2H Nội Thành)',
+    items: [
+      {
+        name: 'Monster Energy Original 355ml',
+        desc: 'Lon Sleek 355ml - Nhập khẩu chính hãng',
+        img: '../assets/images/monster/original.webp',
+        qty: 2,
+        price: '45.000đ',
+        total: '90.000đ'
+      },
+      {
+        name: 'Redbull Original 250ml',
+        desc: 'Lon lùn 250ml - Kẽm & Vitamin Thái Lan',
+        img: '../assets/images/redbull/redbull-original.webp',
+        qty: 2,
+        price: '18.000đ',
+        total: '36.000đ'
+      }
+    ],
+    subtotal: '126.000đ',
+    shippingFee: '0đ (Miễn phí)',
+    discount: '0đ',
+    totalAmount: '126.000đ'
+  },
+  'EB-8802': {
+    id: 'EB-8802',
+    code: 'EB-8802',
+    customerName: 'Trần Thị Bình',
+    phone: '0988 123 456',
+    address: '128 Hai Bà Trưng, P. Tân Định, Quận 1, TP.HCM',
+    date: '02/10/2026 11:15',
+    status: 'ĐÃ XÁC NHẬN',
+    statusClass: 'warning',
+    paymentMethod: 'COD',
+    shippingMethod: 'Giao hàng tiêu chuẩn (Tiết kiệm)',
+    items: [
+      {
+        name: 'Monster Energy Ultra White 355ml',
+        desc: 'Lon Sleek 355ml - Không đường Zero Calorie',
+        img: '../assets/images/monster/ultra-white.webp',
+        qty: 4,
+        price: '55.000đ',
+        total: '220.000đ'
+      },
+      {
+        name: 'Redbull Krating Daeng Thái 250ml',
+        desc: 'Lon lùn nắp giật nhập khẩu Thái Lan',
+        img: '../assets/images/redbull/redbull-thai.webp',
+        qty: 3,
+        price: '40.000đ',
+        total: '120.000đ'
+      }
+    ],
+    subtotal: '340.000đ',
+    shippingFee: '0đ (Miễn phí)',
+    discount: '0đ',
+    totalAmount: '340.000đ'
+  },
+  'EB-8803': {
+    id: 'EB-8803',
+    code: 'EB-8803',
+    customerName: 'Lê Hoàng Nam',
+    phone: '0903 789 012',
+    address: '72 Nguyễn Huệ, P. Bến Nghé, Quận 1, TP.HCM',
+    date: '01/10/2026 16:45',
+    status: 'CHƯA XÁC NHẬN',
+    statusClass: 'info',
+    paymentMethod: 'VietQR',
+    shippingMethod: 'Giao Hỏa Tốc (2H Nội Thành)',
+    items: [
+      {
+        name: 'Combo Thùng 24 Lon Đấu Trường',
+        desc: 'Tặng kèm Bình Giữ Nhiệt Monster trị giá 280.000đ',
+        img: '../assets/images/monster/original.webp',
+        qty: 1,
+        price: '918.000đ',
+        total: '918.000đ'
+      }
+    ],
+    subtotal: '918.000đ',
+    shippingFee: '0đ (Miễn phí)',
+    discount: '0đ',
+    totalAmount: '918.000đ'
+  },
+  'EB-8804': {
+    id: 'EB-8804',
+    code: 'EB-8804',
+    customerName: 'Phạm Minh Đức',
+    phone: '0977 456 789',
+    address: '56 Trần Hưng Đạo, P. Phạm Ngũ Lão, Quận 1, TP.HCM',
+    date: '01/10/2026 10:20',
+    status: 'ĐÃ GIAO (THÀNH CÔNG)',
+    statusClass: 'success',
+    paymentMethod: 'VietQR',
+    shippingMethod: 'Giao hàng tiêu chuẩn',
+    items: [
+      {
+        name: 'Monster Energy Ultra Paradise 355ml',
+        desc: 'Hương kiwi chanh thanh mát, không calo',
+        img: '../assets/images/monster/ultra-paradise.webp',
+        qty: 4,
+        price: '55.000đ',
+        total: '220.000đ'
+      },
+      {
+        name: 'Sting Dâu Tây Đỏ 330ml',
+        desc: 'Lon cao Sleek 330ml năng lượng sảng khoái',
+        img: '../assets/images/sting/sting-dau.webp',
+        qty: 2,
+        price: '10.000đ',
+        total: '20.000đ'
+      }
+    ],
+    subtotal: '240.000đ',
+    shippingFee: '0đ (Miễn phí)',
+    discount: '0đ',
+    totalAmount: '240.000đ'
+  },
+  'EB-8805': {
+    id: 'EB-8805',
+    code: 'EB-8805',
+    customerName: 'Vũ Hải Đăng',
+    phone: '0932 654 987',
+    address: '89 Cách Mạng Tháng 8, Quận 3, TP.HCM',
+    date: '30/09/2026 15:10',
+    status: 'ĐÃ XÁC NHẬN',
+    statusClass: 'warning',
+    paymentMethod: 'COD',
+    shippingMethod: 'Giao hàng hỏa tốc',
+    items: [
+      {
+        name: 'Redbull Nắp Bật 250ml',
+        desc: 'Lon vàng nắp bật cao cấp tiện lợi',
+        img: '../assets/images/redbull/redbull-lon-vua.webp',
+        qty: 3,
+        price: '40.000đ',
+        total: '120.000đ'
+      },
+      {
+        name: 'Sting Vàng Gold Lon 330ml',
+        desc: 'Hương vị nhân sâm tăng cường sinh lực',
+        img: '../assets/images/sting/sting-gold.webp',
+        qty: 2,
+        price: '15.000đ',
+        total: '30.000đ'
+      }
+    ],
+    subtotal: '150.000đ',
+    shippingFee: '0đ (Miễn phí)',
+    discount: '0đ',
+    totalAmount: '150.000đ'
+  },
+  'EB-8806': {
+    id: 'EB-8806',
+    code: 'EB-8806',
+    customerName: 'Đỗ Kim Ngân',
+    phone: '0918 321 654',
+    address: '15 Võ Văn Tần, P. 6, Quận 3, TP.HCM',
+    date: '29/09/2026 09:00',
+    status: 'ĐÃ GIAO (THÀNH CÔNG)',
+    statusClass: 'success',
+    paymentMethod: 'VietQR',
+    shippingMethod: 'Giao hàng tiêu chuẩn',
+    items: [
+      {
+        name: 'Monster Energy Ultra Punk Punch 355ml',
+        desc: 'Vị trái cây nhiệt đới hoang dã năng động',
+        img: '../assets/images/monster/ultra-punk-punch.webp',
+        qty: 2,
+        price: '48.000đ',
+        total: '96.000đ'
+      }
+    ],
+    subtotal: '96.000đ',
+    shippingFee: '0đ (Miễn phí)',
+    discount: '0đ',
+    totalAmount: '96.000đ'
+  },
+  'EB-2026': {
+    id: 'EB-2026',
+    code: 'EB-2026',
+    customerName: 'Thuận Trần',
+    phone: '0912.888.999',
+    address: '88 Nguyễn Huệ, Bến Nghé, Quận 1, TP.HCM',
+    date: '03/10/2026 09:30 AM',
+    status: 'ĐANG GIAO (2H)',
+    statusClass: 'warning',
+    paymentMethod: 'COD khi nhận',
+    shippingMethod: 'Giao Hỏa Tốc (2H)',
+    items: [
+      {
+        name: 'Monster Energy Original 355ml',
+        desc: 'Lon Sleek 355ml - Nhập khẩu chính hãng',
+        img: '../assets/images/monster/original.webp',
+        qty: 2,
+        price: '45.000đ',
+        total: '90.000đ'
+      },
+      {
+        name: 'Redbull Original 250ml',
+        desc: 'Lon lùn 250ml - Năng lượng bứt phá',
+        img: '../assets/images/redbull/redbull-original.webp',
+        qty: 2,
+        price: '18.000đ',
+        total: '36.000đ'
+      }
+    ],
+    subtotal: '126.000đ',
+    shippingFee: '0đ (Miễn phí)',
+    discount: '0đ',
+    totalAmount: '126.000đ'
+  },
+  'EB-2025': {
+    id: 'EB-2025',
+    code: 'EB-2025',
+    customerName: 'Thuận Trần',
+    phone: '0912.888.999',
+    address: '88 Nguyễn Huệ, Bến Nghé, Quận 1, TP.HCM',
+    date: '28/09/2026 15:45 PM',
+    status: 'ĐÃ NHẬN',
+    statusClass: 'success',
+    paymentMethod: 'Chuyển khoản VietQR',
+    shippingMethod: 'Giao hàng tiêu chuẩn',
+    items: [
+      {
+        name: 'Combo Thùng 24 Lon Đấu Trường',
+        desc: 'Tặng Bình Giữ Nhiệt Monster (Trị giá 280K)',
+        img: '../assets/images/monster/original.webp',
+        qty: 1,
+        price: '918.000đ',
+        total: '918.000đ'
+      }
+    ],
+    subtotal: '918.000đ',
+    shippingFee: '0đ (Miễn phí)',
+    discount: '0đ',
+    totalAmount: '918.000đ'
+  },
+  'EB-2024': {
+    id: 'EB-2024',
+    code: 'EB-2024',
+    customerName: 'Thuận Trần',
+    phone: '0912.888.999',
+    address: '88 Nguyễn Huệ, Bến Nghé, Quận 1, TP.HCM',
+    date: '20/09/2026 11:15 AM',
+    status: 'ĐÃ NHẬN',
+    statusClass: 'success',
+    paymentMethod: 'Ví MoMo',
+    shippingMethod: 'Giao hàng tiêu chuẩn',
+    items: [
+      {
+        name: 'Redbull Nắp Bật 250ml',
+        desc: 'Thương hiệu: Redbull Thái Lan',
+        img: '../assets/images/redbull/redbull-lon-vua.webp',
+        qty: 3,
+        price: '20.000đ',
+        total: '60.000đ'
+      }
+    ],
+    subtotal: '60.000đ',
+    shippingFee: '0đ (Miễn phí)',
+    discount: '0đ',
+    totalAmount: '60.000đ'
   }
-  openAdminModal('modal-order-detail');
+};
+
+// Index order database with aliases without 'EB-' prefix
+Object.keys(MOCK_ORDER_DATABASE).forEach(k => {
+  const short = k.replace(/^EB-/, '');
+  if (!MOCK_ORDER_DATABASE[short]) {
+    MOCK_ORDER_DATABASE[short] = MOCK_ORDER_DATABASE[k];
+  }
+});
+window.MOCK_ORDER_DATABASE = MOCK_ORDER_DATABASE;
+
+// 9d. Order Detail Routing Logic
+function openOrderDetailModal(orderId) {
+  const code = (orderId || 'EB-8801').replace(/^#/, '');
+  window.location.href = 'order-detail.html?id=' + encodeURIComponent(code);
 }
+window.openOrderDetailModal = openOrderDetailModal;
+
+// 9e. Populate Order Detail Page (Dành cho order-detail.html của Admin & Khách Hàng)
+function initOrderDetailPage(role) {
+  const params = new URLSearchParams(window.location.search);
+  const rawId = params.get('id') || (role === 'admin' ? 'EB-8801' : 'EB-2026');
+  const cleanId = (rawId || '').toUpperCase().replace(/^#/, '');
+  const orderId = cleanId.startsWith('EB-') ? cleanId : ('EB-' + cleanId);
+  const shortId = cleanId.replace(/^EB-/, '');
+
+  const db = (typeof MOCK_ORDER_DATABASE !== 'undefined' && MOCK_ORDER_DATABASE) || window.MOCK_ORDER_DATABASE || {};
+  const order = db[cleanId] || db[orderId] || db[shortId] || Object.values(db)[0];
+
+  if (!order) return;
+
+  const displayCode = order.code || order.id || cleanId;
+  const customerName = (role !== 'admin' && typeof getLoggedUser === 'function' && getLoggedUser())
+    ? getLoggedUser()
+    : order.customerName;
+
+  // Title & Breadcrumb
+  document.title = (role === 'admin' ? 'Chi Tiết Đơn Hàng #' : 'Chi Tiết Đơn Hàng #') + displayCode + (role === 'admin' ? ' - Energy Boost Admin' : ' - Energy Boost');
+
+  const breadcrumbEl = document.getElementById('order-breadcrumb-id');
+  if (breadcrumbEl) breadcrumbEl.textContent = '#' + displayCode;
+
+  // #order-detail-id & #order-detail-code
+  const idEl = document.getElementById('order-detail-id');
+  if (idEl) idEl.textContent = '#' + displayCode;
+  const codeEl = document.getElementById('order-detail-code');
+  if (codeEl) codeEl.textContent = '#' + displayCode;
+
+  // #order-detail-date
+  const dateEl = document.getElementById('order-detail-date');
+  if (dateEl) dateEl.textContent = order.date;
+
+  // #order-detail-status
+  const statusEl = document.getElementById('order-detail-status');
+  if (statusEl) {
+    statusEl.className = 'badge-status ' + (order.statusClass || 'info');
+    let icon = '<i class="fas fa-clock"></i> ';
+    if (order.statusClass === 'success') icon = '<i class="fas fa-check-circle"></i> ';
+    else if (order.statusClass === 'warning') icon = '<i class="fas fa-truck-fast"></i> ';
+    else if (order.statusClass === 'danger') icon = '<i class="fas fa-circle-xmark"></i> ';
+    statusEl.innerHTML = icon + order.status;
+  }
+
+  // #order-detail-customer
+  const custEl = document.getElementById('order-detail-customer');
+  if (custEl) custEl.textContent = customerName;
+
+  // #order-detail-phone
+  const phoneEl = document.getElementById('order-detail-phone');
+  if (phoneEl) phoneEl.textContent = order.phone;
+
+  // #order-detail-address
+  const addrEl = document.getElementById('order-detail-address');
+  if (addrEl) addrEl.textContent = order.address;
+
+  // #order-detail-payment
+  const payEl = document.getElementById('order-detail-payment');
+  if (payEl) payEl.textContent = order.paymentMethod;
+
+  // #order-detail-shipping
+  const shipEl = document.getElementById('order-detail-shipping');
+  if (shipEl) shipEl.textContent = order.shippingMethod;
+
+  // #order-items-tbody
+  const tbodyEl = document.getElementById('order-items-tbody');
+  if (tbodyEl && Array.isArray(order.items)) {
+    const isSubdir = typeof window !== 'undefined' && (window.location.pathname.includes('/pages/') || window.location.pathname.includes('/admin/'));
+    tbodyEl.innerHTML = order.items.map(item => {
+      let imgSrc = item.img || '';
+      if (imgSrc && !imgSrc.startsWith('http') && !imgSrc.startsWith('data:')) {
+        if (isSubdir) {
+          if (!imgSrc.startsWith('../')) imgSrc = '../' + imgSrc;
+        } else {
+          imgSrc = imgSrc.replace(/^\.\.\//, '');
+        }
+      }
+      return `<tr>
+        <td>
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <img src="${imgSrc}" alt="${item.name}" style="width: 36px; height: 46px; object-fit: contain; border-radius: 4px; background: rgba(255, 255, 255, 0.03); padding: 2px;" />
+            <div>
+              <strong style="color: #FFF;">${item.name}</strong><br/>
+              <small style="color: var(--text-muted);">${item.desc || ''}</small>
+            </div>
+          </div>
+        </td>
+        <td style="text-align: center; font-weight: 600;">${item.qty}</td>
+        <td style="text-align: right; color: var(--text-muted);">${item.price}</td>
+        <td style="text-align: right; color: var(--primary); font-weight: 700;">${item.total}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  // #order-detail-subtotal
+  const subtotalEl = document.getElementById('order-detail-subtotal');
+  if (subtotalEl) subtotalEl.textContent = order.subtotal;
+
+  // #order-detail-shipping-fee
+  const shippingFeeEl = document.getElementById('order-detail-shipping-fee');
+  if (shippingFeeEl) shippingFeeEl.textContent = order.shippingFee;
+
+  // #order-detail-discount
+  const discountEl = document.getElementById('order-detail-discount');
+  if (discountEl) discountEl.textContent = order.discount;
+
+  // #order-detail-total
+  const totalEl = document.getElementById('order-detail-total');
+  if (totalEl) totalEl.textContent = order.totalAmount;
+}
+window.initOrderDetailPage = initOrderDetailPage;
+
+// Tự động khởi tạo Order Detail Page nếu tìm thấy ID trên DOM
+if (typeof document !== 'undefined') {
+  const triggerOrderDetail = () => {
+    if (document.getElementById('order-detail-id') || document.getElementById('order-items-tbody')) {
+      const isCurrentAdmin = window.location.pathname.includes('/admin/');
+      initOrderDetailPage(isCurrentAdmin ? 'admin' : 'customer');
+    }
+  };
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', triggerOrderDetail);
+  } else {
+    triggerOrderDetail();
+  }
+}
+
 
 // 10. Order History Live Filter Pill Tabs (Vô hiệu hóa ẩn dòng, giữ trạng thái active & thông báo Toast)
 function filterOrderList(status, btn) {
