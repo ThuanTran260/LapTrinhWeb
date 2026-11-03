@@ -503,6 +503,27 @@ const PRODUCT_DATA_REGISTRY = {
 
 // 9a. Product Edit Modal Logic (Đồng bộ từng lon riêng biệt)
 function openProductEditModal(productId, triggerBtn) {
+  const pid = String(productId || '').toLowerCase();
+  if (pid.startsWith('monster')) {
+    window.location.href = 'edit-monster.html';
+    return;
+  }
+  if (pid === 'redbull-thai') {
+    window.location.href = 'edit-redbull-thai.html';
+    return;
+  }
+  if (pid === 'redbull-lon-vua' || pid === 'redbull-nap-bat') {
+    window.location.href = 'edit-redbull-lonvua.html';
+    return;
+  }
+  if (pid.includes('redbull')) {
+    window.location.href = 'edit-redbull-original.html';
+    return;
+  }
+  if (pid.includes('sting')) {
+    window.location.href = 'edit-sting.html';
+    return;
+  }
   const modal = document.getElementById('modal-edit-product');
   if (!modal) return;
 
