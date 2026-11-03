@@ -20,9 +20,10 @@
         <span>ĐƠN HÀNG HỎA TỐC: <strong>Cam kết giao lạnh trong 2H</strong> tại TP.HCM & Hà Nội!</span>
       </div>
       <div class="top-links">
-        <a href="orders.html"><i class="fas fa-clock-rotate-left"></i> Lịch Sử Đơn Hàng</a>
-        <a href="../index.html#features"><i class="fas fa-shield-halved"></i> Chính Sách Đổi Trả</a>
-        <a href="../index.html#features"><i class="fas fa-headset"></i> Hỗ Trợ 24/7</a>
+        <a href="../index.html"><i class="fas fa-arrow-left"></i> Quay Lại Cửa Hàng</a>
+        <a href="orders.html"><i class="fas fa-clock-rotate-left"></i> Lịch Sử Đặt Hàng</a>
+        <a href="account.html"><i class="fas fa-user-circle"></i> Tài Khoản</a>
+        <a href="login.html"><i class="fas fa-sign-in-alt"></i> Đăng Nhập</a>
       </div>
     </div>
   </div>
@@ -117,14 +118,38 @@
         </div>
 
         <div class="header-actions">
-          <a href="account.html" class="action-btn" title="Tài khoản">
-            <i class="fas fa-user"></i>
-            <span class="action-label">Tài Khoản</span>
+          <!-- Order History Shortcut -->
+          <a href="orders.html" class="action-btn" title="Lịch sử đơn hàng">
+            <div class="action-icon-wrapper">
+              <i class="fas fa-receipt" style="color: var(--accent-cyan);"></i>
+            </div>
+            <div class="action-text">
+              <span class="action-label">Đơn hàng</span>
+              <span class="action-value" style="color: var(--accent-cyan);">Lịch sử</span>
+            </div>
           </a>
-          <a href="cart.html" class="action-btn cart-btn" title="Giỏ hàng">
-            <i class="fas fa-shopping-cart"></i>
-            <span class="badge" id="cart-count">5</span>
-            <span class="action-label">Giỏ Hàng</span>
+
+          <!-- User Account Link -->
+          <a href="account.html" id="header-account-link" class="action-btn">
+            <div class="action-icon-wrapper">
+              <i class="fas fa-user"></i>
+            </div>
+            <div class="action-text">
+              <span class="action-label">Tài khoản</span>
+              <span class="action-value" id="header-account-value">Thành viên</span>
+            </div>
+          </a>
+
+          <!-- Cart Link -->
+          <a href="cart.html" class="action-btn">
+            <div class="action-icon-wrapper">
+              <i class="fas fa-shopping-cart"></i>
+              <span class="action-badge">5</span>
+            </div>
+            <div class="action-text">
+              <span class="action-label">Giỏ hàng</span>
+              <span class="action-value" style="color: var(--primary);">216.000đ</span>
+            </div>
           </a>
         </div>
       </div>

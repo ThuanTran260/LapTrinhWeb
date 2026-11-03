@@ -117,10 +117,29 @@
         </div>
 
         <div class="header-actions">
+          <!-- Order History Shortcut -->
           <a href="orders.html" class="action-btn" title="Lịch sử đơn hàng">
-            <i class="fas fa-receipt" style="color: var(--accent-cyan);"></i>
-            <span style="font-size: 0.85rem; font-weight: 700;">Đơn Hàng</span>
+            <div class="action-icon-wrapper">
+              <i class="fas fa-receipt" style="color: var(--accent-cyan);"></i>
+            </div>
+            <div class="action-text">
+              <span class="action-label">Đơn hàng</span>
+              <span class="action-value" style="color: var(--accent-cyan);">Lịch sử</span>
+            </div>
           </a>
+
+          <!-- User Account Link -->
+          <a href="account.html" id="header-account-link" class="action-btn">
+            <div class="action-icon-wrapper">
+              <i class="fas fa-user"></i>
+            </div>
+            <div class="action-text">
+              <span class="action-label">Tài khoản</span>
+              <span class="action-value" id="header-account-value">Thành viên</span>
+            </div>
+          </a>
+
+          <!-- Cart Link -->
           <a href="cart.html" class="action-btn">
             <div class="action-icon-wrapper">
               <i class="fas fa-shopping-cart"></i>
