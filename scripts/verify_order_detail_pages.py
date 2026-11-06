@@ -118,15 +118,17 @@ def test_product_detail_headers():
         assert "cart.html" in content, f"File {f} thiếu nút Giỏ hàng (cart.html)"
 
 # --- Test 5: Đồng bộ nút Chỉnh Sửa Kho Hàng (inventory.html) ---
-@test("5. Parity: admin/inventory.html có nút Chỉnh Sửa chuyển hướng độc lập cho các thương hiệu")
+@test("5. Parity: admin/inventory.html có nút Chỉnh Sửa thống nhất về edit-monster.html")
 def test_inventory_edit_links():
     content = read_text("admin/inventory.html")
     assert content is not None, "File admin/inventory.html không tồn tại!"
     
     assert "edit-monster.html" in content, "admin/inventory.html thiếu link edit-monster.html"
-    assert "edit-redbull-thai.html" in content, "admin/inventory.html thiếu link edit-redbull-thai.html"
-    assert "edit-redbull-lonvua.html" in content, "admin/inventory.html thiếu link edit-redbull-lonvua.html"
-    assert "edit-sting.html" in content, "admin/inventory.html thiếu link edit-sting.html"
+    # Toàn bộ 10 sản phẩm trong bảng kho đều trỏ thống nhất về edit-monster.html
+    count_edit_monster = content.count('href="edit-monster.html"')
+    assert count_edit_monster >= 10, f"Cần ít nhất 10 nút Chỉnh Sửa trỏ về edit-monster.html, tìm thấy {count_edit_monster}"
+    assert "edit-redbull" not in content, "Vẫn còn link edit-redbull trong admin/inventory.html"
+    assert 'href="edit-sting.html"' not in content, "Vẫn còn link edit-sting.html trong admin/inventory.html"
 
 # --- Test 6: Loại bỏ hoàn toàn chữ (TĨNH) khỏi 4 trang Admin ---
 @test("6. UI Cleanliness: 0 tiêu đề chứa '(TĨNH)' trên 4 trang Admin")
