@@ -4629,11 +4629,30 @@ button {
   display: flex;
   align-items: center;
 }
-.admin-filter-search i {
+.admin-search-btn {
   position: absolute;
-  left: 10px;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 30px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
   color: var(--text-dim);
   font-size: 0.8rem;
+  cursor: pointer;
+}
+.admin-search-btn:hover {
+  color: var(--primary);
+}
+.admin-search-btn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: -2px;
+}
+.admin-search-btn i {
   pointer-events: none;
 }
 .admin-filter-search input {
