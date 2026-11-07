@@ -158,10 +158,8 @@ def test_modal_cleanup_and_links():
     orders_content = read_text("admin/orders.html")
     index_content = read_text("admin/index.html")
     for order_code in ["#EB-8801", "#EB-8802", "#EB-8803", "#EB-8804", "#EB-8805", "#EB-8806"]:
-        assert 'href="order-detail.html"' in orders_content, f"admin/orders.html thiếu link order-detail.html"
-        assert 'href="order-detail.html"' in index_content, f"admin/index.html thiếu link order-detail.html"
-        assert order_code in orders_content, f"admin/orders.html thiếu mã đơn {order_code}"
-        assert order_code in index_content, f"admin/index.html thiếu mã đơn {order_code}"
+        assert re.search(rf'<a\s+href="order-detail\.html"[^>]*>{re.escape(order_code)}</a>', orders_content), f"admin/orders.html thiếu link order-detail.html cho {order_code}"
+        assert re.search(rf'<a\s+href="order-detail\.html"[^>]*>{re.escape(order_code)}</a>', index_content), f"admin/index.html thiếu link order-detail.html cho {order_code}"
         
     store_files = ["pages/orders.html", "pages/account.html"]
     for f in store_files:
