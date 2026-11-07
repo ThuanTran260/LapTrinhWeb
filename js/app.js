@@ -1104,7 +1104,15 @@ function openCustomerDetailModal(customerKey) {
   if (elPhone) elPhone.textContent = data.phone;
   if (elEmail) elEmail.textContent = data.email;
   if (elAddress) elAddress.textContent = data.address;
-  if (elLatest) elLatest.textContent = data.latestOrder;
+  if (elLatest) {
+    const latestText = data.latestOrder || '';
+    const match = latestText.match(/^(#EB-\d+)(.*)$/);
+    if (match) {
+      elLatest.innerHTML = `<a href="order-detail.html" style="color: var(--primary); text-decoration: underline;" title="Xem chi tiết đơn hàng ${match[1]}">${match[1]}</a>${match[2]}`;
+    } else {
+      elLatest.textContent = latestText;
+    }
+  }
   if (elJoin) elJoin.textContent = data.joinDate;
   if (elPrivilege) elPrivilege.textContent = data.privileges;
   if (elBtn) {

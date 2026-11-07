@@ -144,19 +144,24 @@ def test_remove_tinh_from_admin():
         assert content is not None, f"File {f} không tồn tại!"
         assert "(TĨNH)" not in content, f"File {f} vẫn còn chữ '(TĨNH)'!"
 
-# --- Test 7: Bỏ nút Chi tiết/Xem trong admin, giữ liên kết đơn mua của khách hàng ---
-@test("7. Admin: Bỏ nút Chi tiết/Xem, giữ liên kết đơn mua và chi tiết đơn hàng storefront")
+# --- Test 7: Liên kết đơn hàng trên các trang admin trỏ thống nhất về order-detail.html ---
+@test("7. Admin: Tất cả liên kết đơn hàng trên admin/orders.html và admin/index.html trỏ thống nhất về order-detail.html")
 def test_modal_cleanup_and_links():
     admin_files = ["admin/orders.html", "admin/customers.html", "admin/index.html"]
     for f in admin_files:
         content = read_text(f)
         assert content is not None, f"File {f} không tồn tại!"
         assert 'id="modal-order-detail"' not in content, f"File {f} vẫn còn thừa modal #modal-order-detail!"
-        assert 'fa-eye' not in content, f"File {f} vẫn còn nút Chi tiết/Xem"
-        if f == "admin/customers.html":
-            assert 'href="order-detail.html?id=' in content, "Thiếu liên kết đơn hàng mua của khách hàng"
-        else:
-            assert 'href="order-detail.html"' not in content, f"File {f} vẫn còn nút chi tiết đơn hàng"
+        assert 'fa-eye' not in content, f"File {f} chứa fa-eye không đúng chuẩn"
+        assert 'order-detail.html' in content, f"File {f} thiếu liên kết điều hướng sang order-detail.html"
+        
+    orders_content = read_text("admin/orders.html")
+    index_content = read_text("admin/index.html")
+    for order_code in ["#EB-8801", "#EB-8802", "#EB-8803", "#EB-8804", "#EB-8805", "#EB-8806"]:
+        assert 'href="order-detail.html"' in orders_content, f"admin/orders.html thiếu link order-detail.html"
+        assert 'href="order-detail.html"' in index_content, f"admin/index.html thiếu link order-detail.html"
+        assert order_code in orders_content, f"admin/orders.html thiếu mã đơn {order_code}"
+        assert order_code in index_content, f"admin/index.html thiếu mã đơn {order_code}"
         
     store_files = ["pages/orders.html", "pages/account.html"]
     for f in store_files:
