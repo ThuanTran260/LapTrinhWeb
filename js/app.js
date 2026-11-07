@@ -1200,7 +1200,7 @@ const MOCK_ORDER_DATABASE = {
     notes: 'Để trước cửa phòng trọ nếu đi vắng',
     items: [
       {
-        name: 'Combo Thùng 24 Lon Đấu Trường',
+        name: 'Bộ 7 Lon Nước Tăng Lực VIP',
         desc: 'Tặng kèm Bình Giữ Nhiệt Monster trị giá 280.000đ',
         img: '../assets/images/monster/original.webp',
         qty: 1,
@@ -1359,7 +1359,7 @@ const MOCK_ORDER_DATABASE = {
     notes: 'Kèm bình giữ nhiệt quà tặng sự kiện',
     items: [
       {
-        name: 'Combo Thùng 24 Lon Đấu Trường',
+        name: 'Bộ 7 Lon Nước Tăng Lực VIP',
         desc: 'Tặng Bình Giữ Nhiệt Monster (Trị giá 280K)',
         img: '../assets/images/monster/original.webp',
         qty: 1,
@@ -3143,16 +3143,12 @@ function handleNavBrandClick(e, link, targetId) {
   }
   if (!link) return false;
 
-  const navMenu = link.closest('.nav-menu');
-  if (navMenu) {
-    navMenu.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
-    link.classList.add('active');
-  }
-
   if (!targetId) {
-    const href = link.getAttribute('href') || '';
+    const href = link.getAttribute('href') || link.getAttribute('data-target') || '';
     if (href.startsWith('#') && href.length > 1) {
       targetId = href.substring(1);
+    } else if (href && !href.startsWith('#') && !href.startsWith('javascript')) {
+      targetId = href;
     } else {
       const text = (link.textContent || '').toLowerCase();
       if (text.includes('monster')) targetId = 'monster-products';
@@ -3164,7 +3160,9 @@ function handleNavBrandClick(e, link, targetId) {
   if (targetId && typeof document !== 'undefined') {
     const targetEl = document.getElementById(targetId);
     if (targetEl) {
-      targetEl.scrollIntoView({ behavior: 'smooth' });
+      const yOffset = -110;
+      const y = targetEl.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
 
       // Sync pagination state
       let page = 1;
@@ -3176,6 +3174,17 @@ function handleNavBrandClick(e, link, targetId) {
         window.currentDashboardPage = page;
       }
       updatePaginationUI(page);
+
+      // Highlight active in both header nav and quick brand selector
+      const brandKey = targetId.replace('-products', '');
+      document.querySelectorAll('.nav-menu .nav-link, .quick-brand-nav .quick-brand-btn').forEach(btn => {
+        const btnRef = (btn.getAttribute('href') || '') + ' ' + (btn.getAttribute('data-target') || '') + ' ' + (btn.textContent || '');
+        if (btnRef.toLowerCase().includes(brandKey)) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
     } else {
       // Cross-page navigation from subpages
       const root = typeof window !== 'undefined' && window.SITE_ROOT ? window.SITE_ROOT : '../';
@@ -3194,7 +3203,7 @@ if (typeof window !== 'undefined') {
 
 if (typeof document !== 'undefined') {
   document.addEventListener('click', function(e) {
-    const navLink = e.target.closest('.nav-menu .nav-link');
+    const navLink = e.target.closest('.nav-menu .nav-link, .quick-brand-nav .quick-brand-btn');
     if (navLink) {
       if (typeof e.preventDefault === 'function') e.preventDefault();
       if (typeof e.stopPropagation === 'function') e.stopPropagation();
@@ -3202,4 +3211,3 @@ if (typeof document !== 'undefined') {
     }
   });
 }
-
