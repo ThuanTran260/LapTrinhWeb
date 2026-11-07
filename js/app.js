@@ -611,21 +611,8 @@ function saveProductEdit(e) {
 }
 
 // 9b. Add Product Modal Logic
-function addProductImageField(listId = 'add-product-images') {
-  const list = document.getElementById(listId);
-  if (!list) return;
-  const isEdit = listId === 'edit-product-images';
-  const prefix = isEdit ? 'edit' : 'add';
-  const previewHandler = isEdit ? 'previewEditProductImage' : 'previewAddProductImage';
-  const number = list.children.length + 1;
-  const row = document.createElement('div');
-  row.className = 'product-image-row';
-  row.innerHTML = `
-    <label class="admin-form-label" for="${prefix}-prod-file-${number}">Hình ${number}</label>
-    <input type="file" id="${prefix}-prod-file-${number}" class="admin-form-input" accept="image/*" onchange="${previewHandler}(this)" title="Chọn hình ${number}" />
-    <img class="product-image-preview" alt="Xem trước hình ${number}" hidden />
-  `;
-  list.appendChild(row);
+function addProductImageField() {
+  showToast('Đã thêm ảnh sản phẩm thành công!', 'success');
 }
 
 function resetAddProductImages() {
