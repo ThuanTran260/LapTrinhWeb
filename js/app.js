@@ -550,8 +550,16 @@ function openProductEditModal(productId, triggerBtn) {
   if (nameEl) nameEl.value = data.name;
   if (brandEl) brandEl.value = data.brand;
   if (originEl) originEl.value = data.origin;
-  if (priceEl) priceEl.value = data.price;
-  if (oldPriceEl) oldPriceEl.value = data.oldPrice;
+  if (priceEl) {
+    priceEl.value = data.price;
+    setupPriceInput(priceEl);
+    updatePricePreview(priceEl);
+  }
+  if (oldPriceEl) {
+    oldPriceEl.value = data.oldPrice;
+    setupPriceInput(oldPriceEl);
+    updatePricePreview(oldPriceEl);
+  }
   if (volumeEl) volumeEl.value = data.volume;
   if (ingredientsEl) ingredientsEl.value = data.ingredients;
   if (usageEl) usageEl.value = data.usage;
@@ -606,6 +614,11 @@ function saveProductEdit(e) {
 function openAddProductModal() {
   const form = document.getElementById('form-add-product');
   if (form) form.reset();
+  const addPriceEl = document.getElementById('add-prod-price');
+  if (addPriceEl) {
+    setupPriceInput(addPriceEl);
+    updatePricePreview(addPriceEl);
+  }
   openAdminModal('modal-add-product');
 }
 
@@ -619,6 +632,263 @@ function saveAddProduct(e) {
   const form = document.getElementById('form-add-product');
   if (form) form.reset();
 }
+
+// ==========================================================================
+// ADMIN INVENTORY: CURRENCY FORMATTING & REAL-TIME PREVIEW SYSTEM
+// ==========================================================================
+function formatCurrencyVND(val) {
+  if (val === undefined || val === null) return '';
+  const clean = String(val).replace(/\D/g, '');
+  if (!clean) return '';
+  const num = parseInt(clean, 10);
+  return num.toLocaleString('vi-VN') + 'đ';
+}
+
+function parseCurrencyVND(val) {
+  if (!val) return 0;
+  const clean = String(val).replace(/\D/g, '');
+  return clean ? parseInt(clean, 10) : 0;
+}
+
+function numberToVietnameseWords(n) {
+  if (n === 0) return 'Không đồng';
+  if (!n || isNaN(n)) return '';
+
+  const units = ['', 'nghìn', 'triệu', 'tỷ', 'nghìn tỷ', 'triệu tỷ'];
+  const digits = ['không', 'một', 'hai', 'ba', 'bốn', 'năm', 'sáu', 'bảy', 'tám', 'chín'];
+
+  function readGroupThree(num, showZeroHundred) {
+    let h = Math.floor(num / 100);
+    let t = Math.floor((num % 100) / 10);
+    let u = num % 10;
+    let res = [];
+
+    if (h > 0 || showZeroHundred) {
+      res.push(digits[h] + ' trăm');
+    }
+
+    if (t > 1) {
+      res.push(digits[t] + ' mươi');
+      if (u === 1) res.push('mốt');
+      else if (u === 4) res.push('tư');
+      else if (u === 5) res.push('lăm');
+      else if (u > 0) res.push(digits[u]);
+    } else if (t === 1) {
+      res.push('mười');
+      if (u === 5) res.push('lăm');
+      else if (u > 0) res.push(digits[u]);
+    } else if (t === 0 && (h > 0 || showZeroHundred) && u > 0) {
+      res.push('lẻ ' + digits[u]);
+    } else if (t === 0 && h === 0 && !showZeroHundred && u > 0) {
+      res.push(digits[u]);
+    }
+
+    return res.join(' ');
+  }
+
+  let numStr = Math.floor(Math.abs(n)).toString();
+  let groups = [];
+  while (numStr.length > 0) {
+    groups.push(parseInt(numStr.slice(-3), 10));
+    numStr = numStr.slice(0, -3);
+  }
+
+  let parts = [];
+  for (let i = groups.length - 1; i >= 0; i--) {
+    let grp = groups[i];
+    if (grp > 0) {
+      let isFirstGroup = (i === groups.length - 1);
+      let grpText = readGroupThree(grp, !isFirstGroup);
+      if (grpText) {
+        let unit = units[i];
+        parts.push(grpText + (unit ? ' ' + unit : ''));
+      }
+    }
+  }
+
+  let result = parts.join(' ').trim();
+  if (!result) return 'Không đồng';
+  return result.charAt(0).toUpperCase() + result.slice(1) + ' đồng';
+}
+
+function updatePricePreview(inputEl) {
+  if (!inputEl) return;
+  const parent = inputEl.closest('.admin-form-group') || inputEl.parentElement;
+  if (!parent) return;
+
+  let previewEl = parent.querySelector('.price-preview-tag');
+  if (!previewEl) {
+    previewEl = document.createElement('div');
+    previewEl.className = 'price-preview-tag';
+    if (inputEl.id) {
+      previewEl.id = 'preview-' + inputEl.id;
+    }
+    inputEl.insertAdjacentElement('afterend', previewEl);
+  }
+
+  const rawDigits = String(inputEl.value || '').replace(/\D/g, '');
+  if (!rawDigits) {
+    previewEl.className = 'price-preview-tag is-empty';
+    previewEl.innerHTML = '<i class="fas fa-tag"></i> <span class="price-preview-label">Xem trước:</span> <strong class="price-preview-val">0đ</strong> <span class="price-preview-words">(Chưa nhập giá)</span>';
+  } else {
+    const num = parseInt(rawDigits, 10);
+    const formatted = num.toLocaleString('vi-VN') + 'đ';
+    const words = numberToVietnameseWords(num);
+    previewEl.className = 'price-preview-tag';
+    previewEl.innerHTML = `<i class="fas fa-tag"></i> <span class="price-preview-label">Xem trước:</span> <strong class="price-preview-val">${formatted}</strong> <span class="price-preview-words">(${words})</span>`;
+  }
+
+  syncStandaloneCardPrice();
+}
+
+function syncStandaloneCardPrice() {
+  const cardPriceEl = document.getElementById('standalone-card-price-display');
+  if (!cardPriceEl) return;
+  const priceInput = document.getElementById('standalone-edit-price') || document.querySelector('.admin-standalone-edit-page input.price-format-input:not([id*="old"])');
+  const oldPriceInput = document.getElementById('standalone-edit-oldprice') || document.querySelector('.admin-standalone-edit-page input.price-format-input[id*="old"]');
+  
+  if (priceInput) {
+    const curVal = priceInput.value.trim() || '0đ';
+    const oldVal = oldPriceInput ? oldPriceInput.value.trim() : '';
+    if (oldVal) {
+      cardPriceEl.innerHTML = `${curVal} <small style="font-size: 0.85rem; color: var(--text-dim); text-decoration: line-through;">${oldVal}</small>`;
+    } else {
+      cardPriceEl.innerHTML = curVal;
+    }
+  }
+}
+
+function restoreCursorPosition(input, formatted, digitsBeforeCursor) {
+  if (!formatted) {
+    input.setSelectionRange(0, 0);
+    return;
+  }
+  if (digitsBeforeCursor === 0) {
+    input.setSelectionRange(0, 0);
+    return;
+  }
+  let seen = 0;
+  let targetPos = formatted.length;
+  for (let i = 0; i < formatted.length; i++) {
+    if (/\d/.test(formatted[i])) {
+      seen++;
+      if (seen === digitsBeforeCursor) {
+        targetPos = i + 1;
+        break;
+      }
+    }
+  }
+  if (targetPos > formatted.length - 1 && formatted.endsWith('đ')) {
+    targetPos = formatted.length - 1;
+  }
+  input.setSelectionRange(targetPos, targetPos);
+}
+
+function setupPriceInput(input) {
+  if (!input || input.dataset.priceBound) return;
+  input.dataset.priceBound = 'true';
+  input.classList.add('price-format-input');
+
+  input.addEventListener('keydown', function(e) {
+    if (e.key === 'Backspace') {
+      const start = this.selectionStart;
+      const end = this.selectionEnd;
+      if (start === end && start > 0) {
+        const charBefore = this.value[start - 1];
+        if (charBefore === 'đ' || charBefore === '.') {
+          e.preventDefault();
+          let prevDigitIdx = -1;
+          for (let i = start - 1; i >= 0; i--) {
+            if (/\d/.test(this.value[i])) {
+              prevDigitIdx = i;
+              break;
+            }
+          }
+          if (prevDigitIdx !== -1) {
+            const val = this.value;
+            const digitsBefore = val.slice(0, prevDigitIdx).replace(/\D/g, '').length;
+            const rawWithout = val.slice(0, prevDigitIdx) + val.slice(prevDigitIdx + 1);
+            const clean = rawWithout.replace(/\D/g, '');
+            const formatted = clean ? formatCurrencyVND(clean) : '';
+            this.value = formatted;
+            restoreCursorPosition(this, formatted, digitsBefore);
+            updatePricePreview(this);
+          } else {
+            this.value = '';
+            updatePricePreview(this);
+          }
+        }
+      }
+    }
+  });
+
+  input.addEventListener('input', function() {
+    const rawDigits = this.value.replace(/\D/g, '');
+    const cursor = this.selectionStart;
+    const digitsBeforeCursor = this.value.slice(0, cursor).replace(/\D/g, '').length;
+
+    if (!rawDigits) {
+      this.value = '';
+      updatePricePreview(this);
+      return;
+    }
+
+    const formatted = formatCurrencyVND(rawDigits);
+    this.value = formatted;
+    restoreCursorPosition(this, formatted, digitsBeforeCursor);
+    updatePricePreview(this);
+  });
+
+  input.addEventListener('focus', function() {
+    if (this.value.endsWith('đ')) {
+      setTimeout(() => {
+        if (this.selectionStart === this.value.length) {
+          const p = Math.max(0, this.value.length - 1);
+          this.setSelectionRange(p, p);
+        }
+      }, 0);
+    }
+    updatePricePreview(this);
+  });
+
+  input.addEventListener('blur', function() {
+    const clean = this.value.replace(/\D/g, '');
+    if (clean) {
+      this.value = formatCurrencyVND(clean);
+    }
+    updatePricePreview(this);
+  });
+
+  updatePricePreview(input);
+}
+
+function initPriceFormatting() {
+  if (typeof document === 'undefined') return;
+  const selectors = [
+    '.price-format-input',
+    '#edit-prod-price',
+    '#edit-prod-oldprice',
+    '#add-prod-price',
+    '#standalone-edit-price',
+    '#standalone-edit-oldprice'
+  ];
+  document.querySelectorAll(selectors.join(', ')).forEach(setupPriceInput);
+
+  const standaloneForm = document.querySelector('.admin-standalone-edit-page form');
+  if (standaloneForm) {
+    const inputs = standaloneForm.querySelectorAll('input.admin-form-input');
+    inputs.forEach(inp => {
+      const parent = inp.closest('.admin-form-group');
+      if (parent) {
+        const label = parent.querySelector('.admin-form-label');
+        if (label && /giá/i.test(label.textContent)) {
+          setupPriceInput(inp);
+        }
+      }
+    });
+  }
+}
+
 
 // 9c. Customer VIP Detail Modal Logic & Registry
 const CUSTOMER_DATA_REGISTRY = {
