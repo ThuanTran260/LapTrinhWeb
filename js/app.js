@@ -1985,9 +1985,6 @@ function renderSearchResults(products, keyword, page = 1) {
   container.innerHTML = `
     <div class="product-card product-card-stitch">
       <div class="product-card-micro-glow" style="background: #39FF14;"></div>
-      <div class="stitch-badge-group">
-        <span class="stitch-badge monster">${defaultMonster.tag || 'HÀ LAN'}</span>
-      </div>
       <div class="product-img-wrapper" onclick="window.location.href='${detailLink}'" title="Xem ${defaultMonster.name}" role="link" tabindex="0">
         <img src="${imgSrc}" alt="${defaultMonster.name}" class="product-img" loading="lazy" onerror="this.src='${imgPrefix}assets/images/monster/original.webp'" />
       </div>
