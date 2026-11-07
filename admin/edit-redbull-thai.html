@@ -82,7 +82,7 @@
             <span class="badge-status success" style="margin-bottom: 12px; display: inline-block; background: rgba(255, 153, 0, 0.2); color: #FF9900; border-color: #FF9900;"><i class="fas fa-plane-arrival"></i> 100% NGUYÊN LON THÁI LAN</span>
             <img src="../assets/images/redbull/redbull-thai.webp" alt="Redbull Thái Lan Nhập Khẩu 250ml" class="admin-edit-preview-img" onerror="this.src='../assets/images/redbull/redbull-thai.jpg'" />
             <h3 style="color: #FFF; font-size: 1.15rem; margin-bottom: 6px;">Redbull Thái Lan Nhập Khẩu</h3>
-            <div style="color: var(--primary); font-size: 1.3rem; font-weight: 800; margin-bottom: 14px;">18.000đ <small style="font-size: 0.85rem; color: var(--text-dim); text-decoration: line-through;">22.000đ</small></div>
+            <div id="standalone-card-price-display" style="color: var(--primary); font-size: 1.3rem; font-weight: 800; margin-bottom: 14px;">18.000đ <small style="font-size: 0.85rem; color: var(--text-dim); text-decoration: line-through;">22.000đ</small></div>
             
             <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 12px; text-align: left; font-size: 0.82rem; line-height: 1.8;">
               <div><strong>Mã SKU:</strong> <span style="color: #FF9900;">RB-THAI-IMPORT-250</span></div>
@@ -127,12 +127,18 @@
 
                 <div class="admin-form-group">
                   <label class="admin-form-label">Giá Bán Lẻ Hiện Tại <span class="req">*</span></label>
-                  <input type="text" class="admin-form-input" value="18.000đ" required />
+                  <input type="text" id="standalone-edit-price" class="admin-form-input price-format-input" value="18.000đ" required />
+                  <div class="price-preview-tag" id="preview-standalone-edit-price">
+                    <i class="fas fa-tag"></i> <span class="price-preview-label">Xem trước:</span> <strong class="price-preview-val">18.000đ</strong> <span class="price-preview-words">(Mười tám nghìn đồng)</span>
+                  </div>
                 </div>
 
                 <div class="admin-form-group">
                   <label class="admin-form-label">Giá Niêm Yết Cũ</label>
-                  <input type="text" class="admin-form-input" value="22.000đ" />
+                  <input type="text" id="standalone-edit-oldprice" class="admin-form-input price-format-input" value="22.000đ" />
+                  <div class="price-preview-tag" id="preview-standalone-edit-oldprice">
+                    <i class="fas fa-tag"></i> <span class="price-preview-label">Xem trước:</span> <strong class="price-preview-val">22.000đ</strong> <span class="price-preview-words">(Hai mươi hai nghìn đồng)</span>
+                  </div>
                 </div>
 
                 <div class="admin-form-group">
