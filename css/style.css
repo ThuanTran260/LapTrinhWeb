@@ -835,17 +835,32 @@ button {
   text-transform: uppercase;
   margin-bottom: 2px;
 }
-.price-current {
+.price-current,
+.price-val {
   font-family: var(--font-heading);
   font-size: 1.28rem;
   color: var(--primary);
   font-weight: 700;
   line-height: 1.1;
+  display: inline-block;
+  margin-right: 6px;
 }
-.price-old {
+.price-old,
+del.price-old {
   font-size: 0.8rem;
   color: var(--text-dim);
   text-decoration: line-through;
+  display: inline-block;
+}
+.product-price:has(.price-val) {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 6px;
+}
+.product-price:has(.price-val) .price-label {
+  width: 100%;
 }
 
 .btn-card-group {

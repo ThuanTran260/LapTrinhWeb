@@ -31,15 +31,15 @@ def test(name):
         return fn
     return decorator
 
-@test("1. admin/orders.html: #filter-order-location tồn tại với tuỳ chọn mặc định 'Tất cả phường/xã (TP.HCM)'")
+@test("1. admin/orders.html: #filter-order-location tồn tại với tuỳ chọn mặc định 'Tất cả phường/xã'")
 def test_filter_select_default():
     content = read_file("admin/orders.html")
     assert content is not None, "admin/orders.html không tồn tại!"
     assert 'id="filter-order-location"' in content, "Thiếu id='filter-order-location' trong admin/orders.html"
     
     # Kiểm tra tuỳ chọn mặc định
-    default_opt_pattern = r'<option\s+value="all">\s*Tất cả phường/xã \(TP\.HCM\)\s*</option>'
-    assert re.search(default_opt_pattern, content), "Thiếu tuỳ chọn mặc định 'Tất cả phường/xã (TP.HCM)' với value='all'"
+    default_opt_pattern = r'<option\s+value="all">\s*Tất cả phường/xã\s*</option>'
+    assert re.search(default_opt_pattern, content), "Thiếu tuỳ chọn mặc định 'Tất cả phường/xã' với value='all'"
 
 @test("2. admin/orders.html: #filter-order-location chứa đầy đủ các tuỳ chọn phường/xã sau sáp nhập")
 def test_filter_select_wards():
@@ -51,13 +51,13 @@ def test_filter_select_wards():
     select_body = select_match.group(1)
     
     expected_options = [
-        ("all", "Tất cả phường/xã (TP.HCM)"),
-        ("ben-nghe", "Phường Bến Nghé (Quận 1)"),
-        ("tan-dinh", "Phường Tân Định (Quận 1)"),
-        ("pham-ngu-lao", "Phường Phạm Ngũ Lão (Quận 1)"),
-        ("vo-thi-sau", "Phường Võ Thị Sáu (Quận 3 - sau sáp nhập)"),
-        ("da-kao", "Phường Đa Kao (Quận 1)"),
-        ("binh-hung", "Xã Bình Hưng (Bình Chánh)")
+        ("all", "Tất cả phường/xã"),
+        ("ben-nghe", "Phường Bến Nghé"),
+        ("tan-dinh", "Phường Tân Định"),
+        ("pham-ngu-lao", "Phường Phạm Ngũ Lão"),
+        ("vo-thi-sau", "Phường Võ Thị Sáu"),
+        ("da-kao", "Phường Đa Kao"),
+        ("binh-hung", "Xã Bình Hưng")
     ]
     for val, text in expected_options:
         opt_pattern = rf'<option\s+value="{val}">\s*{re.escape(text)}\s*</option>'

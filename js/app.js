@@ -2022,6 +2022,9 @@ function renderSearchResults(products, keyword, page = 1) {
   container.innerHTML = `
     <div class="product-card product-card-stitch">
       <div class="product-card-micro-glow" style="background: #39FF14;"></div>
+      <div class="stitch-badge-group">
+        <span class="stitch-badge sale">-18%</span>
+      </div>
       <div class="product-img-wrapper" onclick="window.location.href='${detailLink}'" title="Xem ${defaultMonster.name}" role="link" tabindex="0">
         <img src="${imgSrc}" alt="${defaultMonster.name}" class="product-img" loading="lazy" onerror="this.src='${imgPrefix}assets/images/monster/original.webp'" />
       </div>
@@ -2034,7 +2037,9 @@ function renderSearchResults(products, keyword, page = 1) {
         </div>
         <div class="product-bottom">
           <div class="product-price">
-            <span class="price-current" style="color: #39FF14;">${defaultMonster.price}</span>
+            <span class="price-label">GIÁ CHÍNH HÃNG</span>
+            <span class="price-val">${defaultMonster.price}</span>
+            <del class="price-old">55.000đ</del>
           </div>
           <div class="btn-card-group">
             <button class="btn-add-stitch" title="Thêm vào giỏ" onclick="event.stopPropagation(); showToast('Đã thêm Monster Original vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
