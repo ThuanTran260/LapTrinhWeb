@@ -3051,3 +3051,32 @@ if (typeof document !== 'undefined') {
   }
 }
 
+// ==========================================================================
+// NAVIGATION BRAND BUTTONS (MONSTER / REDBULL / STING)
+// Không chạy trang/cuộn trang, chỉ nhận click và chuyển trạng thái active
+// ==========================================================================
+function handleNavBrandClick(e, link) {
+  if (e) {
+    if (typeof e.preventDefault === 'function') e.preventDefault();
+    if (typeof e.stopPropagation === 'function') e.stopPropagation();
+  }
+  if (!link) return false;
+  const navMenu = link.closest('.nav-menu');
+  if (navMenu) {
+    navMenu.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+    link.classList.add('active');
+  }
+  return false;
+}
+
+if (typeof document !== 'undefined') {
+  document.addEventListener('click', function(e) {
+    const navLink = e.target.closest('.nav-menu .nav-link');
+    if (navLink) {
+      if (typeof e.preventDefault === 'function') e.preventDefault();
+      if (typeof e.stopPropagation === 'function') e.stopPropagation();
+      handleNavBrandClick(e, navLink);
+    }
+  });
+}
+

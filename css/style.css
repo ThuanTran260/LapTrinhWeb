@@ -410,6 +410,14 @@ button {
   color: var(--text-muted);
   border-radius: var(--radius-sm);
   white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.15s ease;
+}
+
+.nav-link:active {
+  transform: scale(0.96);
+  opacity: 0.9;
 }
 
 .nav-link:hover, .nav-link.active {
@@ -5145,4 +5153,27 @@ button {
   align-items: center;
   gap: 8px;
   flex-wrap: wrap;
+}
+
+/* Packaging Tier Image & Quantity UI (Admin) */
+.packaging-tier-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.packaging-tier-row {
+  display: grid;
+  grid-template-columns: 140px 1fr 140px;
+  gap: 10px;
+  align-items: center;
+  background: var(--bg-card);
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+@media (max-width: 640px) {
+  .packaging-tier-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
 }
