@@ -185,9 +185,9 @@
     <nav class="nav-bar">
       <div class="container nav-container">
         <ul class="nav-menu">
-          <li><a href="javascript:void(0)" class="nav-link active" onclick="handleNavBrandClick(event, this)"><i class="fas fa-bolt" style="color: var(--primary);"></i> Monster</a></li>
-          <li><a href="javascript:void(0)" class="nav-link" onclick="handleNavBrandClick(event, this)"><i class="fas fa-fire" style="color: var(--secondary);"></i> Redbull</a></li>
-          <li><a href="javascript:void(0)" class="nav-link" onclick="handleNavBrandClick(event, this)"><i class="fas fa-bolt" style="color: #FF0055;"></i> Sting</a></li>
+          <li><a href="javascript:void(0)" class="nav-link active" onclick="handleNavBrandClick(event, this, 'monster-products')"><i class="fas fa-bolt" style="color: var(--primary);"></i> Monster</a></li>
+          <li><a href="javascript:void(0)" class="nav-link" onclick="handleNavBrandClick(event, this, 'redbull-products')"><i class="fas fa-fire" style="color: var(--secondary);"></i> Redbull</a></li>
+          <li><a href="javascript:void(0)" class="nav-link" onclick="handleNavBrandClick(event, this, 'sting-products')"><i class="fas fa-bolt" style="color: #FF0055;"></i> Sting</a></li>
         </ul>
       </div>
     </nav>
@@ -331,8 +331,11 @@
             </div>
             <div class="product-bottom">
               <div class="product-price">
-                <span class="price-current">45.000đ</span>
-                <span class="price-old">55.000đ</span>
+                <span class="price-label">GIÁ CHÍNH HÃNG</span>
+                <div style="display: flex; align-items: baseline; gap: 6px;">
+                  <span class="price-current">45.000đ</span>
+                  <span class="price-old">55.000đ</span>
+                </div>
               </div>
               <div class="btn-card-group">
                 <button class="btn-add-stitch" title="Thêm vào giỏ" onclick="event.stopPropagation(); showToast('Đã thêm Monster Energy Original vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
@@ -359,8 +362,11 @@
             </div>
             <div class="product-bottom">
               <div class="product-price">
-                <span class="price-current">18.000đ</span>
-                <span class="price-old">22.000đ</span>
+                <span class="price-label">GIÁ CHÍNH HÃNG</span>
+                <div style="display: flex; align-items: baseline; gap: 6px;">
+                  <span class="price-current">18.000đ</span>
+                  <span class="price-old">22.000đ</span>
+                </div>
               </div>
               <div class="btn-card-group">
                 <button class="btn-add-stitch" title="Thêm vào giỏ" onclick="event.stopPropagation(); showToast('Đã thêm Redbull Original vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
@@ -387,8 +393,11 @@
             </div>
             <div class="product-bottom">
               <div class="product-price">
-                <span class="price-current">48.000đ</span>
-                <span class="price-old">55.000đ</span>
+                <span class="price-label">GIÁ CHÍNH HÃNG</span>
+                <div style="display: flex; align-items: baseline; gap: 6px;">
+                  <span class="price-current">48.000đ</span>
+                  <span class="price-old">55.000đ</span>
+                </div>
               </div>
               <div class="btn-card-group">
                 <button class="btn-add-stitch" title="Thêm vào giỏ" onclick="event.stopPropagation(); showToast('Đã thêm Monster Zero Ultra White vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
@@ -415,8 +424,11 @@
             </div>
             <div class="product-bottom">
               <div class="product-price">
-                <span class="price-current">20.000đ</span>
-                <span class="price-old">25.000đ</span>
+                <span class="price-label">GIÁ CHÍNH HÃNG</span>
+                <div style="display: flex; align-items: baseline; gap: 6px;">
+                  <span class="price-current">20.000đ</span>
+                  <span class="price-old">25.000đ</span>
+                </div>
               </div>
               <div class="btn-card-group">
                 <button class="btn-add-stitch" title="Thêm vào giỏ" onclick="event.stopPropagation(); showToast('Đã thêm Redbull Nắp Bật vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
@@ -639,6 +651,7 @@
             </div>
             <div class="product-bottom">
               <div class="product-price">
+                <span class="price-label">GIÁ CHÍNH HÃNG</span>
                 <span class="price-current">45.000đ</span>
               </div>
               <div class="btn-card-group">
@@ -663,6 +676,7 @@
             </div>
             <div class="product-bottom">
               <div class="product-price">
+                <span class="price-label">GIÁ CHÍNH HÃNG</span>
                 <span class="price-current">48.000đ</span>
               </div>
               <div class="btn-card-group">
@@ -687,6 +701,7 @@
             </div>
             <div class="product-bottom">
               <div class="product-price">
+                <span class="price-label">GIÁ CHÍNH HÃNG</span>
                 <span class="price-current">48.000đ</span>
               </div>
               <div class="btn-card-group">
@@ -711,6 +726,7 @@
             </div>
             <div class="product-bottom">
               <div class="product-price">
+                <span class="price-label">GIÁ CHÍNH HÃNG</span>
                 <span class="price-current">50.000đ</span>
               </div>
               <div class="btn-card-group">
@@ -749,6 +765,7 @@
             </div>
             <div class="product-bottom">
               <div class="product-price">
+                <span class="price-label">GIÁ CHÍNH HÃNG</span>
                 <span class="price-current">18.000đ</span>
               </div>
               <div class="btn-card-group">
@@ -773,6 +790,7 @@
             </div>
             <div class="product-bottom">
               <div class="product-price">
+                <span class="price-label">GIÁ CHÍNH HÃNG</span>
                 <span class="price-current">18.000đ</span>
               </div>
               <div class="btn-card-group">
@@ -797,6 +815,7 @@
             </div>
             <div class="product-bottom">
               <div class="product-price">
+                <span class="price-label">GIÁ CHÍNH HÃNG</span>
                 <span class="price-current">20.000đ</span>
               </div>
               <div class="btn-card-group">
@@ -835,6 +854,7 @@
             </div>
             <div class="product-bottom">
               <div class="product-price">
+                <span class="price-label">GIÁ CHÍNH HÃNG</span>
                 <span class="price-current" style="color: #FF0055;">12.000đ</span>
               </div>
               <div class="btn-card-group">
@@ -859,6 +879,7 @@
             </div>
             <div class="product-bottom">
               <div class="product-price">
+                <span class="price-label">GIÁ CHÍNH HÃNG</span>
                 <span class="price-current" style="color: #FFD700;">12.000đ</span>
               </div>
               <div class="btn-card-group">
@@ -883,6 +904,7 @@
             </div>
             <div class="product-bottom">
               <div class="product-price">
+                <span class="price-label">GIÁ CHÍNH HÃNG</span>
                 <span class="price-current" style="color: #00D2FF;">13.000đ</span>
               </div>
               <div class="btn-card-group">
@@ -895,12 +917,12 @@
       </div>
 
       <!-- Static Pagination Strip (Rubric 1.5) -->
-      <div class="pagination-strip">
-        <a href="#monster-products" class="page-btn" title="Trang trước"><i class="fas fa-chevron-left"></i></a>
-        <a href="#monster-products" class="page-btn">1</a>
-        <a href="#redbull-products" class="page-btn">2</a>
-        <a href="#sting-products" class="page-btn active">3</a>
-        <a href="#redbull-products" class="page-btn" title="Trang sau"><i class="fas fa-chevron-right"></i></a>
+      <div class="pagination-strip" id="catalog-pagination">
+        <a href="javascript:void(0)" class="page-btn page-btn-prev disabled" id="page-btn-prev" onclick="changeDashboardPage(currentDashboardPage - 1, event)" title="Trang trước"><i class="fas fa-chevron-left"></i></a>
+        <a href="javascript:void(0)" class="page-btn active" data-page="1" onclick="changeDashboardPage(1, event)">1</a>
+        <a href="javascript:void(0)" class="page-btn" data-page="2" onclick="changeDashboardPage(2, event)">2</a>
+        <a href="javascript:void(0)" class="page-btn" data-page="3" onclick="changeDashboardPage(3, event)">3</a>
+        <a href="javascript:void(0)" class="page-btn page-btn-next" id="page-btn-next" onclick="changeDashboardPage(currentDashboardPage + 1, event)" title="Trang sau"><i class="fas fa-chevron-right"></i></a>
       </div>
     </section>
         </div>

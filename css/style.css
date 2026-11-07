@@ -806,23 +806,33 @@ button {
 /* Pricing & Actions */
 .product-bottom {
   margin-top: auto;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-  min-height: 72px;
-  gap: 16px;
-  padding-top: 12px;
-  border-top: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  min-height: auto;
+  gap: 12px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 .product-price {
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
+}
+.price-label {
+  font-size: 0.68rem;
+  color: var(--text-dim);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 2px;
 }
 .price-current {
   font-family: var(--font-heading);
-  font-size: 1.25rem;
+  font-size: 1.28rem;
   color: var(--primary);
   font-weight: 700;
+  line-height: 1.1;
 }
 .price-old {
   font-size: 0.8rem;
@@ -832,7 +842,7 @@ button {
 
 .btn-card-group {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: flex-end;
   gap: 6px;
 }
@@ -2650,23 +2660,26 @@ button {
   font-size: 0.7rem;
 }
 .btn-add-stitch {
-  width: 44px;
-  height: 44px;
-  flex: 0 0 44px;
-  border-radius: var(--radius-md);
-  background: var(--primary);
-  color: #080A0C;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  border-radius: 10px;
+  background: rgba(57, 255, 20, 0.12);
+  border: 1px solid rgba(57, 255, 20, 0.35);
+  color: var(--primary);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1rem;
-  box-shadow: 0 0 14px rgba(57, 255, 20, 0.35);
-  transition: var(--transition);
+  font-size: 1.05rem;
+  box-shadow: 0 0 10px rgba(57, 255, 20, 0.15);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
 }
 .btn-add-stitch:hover {
-  background: #FFF;
+  background: var(--primary);
   color: #080A0C;
-  box-shadow: 0 0 20px rgba(57, 255, 20, 0.6);
+  border-color: var(--primary);
+  box-shadow: 0 0 18px rgba(57, 255, 20, 0.5);
   transform: translateY(-2px);
 }
 
@@ -4513,6 +4526,18 @@ button {
   color: var(--primary);
   font-weight: 800;
   box-shadow: 0 0 12px rgba(0, 230, 118, 0.3);
+}
+.page-btn.disabled {
+  opacity: 0.35;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+/* Brand Section Scroll Margin for Sticky Header */
+#monster-products,
+#redbull-products,
+#sting-products {
+  scroll-margin-top: 100px;
 }
 
 /* Auth Tabs & Registration (pages/login.html) */

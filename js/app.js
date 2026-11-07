@@ -3046,21 +3046,150 @@ if (typeof document !== 'undefined') {
 }
 
 // ==========================================================================
-// NAVIGATION BRAND BUTTONS (MONSTER / REDBULL / STING)
-// Không chạy trang/cuộn trang, chỉ nhận click và chuyển trạng thái active
+// NAVIGATION BRAND BUTTONS & CATALOG PAGINATION
 // ==========================================================================
-function handleNavBrandClick(e, link) {
+var currentDashboardPage = 1;
+if (typeof window !== 'undefined') {
+  window.currentDashboardPage = 1;
+}
+
+function updatePaginationUI(pageNum) {
+  if (typeof document === 'undefined') return;
+  const strip = document.getElementById('catalog-pagination') || document.querySelector('.pagination-strip');
+  if (!strip) return;
+
+  const buttons = strip.querySelectorAll('.page-btn[data-page]');
+  buttons.forEach(btn => {
+    const p = parseInt(btn.getAttribute('data-page'), 10);
+    if (p === pageNum) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+
+  const prevBtn = strip.querySelector('#page-btn-prev') || strip.querySelector('.page-btn-prev') || strip.firstElementChild;
+  const nextBtn = strip.querySelector('#page-btn-next') || strip.querySelector('.page-btn-next') || strip.lastElementChild;
+
+  if (prevBtn) {
+    if (pageNum <= 1) {
+      prevBtn.classList.add('disabled');
+      prevBtn.setAttribute('aria-disabled', 'true');
+    } else {
+      prevBtn.classList.remove('disabled');
+      prevBtn.removeAttribute('aria-disabled');
+    }
+  }
+
+  if (nextBtn) {
+    if (pageNum >= 3) {
+      nextBtn.classList.add('disabled');
+      nextBtn.setAttribute('aria-disabled', 'true');
+    } else {
+      nextBtn.classList.remove('disabled');
+      nextBtn.removeAttribute('aria-disabled');
+    }
+  }
+}
+
+function changeDashboardPage(pageNum, e) {
+  if (e) {
+    if (typeof e.preventDefault === 'function') e.preventDefault();
+    if (typeof e.stopPropagation === 'function') e.stopPropagation();
+  }
+  const targetPage = parseInt(pageNum, 10);
+  if (isNaN(targetPage) || targetPage < 1 || targetPage > 3) return false;
+
+  currentDashboardPage = targetPage;
+  if (typeof window !== 'undefined') {
+    window.currentDashboardPage = targetPage;
+  }
+
+  updatePaginationUI(targetPage);
+
+  const brandMap = {
+    1: 'monster-products',
+    2: 'redbull-products',
+    3: 'sting-products'
+  };
+
+  const targetId = brandMap[targetPage];
+  if (typeof document !== 'undefined') {
+    const targetEl = document.getElementById(targetId);
+    if (targetEl) {
+      targetEl.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Sync navbar active brand button
+    const navLinks = document.querySelectorAll('.nav-menu .nav-link');
+    if (navLinks.length >= 3) {
+      navLinks.forEach((link, idx) => {
+        if (idx === targetPage - 1) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
+      });
+    }
+  }
+
+  return false;
+}
+
+function handleNavBrandClick(e, link, targetId) {
   if (e) {
     if (typeof e.preventDefault === 'function') e.preventDefault();
     if (typeof e.stopPropagation === 'function') e.stopPropagation();
   }
   if (!link) return false;
+
   const navMenu = link.closest('.nav-menu');
   if (navMenu) {
     navMenu.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
     link.classList.add('active');
   }
+
+  if (!targetId) {
+    const href = link.getAttribute('href') || '';
+    if (href.startsWith('#') && href.length > 1) {
+      targetId = href.substring(1);
+    } else {
+      const text = (link.textContent || '').toLowerCase();
+      if (text.includes('monster')) targetId = 'monster-products';
+      else if (text.includes('redbull')) targetId = 'redbull-products';
+      else if (text.includes('sting')) targetId = 'sting-products';
+    }
+  }
+
+  if (targetId && typeof document !== 'undefined') {
+    const targetEl = document.getElementById(targetId);
+    if (targetEl) {
+      targetEl.scrollIntoView({ behavior: 'smooth' });
+
+      // Sync pagination state
+      let page = 1;
+      if (targetId === 'redbull-products') page = 2;
+      else if (targetId === 'sting-products') page = 3;
+
+      currentDashboardPage = page;
+      if (typeof window !== 'undefined') {
+        window.currentDashboardPage = page;
+      }
+      updatePaginationUI(page);
+    } else {
+      // Cross-page navigation from subpages
+      const root = typeof window !== 'undefined' && window.SITE_ROOT ? window.SITE_ROOT : '../';
+      window.location.href = root + 'index.html#' + targetId;
+    }
+  }
+
   return false;
+}
+
+if (typeof window !== 'undefined') {
+  window.changeDashboardPage = changeDashboardPage;
+  window.handleNavBrandClick = handleNavBrandClick;
+  window.updatePaginationUI = updatePaginationUI;
 }
 
 if (typeof document !== 'undefined') {
