@@ -1271,16 +1271,16 @@ document.addEventListener('click', function(e) {
 // 13. STATIC SEARCH DROPDOWN & ADVANCED SEARCH (RUBRIC COMPLIANCE)
 // ==========================================================================
 const STATIC_PRODUCTS_CATALOG = [
-  { id: 'mn-1', name: 'Monster Energy Original 355ml', brand: 'Monster Energy', brandKey: 'monster', price: '45.000đ', priceKey: '20to50', image: 'assets/images/monster/original.webp' },
-  { id: 'mn-2', name: 'Monster Zero Ultra White 500ml', brand: 'Monster Energy', brandKey: 'monster', price: '48.000đ', priceKey: '20to50', image: 'assets/images/monster/ultra-white.webp' },
-  { id: 'mn-3', name: 'Monster Ultra Paradise 500ml', brand: 'Monster Energy', brandKey: 'monster', price: '48.000đ', priceKey: '20to50', image: 'assets/images/monster/ultra-paradise.webp' },
-  { id: 'mn-4', name: 'Monster Ultra Punk Punch 500ml', brand: 'Monster Energy', brandKey: 'monster', price: '50.000đ', priceKey: '20to50', image: 'assets/images/monster/ultra-punk-punch.webp' },
-  { id: 'rb-1', name: 'Nước Tăng Lực Redbull Original 250ml', brand: 'Redbull Thái Lan', brandKey: 'redbull', price: '18.000đ', priceKey: 'under20', image: 'assets/images/redbull/redbull-original.webp' },
-  { id: 'rb-2', name: 'Nước Tăng Lực Redbull Thái Lan 250ml', brand: 'Redbull Thái Lan', brandKey: 'redbull', price: '18.000đ', priceKey: 'under20', image: 'assets/images/redbull/redbull-thai.webp' },
-  { id: 'rb-3', name: 'Nước Tăng Lực Redbull Nắp Bật 250ml', brand: 'Redbull Thái Lan', brandKey: 'redbull', price: '20.000đ', priceKey: '20to50', image: 'assets/images/redbull/redbull-lon-vua.webp' },
-  { id: 'st-1', name: 'Nước Tăng Lực Sting Dâu Tây Đỏ 330ml', brand: 'Sting PepsiCo', brandKey: 'sting', price: '12.000đ', priceKey: 'under20', image: 'assets/images/sting/sting-dau.webp' },
-  { id: 'st-2', name: 'Nước Tăng Lực Sting Vàng Sleek 330ml', brand: 'Sting PepsiCo', brandKey: 'sting', price: '12.000đ', priceKey: 'under20', image: 'assets/images/sting/sting-gold.webp' },
-  { id: 'st-3', name: 'Nước Tăng Lực Sting Blue Sleek 320ml', brand: 'Sting PepsiCo', brandKey: 'sting', price: '13.000đ', priceKey: 'under20', image: 'assets/images/sting/sting-vietquat.webp' }
+  { id: 'mn-1', name: 'Monster Energy Original 355ml', brand: 'Monster Energy', brandKey: 'monster', price: '45.000đ', priceKey: '20to50', image: 'assets/images/monster/original.webp', detailUrl: 'pages/product-detail.html', tag: 'HÀ LAN' },
+  { id: 'mn-2', name: 'Monster Zero Ultra White 500ml', brand: 'Monster Energy', brandKey: 'monster', price: '48.000đ', priceKey: '20to50', image: 'assets/images/monster/ultra-white.webp', detailUrl: 'pages/product-detail.html', tag: 'ZERO SUGAR' },
+  { id: 'mn-3', name: 'Monster Ultra Paradise 500ml', brand: 'Monster Energy', brandKey: 'monster', price: '48.000đ', priceKey: '20to50', image: 'assets/images/monster/ultra-paradise.webp', detailUrl: 'pages/product-detail.html', tag: 'KIWI CHANH' },
+  { id: 'mn-4', name: 'Monster Ultra Punk Punch 500ml', brand: 'Monster Energy', brandKey: 'monster', price: '50.000đ', priceKey: '20to50', image: 'assets/images/monster/ultra-punk-punch.webp', detailUrl: 'pages/product-detail.html', tag: 'FRUIT PUNCH' },
+  { id: 'rb-1', name: 'Nước Tăng Lực Redbull Original 250ml', brand: 'Redbull Thái Lan', brandKey: 'redbull', price: '18.000đ', priceKey: 'under20', image: 'assets/images/redbull/redbull-original.webp', detailUrl: 'pages/product-detail-redbull.html', tag: 'ORIGINAL' },
+  { id: 'rb-2', name: 'Nước Tăng Lực Redbull Thái Lan 250ml', brand: 'Redbull Thái Lan', brandKey: 'redbull', price: '18.000đ', priceKey: 'under20', image: 'assets/images/redbull/redbull-thai.webp', detailUrl: 'pages/product-detail-redbull-thai.html', tag: 'THÁI LAN' },
+  { id: 'rb-3', name: 'Nước Tăng Lực Redbull Nắp Bật 250ml', brand: 'Redbull Thái Lan', brandKey: 'redbull', price: '20.000đ', priceKey: '20to50', image: 'assets/images/redbull/redbull-lon-vua.webp', detailUrl: 'pages/product-detail-redbull-lonvua.html', tag: 'NẮP BẬT' },
+  { id: 'st-1', name: 'Nước Tăng Lực Sting Dâu Tây Đỏ 330ml', brand: 'Sting PepsiCo', brandKey: 'sting', price: '12.000đ', priceKey: 'under20', image: 'assets/images/sting/sting-dau.webp', detailUrl: 'pages/product-detail-sting.html', tag: 'DÂU ĐỎ' },
+  { id: 'st-2', name: 'Nước Tăng Lực Sting Vàng Sleek 330ml', brand: 'Sting PepsiCo', brandKey: 'sting', price: '12.000đ', priceKey: 'under20', image: 'assets/images/sting/sting-gold.webp', detailUrl: 'pages/product-detail-sting.html', tag: 'NHÂN SÂM' },
+  { id: 'st-3', name: 'Nước Tăng Lực Sting Blue Sleek 320ml', brand: 'Sting PepsiCo', brandKey: 'sting', price: '13.000đ', priceKey: 'under20', image: 'assets/images/sting/sting-vietquat.webp', detailUrl: 'pages/product-detail-sting.html', tag: 'BLUE XANH' }
 ];
 
 function openSearchDropdown() {
@@ -1320,7 +1320,240 @@ function closeAdvancedSearchModal() {
 function handleAdvancedSearch(e) {
   if (e && e.preventDefault) e.preventDefault();
   closeAdvancedSearchModal();
-  showToast('Đã áp dụng bộ lọc nâng cao cho danh mục sản phẩm!', 'success');
+  const kwEl = document.getElementById('adv-search-keyword');
+  const brandEl = document.getElementById('adv-search-brand');
+  const priceEl = document.getElementById('adv-search-price');
+
+  const q = kwEl ? kwEl.value.trim() : '';
+  const brand = brandEl ? brandEl.value : 'all';
+  const price = priceEl ? priceEl.value : 'all';
+
+  const params = new URLSearchParams();
+  if (q) params.set('q', q);
+  if (brand && brand !== 'all') params.set('brand', brand);
+  if (price && price !== 'all') params.set('price', price);
+
+  go('pages/search-results.html?' + params.toString());
+}
+
+// 13b. Global Header Search Navigation (Enter or Search Button Click)
+function executeHeaderSearch(query) {
+  const q = (query || '').trim();
+  go('pages/search-results.html' + (q ? '?q=' + encodeURIComponent(q) : ''));
+}
+
+function handleHeaderSearchClick(btn) {
+  const searchBox = btn ? btn.closest('.search-box') : null;
+  const input = searchBox ? searchBox.querySelector('.search-input') : document.querySelector('.search-input');
+  const val = input ? input.value : '';
+  executeHeaderSearch(val);
+}
+
+// 13c. Dashboard Sidebar Filter Submissions
+function handleDashboardFilterSubmit(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  const kwInput = document.getElementById('sidebar-filter-keyword');
+  const keyword = kwInput ? kwInput.value.trim() : '';
+  const brandEl = document.querySelector('input[name="sidebar-brand"]:checked');
+  const brand = brandEl ? brandEl.value : 'all';
+  const priceEl = document.querySelector('input[name="sidebar-price"]:checked');
+  const price = priceEl ? priceEl.value : 'all';
+
+  const params = new URLSearchParams();
+  if (keyword) params.set('q', keyword);
+  if (brand && brand !== 'all') params.set('brand', brand);
+  if (price && price !== 'all') params.set('price', price);
+
+  const queryStr = params.toString();
+  go('pages/search-results.html' + (queryStr ? '?' + queryStr : ''));
+}
+
+function resetDashboardFilter() {
+  const kwInput = document.getElementById('sidebar-filter-keyword');
+  if (kwInput) kwInput.value = '';
+  const allBrand = document.querySelector('input[name="sidebar-brand"][value="all"]');
+  if (allBrand) allBrand.checked = true;
+  const allPrice = document.querySelector('input[name="sidebar-price"][value="all"]');
+  if (allPrice) allPrice.checked = true;
+  showToast('Đã đặt lại bộ lọc tìm kiếm nâng cao!', 'info');
+}
+
+// 13d. Search Results Page Logic
+function removeVietnameseTones(str) {
+  if (!str) return '';
+  str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, 'a');
+  str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, 'e');
+  str = str.replace(/ì|í|ị|ỉ|ĩ/g, 'i');
+  str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, 'o');
+  str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, 'u');
+  str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, 'y');
+  str = str.replace(/đ/g, 'd');
+  str = str.replace(/À|Á|Ạ|Ả|Ã|Â|Ầ|Ấ|Ậ|Ẩ|Ẫ|Ă|Ằ|Ắ|Ặ|Ẳ|Ẵ/g, 'A');
+  str = str.replace(/È|É|Ẹ|Ẻ|Ẽ|Ê|Ề|Ế|Ệ|Ể|Ễ/g, 'E');
+  str = str.replace(/Ì|Í|Ị|Ỉ|Ĩ/g, 'I');
+  str = str.replace(/Ò|Ó|Ọ|Ỏ|Õ|Ô|Ồ|Ố|Ộ|Ổ|Ỗ|Ơ|Ờ|Ớ|Ợ|Ở|Ỡ/g, 'O');
+  str = str.replace(/Ù|Ú|Ụ|Ủ|Ũ|Ư|Ừ|Ứ|Ự|Ử|Ữ/g, 'U');
+  str = str.replace(/Ỳ|Ý|Ỵ|Ỷ|Ỹ/g, 'Y');
+  str = str.replace(/Đ/g, 'D');
+  return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
+function filterProducts(keyword, brand, price) {
+  const normKw = removeVietnameseTones((keyword || '').toLowerCase().trim());
+  return STATIC_PRODUCTS_CATALOG.filter(prod => {
+    if (brand && brand !== 'all' && prod.brandKey !== brand) {
+      return false;
+    }
+    if (price && price !== 'all' && prod.priceKey !== price) {
+      return false;
+    }
+    if (normKw) {
+      const normName = removeVietnameseTones(prod.name.toLowerCase());
+      const normBrand = removeVietnameseTones(prod.brand.toLowerCase());
+      const words = normKw.split(/\s+/).filter(Boolean);
+      const matchesAll = words.every(w => normName.includes(w) || normBrand.includes(w));
+      if (!matchesAll) return false;
+    }
+    return true;
+  });
+}
+
+function renderSearchResults(products, keyword) {
+  const container = document.getElementById('search-results-grid');
+  const countEl = document.getElementById('search-count-number');
+  const queryTextEl = document.getElementById('search-query-text');
+  const breadcrumbKw = document.getElementById('search-breadcrumb-query');
+
+  if (countEl) countEl.textContent = products.length;
+  if (queryTextEl) {
+    queryTextEl.textContent = keyword ? `"${keyword}"` : 'Tất cả sản phẩm';
+  }
+  if (breadcrumbKw) {
+    breadcrumbKw.textContent = keyword ? `"${keyword}"` : 'Tất cả sản phẩm';
+  }
+
+  if (!container) return;
+
+  if (products.length === 0) {
+    container.innerHTML = `
+      <div class="search-empty-state" style="grid-column: 1 / -1; text-align: center; padding: 48px 20px; background: var(--bg-card); border: 1px dashed var(--border-color); border-radius: var(--radius-lg);">
+        <i class="fas fa-box-open" style="font-size: 3rem; color: var(--text-dim); margin-bottom: 16px;"></i>
+        <h3 style="color: #FFF; font-size: 1.25rem; margin-bottom: 8px;">Không tìm thấy sản phẩm phù hợp</h3>
+        <p style="color: var(--text-muted); font-size: 0.9rem; max-width: 480px; margin: 0 auto 20px;">
+          Rất tiếc, không có sản phẩm nào khớp với tiêu chí tìm kiếm của bạn. Thử tìm với từ khóa khác như <strong>Monster</strong>, <strong>Redbull</strong>, <strong>Sting</strong> hoặc đặt lại bộ lọc.
+        </p>
+        <button type="button" class="btn-filter-apply" style="display: inline-flex; width: auto; padding: 10px 24px; margin: 0 auto;" onclick="resetSearchPageFilter()">
+          <i class="fas fa-rotate-left"></i> Xem tất cả sản phẩm
+        </button>
+      </div>
+    `;
+    return;
+  }
+
+  const isInsidePages = window.location.pathname.includes('/pages/') || !window.location.pathname.includes('index.html');
+  const imgPrefix = isInsidePages ? '../' : '';
+
+  let html = '';
+  products.forEach(prod => {
+    const detailLink = isInsidePages ? prod.detailUrl.replace('pages/', '') : prod.detailUrl;
+    const imgSrc = imgPrefix + prod.image;
+    const glowColor = prod.brandKey === 'monster' ? '#39FF14' : (prod.brandKey === 'redbull' ? '#FFD700' : '#FF0055');
+
+    html += `
+      <div class="product-card product-card-stitch">
+        <div class="product-card-micro-glow" style="background: ${glowColor};"></div>
+        <div class="stitch-badge-group">
+          <span class="stitch-badge ${prod.brandKey}">${prod.tag || prod.brand}</span>
+        </div>
+        <div class="product-img-wrapper" onclick="window.location.href='${detailLink}'" title="Xem ${prod.name}" role="link" tabindex="0">
+          <img src="${imgSrc}" alt="${prod.name}" class="product-img" loading="lazy" onerror="this.src='${imgPrefix}assets/images/monster/original.webp'" />
+        </div>
+        <div class="product-info">
+          <span class="product-cat">${prod.brand}</span>
+          <a href="${detailLink}" class="product-title-link"><h3 class="product-title">${prod.name}</h3></a>
+          <div class="product-specs">
+            <span><i class="fas fa-wine-bottle"></i> 250-500ml</span>
+            <span><i class="fas fa-shield-halved"></i> Chính Hãng</span>
+          </div>
+          <div class="product-bottom">
+            <div class="product-price">
+              <span class="price-current" style="color: ${glowColor};">${prod.price}</span>
+            </div>
+            <div class="btn-card-group">
+              <a href="${detailLink}" class="btn-view-detail"><i class="fas fa-eye"></i> Chi tiết</a>
+              <button class="btn-add-stitch" title="Thêm vào giỏ" onclick="event.stopPropagation(); showToast('Đã thêm ${prod.name} vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+  container.innerHTML = html;
+}
+
+function initSearchResultsPage() {
+  if (!document.getElementById('search-results-grid')) return;
+
+  const params = new URLSearchParams(window.location.search);
+  const q = params.get('q') || '';
+  const brand = params.get('brand') || 'all';
+  const price = params.get('price') || 'all';
+
+  const headerInputs = document.querySelectorAll('.search-input');
+  headerInputs.forEach(inp => { if (inp) inp.value = q; });
+
+  const sidebarKw = document.getElementById('search-filter-keyword');
+  if (sidebarKw) sidebarKw.value = q;
+
+  const brandRadio = document.querySelector(`input[name="search-brand"][value="${brand}"]`);
+  if (brandRadio) brandRadio.checked = true;
+
+  const priceRadio = document.querySelector(`input[name="search-price"][value="${price}"]`);
+  if (priceRadio) priceRadio.checked = true;
+
+  const matched = filterProducts(q, brand, price);
+  renderSearchResults(matched, q);
+}
+
+function handleSearchResultsFilter(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  const kwInput = document.getElementById('search-filter-keyword');
+  const q = kwInput ? kwInput.value.trim() : '';
+  const brandEl = document.querySelector('input[name="search-brand"]:checked');
+  const brand = brandEl ? brandEl.value : 'all';
+  const priceEl = document.querySelector('input[name="search-price"]:checked');
+  const price = priceEl ? priceEl.value : 'all';
+
+  const params = new URLSearchParams();
+  if (q) params.set('q', q);
+  if (brand && brand !== 'all') params.set('brand', brand);
+  if (price && price !== 'all') params.set('price', price);
+
+  const newUrl = window.location.pathname + (params.toString() ? '?' + params.toString() : '');
+  try {
+    window.history.pushState({}, '', newUrl);
+  } catch (err) {}
+
+  const matched = filterProducts(q, brand, price);
+  renderSearchResults(matched, q);
+  showToast(`Đã tìm thấy ${matched.length} sản phẩm phù hợp!`, 'info');
+}
+
+function resetSearchPageFilter() {
+  const sidebarKw = document.getElementById('search-filter-keyword');
+  if (sidebarKw) sidebarKw.value = '';
+  const allBrand = document.querySelector('input[name="search-brand"][value="all"]');
+  if (allBrand) allBrand.checked = true;
+  const allPrice = document.querySelector('input[name="search-price"][value="all"]');
+  if (allPrice) allPrice.checked = true;
+
+  try {
+    window.history.pushState({}, '', window.location.pathname);
+  } catch (err) {}
+
+  const matched = filterProducts('', 'all', 'all');
+  renderSearchResults(matched, '');
+  showToast('Đã hiển thị tất cả 10 sản phẩm!', 'info');
 }
 
 function renderAdvSuggestions() {
@@ -1348,7 +1581,6 @@ function renderAdvSuggestions() {
 }
 
 function handleAdvKeywordInput(val) {
-  // Pure static mockup: menu vẫn mở danh sách các lon nước mẫu cố định, KHÔNG chạy thuật toán lọc mảng theo text để bảo đảm tiêu chí đồ án tĩnh (UI Mockup)
   openAdvSuggestions();
 }
 
@@ -1397,6 +1629,22 @@ document.addEventListener('click', function(e) {
   if (!advWrapper) {
     closeAdvSuggestions();
   }
+
+  // Handle header search button click globally
+  const searchBtn = e.target.closest('.search-btn');
+  if (searchBtn) {
+    if (searchBtn.querySelector('.fa-sliders') || (searchBtn.getAttribute('onclick') && searchBtn.getAttribute('onclick').includes('openAdvancedSearchModal'))) {
+      return;
+    }
+    if (searchBtn.querySelector('.fa-search') || searchBtn.title === 'Tìm kiếm') {
+      const box = searchBtn.closest('.search-box');
+      const input = box ? box.querySelector('.search-input') : document.querySelector('.search-input');
+      if (input && input.value.trim()) {
+        e.preventDefault();
+        executeHeaderSearch(input.value);
+      }
+    }
+  }
 });
 
 document.addEventListener('keydown', function(e) {
@@ -1404,6 +1652,12 @@ document.addEventListener('keydown', function(e) {
     closeSearchDropdown();
     closeAdvancedSearchModal();
     closeAdvSuggestions();
+  } else if (e.key === 'Enter') {
+    const input = e.target.closest('.search-input');
+    if (input) {
+      e.preventDefault();
+      executeHeaderSearch(input.value);
+    }
   }
 });
 
