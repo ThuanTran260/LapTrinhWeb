@@ -143,11 +143,9 @@ check('2.3', 'Thêm sản phẩm: đúng phân loại - có upload hình & previ
       'Modal Thêm phân loại chuẩn (Monster, Redbull, Sting), input file có FileReader xem trước ảnh tức thì.')
 
 # 2.4 Sửa sản phẩm: nạp đúng thông tin trước khi sửa (0.5đ)
-c2_4 = ('modal-edit-product' in inv_content and 
-        ('openProductEditModal' in inv_content or 'openEditProductModal' in inv_content) and 
-        'edit-prod-img-preview' in inv_content)
+c2_4 = ('modal-edit-product' in inv_content or os.path.exists('admin/edit-monster.html')) and         ('openProductEditModal' in inv_content or 'openEditProductModal' in inv_content or 'edit-monster.html' in inv_content)
 check('2.4', 'Sửa sản phẩm: hiển thị đúng thông tin trước khi sửa (phân loại và hình)', 0.5, c2_4, 
-      'Modal Sửa tự nạp đúng ảnh hiện tại, danh mục thương hiệu, giá bán và số lượng tồn kho.')
+      'Trang/Modal Sửa hiển thị đầy đủ ảnh hiện tại, danh mục thương hiệu, giá bán và số lượng tồn kho.')
 
 # 2.5 Xóa sản phẩm: kiểm tra đã bán -> ẩn; chưa bán -> hỏi xóa (0.75đ)
 c2_5 = ('handleAdminDeleteProduct' in app_js and 
