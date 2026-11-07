@@ -641,11 +641,11 @@ function saveAddProduct(e) {
 // ADMIN INVENTORY: CURRENCY FORMATTING & REAL-TIME PREVIEW SYSTEM
 // ==========================================================================
 function formatCurrencyVND(val) {
-  if (val === undefined || val === null) return '';
+  if (val === undefined || val === null || val === '') return '';
   const clean = String(val).replace(/\D/g, '');
   if (!clean) return '';
   const num = parseInt(clean, 10);
-  return num.toLocaleString('vi-VN') + 'đ';
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + 'đ';
 }
 
 function parseCurrencyVND(val) {
@@ -655,8 +655,14 @@ function parseCurrencyVND(val) {
 }
 
 function numberToVietnameseWords(n) {
+  if (n === undefined || n === null || n === '') return '';
+  if (typeof n === 'string') {
+    const clean = n.replace(/\D/g, '');
+    if (!clean) return '';
+    n = parseInt(clean, 10);
+  }
   if (n === 0) return 'Không đồng';
-  if (!n || isNaN(n)) return '';
+  if (isNaN(n)) return '';
 
   const units = ['', 'nghìn', 'triệu', 'tỷ', 'nghìn tỷ', 'triệu tỷ'];
   const digits = ['không', 'một', 'hai', 'ba', 'bốn', 'năm', 'sáu', 'bảy', 'tám', 'chín'];
@@ -736,7 +742,7 @@ function updatePricePreview(inputEl) {
     previewEl.innerHTML = '<i class="fas fa-tag"></i> <span class="price-preview-label">Xem trước:</span> <strong class="price-preview-val">0đ</strong> <span class="price-preview-words">(Chưa nhập giá)</span>';
   } else {
     const num = parseInt(rawDigits, 10);
-    const formatted = num.toLocaleString('vi-VN') + 'đ';
+    const formatted = formatCurrencyVND(num);
     const words = numberToVietnameseWords(num);
     previewEl.className = 'price-preview-tag';
     previewEl.innerHTML = `<i class="fas fa-tag"></i> <span class="price-preview-label">Xem trước:</span> <strong class="price-preview-val">${formatted}</strong> <span class="price-preview-words">(${words})</span>`;
@@ -763,11 +769,12 @@ function syncStandaloneCardPrice() {
 }
 
 function restoreCursorPosition(input, formatted, digitsBeforeCursor) {
+  if (!input || typeof input.setSelectionRange !== 'function') return;
   if (!formatted) {
     input.setSelectionRange(0, 0);
     return;
   }
-  if (digitsBeforeCursor === 0) {
+  if (!digitsBeforeCursor || digitsBeforeCursor <= 0) {
     input.setSelectionRange(0, 0);
     return;
   }
@@ -791,6 +798,9 @@ function restoreCursorPosition(input, formatted, digitsBeforeCursor) {
 function setupPriceInput(input) {
   if (!input || input.dataset.priceBound) return;
   input.dataset.priceBound = 'true';
+  if (input.type === 'number') {
+    input.type = 'text';
+  }
   input.classList.add('price-format-input');
 
   input.addEventListener('keydown', function(e) {
@@ -823,12 +833,40 @@ function setupPriceInput(input) {
           }
         }
       }
+    } else if (e.key === 'Delete') {
+      const start = this.selectionStart;
+      const end = this.selectionEnd;
+      if (start === end && start < this.value.length) {
+        const charAfter = this.value[start];
+        if (charAfter === '.' || charAfter === 'đ') {
+          e.preventDefault();
+          if (charAfter === '.') {
+            let nextDigitIdx = -1;
+            for (let i = start + 1; i < this.value.length; i++) {
+              if (/\d/.test(this.value[i])) {
+                nextDigitIdx = i;
+                break;
+              }
+            }
+            if (nextDigitIdx !== -1) {
+              const val = this.value;
+              const digitsBefore = val.slice(0, start).replace(/\D/g, '').length;
+              const rawWithout = val.slice(0, nextDigitIdx) + val.slice(nextDigitIdx + 1);
+              const clean = rawWithout.replace(/\D/g, '');
+              const formatted = clean ? formatCurrencyVND(clean) : '';
+              this.value = formatted;
+              restoreCursorPosition(this, formatted, digitsBefore);
+              updatePricePreview(this);
+            }
+          }
+        }
+      }
     }
   });
 
   input.addEventListener('input', function() {
     const rawDigits = this.value.replace(/\D/g, '');
-    const cursor = this.selectionStart;
+    const cursor = this.selectionStart || 0;
     const digitsBeforeCursor = this.value.slice(0, cursor).replace(/\D/g, '').length;
 
     if (!rawDigits) {
@@ -848,7 +886,9 @@ function setupPriceInput(input) {
       setTimeout(() => {
         if (this.selectionStart === this.value.length) {
           const p = Math.max(0, this.value.length - 1);
-          this.setSelectionRange(p, p);
+          if (typeof this.setSelectionRange === 'function') {
+            this.setSelectionRange(p, p);
+          }
         }
       }, 0);
     }
@@ -891,6 +931,18 @@ function initPriceFormatting() {
       }
     });
   }
+
+  document.querySelectorAll('form').forEach(form => {
+    if (form.dataset.priceResetBound) return;
+    form.dataset.priceResetBound = 'true';
+    form.addEventListener('reset', function() {
+      setTimeout(() => {
+        form.querySelectorAll('.price-format-input').forEach(inp => {
+          updatePricePreview(inp);
+        });
+      }, 0);
+    });
+  });
 }
 
 
@@ -2383,8 +2435,9 @@ function toggleLockUser(btn, customerName) {
 }
 
 function initCustomUsersTable() {
-  const custTable = document.getElementById('customers-table') ||
-    (window.location.pathname.includes('customers.html') ? document.querySelector('.cart-table') : null);
+  if (typeof window === 'undefined' || typeof document === 'undefined') return;
+  const isCustomersPage = window.location && window.location.pathname && window.location.pathname.includes('customers.html');
+  const custTable = document.getElementById('customers-table') || (isCustomersPage ? document.querySelector('.cart-table') : null);
   if (!custTable) return;
   const tbody = custTable.querySelector('tbody') || custTable;
   if (!tbody) return;
@@ -2393,7 +2446,8 @@ function initCustomUsersTable() {
   if (tbody.querySelector('[data-custom-user-id]')) return;
 
   try {
-    const customUsers = JSON.parse(localStorage.getItem('admin_custom_users') || '[]');
+    const rawUsers = typeof localStorage !== 'undefined' ? localStorage.getItem('admin_custom_users') : null;
+    const customUsers = JSON.parse(rawUsers || '[]');
     // Render custom users in reverse order so newest is at the top
     for (let i = customUsers.length - 1; i >= 0; i--) {
       const u = customUsers[i];

@@ -71,6 +71,8 @@ def main():
     if adm_idx:
         check('id="preview-edit-prod-price"' in adm_idx, 
               "admin/index.html: modal edit có preview tag preview-edit-prod-price")
+        check('id="preview-edit-prod-oldprice"' in adm_idx, 
+              "admin/index.html: modal edit có preview tag preview-edit-prod-oldprice")
         check('id="preview-add-prod-price"' in adm_idx, 
               "admin/index.html: modal add có preview tag preview-add-prod-price")
 
@@ -90,6 +92,8 @@ def main():
                   f"{page_path}: có input id=standalone-edit-price")
             check('id="preview-standalone-edit-price"' in content, 
                   f"{page_path}: có preview tag preview-standalone-edit-price")
+            check('id="preview-standalone-edit-oldprice"' in content, 
+                  f"{page_path}: có preview tag preview-standalone-edit-oldprice")
             check('id="standalone-card-price-display"' in content, 
                   f"{page_path}: có thẻ hiển thị giá card id=standalone-card-price-display")
 
@@ -160,6 +164,20 @@ def main():
 
     if (parseCurrencyVND('45.000đ') !== 45000) {
       console.error('parseCurrencyVND failed');
+      failed = true;
+    }
+
+    // Additional robustness checks: string tolerance
+    if (numberToVietnameseWords('45.000đ') !== 'Bốn mươi lăm nghìn đồng') {
+      console.error('numberToVietnameseWords with formatted string failed');
+      failed = true;
+    }
+    if (numberToVietnameseWords('12000') !== 'Mười hai nghìn đồng') {
+      console.error('numberToVietnameseWords with raw string failed');
+      failed = true;
+    }
+    if (formatCurrencyVND('45.000đ') !== '45.000đ') {
+      console.error('formatCurrencyVND with string failed');
       failed = true;
     }
 
