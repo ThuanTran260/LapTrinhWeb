@@ -404,16 +404,17 @@ const PRODUCT_DATA_REGISTRY = {
   'monster-original': {
     id: 'monster-original',
     name: 'Monster Energy Original 355ml',
-    brand: 'Monster Energy (Hà Lan)',
-    origin: 'Malaysia',
+    brand: 'Monster Energy (Hà Lan / Hoa Kỳ)',
+    origin: 'Malaysia (Ủy quyền Monster Energy Company)',
+    flavor: 'Vị nguyên bản đậm đà, sảng khoái với Taurine & Nhân sâm',
     price: '45.000đ',
     oldPrice: '55.000đ',
-    volume: '355ml',
-    ingredients: 'Nước bão hòa CO2, Sucroza, chiết xuất đường nho, chiết xuất nhân sâm,...',
+    volume: '355ml (Lon nhôm cao cấp)',
+    ingredients: 'Nước bão hòa CO2, Sucroza, chiết xuất đường nho, chiết xuất nhân sâm, L-Carnitine, Taurine (400mg/100ml), Caffeine (30mg/100ml), Inositol, Vitamin B3, B6, B2, B12, Maltodextrin, chất điều chỉnh độ acid...',
     usage: 'Lắc nhẹ trước khi uống, dùng ngay sau khi mở nắp. Ngon hơn khi uống lạnh.',
     storage: 'Để nơi khô ráo, thoáng mát, tránh ánh sáng trực tiếp hoặc nơi có nhiệt độ cao.',
     status: 'Còn hàng',
-    editPage: 'inventory.html'
+    editPage: 'edit-monster.html'
   },
   'redbull-original': {
     id: 'redbull-original',
@@ -538,6 +539,7 @@ function openProductEditModal(productId, triggerBtn) {
   const brandSelect = document.getElementById('edit-prod-brand-select');
   const imgPreview = document.getElementById('edit-prod-img-preview');
   const originEl = document.getElementById('edit-prod-origin');
+  const flavorEl = document.getElementById('edit-prod-flavor');
   const priceEl = document.getElementById('edit-prod-price');
   const oldPriceEl = document.getElementById('edit-prod-oldprice');
   const volumeEl = document.getElementById('edit-prod-volume');
@@ -550,6 +552,7 @@ function openProductEditModal(productId, triggerBtn) {
   if (nameEl) nameEl.value = data.name;
   if (brandEl) brandEl.value = data.brand;
   if (originEl) originEl.value = data.origin;
+  if (flavorEl) flavorEl.value = data.flavor || 'Vị nguyên bản đậm đà, sảng khoái với Taurine & Nhân sâm';
   if (priceEl) {
     priceEl.value = data.price;
     setupPriceInput(priceEl);
