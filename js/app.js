@@ -1801,19 +1801,41 @@ function handleDashboardFilterSubmit(e, shouldNavigate = false) {
   const priceEl = document.querySelector('input[name="sidebar-price"]:checked');
   const price = priceEl ? priceEl.value : 'all';
 
-  const productsCol = document.querySelector('.dashboard-products-column');
-  if (productsCol && !shouldNavigate) {
-    filterDashboardInPlace(keyword, brand, price);
+  if (shouldNavigate) {
+    const params = new URLSearchParams();
+    if (keyword) params.set('q', keyword);
+    if (brand && brand !== 'all') params.set('brand', brand);
+    if (price && price !== 'all') params.set('price', price);
+
+    const queryStr = params.toString();
+    go('pages/search-results.html' + (queryStr ? '?' + queryStr : ''));
     return;
   }
 
-  const params = new URLSearchParams();
-  if (keyword) params.set('q', keyword);
-  if (brand && brand !== 'all') params.set('brand', brand);
-  if (price && price !== 'all') params.set('price', price);
+  // Tắt tính năng ẩn/lọc sản phẩm trên DOM, giữ nguyên giao diện đầy đủ các lon nước và chỉ hiện thông báo Toast
+  ['monster-products', 'redbull-products', 'sting-products'].forEach(id => {
+    const secEl = document.getElementById(id);
+    if (secEl) {
+      secEl.style.display = '';
+      secEl.querySelectorAll('.product-card').forEach(card => {
+        card.style.display = '';
+      });
+    }
+  });
 
-  const queryStr = params.toString();
-  go('pages/search-results.html' + (queryStr ? '?' + queryStr : ''));
+  const emptyState = document.getElementById('dashboard-filter-empty');
+  if (emptyState) emptyState.style.display = 'none';
+
+  const brandLabels = { all: 'Tất cả thương hiệu', monster: 'Monster Energy', redbull: 'Redbull Thái Lan', sting: 'Sting PepsiCo' };
+  const priceLabels = { all: 'Tất cả khoảng giá', under20: 'Dưới 20.000đ', '20to50': '20.000đ - 50.000đ', over50: 'Trên 50.000đ' };
+
+  const criteria = [];
+  if (keyword) criteria.push(`Từ khóa: "${keyword}"`);
+  if (brand !== 'all') criteria.push(brandLabels[brand] || brand);
+  if (price !== 'all') criteria.push(priceLabels[price] || price);
+
+  const criteriaText = criteria.length > 0 ? criteria.join(' | ') : 'Tất cả sản phẩm';
+  showToast(`Đã áp dụng bộ lọc: ${criteriaText}`, 'success');
 }
 
 function openSearchResultsFromDashboard() {
