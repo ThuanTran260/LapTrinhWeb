@@ -1148,11 +1148,15 @@ button {
 .cart-del-btn {
   color: #EF4444;
   background: transparent;
+  border: none;
+  cursor: pointer;
   font-size: 1rem;
   padding: 6px;
+  transition: transform 0.2s ease, color 0.2s ease;
 }
 .cart-del-btn:hover {
   transform: scale(1.15);
+  color: #DC2626;
 }
 
 .cart-summary-box {
