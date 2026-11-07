@@ -110,19 +110,24 @@
                   <div class="admin-form-label"><i class="fas fa-images"></i> Chỉnh sửa ảnh</div>
                   <div id="edit-product-images" class="product-image-list">
                     <div class="product-image-row">
-                      <label class="admin-form-label" for="edit-prod-file">Hình 1</label>
+                      <label class="admin-form-label" for="edit-prod-file">Hình 1 (Mặt trước)</label>
                       <input type="file" id="edit-prod-file" class="admin-form-input" accept="image/*" onchange="previewEditProductImage(this)" title="Chọn hình 1" />
-                      <img id="edit-prod-img-preview" src="../assets/images/monster/original.webp" class="product-image-preview" alt="Xem trước hình 1" />
+                      <img id="edit-prod-img-preview" src="../assets/images/monster/original.webp" class="product-image-preview" alt="Monster Original - Mặt trước" />
                     </div>
                     <div class="product-image-row">
-                      <label class="admin-form-label" for="edit-prod-file-2">Hình 2</label>
+                      <label class="admin-form-label" for="edit-prod-file-2">Hình 2 (Mặt sau 1)</label>
                       <input type="file" id="edit-prod-file-2" class="admin-form-input" accept="image/*" onchange="previewEditProductImage(this)" title="Chọn hình 2" />
-                      <img class="product-image-preview" alt="Xem trước hình 2" hidden />
+                      <img id="edit-prod-img-preview-2" src="../assets/images/monster/original-back-1.webp" class="product-image-preview" alt="Monster Original - Mặt sau 1" />
                     </div>
                     <div class="product-image-row">
-                      <label class="admin-form-label" for="edit-prod-file-3">Hình 3</label>
+                      <label class="admin-form-label" for="edit-prod-file-3">Hình 3 (Mặt sau 2)</label>
                       <input type="file" id="edit-prod-file-3" class="admin-form-input" accept="image/*" onchange="previewEditProductImage(this)" title="Chọn hình 3" />
-                      <img class="product-image-preview" alt="Xem trước hình 3" hidden />
+                      <img id="edit-prod-img-preview-3" src="../assets/images/monster/original-back-2.webp" class="product-image-preview" alt="Monster Original - Mặt sau 2" />
+                    </div>
+                    <div class="product-image-row">
+                      <label class="admin-form-label" for="edit-prod-file-4">Hình 4 (Ly nước đá)</label>
+                      <input type="file" id="edit-prod-file-4" class="admin-form-input" accept="image/*" onchange="previewEditProductImage(this)" title="Chọn hình 4" />
+                      <img id="edit-prod-img-preview-4" src="../assets/images/monster/original-with-glass.webp" class="product-image-preview" alt="Monster Original - Cùng ly nước đá" />
                     </div>
                   </div>
                   <button type="button" class="btn-view-detail product-image-add" onclick="addProductImageField('edit-product-images')"><i class="fas fa-plus"></i> Thêm ảnh</button>

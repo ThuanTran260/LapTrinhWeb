@@ -1825,6 +1825,16 @@ button {
   width: 80px;
   height: 90px;
   object-fit: contain;
+  background: #0E1015;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  padding: 4px;
+}
+
+.product-image-preview[hidden],
+.product-image-preview:not([src]),
+.product-image-preview[src=""] {
+  display: none !important;
 }
 
 .product-image-add {
