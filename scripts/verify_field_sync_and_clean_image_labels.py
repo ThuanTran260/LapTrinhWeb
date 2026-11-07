@@ -127,6 +127,14 @@ check(
     "edit-monster.html: Giá trị Thương Hiệu là 'Monster Energy (Hà Lan / Hoa Kỳ)'",
     'value="Monster Energy (Hà Lan / Hoa Kỳ)"' in monster_content
 )
+check(
+    "edit-monster.html: Card tóm tắt bên trái có Thương hiệu 'Monster Energy (Hà Lan / Hoa Kỳ)'",
+    'Monster Energy (Hà Lan / Hoa Kỳ)' in monster_content and '<strong>Thương hiệu:</strong> Monster Energy (Hà Lan / Hoa Kỳ)' in monster_content
+)
+check(
+    "edit-monster.html: Title thuộc tính input chọn hình 1-4 chuẩn hóa",
+    all(f'title="Chọn hình {i}"' in monster_content for i in range(1, 5))
+)
 
 # 4. Check pages/product-detail.html synchronization
 product_detail_path = 'pages/product-detail.html'
@@ -181,6 +189,10 @@ for admin_file in ['admin/index.html', 'admin/inventory.html']:
     check(
         f"{admin_file}: link bảng trỏ về edit-monster.html",
         'href="edit-monster.html"' in acontent
+    )
+    check(
+        f"{admin_file}: modal hiển thị chính xác '2 Quy cách đóng gói'",
+        '2 Quy cách đóng gói' in acontent
     )
 
 # 6. Check js/app.js synchronization
