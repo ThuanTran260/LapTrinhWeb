@@ -113,19 +113,16 @@
     }
     ```
 
-- [ ] **Step 2: Thống nhất cấu trúc nút bấm trên mọi thẻ sản phẩm trong `index.html`**
-  - Cả 4 thẻ Flash Sale và 10 thẻ trong danh mục hãng (Monster, Redbull, Sting) đều sử dụng cặp nút chuẩn:
+- [x] **Step 2: Thống nhất cấu trúc nút bấm trên mọi thẻ sản phẩm trong `index.html`**
+  - Cả 4 thẻ Flash Sale và 10 thẻ trong danh mục hãng (Monster, Redbull, Sting) đều sử dụng duy nhất nút thêm giỏ hàng màu xanh neon chuẩn:
     ```html
     <div class="btn-card-group">
-      <a href="pages/product-detail-*.html" class="btn-view-detail" title="Xem chi tiết lon">
-        <i class="fas fa-eye"></i> Chi tiết
-      </a>
       <button class="btn-add-stitch" title="Thêm vào giỏ" onclick="event.stopPropagation(); showToast(...)">
         <i class="fas fa-cart-plus"></i>
       </button>
     </div>
     ```
-  - Loại bỏ hoàn toàn sự không đồng nhất giữa chữ "Xem" và "Chi tiết".
+  - Loại bỏ hoàn toàn các nút "Chi tiết" thừa trên mọi thẻ sản phẩm theo đúng phản hồi của người dùng; việc xem chi tiết lon được thực hiện tự nhiên qua nhấp ảnh (`.product-img-wrapper`) hoặc tiêu đề (`.product-title-link`).
 
 ---
 

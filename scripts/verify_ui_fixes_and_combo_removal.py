@@ -38,16 +38,24 @@ style_css = open('css/style.css', encoding='utf-8').read()
 c3 = ('line-clamp: 2' in style_css or '-webkit-line-clamp: 2' in style_css) and ('min-height' in style_css)
 check("3. Product Card Alignment", c3, "CSS có quy chuẩn min-height và line-clamp: 2 cho tiêu đề để các thẻ thẳng hàng")
 
-# Check 4: Button uniformity - no "btn-view-detail" on product cards, uniformly have "btn-add-stitch"
+# Check 4: Button uniformity - no "btn-view-detail" on product cards, uniformly have "btn-add-stitch", navigation intact
 idx_card_groups = re.findall(r'<div class="btn-card-group">(.*?)</div>', idx_html, re.DOTALL)
 idx_has_detail = any('btn-view-detail' in g or 'Chi tiết' in g for g in idx_card_groups)
-idx_all_add_stitch = len(idx_card_groups) > 0 and all('btn-add-stitch' in g for g in idx_card_groups)
+idx_all_add_stitch = len(idx_card_groups) == 14 and all('btn-add-stitch' in g for g in idx_card_groups)
+idx_cards_have_nav = (len(re.findall(r'class="product-img-wrapper"\s+onclick="window\.location\.href=', idx_html)) == 14 and
+                      len(re.findall(r'class="product-title-link"', idx_html)) == 14)
+
 search_html = open('pages/search-results.html', encoding='utf-8').read()
 search_card_groups = re.findall(r'<div class="btn-card-group">(.*?)</div>', search_html, re.DOTALL)
 search_clean = len(search_card_groups) > 0 and all('btn-view-detail' not in g and 'btn-add-stitch' in g for g in search_card_groups)
 
-c4 = (not idx_has_detail) and idx_all_add_stitch and search_clean
-check("4. Button Uniformity (Only btn-add-stitch, no btn-view-detail)", c4, f"Tất cả {len(idx_card_groups)} thẻ sản phẩm đều có duy nhất nút 'btn-add-stitch', không còn nút 'btn-view-detail'/'Chi tiết'")
+js_app = open('js/app.js', encoding='utf-8').read()
+js_search_clean = ('renderSearchResults' in js_app and 
+                   'btn-add-stitch' in js_app and 
+                   re.search(r'renderSearchResults.*?btn-add-stitch', js_app, re.DOTALL) is not None)
+
+c4 = (not idx_has_detail) and idx_all_add_stitch and idx_cards_have_nav and search_clean and js_search_clean
+check("4. Button Uniformity (Only btn-add-stitch, no btn-view-detail, nav intact)", c4, f"Tất cả {len(idx_card_groups)} thẻ sản phẩm đều có duy nhất 'btn-add-stitch', 0 'btn-view-detail'/'Chi tiết', giữ nguyên điều hướng click ảnh/tên, và đồng bộ trong search-results & js/app.js")
 
 # Check 5: pages/account.html has both Header and Footer
 account_html = open('pages/account.html', encoding='utf-8').read()
