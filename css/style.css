@@ -806,10 +806,11 @@ button {
 /* Pricing & Actions */
 .product-bottom {
   margin-top: auto;
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  justify-content: space-between;
-  gap: 10px;
+  min-height: 72px;
+  gap: 16px;
   padding-top: 12px;
   border-top: 1px solid var(--border-color);
 }
@@ -831,6 +832,8 @@ button {
 
 .btn-card-group {
   display: flex;
+  align-items: center;
+  justify-content: flex-end;
   gap: 6px;
 }
 .btn-view-detail {
@@ -1401,7 +1404,7 @@ button {
    ========================================================================== */
 .admin-layout {
   display: grid;
-  grid-template-columns: 260px 1fr;
+  grid-template-columns: 260px minmax(0, 1fr);
   min-height: 100vh;
 }
 .admin-sidebar {
@@ -1444,6 +1447,7 @@ button {
 }
 
 .admin-main {
+  min-width: 0;
   padding: 30px;
   overflow-y: auto;
   background: var(--bg-main);
@@ -1452,6 +1456,8 @@ button {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
   margin-bottom: 28px;
 }
 .admin-user-pill {
@@ -1554,6 +1560,8 @@ button {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
   margin-bottom: 20px;
 }
 .admin-section-title {
@@ -1786,6 +1794,9 @@ button {
 
 .product-image-add {
   align-self: flex-start;
+  min-height: 40px;
+  justify-content: center;
+  gap: 8px;
   cursor: pointer;
 }
 
@@ -2639,8 +2650,9 @@ button {
   font-size: 0.7rem;
 }
 .btn-add-stitch {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
   border-radius: var(--radius-md);
   background: var(--primary);
   color: #080A0C;
@@ -5234,5 +5246,291 @@ button {
   .packaging-tier-row {
     grid-template-columns: 1fr;
     gap: 8px;
+  }
+}
+
+/* Consistent spacing and action alignment across the storefront and admin. */
+.product-card-stitch .product-info {
+  padding: 16px 0 0;
+}
+.product-card-stitch .product-title {
+  min-height: 2.6em;
+}
+.section-title-wrapper {
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.filter-actions > button {
+  min-height: 44px;
+}
+
+.admin-topbar > :first-child {
+  flex: 1 1 320px;
+  min-width: 0;
+}
+.admin-topbar h1 {
+  font-size: clamp(1.5rem, 2vw, 1.8rem);
+  line-height: 1.25;
+}
+.admin-topbar > :last-child:not(:first-child) {
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  max-width: 100%;
+  margin-left: auto;
+}
+.admin-main :is(.btn-add-cart, .btn-view-detail, .btn-filter-apply, .btn-filter-reset,
+  .btn-modal-save, .btn-modal-cancel, .btn-action-lock, .btn-action-unlock, .cart-del-btn) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 40px;
+  min-height: 40px;
+  flex-shrink: 0;
+  font-family: inherit;
+  line-height: 1.25;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+.admin-main :is(button, a):focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+}
+.admin-main .cart-table {
+  min-width: 680px;
+}
+.admin-main .cart-table td:last-child {
+  white-space: nowrap;
+}
+.admin-main .cart-table td:last-child > :is(a, button):not(:last-child) {
+  margin-right: 8px;
+}
+.admin-main .badge-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+.admin-filter-groups {
+  flex: 1 1 520px;
+  min-width: 0;
+}
+.admin-filter-group {
+  flex-wrap: wrap;
+  max-width: 100%;
+}
+.admin-filter-search {
+  flex: 1 1 180px;
+  min-width: 0;
+}
+.admin-filter-search input {
+  flex: 1;
+  min-width: 0;
+}
+.admin-filter-select, .admin-filter-input {
+  min-height: 40px;
+  max-width: 100%;
+}
+.admin-filter-actions {
+  flex-wrap: wrap;
+  margin-left: auto;
+}
+.admin-filter-actions > button {
+  flex: 0 0 auto;
+}
+.admin-form-group, .admin-edit-form-card {
+  min-width: 0;
+}
+.admin-edit-top-actions .badge-tag {
+  position: static;
+}
+.admin-edit-layout {
+  grid-template-columns: minmax(240px, 300px) minmax(0, 1fr);
+}
+.admin-modal-footer {
+  flex-wrap: wrap;
+}
+.admin-main .kpi-icon, .admin-avatar {
+  flex-shrink: 0;
+}
+
+@media (max-width: 1200px) {
+  .admin-edit-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .admin-edit-preview-card {
+    position: static;
+  }
+}
+
+@media (max-width: 992px) {
+  .header-main {
+    flex-wrap: wrap;
+  }
+  .search-box {
+    order: 3;
+    flex-basis: 100%;
+    max-width: none;
+  }
+  .header-actions {
+    margin-left: auto;
+  }
+  .admin-sidebar {
+    display: flex;
+    padding: 20px 24px;
+    border-right: 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+  .admin-brand {
+    margin-bottom: 16px;
+  }
+  .admin-menu {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-bottom: 16px;
+  }
+  .admin-menu-link {
+    min-height: 44px;
+    padding: 10px 12px;
+    gap: 8px;
+    font-size: 0.85rem;
+  }
+  .admin-menu-link i {
+    flex: 0 0 18px;
+    text-align: center;
+  }
+  .admin-logout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-top: 12px;
+  }
+  .admin-main {
+    padding: 24px;
+  }
+}
+
+@media (max-width: 640px) {
+  .header-actions {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 100%;
+    gap: 8px;
+  }
+  .header-actions .action-btn {
+    min-width: 0;
+    min-height: 64px;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 8px;
+  }
+  .header-actions .action-text {
+    min-width: 0;
+  }
+  .header-actions .action-label {
+    font-size: 0.68rem;
+    white-space: nowrap;
+  }
+  .header-actions .action-value {
+    font-size: 0.76rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .header-actions .action-icon-wrapper {
+    flex-shrink: 0;
+    font-size: 1.1rem;
+  }
+  .flash-sale-section {
+    padding: 18px;
+  }
+  .section-title {
+    font-size: 1.6rem;
+    line-height: 1.25;
+  }
+  .admin-sidebar, .admin-main {
+    padding: 20px 16px;
+  }
+  .admin-menu {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .admin-topbar > :last-child:not(:first-child) {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  .admin-topbar > :last-child:not(:first-child) > :is(a, button) {
+    flex: 1 1 180px;
+  }
+  .admin-user-pill {
+    width: 100%;
+    border-radius: var(--radius-md);
+  }
+  .admin-section-box {
+    padding: 18px 16px;
+    margin-bottom: 24px;
+  }
+  .admin-section-title {
+    font-size: 1.15rem;
+    line-height: 1.4;
+  }
+  .admin-filter-bar {
+    gap: 12px;
+    padding: 14px;
+  }
+  .admin-filter-groups {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+    flex-basis: 100%;
+  }
+  .admin-filter-group {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 6px;
+  }
+  .admin-filter-group > :is(input, select) {
+    width: 100%;
+  }
+  .admin-filter-actions {
+    width: 100%;
+    margin-left: 0;
+  }
+  .admin-filter-actions > button {
+    flex: 1 1 auto;
+  }
+  .admin-edit-form-card, .admin-edit-preview-card {
+    padding: 20px;
+  }
+  .admin-modal-footer > :is(a, button) {
+    flex: 1 1 140px;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 992px) {
+  .header .logo-title {
+    font-size: 1.5rem;
+  }
+  .header .logo-subtitle {
+    max-width: 220px;
+    font-size: 0.56rem;
+    letter-spacing: 1px;
+  }
+  .header .logo-icon {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+  }
+  .header-actions {
+    gap: 8px;
+  }
+  .header-actions .action-btn {
+    gap: 8px;
+    padding: 8px 10px;
+  }
+  .header-actions .action-label {
+    font-size: 0.65rem;
+  }
+  .header-actions .action-value {
+    font-size: 0.76rem;
   }
 }
