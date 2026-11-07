@@ -57,6 +57,15 @@ if form_idx_match:
     check('novalidate' in form_idx_str, "admin/index.html form-add-user has novalidate attribute")
     check('required' not in form_idx_str, "admin/index.html form-add-user has NO required constraints")
 
+# Verify modal-add-user is NOT nested inside modal-customer-detail in admin/index.html
+detail_pos = index_html.find('id="modal-customer-detail"')
+add_pos = index_html.find('id="modal-add-user"')
+if detail_pos != -1 and add_pos != -1:
+    between = index_html[detail_pos:add_pos]
+    open_divs = between.count('<div')
+    close_divs = between.count('</div')
+    check(close_divs >= open_divs, "modal-customer-detail is properly closed before modal-add-user in admin/index.html")
+
 # 3. Check js/app.js
 app_path = os.path.join(os.path.dirname(__file__), "..", "js", "app.js")
 with open(app_path, "r", encoding="utf-8") as f:
@@ -67,6 +76,11 @@ check('function openAddUserModal(' in app_js, "app.js defines openAddUserModal f
 check('function toggleLockUser(' in app_js, "app.js defines toggleLockUser function")
 check('Người Dùng Mới' in app_js, "saveAddUser provides graceful default when name is empty")
 check('showToast' in app_js, "saveAddUser displays toast feedback")
+check('customers-table' in app_js, "saveAddUser targets customers-table avoiding dashboard table pollution")
+check('admin_custom_users' in app_js, "saveAddUser persists custom users in localStorage")
+check('initCustomUsersTable' in app_js, "app.js provides initCustomUsersTable to reload custom users")
+check('emailEl.value = smallEmail.textContent.trim()' in app_js or 'smallEmail' in app_js, "openEditUserModal extracts customer email from table row")
+check('btn-action-unlock' in app_js and 'btn-action-lock' in app_js, "toggleLockUser and saveEditUser correctly toggle button action classes")
 
 print("=== VERIFY UNCONSTRAINED ADD USER (ADMIN) ===")
 for s in successes:

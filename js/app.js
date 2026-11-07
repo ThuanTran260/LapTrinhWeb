@@ -630,7 +630,11 @@ function saveAddProduct(e) {
   showToast('Đã thêm sản phẩm "' + name + '" vào kho hàng thành công!', 'success');
   closeAdminModal('modal-add-product');
   const form = document.getElementById('form-add-product');
-  if (form) form.reset();
+  if (form) {
+    form.reset();
+    const addPrice = document.getElementById('add-prod-price');
+    if (addPrice) updatePricePreview(addPrice);
+  }
 }
 
 // ==========================================================================
@@ -991,7 +995,34 @@ const CUSTOMER_DATA_REGISTRY = {
 };
 
 function openCustomerDetailModal(customerKey) {
-  const data = CUSTOMER_DATA_REGISTRY[customerKey] || CUSTOMER_DATA_REGISTRY['tuan'];
+  let data = (typeof CUSTOMER_DATA_REGISTRY !== 'undefined' && CUSTOMER_DATA_REGISTRY[customerKey]) ? CUSTOMER_DATA_REGISTRY[customerKey] : null;
+  if (!data && typeof customerKey === 'string') {
+    try {
+      const customUsers = JSON.parse(localStorage.getItem('admin_custom_users') || '[]');
+      const matched = customUsers.find(u => u.id === customerKey || u.fullname === customerKey || u.username === customerKey);
+      if (matched) {
+        data = {
+          name: matched.fullname,
+          tier: (matched.role || 'user').toUpperCase(),
+          tierClass: 'vip-badge-silver',
+          tierIcon: 'fa-user',
+          initials: matched.fullname.split(' ').filter(Boolean).map(w => w[0]).slice(-2).join('').toUpperCase() || 'ND',
+          points: '0',
+          spent: matched.spent || '0đ',
+          ordersCount: matched.orders || '0 Đơn',
+          phone: matched.phone || '0938.222.111',
+          email: matched.email || 'user@energyboost.vn',
+          address: 'Chưa cập nhật địa chỉ',
+          latestOrder: 'Chưa có đơn hàng (Thành viên mới)',
+          joinDate: matched.createdAt || new Date().toLocaleDateString('vi-VN'),
+          privileges: 'Ưu đãi thành viên mới'
+        };
+      }
+    } catch (e) {}
+  }
+  if (!data) {
+    data = (typeof CUSTOMER_DATA_REGISTRY !== 'undefined' && CUSTOMER_DATA_REGISTRY['tuan']) || {};
+  }
   
   const elAvatar = document.getElementById('vip-modal-avatar');
   const elName = document.getElementById('vip-modal-name');
@@ -2164,6 +2195,7 @@ function saveAddUser(e) {
   const phoneInput = document.getElementById('add-user-phone');
   const roleInput = document.getElementById('add-user-role');
   const statusInput = document.getElementById('add-user-status');
+  const passwordInput = document.getElementById('add-user-password');
 
   const fullname = (fullnameInput && fullnameInput.value.trim()) || 'Người Dùng Mới';
   const username = (usernameInput && usernameInput.value.trim()) || ('user_' + Math.floor(1000 + Math.random() * 9000));
@@ -2171,27 +2203,59 @@ function saveAddUser(e) {
   const phone = (phoneInput && phoneInput.value.trim()) || '0938.222.111';
   const role = (roleInput && roleInput.value) || 'user';
   const status = (statusInput && statusInput.value) || 'active';
+  const password = (passwordInput && passwordInput.value) || '123456';
+  const userId = 'u_' + Date.now();
+  const createdAt = new Date().toLocaleDateString('vi-VN');
 
-  // Hiển thị trực quan ngay trên bảng khách hàng nếu đang ở admin/customers.html
-  const tbody = document.querySelector('.cart-table tbody');
-  if (tbody) {
-    const tr = document.createElement('tr');
-    const isLocked = status === 'locked';
-    const safeName = fullname.replace(/"/g, '&quot;').replace(/'/g, "\\'");
-    tr.innerHTML = `
-      <td><span class="badge-status" style="background: rgba(0,255,136,0.15); color: var(--primary); border: 1px solid var(--primary); font-weight: 700;">MỚI</span></td>
-      <td><strong>${fullname}</strong><br><small style="color: var(--text-muted);">${username} (${role.toUpperCase()})</small></td>
-      <td>${phone}<br><small style="color: var(--text-dim);">${email}</small></td>
-      <td><span style="color: var(--text-muted);">0 đơn hàng (Mới tạo)</span></td>
-      <td><strong style="color: var(--primary); font-size: 1.05rem;">0đ</strong></td>
-      <td><span class="badge-status ${isLocked ? 'danger' : 'success'}">${isLocked ? 'ĐÃ KHOÁ' : 'ĐANG HOẠT ĐỘNG'}</span></td>
-      <td>
-        <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem;" onclick="showToast('Hồ sơ thành viên: ' + '${safeName}', 'info')" title="Xem Hồ Sơ"><i class="fas fa-eye"></i></button>
-        <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem;" onclick="openEditUserModal('', this)" title="Sửa"><i class="fas fa-edit"></i> Sửa</button>
-        <button class="btn-action-lock" onclick="toggleLockUser(this, '${safeName}')" title="${isLocked ? 'Mở khoá' : 'Khoá'}"><i class="fas fa-${isLocked ? 'unlock' : 'lock'}"></i> ${isLocked ? 'Mở khoá' : 'Khoá'}</button>
-      </td>
-    `;
-    tbody.insertBefore(tr, tbody.firstChild);
+  const userObj = {
+    id: userId,
+    fullname,
+    username,
+    email,
+    phone,
+    role,
+    status,
+    password,
+    spent: '0đ',
+    orders: '0 đơn hàng (Mới tạo)',
+    createdAt
+  };
+
+  // Lưu vào localStorage để dữ liệu lưu trữ bền vững (không bị mất khi F5)
+  try {
+    const customUsers = JSON.parse(localStorage.getItem('admin_custom_users') || '[]');
+    customUsers.unshift(userObj);
+    localStorage.setItem('admin_custom_users', JSON.stringify(customUsers));
+  } catch (err) {
+    console.error('Error saving user to localStorage:', err);
+  }
+
+  // Xác định chính xác bảng khách hàng (tránh chèn nhầm vào bảng đơn hàng ở dashboard admin/index.html)
+  const custTable = document.getElementById('customers-table') ||
+    (window.location.pathname.includes('customers.html') ? document.querySelector('.cart-table') : null);
+
+  if (custTable) {
+    const tbody = custTable.querySelector('tbody') || custTable;
+    if (tbody) {
+      const isLocked = status === 'locked';
+      const safeName = fullname.replace(/"/g, '&quot;').replace(/'/g, "\\'");
+      const tr = document.createElement('tr');
+      tr.setAttribute('data-custom-user-id', userId);
+      tr.innerHTML = `
+        <td><span class="badge-status" style="background: rgba(0,255,136,0.15); color: var(--primary); border: 1px solid var(--primary); font-weight: 700;">MỚI</span></td>
+        <td><strong>${fullname}</strong><br><small style="color: var(--text-muted);">${username} (${role.toUpperCase()})</small></td>
+        <td>${phone}<br><small style="color: var(--text-dim);">${email}</small></td>
+        <td><span style="color: var(--text-muted);">0 đơn hàng (Mới tạo)</span></td>
+        <td><strong style="color: var(--primary); font-size: 1.05rem;">0đ</strong></td>
+        <td><span class="badge-status ${isLocked ? 'danger' : 'success'}">${isLocked ? 'ĐÃ KHOÁ' : 'ĐANG HOẠT ĐỘNG'}</span></td>
+        <td>
+          <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem;" onclick="openCustomerDetailModal('${userId}')" title="Xem Hồ Sơ"><i class="fas fa-eye"></i></button>
+          <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem;" onclick="openEditUserModal('', this)" title="Sửa"><i class="fas fa-edit"></i> Sửa</button>
+          <button class="${isLocked ? 'btn-action-unlock' : 'btn-action-lock'}" onclick="toggleLockUser(this, '${safeName}')" title="${isLocked ? 'Mở khoá' : 'Khoá'}"><i class="fas fa-${isLocked ? 'lock-open' : 'lock'}"></i> ${isLocked ? 'Mở khoá' : 'Khoá'}</button>
+        </td>
+      `;
+      tbody.insertBefore(tr, tbody.firstChild);
+    }
   }
 
   showToast('Đã tạo tài khoản thành viên "' + fullname + '" thành công (không ràng buộc)!', 'success');
@@ -2214,6 +2278,10 @@ function openEditUserModal(customerKey, btn) {
       const pText = currentEditingUserRow.cells[2].childNodes[0] ? currentEditingUserRow.cells[2].childNodes[0].textContent.trim() : '';
       phoneEl.value = pText;
     }
+    const smallEmail = currentEditingUserRow.cells[2] ? currentEditingUserRow.cells[2].querySelector('small') : null;
+    if (emailEl && smallEmail) {
+      emailEl.value = smallEmail.textContent.trim();
+    }
     const badge = currentEditingUserRow.querySelector('.badge-status');
     if (badge && statusEl) {
       statusEl.value = badge.textContent.includes('KHOÁ') ? 'locked' : 'active';
@@ -2231,28 +2299,45 @@ function saveEditUser(e) {
   if (e && e.preventDefault) e.preventDefault();
   const nameEl = document.getElementById('edit-user-fullname');
   const name = nameEl ? nameEl.value.trim() || 'Người dùng' : 'Người dùng';
+  const phoneEl = document.getElementById('edit-user-phone');
+  const emailEl = document.getElementById('edit-user-email');
+  const statusEl = document.getElementById('edit-user-status');
 
   if (currentEditingUserRow) {
-    const strong = currentEditingUserRow.querySelector('strong');
-    if (strong && nameEl) strong.textContent = name;
-    const phoneEl = document.getElementById('edit-user-phone');
+    const oldStrong = currentEditingUserRow.querySelector('strong');
+    const oldName = oldStrong ? oldStrong.textContent.trim() : '';
+    if (oldStrong && nameEl) oldStrong.textContent = name;
+    
     if (phoneEl && currentEditingUserRow.cells[2]) {
-      const emailEl = document.getElementById('edit-user-email');
       const emailVal = emailEl ? emailEl.value.trim() : '';
       currentEditingUserRow.cells[2].innerHTML = (phoneEl.value.trim() || '') + (emailVal ? '<br><small style="color: var(--text-dim);">' + emailVal + '</small>' : '');
     }
-    const statusEl = document.getElementById('edit-user-status');
     const badge = currentEditingUserRow.querySelector('.badge-status');
-    const lockBtn = currentEditingUserRow.querySelector('.btn-action-lock');
+    const lockBtn = currentEditingUserRow.querySelector('.btn-action-lock, .btn-action-unlock');
     if (statusEl && badge) {
       const isLocked = statusEl.value === 'locked';
       badge.className = 'badge-status ' + (isLocked ? 'danger' : 'success');
       badge.textContent = isLocked ? 'ĐÃ KHOÁ' : 'ĐANG HOẠT ĐỘNG';
       if (lockBtn) {
-        lockBtn.innerHTML = `<i class="fas fa-${isLocked ? 'unlock' : 'lock'}"></i> ${isLocked ? 'Mở khoá' : 'Khoá'}`;
+        lockBtn.className = isLocked ? 'btn-action-unlock' : 'btn-action-lock';
+        lockBtn.innerHTML = `<i class="fas fa-${isLocked ? 'lock-open' : 'lock'}"></i> ${isLocked ? 'Mở khoá' : 'Khoá'}`;
         lockBtn.title = isLocked ? 'Mở khoá' : 'Khoá';
       }
     }
+
+    // Đồng bộ thay đổi vào localStorage nếu là người dùng tùy chỉnh
+    try {
+      const customUsers = JSON.parse(localStorage.getItem('admin_custom_users') || '[]');
+      const rowId = currentEditingUserRow.getAttribute('data-custom-user-id');
+      const matched = customUsers.find(u => (rowId && u.id === rowId) || u.fullname === oldName);
+      if (matched) {
+        matched.fullname = name;
+        if (phoneEl) matched.phone = phoneEl.value.trim();
+        if (emailEl) matched.email = emailEl.value.trim();
+        if (statusEl) matched.status = statusEl.value;
+        localStorage.setItem('admin_custom_users', JSON.stringify(customUsers));
+      }
+    } catch (err) {}
   }
 
   showToast('Đã lưu thay đổi thông tin người dùng "' + name + '" thành công!', 'success');
@@ -2268,21 +2353,72 @@ function toggleLockUser(btn, customerName) {
       if (isLocked) {
         badge.className = 'badge-status success';
         badge.textContent = 'ĐANG HOẠT ĐỘNG';
+        btn.className = 'btn-action-lock';
         btn.innerHTML = '<i class="fas fa-lock"></i> Khoá';
         btn.title = 'Khoá';
         showToast('Đã mở khoá tài khoản "' + customerName + '" thành công!', 'success');
-        return;
       } else {
         badge.className = 'badge-status danger';
         badge.textContent = 'ĐÃ KHOÁ';
-        btn.innerHTML = '<i class="fas fa-unlock"></i> Mở khoá';
+        btn.className = 'btn-action-unlock';
+        btn.innerHTML = '<i class="fas fa-lock-open"></i> Mở khoá';
         btn.title = 'Mở khoá';
         showToast('Đã khoá tài khoản "' + customerName + '" thành công!', 'info');
-        return;
       }
+
+      // Cập nhật trạng thái trong localStorage nếu là người dùng tùy chỉnh
+      try {
+        const customUsers = JSON.parse(localStorage.getItem('admin_custom_users') || '[]');
+        const rowId = row ? row.getAttribute('data-custom-user-id') : null;
+        const matched = customUsers.find(u => (rowId && u.id === rowId) || u.fullname === customerName);
+        if (matched) {
+          matched.status = isLocked ? 'active' : 'locked';
+          localStorage.setItem('admin_custom_users', JSON.stringify(customUsers));
+        }
+      } catch (err) {}
+      return;
     }
   }
   showToast('Đã cập nhật trạng thái tài khoản "' + customerName + '" thành công!', 'info');
+}
+
+function initCustomUsersTable() {
+  const custTable = document.getElementById('customers-table') ||
+    (window.location.pathname.includes('customers.html') ? document.querySelector('.cart-table') : null);
+  if (!custTable) return;
+  const tbody = custTable.querySelector('tbody') || custTable;
+  if (!tbody) return;
+
+  // Tránh render trùng lặp nếu hàm được gọi nhiều lần
+  if (tbody.querySelector('[data-custom-user-id]')) return;
+
+  try {
+    const customUsers = JSON.parse(localStorage.getItem('admin_custom_users') || '[]');
+    // Render custom users in reverse order so newest is at the top
+    for (let i = customUsers.length - 1; i >= 0; i--) {
+      const u = customUsers[i];
+      const isLocked = u.status === 'locked';
+      const safeName = (u.fullname || 'Người Dùng Mới').replace(/"/g, '&quot;').replace(/'/g, "\\'");
+      const tr = document.createElement('tr');
+      tr.setAttribute('data-custom-user-id', u.id || ('u_' + i));
+      tr.innerHTML = `
+        <td><span class="badge-status" style="background: rgba(0,255,136,0.15); color: var(--primary); border: 1px solid var(--primary); font-weight: 700;">MỚI</span></td>
+        <td><strong>${u.fullname || 'Người Dùng Mới'}</strong><br><small style="color: var(--text-muted);">${u.username || 'user'} (${(u.role || 'user').toUpperCase()})</small></td>
+        <td>${u.phone || '0938.222.111'}<br><small style="color: var(--text-dim);">${u.email || 'user@energyboost.vn'}</small></td>
+        <td><span style="color: var(--text-muted);">${u.orders || '0 đơn hàng (Mới tạo)'}</span></td>
+        <td><strong style="color: var(--primary); font-size: 1.05rem;">${u.spent || '0đ'}</strong></td>
+        <td><span class="badge-status ${isLocked ? 'danger' : 'success'}">${isLocked ? 'ĐÃ KHOÁ' : 'ĐANG HOẠT ĐỘNG'}</span></td>
+        <td>
+          <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem;" onclick="openCustomerDetailModal('${u.id || ''}')" title="Xem Hồ Sơ"><i class="fas fa-eye"></i></button>
+          <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem;" onclick="openEditUserModal('', this)" title="Sửa"><i class="fas fa-edit"></i> Sửa</button>
+          <button class="${isLocked ? 'btn-action-unlock' : 'btn-action-lock'}" onclick="toggleLockUser(this, '${safeName}')" title="${isLocked ? 'Mở khoá' : 'Khoá'}"><i class="fas fa-${isLocked ? 'lock-open' : 'lock'}"></i> ${isLocked ? 'Mở khoá' : 'Khoá'}</button>
+        </td>
+      `;
+      tbody.insertBefore(tr, tbody.firstChild);
+    }
+  } catch (err) {
+    console.error('Error loading custom users:', err);
+  }
 }
 
 // ==========================================================================
@@ -2670,12 +2806,14 @@ if (typeof document !== 'undefined') {
         renderVoucherChips();
       }
       initPriceFormatting();
+      initCustomUsersTable();
     });
   } else {
     if (document.getElementById('voucher-chips-list')) {
       renderVoucherChips();
     }
     initPriceFormatting();
+    initCustomUsersTable();
   }
 }
 
