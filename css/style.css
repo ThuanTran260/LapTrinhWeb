@@ -4210,6 +4210,16 @@ button {
 .search-results-dropdown.is-open {
   display: block;
 }
+.sidebar-search-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  width: 100%;
+  min-width: 270px;
+  max-width: 320px;
+  z-index: 1000;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.85), 0 0 20px rgba(0, 230, 118, 0.18);
+}
 .search-dropdown-header {
   display: flex;
   justify-content: space-between;

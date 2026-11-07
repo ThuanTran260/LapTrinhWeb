@@ -1636,6 +1636,23 @@ function toggleSearchDropdown() {
   }
 }
 
+function openSidebarSearchDropdown() {
+  const dropdown = document.getElementById('sidebar-search-dropdown-menu');
+  if (dropdown) dropdown.classList.add('is-open');
+}
+
+function closeSidebarSearchDropdown() {
+  const dropdown = document.getElementById('sidebar-search-dropdown-menu');
+  if (dropdown) dropdown.classList.remove('is-open');
+}
+
+function toggleSidebarSearchDropdown() {
+  const dropdown = document.getElementById('sidebar-search-dropdown-menu');
+  if (dropdown) {
+    dropdown.classList.toggle('is-open');
+  }
+}
+
 function openAdvancedSearchModal() {
   const modal = document.getElementById('modal-adv-search');
   if (modal) {
@@ -2158,6 +2175,10 @@ document.addEventListener('click', function(e) {
   if (!searchBox) {
     closeSearchDropdown();
   }
+  const filterInputWrapper = e.target.closest('.filter-input-wrapper');
+  if (!filterInputWrapper) {
+    closeSidebarSearchDropdown();
+  }
   const advWrapper = e.target.closest('.adv-search-input-wrapper');
   if (!advWrapper) {
     closeAdvSuggestions();
@@ -2183,6 +2204,7 @@ document.addEventListener('click', function(e) {
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') {
     closeSearchDropdown();
+    closeSidebarSearchDropdown();
     closeAdvancedSearchModal();
     closeAdvSuggestions();
   } else if (e.key === 'Enter') {
