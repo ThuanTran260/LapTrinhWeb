@@ -1581,31 +1581,48 @@ button {
   text-transform: uppercase;
 }
 .badge-status {
-  padding: 4px 8px;
+  padding: 5px 12px;
   border-radius: var(--radius-sm);
-  font-size: 0.75rem;
+  font-size: 0.76rem;
   font-weight: 700;
+  letter-spacing: 0.4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  white-space: nowrap;
+  line-height: 1.2;
+  transition: all 0.2s ease;
 }
 .badge-status.success {
-  background: rgba(0, 230, 118, 0.15);
-  color: var(--primary);
-  border: 1px solid var(--primary);
+  background: rgba(57, 255, 20, 0.14);
+  color: #39FF14;
+  border: 1px solid rgba(57, 255, 20, 0.7);
+  box-shadow: 0 0 10px rgba(57, 255, 20, 0.25);
+  text-shadow: 0 0 6px rgba(57, 255, 20, 0.35);
 }
-.badge-status.warning {
-  background: rgba(255, 107, 0, 0.15);
-  color: var(--secondary);
-  border: 1px solid var(--secondary);
+.badge-status.warning,
+.badge-status.shipping {
+  background: rgba(255, 184, 0, 0.2);
+  color: #FFB800;
+  border: 1px solid rgba(255, 184, 0, 0.85);
+  box-shadow: 0 0 16px rgba(255, 184, 0, 0.4);
+  text-shadow: 0 0 8px rgba(255, 184, 0, 0.55);
 }
 .badge-status.info {
   background: rgba(0, 229, 255, 0.15);
-  color: var(--accent-cyan);
-  border: 1px solid var(--accent-cyan);
+  color: #00E5FF;
+  border: 1px solid rgba(0, 229, 255, 0.7);
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.25);
+  text-shadow: 0 0 6px rgba(0, 229, 255, 0.35);
 }
 .badge-status.locked,
 .badge-status.danger {
-  background: rgba(239, 68, 68, 0.18);
-  color: #EF4444;
-  border: 1px solid rgba(239, 68, 68, 0.4);
+  background: rgba(255, 59, 48, 0.16);
+  color: #FF3B30;
+  border: 1px solid rgba(255, 59, 48, 0.7);
+  box-shadow: 0 0 10px rgba(255, 59, 48, 0.25);
+  text-shadow: 0 0 6px rgba(255, 59, 48, 0.35);
 }
 .btn-action-lock {
   padding: 4px 8px;
