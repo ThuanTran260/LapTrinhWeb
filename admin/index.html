@@ -460,6 +460,42 @@
               <label class="admin-form-label">Tên Sản Phẩm <span class="req">*</span></label>
               <input type="text" id="edit-prod-name" class="admin-form-input" value="Monster Energy Original 355ml" required />
             </div>
+            <div class="admin-form-group full-width" style="margin-top: 4px; padding: 14px; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color); border-radius: var(--radius-md);">
+              <label class="admin-form-label" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; color: var(--accent-cyan); font-weight: 700;">
+                <span><i class="fas fa-images"></i> HÌNH ẢNH SẢN PHẨM THEO PHÂN SỐ LƯỢNG (LON / LỐC / THÙNG)</span>
+                <span style="font-size: 0.72rem; color: var(--text-dim); font-weight: normal;">3 Quy cách đóng gói</span>
+              </label>
+              
+              <div class="packaging-tier-group">
+                <!-- 1. Lon lẻ -->
+                <div class="packaging-tier-row">
+                  <span style="font-size: 0.85rem; font-weight: 600; color: var(--primary); display: flex; align-items: center; gap: 6px;">
+                    <i class="fas fa-wine-bottle"></i> 1. Lon lẻ
+                  </span>
+                  <input type="file" id="edit-prod-file" class="admin-form-input" accept="image/*" title="Chọn ảnh lon lẻ mới" />
+                  <input type="number" id="edit-prod-qty-single" class="admin-form-input" placeholder="Số lượng lon" value="1250" min="0" title="Số lượng lon tồn kho" />
+                </div>
+
+                <!-- 2. Lốc 6 lon -->
+                <div class="packaging-tier-row">
+                  <span style="font-size: 0.85rem; font-weight: 600; color: var(--secondary); display: flex; align-items: center; gap: 6px;">
+                    <i class="fas fa-cubes"></i> 2. Lốc 6 lon
+                  </span>
+                  <input type="file" id="edit-prod-file-pack" class="admin-form-input" accept="image/*" title="Chọn ảnh lốc 6 lon mới" />
+                  <input type="number" id="edit-prod-qty-pack" class="admin-form-input" placeholder="Số lượng lốc" value="180" min="0" title="Số lượng lốc tồn kho" />
+                </div>
+
+                <!-- 3. Thùng 24 lon -->
+                <div class="packaging-tier-row">
+                  <span style="font-size: 0.85rem; font-weight: 600; color: var(--accent-gold); display: flex; align-items: center; gap: 6px;">
+                    <i class="fas fa-box"></i> 3. Thùng 24 lon
+                  </span>
+                  <input type="file" id="edit-prod-file-case" class="admin-form-input" accept="image/*" title="Chọn ảnh thùng 24 lon mới" />
+                  <input type="number" id="edit-prod-qty-case" class="admin-form-input" placeholder="Số lượng thùng" value="45" min="0" title="Số lượng thùng tồn kho" />
+                </div>
+              </div>
+            </div>
+
             <div class="admin-form-group">
               <label class="admin-form-label">Thương Hiệu <span class="req">*</span></label>
               <input type="text" id="edit-prod-brand" class="admin-form-input" value="Monster Energy (Hà Lan)" required />
@@ -525,6 +561,42 @@
               <label class="admin-form-label">Tên Sản Phẩm Mới <span class="req">*</span></label>
               <input type="text" id="add-prod-name" class="admin-form-input" placeholder="VD: Monster Ultra Sunrise 500ml" required />
             </div>
+            <div class="admin-form-group full-width" style="margin-top: 4px; padding: 14px; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color); border-radius: var(--radius-md);">
+              <label class="admin-form-label" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; color: var(--accent-cyan); font-weight: 700;">
+                <span><i class="fas fa-images"></i> THÊM ẢNH SẢN PHẨM PHÂN THEO SỐ LƯỢNG (LON / LỐC / THÙNG)</span>
+                <span style="font-size: 0.72rem; color: var(--text-dim); font-weight: normal;">3 Quy cách đóng gói</span>
+              </label>
+              
+              <div class="packaging-tier-group">
+                <!-- 1. Lon lẻ -->
+                <div class="packaging-tier-row">
+                  <span style="font-size: 0.85rem; font-weight: 600; color: var(--primary); display: flex; align-items: center; gap: 6px;">
+                    <i class="fas fa-wine-bottle"></i> 1. Lon lẻ
+                  </span>
+                  <input type="file" id="add-prod-file" class="admin-form-input" accept="image/*" title="Chọn file ảnh lon lẻ" />
+                  <input type="number" id="add-prod-qty-single" class="admin-form-input" placeholder="Số lượng lon" value="150" min="0" title="Số lượng lon tồn kho" />
+                </div>
+
+                <!-- 2. Lốc 6 lon -->
+                <div class="packaging-tier-row">
+                  <span style="font-size: 0.85rem; font-weight: 600; color: var(--secondary); display: flex; align-items: center; gap: 6px;">
+                    <i class="fas fa-cubes"></i> 2. Lốc 6 lon
+                  </span>
+                  <input type="file" id="add-prod-file-pack" class="admin-form-input" accept="image/*" title="Chọn file ảnh lốc 6 lon" />
+                  <input type="number" id="add-prod-qty-pack" class="admin-form-input" placeholder="Số lượng lốc" value="25" min="0" title="Số lượng lốc tồn kho" />
+                </div>
+
+                <!-- 3. Thùng 24 lon -->
+                <div class="packaging-tier-row">
+                  <span style="font-size: 0.85rem; font-weight: 600; color: var(--accent-gold); display: flex; align-items: center; gap: 6px;">
+                    <i class="fas fa-box"></i> 3. Thùng 24 lon
+                  </span>
+                  <input type="file" id="add-prod-file-case" class="admin-form-input" accept="image/*" title="Chọn file ảnh thùng 24 lon" />
+                  <input type="number" id="add-prod-qty-case" class="admin-form-input" placeholder="Số lượng thùng" value="10" min="0" title="Số lượng thùng tồn kho" />
+                </div>
+              </div>
+            </div>
+
             <div class="admin-form-group">
               <label class="admin-form-label">Thương Hiệu / Dòng <span class="req">*</span></label>
               <select id="add-prod-brand" class="admin-form-select">
