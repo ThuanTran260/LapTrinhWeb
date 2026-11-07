@@ -50,16 +50,18 @@ def test_filter_select_wards():
     assert select_match, "Không tìm thấy thẻ <select id='filter-order-location'> trong admin/orders.html"
     select_body = select_match.group(1)
     
-    expected_wards = [
-        "Phường Bến Nghé",
-        "Phường Tân Định",
-        "Phường Phạm Ngũ Lão",
-        "Phường Võ Thị Sáu",
-        "Phường Đa Kao",
-        "Xã Bình Hưng"
+    expected_options = [
+        ("all", "Tất cả phường/xã (TP.HCM)"),
+        ("ben-nghe", "Phường Bến Nghé (Quận 1)"),
+        ("tan-dinh", "Phường Tân Định (Quận 1)"),
+        ("pham-ngu-lao", "Phường Phạm Ngũ Lão (Quận 1)"),
+        ("vo-thi-sau", "Phường Võ Thị Sáu (Quận 3 - sau sáp nhập)"),
+        ("da-kao", "Phường Đa Kao (Quận 1)"),
+        ("binh-hung", "Xã Bình Hưng (Bình Chánh)")
     ]
-    for ward in expected_wards:
-        assert ward in select_body, f"Thiếu phường/xã '{ward}' trong dropdown #filter-order-location"
+    for val, text in expected_options:
+        opt_pattern = rf'<option\s+value="{val}">\s*{re.escape(text)}\s*</option>'
+        assert re.search(opt_pattern, select_body), f"Thiếu option value='{val}' với text '{text}' trong dropdown #filter-order-location"
 
 @test("3. js/app.js: applyAdminOrderFilter() lấy text phường/xã đã chọn và hiển thị toast, KHÔNG ẩn hàng")
 def test_apply_filter_logic():
@@ -67,6 +69,7 @@ def test_apply_filter_logic():
     assert content is not None, "js/app.js không tồn tại!"
     
     assert "function applyAdminOrderFilter" in content, "Thiếu hàm applyAdminOrderFilter trong js/app.js"
+    assert "function resetAdminOrderFilter" in content, "Thiếu hàm resetAdminOrderFilter trong js/app.js"
     
     # Tìm thân hàm applyAdminOrderFilter
     fn_match = re.search(r'function\s+applyAdminOrderFilter\s*\(\)\s*\{([\s\S]*?)\n\}', content)
@@ -85,6 +88,13 @@ def test_apply_filter_logic():
     assert "style.display = 'none'" not in fn_body, "applyAdminOrderFilter không được ẩn hàng (style.display = 'none')"
     assert "display = 'none'" not in fn_body, "applyAdminOrderFilter không được ẩn hàng (display = 'none')"
     assert ".remove()" not in fn_body, "applyAdminOrderFilter không được xoá hàng (.remove())"
+
+    # Kiểm tra hàm resetAdminOrderFilter
+    reset_match = re.search(r'function\s+resetAdminOrderFilter\s*\(\)\s*\{([\s\S]*?)\n\}', content)
+    assert reset_match, "Không phân tích được thân hàm resetAdminOrderFilter"
+    reset_body = reset_match.group(1)
+    assert "filter-order-location" in reset_body, "resetAdminOrderFilter không tham chiếu tới filter-order-location"
+    assert ("locEl.value = 'all'" in reset_body or 'locEl.value = "all"' in reset_body), "resetAdminOrderFilter không đặt lại location về 'all'"
 
 @test("4. js/app.js: MOCK_ORDER_DATABASE cập nhật đơn #EB-8805 và #EB-8806 phản ánh P. Võ Thị Sáu")
 def test_order_database_addresses():

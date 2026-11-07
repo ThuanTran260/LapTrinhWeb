@@ -2304,13 +2304,13 @@ window.addEventListener('DOMContentLoaded', () => {
 // ==========================================================================
 function applyAdminOrderFilter() {
   const statusEl = document.getElementById('filter-order-status');
-  const status = statusEl ? statusEl.options[statusEl.selectedIndex].text : 'Tất cả';
+  const status = (statusEl && statusEl.selectedIndex >= 0 && statusEl.options[statusEl.selectedIndex]) ? statusEl.options[statusEl.selectedIndex].text : 'Tất cả';
   const fromEl = document.getElementById('filter-order-date-from');
   const toEl = document.getElementById('filter-order-date-to');
   const from = fromEl ? fromEl.value : '';
   const to = toEl ? toEl.value : '';
   const locEl = document.getElementById('filter-order-location');
-  const loc = locEl ? locEl.options[locEl.selectedIndex].text : 'Tất cả';
+  const loc = (locEl && locEl.selectedIndex >= 0 && locEl.options[locEl.selectedIndex]) ? locEl.options[locEl.selectedIndex].text : 'Tất cả';
   const kwEl = document.getElementById('filter-order-keyword');
   const kw = (kwEl ? kwEl.value : '').trim();
 
@@ -2325,6 +2325,10 @@ function resetAdminOrderFilter() {
   if (statusEl) statusEl.value = 'all';
   const locEl = document.getElementById('filter-order-location');
   if (locEl) locEl.value = 'all';
+  const fromEl = document.getElementById('filter-order-date-from');
+  if (fromEl) fromEl.value = '2026-10-01';
+  const toEl = document.getElementById('filter-order-date-to');
+  if (toEl) toEl.value = '2026-10-17';
   const kwEl = document.getElementById('filter-order-keyword');
   if (kwEl) kwEl.value = '';
   showToast('Đã đặt lại bộ lọc đơn hàng mặc định', 'info');
