@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kết Quả Tìm Kiếm | ENERGY BOOST STORE</title>
+  <meta name="description" content="Kết quả tìm kiếm sản phẩm nước tăng lực Monster Energy, Redbull Thái Lan và Sting PepsiCo chính hãng tại Energy Boost Store." />
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!-- Custom Style -->
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+
+  <!-- ==========================================================================
+       TOP BAR
+       ========================================================================== -->
+  <div class="top-bar">
+    <div class="container">
+      <div class="announcement-text">
+        <i class="fas fa-bolt"></i>
+        <span>ENERGY BOOST: Nhập mã <span class="coupon-badge" onclick="showToast('Đã chép mã giảm giá ENERGY10!', 'info')">ENERGY10</span> giảm ngay 10% cho đơn hàng đầu tiên!</span>
+      </div>
+      <div class="top-links">
+        <a href="../index.html"><i class="fas fa-arrow-left"></i> Trang Chủ</a>
+        <a href="orders.html"><i class="fas fa-clock-rotate-left"></i> Lịch Sử Đặt Hàng</a>
+        <a href="account.html"><i class="fas fa-user-circle"></i> Tài Khoản</a>
+        <a href="login.html"><i class="fas fa-sign-in-alt"></i> Đăng Nhập</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       HEADER (ĐỒNG BỘ CHUẨN DASHBOARD)
+       ========================================================================== -->
+  <header class="header">
+    <div class="container">
+      <div class="header-main">
+        <!-- Logo -->
+        <a href="../index.html" class="logo">
+          <div class="logo-icon">
+            <i class="fas fa-bolt"></i>
+          </div>
+          <div class="logo-text">
+            <span class="logo-title">ENERGY<span>BOOST</span></span>
+            <span class="logo-subtitle">HỆ THỐNG NƯỚC TĂNG LỰC CHÍNH HÃNG</span>
+          </div>
+        </a>
+
+        <!-- Search Bar (Static Dropdown) -->
+        <div class="search-box">
+          <div class="search-input-group">
+            <input type="text" class="search-input" placeholder="Tìm kiếm Monster Energy, Redbull, Sting..." autocomplete="off" onfocus="openSearchDropdown()" onclick="openSearchDropdown()" />
+            <button class="search-btn" type="button" onclick="handleHeaderSearchClick(this)" title="Tìm kiếm"><i class="fas fa-search"></i></button>
+            <button class="search-btn" type="button" onclick="openAdvancedSearchModal()" title="Bộ lọc nâng cao" style="background: rgba(255, 255, 255, 0.08); color: var(--accent-cyan); margin-left: 2px;"><i class="fas fa-sliders"></i></button>
+          </div>
+
+          <!-- Static Search Dropdown Menu -->
+          <div id="search-dropdown-menu" class="search-results-dropdown">
+            <div class="search-dropdown-header">
+              <span><i class="fas fa-fire" style="color: var(--secondary);"></i> SẢN PHẨM TÌM KIẾM PHỔ BIẾN</span>
+              <span style="font-size: 0.72rem; color: var(--text-dim);">5 sản phẩm hot</span>
+            </div>
+            <div class="search-static-list">
+              <a href="product-detail.html" class="search-static-item">
+                <div class="search-item-left">
+                  <img src="../assets/images/monster/original.webp" alt="Monster Original" class="search-item-thumb" />
+                  <div class="search-item-info">
+                    <h5>Monster Energy Original 355ml</h5>
+                    <span class="brand-badge monster">Monster Energy (Hà Lan)</span>
+                  </div>
+                </div>
+                <div class="search-item-right">
+                  <span class="search-item-price">45.000đ</span>
+                </div>
+              </a>
+              <a href="product-detail-redbull.html" class="search-static-item">
+                <div class="search-item-left">
+                  <img src="../assets/images/redbull/redbull-original.webp" alt="Redbull Original" class="search-item-thumb" />
+                  <div class="search-item-info">
+                    <h5>Nước Tăng Lực Redbull Original 250ml</h5>
+                    <span class="brand-badge redbull">Redbull Thái Lan</span>
+                  </div>
+                </div>
+                <div class="search-item-right">
+                  <span class="search-item-price">18.000đ</span>
+                </div>
+              </a>
+              <a href="product-detail-sting.html" class="search-static-item">
+                <div class="search-item-left">
+                  <img src="../assets/images/sting/sting-dau.webp" alt="Sting Dâu Đỏ" class="search-item-thumb" />
+                  <div class="search-item-info">
+                    <h5>Nước Tăng Lực Sting Dâu Tây Đỏ 330ml</h5>
+                    <span class="brand-badge sting">Sting PepsiCo</span>
+                  </div>
+                </div>
+                <div class="search-item-right">
+                  <span class="search-item-price">12.000đ</span>
+                </div>
+              </a>
+              <a href="product-detail.html" class="search-static-item">
+                <div class="search-item-left">
+                  <img src="../assets/images/monster/ultra-white.webp" alt="Monster Ultra White" class="search-item-thumb" />
+                  <div class="search-item-info">
+                    <h5>Monster Energy Ultra White 355ml (Zero)</h5>
+                    <span class="brand-badge monster">Monster Zero Sugar</span>
+                  </div>
+                </div>
+                <div class="search-item-right">
+                  <span class="search-item-price">48.000đ</span>
+                </div>
+              </a>
+              <a href="../index.html#combo-section" class="search-static-item" onclick="closeSearchDropdown()">
+                <div class="search-item-left">
+                  <img src="../assets/images/monster/original.webp" alt="Combo 24 Lon" class="search-item-thumb" />
+                  <div class="search-item-info">
+                    <h5>Combo Thùng 24 Lon Monster & Redbull</h5>
+                    <span class="brand-badge combo">Combo Tiết Kiệm</span>
+                  </div>
+                </div>
+                <div class="search-item-right">
+                  <span class="search-item-price">918.000đ</span>
+                </div>
+              </a>
+            </div>
+            <div class="search-dropdown-footer">
+              <span>Gợi ý theo tiêu chuẩn đề bài web</span>
+              <button type="button" class="btn-adv-search-trigger" onclick="closeSearchDropdown(); openAdvancedSearchModal();">
+                <i class="fas fa-sliders"></i> Tìm kiếm nâng cao
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Header Actions -->
+        <div class="header-actions">
+          <!-- Order History Shortcut -->
+          <a href="orders.html" class="action-btn" title="Lịch sử đơn hàng">
+            <div class="action-icon-wrapper">
+              <i class="fas fa-receipt" style="color: var(--accent-cyan);"></i>
+            </div>
+            <div class="action-text">
+              <span class="action-label">Đơn hàng</span>
+              <span class="action-value" style="color: var(--accent-cyan);">Lịch sử</span>
+            </div>
+          </a>
+
+          <!-- User Account Link -->
+          <a href="account.html" id="header-account-link" class="action-btn">
+            <div class="action-icon-wrapper">
+              <i class="fas fa-user"></i>
+            </div>
+            <div class="action-text">
+              <span class="action-label">Tài khoản</span>
+              <span class="action-value" id="header-account-value">Thành viên</span>
+            </div>
+          </a>
+
+          <!-- Cart Link -->
+          <a href="cart.html" class="action-btn">
+            <div class="action-icon-wrapper">
+              <i class="fas fa-shopping-cart"></i>
+              <span class="action-badge">7</span>
+            </div>
+            <div class="action-text">
+              <span class="action-label">Giỏ hàng</span>
+              <span class="action-value" style="color: var(--primary);">216.000đ</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="nav-bar">
+      <div class="container nav-container">
+        <ul class="nav-menu">
+          <li><a href="../index.html#monster-products" class="nav-link"><i class="fas fa-bolt" style="color: var(--primary);"></i> Monster</a></li>
+          <li><a href="../index.html#redbull-products" class="nav-link"><i class="fas fa-fire" style="color: var(--secondary);"></i> Redbull</a></li>
+          <li><a href="../index.html#sting-products" class="nav-link"><i class="fas fa-bolt" style="color: #FF0055;"></i> Sting</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ==========================================================================
+       MAIN CONTENT: SEARCH RESULTS
+       ========================================================================== -->
+  <main class="container" style="padding-top: 20px; padding-bottom: 60px;">
+    <!-- Breadcrumb -->
+    <div class="breadcrumb" style="margin-bottom: 20px;">
+      <a href="../index.html">Trang chủ</a>
+      <span>/</span>
+      <a href="search-results.html">Tìm kiếm</a>
+      <span>/</span>
+      <span id="search-breadcrumb-query">Kết quả tìm kiếm</span>
+    </div>
+
+    <!-- Search Header Hero Banner -->
+    <div class="search-header-hero" style="border-radius: var(--radius-lg); padding: 24px 28px; margin-bottom: 30px;">
+      <h1 class="search-header-title">
+        <i class="fas fa-magnifying-glass" style="color: var(--primary); margin-right: 10px;"></i>
+        KẾT QUẢ TÌM KIẾM
+      </h1>
+      <p class="search-header-sub">
+        <span>Từ khóa: <strong id="search-query-text" style="color: var(--primary); font-size: 1.05rem;">Tất cả sản phẩm</strong></span>
+        <span>•</span>
+        <span>Tìm thấy <strong id="search-count-number" style="color: var(--accent-cyan); font-size: 1.05rem;">10</strong> sản phẩm phù hợp</span>
+      </p>
+    </div>
+
+    <!-- 2-Column Catalog Layout with Left Sidebar Filter -->
+    <div class="catalog-dashboard-layout">
+      <!-- CỘT BÊN TRÁI: BỘ LỌC TÌM KIẾM NÂNG CAO (SIDEBAR FILTER) -->
+      <aside class="dashboard-filter-sidebar">
+        <div class="sidebar-filter-card">
+          <div class="sidebar-filter-header">
+            <h3 class="sidebar-filter-title">
+              <i class="fas fa-sliders"></i> BỘ LỌC TÌM KIẾM
+            </h3>
+            <span class="sidebar-filter-badge">Rubric 1.4</span>
+          </div>
+
+          <form id="search-filter-form" onsubmit="handleSearchResultsFilter(event)">
+            <!-- 1. Tên / Từ khóa -->
+            <div class="filter-group">
+              <label class="filter-group-title" for="search-filter-keyword">
+                <i class="fas fa-search" style="color: var(--primary);"></i> Tên sản phẩm / Từ khóa
+              </label>
+              <div class="filter-input-wrapper">
+                <i class="fas fa-magnifying-glass filter-input-icon"></i>
+                <input type="text" id="search-filter-keyword" name="keyword" class="filter-input" placeholder="VD: Original, Ultra, Dâu tây..." autocomplete="off" />
+              </div>
+            </div>
+
+            <!-- 2. Phân loại thương hiệu -->
+            <div class="filter-group">
+              <label class="filter-group-title">
+                <i class="fas fa-tags" style="color: var(--secondary);"></i> Phân loại thương hiệu
+              </label>
+              <div class="filter-options-list">
+                <label class="filter-option-label">
+                  <input type="radio" name="search-brand" value="all" checked />
+                  <span>Tất cả thương hiệu</span>
+                  <span class="filter-option-count">10 lon</span>
+                </label>
+                <label class="filter-option-label">
+                  <input type="radio" name="search-brand" value="monster" />
+                  <span>Monster Energy (Hà Lan)</span>
+                  <span class="filter-option-count">4 lon</span>
+                </label>
+                <label class="filter-option-label">
+                  <input type="radio" name="search-brand" value="redbull" />
+                  <span>Redbull Thái Lan</span>
+                  <span class="filter-option-count">3 lon</span>
+                </label>
+                <label class="filter-option-label">
+                  <input type="radio" name="search-brand" value="sting" />
+                  <span>Sting PepsiCo</span>
+                  <span class="filter-option-count">3 lon</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- 3. Khoảng giá -->
+            <div class="filter-group">
+              <label class="filter-group-title">
+                <i class="fas fa-dollar-sign" style="color: var(--accent-gold);"></i> Khoảng giá
+              </label>
+              <div class="filter-options-list">
+                <label class="filter-option-label">
+                  <input type="radio" name="search-price" value="all" checked />
+                  <span>Tất cả khoảng giá</span>
+                </label>
+                <label class="filter-option-label">
+                  <input type="radio" name="search-price" value="under20" />
+                  <span>Dưới 20.000đ</span>
+                  <span class="filter-option-count">12k - 18k</span>
+                </label>
+                <label class="filter-option-label">
+                  <input type="radio" name="search-price" value="20to50" />
+                  <span>20.000đ - 50.000đ</span>
+                  <span class="filter-option-count">20k - 50k</span>
+                </label>
+                <label class="filter-option-label">
+                  <input type="radio" name="search-price" value="over50" />
+                  <span>Trên 50.000đ</span>
+                  <span class="filter-option-count">Combo / Thùng</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Nút Lọc / Đặt lại -->
+            <div class="filter-actions">
+              <button type="submit" class="btn-filter-apply">
+                <i class="fas fa-filter"></i> Lọc Kết Quả
+              </button>
+              <button type="button" class="btn-filter-reset" onclick="resetSearchPageFilter()">
+                <i class="fas fa-rotate-left"></i> Đặt lại
+              </button>
+            </div>
+          </form>
+
+          <!-- Quick Navigation Links -->
+          <div style="margin-top: 20px; padding-top: 16px; border-top: 1px solid rgba(255, 255, 255, 0.08);">
+            <div style="font-size: 0.76rem; color: var(--text-dim); text-transform: uppercase; font-weight: 700; margin-bottom: 8px;">Thương hiệu nổi bật</div>
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+              <a href="../index.html#monster-products" style="font-size: 0.82rem; color: var(--text-muted); text-decoration: none; display: flex; align-items: center; justify-content: space-between; padding: 4px 6px; border-radius: 4px; transition: 0.2s;">
+                <span><i class="fas fa-bolt" style="color: var(--primary); margin-right: 6px;"></i> Monster Energy</span>
+                <i class="fas fa-chevron-right" style="font-size: 0.7rem;"></i>
+              </a>
+              <a href="../index.html#redbull-products" style="font-size: 0.82rem; color: var(--text-muted); text-decoration: none; display: flex; align-items: center; justify-content: space-between; padding: 4px 6px; border-radius: 4px; transition: 0.2s;">
+                <span><i class="fas fa-fire" style="color: var(--secondary); margin-right: 6px;"></i> Redbull Thái Lan</span>
+                <i class="fas fa-chevron-right" style="font-size: 0.7rem;"></i>
+              </a>
+              <a href="../index.html#sting-products" style="font-size: 0.82rem; color: var(--text-muted); text-decoration: none; display: flex; align-items: center; justify-content: space-between; padding: 4px 6px; border-radius: 4px; transition: 0.2s;">
+                <span><i class="fas fa-bolt" style="color: #FF0055; margin-right: 6px;"></i> Sting PepsiCo</span>
+                <i class="fas fa-chevron-right" style="font-size: 0.7rem;"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- CỘT BÊN PHẢI: KHU VỰC HIỂN THỊ SẢN PHẨM TÌM KIẾM -->
+      <div class="dashboard-products-column">
+        <!-- Products Grid Container -->
+        <div id="search-results-grid" class="products-grid">
+          <!-- Fallback static items will be updated dynamically by js/app.js -->
+          <!-- Can 1: Monster Original -->
+          <div class="product-card product-card-stitch">
+            <div class="product-card-micro-glow" style="background: #39FF14;"></div>
+            <div class="stitch-badge-group">
+              <span class="stitch-badge monster">HÀ LAN</span>
+            </div>
+            <div class="product-img-wrapper" onclick="window.location.href='product-detail.html'" title="Xem Monster Energy Original 355ml" role="link" tabindex="0">
+              <img src="../assets/images/monster/original.webp" alt="Monster Energy Original 355ml" class="product-img" loading="lazy" />
+            </div>
+            <div class="product-info">
+              <span class="product-cat">Monster Energy</span>
+              <a href="product-detail.html" class="product-title-link"><h3 class="product-title">Monster Energy Original 355ml</h3></a>
+              <div class="product-specs">
+                <span><i class="fas fa-wine-bottle"></i> 355ml</span>
+                <span><i class="fas fa-bolt"></i> Malaysia SX</span>
+              </div>
+              <div class="product-bottom">
+                <div class="product-price">
+                  <span class="price-current">45.000đ</span>
+                </div>
+                <div class="btn-card-group">
+                  <a href="product-detail.html" class="btn-view-detail"><i class="fas fa-eye"></i> Chi tiết</a>
+                  <button class="btn-add-stitch" title="Thêm vào giỏ" onclick="event.stopPropagation(); showToast('Đã thêm Monster Original vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Can 2: Redbull Original -->
+          <div class="product-card product-card-stitch">
+            <div class="product-card-micro-glow" style="background: #FFD700;"></div>
+            <div class="stitch-badge-group">
+              <span class="stitch-badge redbull">ORIGINAL</span>
+            </div>
+            <div class="product-img-wrapper" onclick="window.location.href='product-detail-redbull.html'" title="Xem Redbull Original 250ml" role="link" tabindex="0">
+              <img src="../assets/images/redbull/redbull-original.webp" alt="Redbull Original 250ml" class="product-img" loading="lazy" />
+            </div>
+            <div class="product-info">
+              <span class="product-cat">Redbull Energy</span>
+              <a href="product-detail-redbull.html" class="product-title-link"><h3 class="product-title">Nước Tăng Lực Redbull Original 250ml</h3></a>
+              <div class="product-specs">
+                <span><i class="fas fa-wine-bottle"></i> 250ml</span>
+                <span><i class="fas fa-bolt"></i> Kẽm & Vitamin</span>
+              </div>
+              <div class="product-bottom">
+                <div class="product-price">
+                  <span class="price-current" style="color: #FFD700;">18.000đ</span>
+                </div>
+                <div class="btn-card-group">
+                  <a href="product-detail-redbull.html" class="btn-view-detail"><i class="fas fa-eye"></i> Chi tiết</a>
+                  <button class="btn-add-stitch" title="Thêm vào giỏ" onclick="event.stopPropagation(); showToast('Đã thêm Redbull Original vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Can 3: Sting Dâu Đỏ -->
+          <div class="product-card product-card-stitch">
+            <div class="product-card-micro-glow" style="background: #FF0055;"></div>
+            <div class="stitch-badge-group">
+              <span class="stitch-badge sting">DÂU ĐỎ</span>
+            </div>
+            <div class="product-img-wrapper" onclick="window.location.href='product-detail-sting.html'" title="Xem Sting Dâu Tây Đỏ 330ml" role="link" tabindex="0">
+              <img src="../assets/images/sting/sting-dau.webp" alt="Sting Dâu Tây Đỏ 330ml" class="product-img" loading="lazy" />
+            </div>
+            <div class="product-info">
+              <span class="product-cat">Sting Energy</span>
+              <a href="product-detail-sting.html" class="product-title-link"><h3 class="product-title">Nước Tăng Lực Sting Dâu Tây Đỏ 330ml</h3></a>
+              <div class="product-specs">
+                <span><i class="fas fa-wine-bottle"></i> 330ml</span>
+                <span><i class="fas fa-fire" style="color: #FF0055;"></i> Nhân Sâm</span>
+              </div>
+              <div class="product-bottom">
+                <div class="product-price">
+                  <span class="price-current" style="color: #FF0055;">12.000đ</span>
+                </div>
+                <div class="btn-card-group">
+                  <a href="product-detail-sting.html" class="btn-view-detail"><i class="fas fa-eye"></i> Chi tiết</a>
+                  <button class="btn-add-stitch" title="Thêm vào giỏ" onclick="event.stopPropagation(); showToast('Đã thêm Sting Dâu Đỏ vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Static Pagination Strip (Rubric 1.5) -->
+        <div class="pagination-strip" style="margin-top: 36px;">
+          <a href="#" class="page-btn" title="Trang trước"><i class="fas fa-chevron-left"></i></a>
+          <a href="#" class="page-btn active">1</a>
+          <a href="#" class="page-btn">2</a>
+          <a href="#" class="page-btn">3</a>
+          <a href="#" class="page-btn" title="Trang sau"><i class="fas fa-chevron-right"></i></a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ==========================================================================
+       FOOTER
+       ========================================================================== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="logo" style="margin-bottom: 16px;">
+            <div class="logo-icon"><i class="fas fa-bolt"></i></div>
+            <div class="logo-text">
+              <span class="logo-title">ENERGY<span>BOOST</span></span>
+              <span class="logo-subtitle">HỆ THỐNG NƯỚC TĂNG LỰC CHÍNH HÃNG</span>
+            </div>
+          </div>
+          <p>Hệ thống cung cấp nước tăng lực Monster Energy và Redbull Thái Lan chính hãng số 1 tại Việt Nam.</p>
+          <p><i class="fas fa-map-marker-alt" style="color: var(--primary);"></i> 88 Nguyễn Huệ, Quận 1, TP. Hồ Chí Minh</p>
+          <p><i class="fas fa-phone-alt" style="color: var(--secondary);"></i> Hotline: 1900 6868 (8:00 - 22:00)</p>
+        </div>
+
+        <div class="footer-col">
+          <h3>CÁC DÒNG SẢN PHẨM</h3>
+          <ul class="footer-links">
+            <li><a href="product-detail.html">Monster Original 355ml</a></li>
+            <li><a href="product-detail.html">Monster Zero Ultra White</a></li>
+            <li><a href="product-detail-redbull.html">Redbull Original 250ml</a></li>
+            <li><a href="product-detail-sting.html">Sting Dâu Tây Đỏ</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h3>HỆ THỐNG TRANG</h3>
+          <ul class="footer-links">
+            <li><a href="../index.html">Trang Chủ (Index)</a></li>
+            <li><a href="cart.html">Giỏ Hàng Mẫu</a></li>
+            <li><a href="orders.html">Lịch Sử Đặt Hàng</a></li>
+            <li><a href="account.html">Tài Khoản Thành Viên</a></li>
+            <li><a href="search-results.html">Tìm Kiếm Sản Phẩm</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h3>HỖ TRỢ KHÁCH HÀNG</h3>
+          <p>Cam kết 100% chính hãng, giao hỏa tốc 2H, lon ướp lạnh sẵn.</p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 ENERGY BOOST STORE. Built with Pure Static HTML5 & CSS3. All Rights Reserved.</p>
+        <div style="display: flex; gap: 16px; font-size: 1.2rem; color: var(--text-dim);">
+          <i class="fab fa-cc-visa"></i>
+          <i class="fab fa-cc-mastercard"></i>
+          <i class="fas fa-wallet"></i>
+          <i class="fas fa-bolt" style="color: var(--primary);"></i>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modal Tìm Kiếm Nâng Cao -->
+  <div id="modal-adv-search" class="admin-modal-overlay">
+    <div class="admin-modal-card" style="max-width: 520px;">
+      <div class="admin-modal-header">
+        <h3 class="admin-modal-title"><i class="fas fa-sliders" style="color: var(--accent-cyan);"></i> Tìm Kiếm Nâng Cao</h3>
+        <button type="button" class="admin-modal-close" onclick="closeAdvancedSearchModal()">&times;</button>
+      </div>
+      <div class="admin-modal-body">
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">
+          Kết hợp nhiều tiêu chí tìm kiếm sản phẩm: Tên sản phẩm, Phân loại thương hiệu và Khoảng giá mong muốn.
+        </p>
+
+        <form onsubmit="handleAdvancedSearch(event)">
+          <div class="admin-form-group full-width" style="margin-bottom: 14px;">
+            <label class="admin-form-label"><i class="fas fa-search" style="color: var(--primary);"></i> Tên sản phẩm / Từ khóa</label>
+            <div class="adv-search-input-wrapper">
+              <input type="text" id="adv-search-keyword" class="admin-form-input" placeholder="VD: Original, Ultra, Dâu tây, Chai vàng..." value="Original" autocomplete="off" onfocus="openAdvSuggestions()" onclick="openAdvSuggestions()" oninput="openAdvSuggestions()" />
+              <div id="adv-search-suggestions" class="adv-search-suggestions"></div>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px;">
+            <div class="admin-form-group">
+              <label class="admin-form-label"><i class="fas fa-tags" style="color: var(--secondary);"></i> Phân loại thương hiệu</label>
+              <select id="adv-search-brand" class="admin-form-select">
+                <option value="all">Tất cả thương hiệu</option>
+                <option value="monster" selected>Monster Energy</option>
+                <option value="redbull">Redbull Thái Lan</option>
+                <option value="sting">Sting PepsiCo</option>
+              </select>
+            </div>
+
+            <div class="admin-form-group">
+              <label class="admin-form-label"><i class="fas fa-dollar-sign" style="color: var(--accent-gold);"></i> Khoảng giá</label>
+              <select id="adv-search-price" class="admin-form-select">
+                <option value="all">Tất cả khoảng giá</option>
+                <option value="under20">Dưới 20.000đ</option>
+                <option value="20to50" selected>20.000đ - 50.000đ</option>
+                <option value="over50">Trên 50.000đ</option>
+              </select>
+            </div>
+          </div>
+
+          <div id="adv-search-preview" style="background: rgba(0, 230, 118, 0.06); border: 1px solid rgba(0, 230, 118, 0.2); border-radius: var(--radius-sm); padding: 12px; margin-bottom: 16px; font-size: 0.82rem; color: var(--text-dim);">
+            <i class="fas fa-info-circle" style="color: var(--primary);"></i> Kết quả mẫu phù hợp tiêu chí: <strong style="color: #FFF;">Monster Energy Original 355ml (45.000đ)</strong>
+          </div>
+
+          <div class="admin-modal-footer" style="padding: 0; margin-top: 10px;">
+            <button type="button" class="btn-modal-cancel" onclick="closeAdvancedSearchModal()">Hủy</button>
+            <button type="submit" class="btn-modal-save" style="background: var(--primary); color: #000;">
+              <i class="fas fa-filter"></i> Lọc Kết Quả
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Core Script -->
+  <script src="../js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      if (typeof initSearchResultsPage === 'function') {
+        initSearchResultsPage();
+      }
+    });
+  </script>
+</body>
+</html>

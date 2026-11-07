@@ -295,27 +295,36 @@
         <h3 class="admin-modal-title"><i class="fas fa-user-plus" style="color: var(--primary);"></i> Thêm Người Dùng Mới</h3>
         <button type="button" class="admin-modal-close" onclick="closeAdminModal('modal-add-user')">&times;</button>
       </div>
-      <form id="form-add-user" onsubmit="saveAddUser(event)">
+      <form id="form-add-user" onsubmit="saveAddUser(event)" novalidate>
         <div class="admin-modal-body">
+          <div style="background: rgba(0, 255, 136, 0.08); border: 1px solid rgba(0, 255, 136, 0.25); border-radius: 6px; padding: 10px 14px; font-size: 0.82rem; color: var(--primary); display: flex; align-items: center; gap: 10px; margin-bottom: 16px;">
+            <i class="fas fa-bolt" style="font-size: 1rem;"></i>
+            <span><strong>Thêm nhanh không ràng buộc:</strong> Đã bỏ toàn bộ ràng buộc (không bắt buộc điền hết, email & số điện thoại linh hoạt, không giới hạn độ dài mật khẩu).</span>
+          </div>
+
           <div class="admin-form-grid">
             <div class="admin-form-group">
-              <label class="admin-form-label">Tên Đăng Nhập <span class="req">*</span></label>
-              <input type="text" id="add-user-username" class="admin-form-input" placeholder="VD: hoang_long" required />
+              <label class="admin-form-label">Tên Đăng Nhập</label>
+              <input type="text" id="add-user-username" class="admin-form-input" placeholder="VD: hoang_long (tùy chọn)" />
             </div>
             <div class="admin-form-group">
-              <label class="admin-form-label">Họ và Tên <span class="req">*</span></label>
-              <input type="text" id="add-user-fullname" class="admin-form-input" placeholder="VD: Hoàng Đức Long" required />
+              <label class="admin-form-label">Họ và Tên</label>
+              <input type="text" id="add-user-fullname" class="admin-form-input" placeholder="VD: Hoàng Đức Long (tùy chọn)" />
             </div>
             <div class="admin-form-group">
-              <label class="admin-form-label">Email Liên Hệ <span class="req">*</span></label>
-              <input type="email" id="add-user-email" class="admin-form-input" placeholder="long.hoang@gmail.com" required />
+              <label class="admin-form-label">Email Liên Hệ</label>
+              <input type="text" id="add-user-email" class="admin-form-input" placeholder="VD: long.hoang@gmail.com (tùy chọn)" />
             </div>
             <div class="admin-form-group">
-              <label class="admin-form-label">Số Điện Thoại <span class="req">*</span></label>
-              <input type="tel" id="add-user-phone" class="admin-form-input" placeholder="0938.222.111" required />
+              <label class="admin-form-label">Số Điện Thoại</label>
+              <input type="text" id="add-user-phone" class="admin-form-input" placeholder="VD: 0938.222.111 (tùy chọn)" />
             </div>
             <div class="admin-form-group">
-              <label class="admin-form-label">Phân Quyền / Vai Trò <span class="req">*</span></label>
+              <label class="admin-form-label">Mật Khẩu</label>
+              <input type="text" id="add-user-password" class="admin-form-input" placeholder="Tùy chọn (không giới hạn độ dài)" autocomplete="new-password" />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">Phân Quyền / Vai Trò</label>
               <select id="add-user-role" class="admin-form-select">
                 <option value="user" selected>Khách Hàng (User)</option>
                 <option value="vip">Khách Hàng VIP</option>
@@ -323,8 +332,8 @@
                 <option value="admin">Quản Trị Viên (Admin)</option>
               </select>
             </div>
-            <div class="admin-form-group">
-              <label class="admin-form-label">Trạng Thái Tài Khoản <span class="req">*</span></label>
+            <div class="admin-form-group full-width">
+              <label class="admin-form-label">Trạng Thái Tài Khoản</label>
               <select id="add-user-status" class="admin-form-select">
                 <option value="active" selected>Đang hoạt động</option>
                 <option value="locked">Đã khoá</option>
@@ -347,20 +356,20 @@
         <h3 class="admin-modal-title"><i class="fas fa-user-edit" style="color: var(--primary);"></i> Chỉnh Sửa Thông Tin Người Dùng</h3>
         <button type="button" class="admin-modal-close" onclick="closeAdminModal('modal-edit-user')">&times;</button>
       </div>
-      <form id="form-edit-user" onsubmit="saveEditUser(event)">
+      <form id="form-edit-user" onsubmit="saveEditUser(event)" novalidate>
         <div class="admin-modal-body">
           <div class="admin-form-grid">
             <div class="admin-form-group full-width">
-              <label class="admin-form-label">Họ và Tên <span class="req">*</span></label>
-              <input type="text" id="edit-user-fullname" class="admin-form-input" value="Phạm Minh Tuấn" required />
+              <label class="admin-form-label">Họ và Tên</label>
+              <input type="text" id="edit-user-fullname" class="admin-form-input" value="Phạm Minh Tuấn" />
             </div>
             <div class="admin-form-group">
-              <label class="admin-form-label">Số Điện Thoại <span class="req">*</span></label>
-              <input type="tel" id="edit-user-phone" class="admin-form-input" value="0977.888.999" required />
+              <label class="admin-form-label">Số Điện Thoại</label>
+              <input type="text" id="edit-user-phone" class="admin-form-input" value="0977.888.999" />
             </div>
             <div class="admin-form-group">
-              <label class="admin-form-label">Email Liên Hệ <span class="req">*</span></label>
-              <input type="email" id="edit-user-email" class="admin-form-input" value="minhtuan.pham@gmail.com" required />
+              <label class="admin-form-label">Email Liên Hệ</label>
+              <input type="text" id="edit-user-email" class="admin-form-input" value="minhtuan.pham@gmail.com" />
             </div>
             <div class="admin-form-group">
               <label class="admin-form-label">Hạng Thành Viên</label>
@@ -372,7 +381,7 @@
               </select>
             </div>
             <div class="admin-form-group">
-              <label class="admin-form-label">Trạng Thái Hoạt Động <span class="req">*</span></label>
+              <label class="admin-form-label">Trạng Thái Hoạt Động</label>
               <select id="edit-user-status" class="admin-form-select">
                 <option value="active" selected>Đang hoạt động</option>
                 <option value="locked">Đã khoá</option>

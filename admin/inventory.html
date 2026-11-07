@@ -314,11 +314,17 @@
             </div>
             <div class="admin-form-group">
               <label class="admin-form-label">Giá Bán Hiện Tại <span class="req">*</span></label>
-              <input type="text" id="edit-prod-price" class="admin-form-input" value="45.000đ" required />
+              <input type="text" id="edit-prod-price" class="admin-form-input price-format-input" value="45.000đ" required />
+              <div class="price-preview-tag" id="preview-edit-prod-price">
+                <i class="fas fa-tag"></i> <span class="price-preview-label">Xem trước:</span> <strong class="price-preview-val">45.000đ</strong> <span class="price-preview-words">(Bốn mươi lăm nghìn đồng)</span>
+              </div>
             </div>
             <div class="admin-form-group">
               <label class="admin-form-label">Giá Cũ (Niêm Yết)</label>
-              <input type="text" id="edit-prod-oldprice" class="admin-form-input" value="55.000đ" />
+              <input type="text" id="edit-prod-oldprice" class="admin-form-input price-format-input" value="55.000đ" />
+              <div class="price-preview-tag" id="preview-edit-prod-oldprice">
+                <i class="fas fa-tag"></i> <span class="price-preview-label">Xem trước:</span> <strong class="price-preview-val">55.000đ</strong> <span class="price-preview-words">(Năm mươi lăm nghìn đồng)</span>
+              </div>
             </div>
             <div class="admin-form-group">
               <label class="admin-form-label">Thể Tích <span class="req">*</span></label>
@@ -393,7 +399,10 @@
             </div>
             <div class="admin-form-group">
               <label class="admin-form-label">Giá Bán (VNĐ) <span class="req">*</span></label>
-              <input type="text" id="add-prod-price" class="admin-form-input" placeholder="VD: 48.000đ" required />
+              <input type="text" id="add-prod-price" class="admin-form-input price-format-input" placeholder="VD: 48.000đ" required />
+              <div class="price-preview-tag is-empty" id="preview-add-prod-price">
+                <i class="fas fa-tag"></i> <span class="price-preview-label">Xem trước:</span> <strong class="price-preview-val">0đ</strong> <span class="price-preview-words">(Chưa nhập giá)</span>
+              </div>
             </div>
             <div class="admin-form-group">
               <label class="admin-form-label">Thể Tích <span class="req">*</span></label>

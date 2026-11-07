@@ -57,9 +57,13 @@
           <p style="font-size: 0.85rem; color: var(--text-muted);">Cập nhật dữ liệu thời gian thực - 3 Thương hiệu chính thức</p>
         </div>
 
-        <div style="display: flex; align-items: center; gap: 16px;">
+        <div style="display: flex; align-items: center; gap: 12px;">
           <button class="btn-add-cart" style="padding: 10px 18px;" onclick="openAddProductModal()">
             <i class="fas fa-plus-circle"></i> Thêm Sản Phẩm Mới
+          </button>
+
+          <button class="btn-add-cart" style="padding: 10px 18px; background: rgba(0, 210, 255, 0.15); border: 1px solid var(--accent-cyan); color: var(--accent-cyan);" onclick="openAddUserModal()">
+            <i class="fas fa-user-plus"></i> Thêm Người Dùng
           </button>
 
           <div class="admin-user-pill">
@@ -466,11 +470,17 @@
             </div>
             <div class="admin-form-group">
               <label class="admin-form-label">Giá Bán Hiện Tại <span class="req">*</span></label>
-              <input type="text" id="edit-prod-price" class="admin-form-input" value="45.000đ" required />
+              <input type="text" id="edit-prod-price" class="admin-form-input price-format-input" value="45.000đ" required />
+              <div class="price-preview-tag" id="preview-edit-prod-price">
+                <i class="fas fa-tag"></i> <span class="price-preview-label">Xem trước:</span> <strong class="price-preview-val">45.000đ</strong> <span class="price-preview-words">(Bốn mươi lăm nghìn đồng)</span>
+              </div>
             </div>
             <div class="admin-form-group">
               <label class="admin-form-label">Giá Cũ (Niêm Yết)</label>
-              <input type="text" id="edit-prod-oldprice" class="admin-form-input" value="55.000đ" />
+              <input type="text" id="edit-prod-oldprice" class="admin-form-input price-format-input" value="55.000đ" />
+              <div class="price-preview-tag" id="preview-edit-prod-oldprice">
+                <i class="fas fa-tag"></i> <span class="price-preview-label">Xem trước:</span> <strong class="price-preview-val">55.000đ</strong> <span class="price-preview-words">(Năm mươi lăm nghìn đồng)</span>
+              </div>
             </div>
             <div class="admin-form-group">
               <label class="admin-form-label">Thể Tích <span class="req">*</span></label>
@@ -535,7 +545,10 @@
             </div>
             <div class="admin-form-group">
               <label class="admin-form-label">Giá Bán (VNĐ) <span class="req">*</span></label>
-              <input type="text" id="add-prod-price" class="admin-form-input" placeholder="VD: 48.000đ" required />
+              <input type="text" id="add-prod-price" class="admin-form-input price-format-input" placeholder="VD: 48.000đ" required />
+              <div class="price-preview-tag is-empty" id="preview-add-prod-price">
+                <i class="fas fa-tag"></i> <span class="price-preview-label">Xem trước:</span> <strong class="price-preview-val">0đ</strong> <span class="price-preview-words">(Chưa nhập giá)</span>
+              </div>
             </div>
             <div class="admin-form-group">
               <label class="admin-form-label">Thể Tích <span class="req">*</span></label>
@@ -622,6 +635,65 @@
           <i class="fas fa-gift"></i> Tặng Voucher VIP
         </button>
       </div>
+    </div>
+  <!-- Modal Thêm Người Dùng Mới (R2) -->
+  <div id="modal-add-user" class="admin-modal-overlay">
+    <div class="admin-modal-card" style="max-width: 540px;">
+      <div class="admin-modal-header">
+        <h3 class="admin-modal-title"><i class="fas fa-user-plus" style="color: var(--primary);"></i> Thêm Người Dùng Mới</h3>
+        <button type="button" class="admin-modal-close" onclick="closeAdminModal('modal-add-user')">&times;</button>
+      </div>
+      <form id="form-add-user" onsubmit="saveAddUser(event)" novalidate>
+        <div class="admin-modal-body">
+          <div style="background: rgba(0, 255, 136, 0.08); border: 1px solid rgba(0, 255, 136, 0.25); border-radius: 6px; padding: 10px 14px; font-size: 0.82rem; color: var(--primary); display: flex; align-items: center; gap: 10px; margin-bottom: 16px;">
+            <i class="fas fa-bolt" style="font-size: 1rem;"></i>
+            <span><strong>Thêm nhanh không ràng buộc:</strong> Đã bỏ toàn bộ ràng buộc (không bắt buộc điền hết, email & số điện thoại linh hoạt, không giới hạn độ dài mật khẩu).</span>
+          </div>
+
+          <div class="admin-form-grid">
+            <div class="admin-form-group">
+              <label class="admin-form-label">Tên Đăng Nhập</label>
+              <input type="text" id="add-user-username" class="admin-form-input" placeholder="VD: hoang_long (tùy chọn)" />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">Họ và Tên</label>
+              <input type="text" id="add-user-fullname" class="admin-form-input" placeholder="VD: Hoàng Đức Long (tùy chọn)" />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">Email Liên Hệ</label>
+              <input type="text" id="add-user-email" class="admin-form-input" placeholder="VD: long.hoang@gmail.com (tùy chọn)" />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">Số Điện Thoại</label>
+              <input type="text" id="add-user-phone" class="admin-form-input" placeholder="VD: 0938.222.111 (tùy chọn)" />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">Mật Khẩu</label>
+              <input type="text" id="add-user-password" class="admin-form-input" placeholder="Tùy chọn (không giới hạn độ dài)" autocomplete="new-password" />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label">Phân Quyền / Vai Trò</label>
+              <select id="add-user-role" class="admin-form-select">
+                <option value="user" selected>Khách Hàng (User)</option>
+                <option value="vip">Khách Hàng VIP</option>
+                <option value="staff">Nhân Viên Quản Kho</option>
+                <option value="admin">Quản Trị Viên (Admin)</option>
+              </select>
+            </div>
+            <div class="admin-form-group full-width">
+              <label class="admin-form-label">Trạng Thái Tài Khoản</label>
+              <select id="add-user-status" class="admin-form-select">
+                <option value="active" selected>Đang hoạt động</option>
+                <option value="locked">Đã khoá</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="admin-modal-footer">
+          <button type="button" class="btn-modal-cancel" onclick="closeAdminModal('modal-add-user')">Hủy bỏ</button>
+          <button type="submit" class="btn-modal-save"><i class="fas fa-check"></i> Lưu Người Dùng</button>
+        </div>
+      </form>
     </div>
   </div>
 

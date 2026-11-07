@@ -52,7 +52,7 @@
         <div class="search-box">
           <div class="search-input-group">
             <input type="text" class="search-input" placeholder="Tìm kiếm Monster Energy, Redbull, Sting..." autocomplete="off" onfocus="openSearchDropdown()" onclick="openSearchDropdown()" />
-            <button class="search-btn" type="button" onclick="toggleSearchDropdown()" title="Tìm kiếm"><i class="fas fa-search"></i></button>
+            <button class="search-btn" type="button" onclick="handleHeaderSearchClick(this)" title="Tìm kiếm"><i class="fas fa-search"></i></button>
             <button class="search-btn" type="button" onclick="openAdvancedSearchModal()" title="Bộ lọc nâng cao" style="background: rgba(255, 255, 255, 0.08); color: var(--accent-cyan); margin-left: 2px;"><i class="fas fa-sliders"></i></button>
           </div>
 
@@ -438,10 +438,126 @@
   </section>
 
   <!-- ==========================================================================
-       MAIN PRODUCTS CATALOG - BRAND 1: MONSTER ENERGY
+       MAIN PRODUCTS CATALOG WITH ADVANCED SEARCH SIDEBAR (DASHBOARD)
        ========================================================================== -->
-  <section id="monster-products" class="main-products-section">
+  <section class="main-catalog-container" style="padding: 24px 0 50px;">
     <div class="container">
+      <div class="catalog-dashboard-layout">
+        <!-- CỘT BÊN TRÁI: BỘ LỌC TÌM KIẾM NÂNG CAO (SIDEBAR FILTER COLUMN) -->
+        <aside class="dashboard-filter-sidebar">
+          <div class="sidebar-filter-card">
+            <div class="sidebar-filter-header">
+              <h3 class="sidebar-filter-title">
+                <i class="fas fa-sliders"></i> BỘ LỌC TÌM KIẾM
+              </h3>
+              <span class="sidebar-filter-badge">Rubric 1.4</span>
+            </div>
+
+            <form id="sidebar-filter-form" onsubmit="handleDashboardFilterSubmit(event)">
+              <!-- 1. Tên / Từ khóa -->
+              <div class="filter-group">
+                <label class="filter-group-title" for="sidebar-filter-keyword">
+                  <i class="fas fa-search" style="color: var(--primary);"></i> Tên sản phẩm / Từ khóa
+                </label>
+                <div class="filter-input-wrapper">
+                  <i class="fas fa-magnifying-glass filter-input-icon"></i>
+                  <input type="text" id="sidebar-filter-keyword" name="keyword" class="filter-input" placeholder="VD: Original, Ultra, Dâu tây..." autocomplete="off" />
+                </div>
+              </div>
+
+              <!-- 2. Phân loại thương hiệu -->
+              <div class="filter-group">
+                <label class="filter-group-title">
+                  <i class="fas fa-tags" style="color: var(--secondary);"></i> Phân loại thương hiệu
+                </label>
+                <div class="filter-options-list">
+                  <label class="filter-option-label">
+                    <input type="radio" name="sidebar-brand" value="all" checked />
+                    <span>Tất cả thương hiệu</span>
+                    <span class="filter-option-count">10 lon</span>
+                  </label>
+                  <label class="filter-option-label">
+                    <input type="radio" name="sidebar-brand" value="monster" />
+                    <span>Monster Energy</span>
+                    <span class="filter-option-count">4 lon</span>
+                  </label>
+                  <label class="filter-option-label">
+                    <input type="radio" name="sidebar-brand" value="redbull" />
+                    <span>Redbull Thái Lan</span>
+                    <span class="filter-option-count">3 lon</span>
+                  </label>
+                  <label class="filter-option-label">
+                    <input type="radio" name="sidebar-brand" value="sting" />
+                    <span>Sting PepsiCo</span>
+                    <span class="filter-option-count">3 lon</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- 3. Khoảng giá -->
+              <div class="filter-group">
+                <label class="filter-group-title">
+                  <i class="fas fa-dollar-sign" style="color: var(--accent-gold);"></i> Khoảng giá
+                </label>
+                <div class="filter-options-list">
+                  <label class="filter-option-label">
+                    <input type="radio" name="sidebar-price" value="all" checked />
+                    <span>Tất cả khoảng giá</span>
+                  </label>
+                  <label class="filter-option-label">
+                    <input type="radio" name="sidebar-price" value="under20" />
+                    <span>Dưới 20.000đ</span>
+                    <span class="filter-option-count">12k - 18k</span>
+                  </label>
+                  <label class="filter-option-label">
+                    <input type="radio" name="sidebar-price" value="20to50" />
+                    <span>20.000đ - 50.000đ</span>
+                    <span class="filter-option-count">20k - 50k</span>
+                  </label>
+                  <label class="filter-option-label">
+                    <input type="radio" name="sidebar-price" value="over50" />
+                    <span>Trên 50.000đ</span>
+                    <span class="filter-option-count">Combo / Thùng</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Nút Lọc / Đặt lại -->
+              <div class="filter-actions">
+                <button type="submit" class="btn-filter-apply">
+                  <i class="fas fa-filter"></i> Lọc Kết Quả
+                </button>
+                <button type="button" class="btn-filter-reset" onclick="resetDashboardFilter()">
+                  <i class="fas fa-rotate-left"></i> Đặt lại
+                </button>
+              </div>
+            </form>
+
+            <!-- Quick Navigation Shortcuts -->
+            <div style="margin-top: 20px; padding-top: 16px; border-top: 1px solid rgba(255, 255, 255, 0.08);">
+              <div style="font-size: 0.76rem; color: var(--text-dim); text-transform: uppercase; font-weight: 700; margin-bottom: 8px;">Xem nhanh theo hãng</div>
+              <div style="display: flex; flex-direction: column; gap: 6px;">
+                <a href="#monster-products" style="font-size: 0.82rem; color: var(--text-muted); text-decoration: none; display: flex; align-items: center; justify-content: space-between; padding: 4px 6px; border-radius: 4px; transition: 0.2s;">
+                  <span><i class="fas fa-bolt" style="color: var(--primary); margin-right: 6px;"></i> Monster Energy</span>
+                  <i class="fas fa-chevron-right" style="font-size: 0.7rem;"></i>
+                </a>
+                <a href="#redbull-products" style="font-size: 0.82rem; color: var(--text-muted); text-decoration: none; display: flex; align-items: center; justify-content: space-between; padding: 4px 6px; border-radius: 4px; transition: 0.2s;">
+                  <span><i class="fas fa-fire" style="color: var(--secondary); margin-right: 6px;"></i> Redbull Thái Lan</span>
+                  <i class="fas fa-chevron-right" style="font-size: 0.7rem;"></i>
+                </a>
+                <a href="#sting-products" style="font-size: 0.82rem; color: var(--text-muted); text-decoration: none; display: flex; align-items: center; justify-content: space-between; padding: 4px 6px; border-radius: 4px; transition: 0.2s;">
+                  <span><i class="fas fa-bolt" style="color: #FF0055; margin-right: 6px;"></i> Sting PepsiCo</span>
+                  <i class="fas fa-chevron-right" style="font-size: 0.7rem;"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        <!-- CỘT BÊN PHẢI: KHU VỰC HIỂN THỊ SẢN PHẨM -->
+        <div class="dashboard-products-column">
+          <!-- BRAND 1: MONSTER ENERGY -->
+          <section id="monster-products" class="main-products-section" style="padding: 0 0 36px 0;">
       <div class="section-title-wrapper">
         <h2 class="section-title">THƯƠNG HIỆU <span>MONSTER ENERGY</span></h2>
         <a href="pages/cart.html" class="btn-view-detail" style="font-size: 0.95rem; padding: 10px 18px;"><i class="fas fa-shopping-basket"></i> Xem Giỏ Hàng (7 lon)</a>
@@ -563,14 +679,12 @@
         </div>
 
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ==========================================================================
-       MAIN PRODUCTS CATALOG - BRAND 2: REDBULL THÁI LAN
-       ========================================================================== -->
-  <section id="redbull-products" class="main-products-section" style="padding-top: 20px;">
-    <div class="container">
+    <!-- ==========================================================================
+         MAIN PRODUCTS CATALOG - BRAND 2: REDBULL THÁI LAN
+         ========================================================================== -->
+    <section id="redbull-products" class="main-products-section" style="padding: 0 0 36px 0;">
       <div class="section-title-wrapper">
         <h2 class="section-title">THƯƠNG HIỆU <span>REDBULL (THÁI LAN)</span></h2>
         <a href="pages/product-detail-redbull.html" class="btn-view-detail" style="font-size: 0.95rem; padding: 10px 18px;"><i class="fas fa-info-circle"></i> Xem Chi Tiết Redbull</a>
@@ -664,14 +778,12 @@
         </div>
 
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ==========================================================================
-       MAIN PRODUCTS CATALOG - BRAND 3: STING ENERGY (SUNTORY PEPSICO)
-       ========================================================================== -->
-  <section id="sting-products" class="main-products-section" style="padding-top: 20px;">
-    <div class="container">
+    <!-- ==========================================================================
+         MAIN PRODUCTS CATALOG - BRAND 3: STING ENERGY (SUNTORY PEPSICO)
+         ========================================================================== -->
+    <section id="sting-products" class="main-products-section" style="padding: 0 0 10px 0;">
       <div class="section-title-wrapper">
         <h2 class="section-title">THƯƠNG HIỆU <span style="color: #FF0055;">STING (PEPSICO)</span></h2>
         <a href="pages/product-detail-sting.html" class="btn-view-detail" style="font-size: 0.95rem; padding: 10px 18px; border-color: rgba(255, 0, 85, 0.4);"><i class="fas fa-info-circle" style="color: #FF0055;"></i> Xem Chi Tiết Sting</a>
@@ -773,6 +885,9 @@
         <a href="#redbull-products" class="page-btn">2</a>
         <a href="#sting-products" class="page-btn active">3</a>
         <a href="#redbull-products" class="page-btn" title="Trang sau"><i class="fas fa-chevron-right"></i></a>
+      </div>
+    </section>
+        </div>
       </div>
     </div>
   </section>

@@ -1619,7 +1619,7 @@ function adminLogout(e) {
 }
 
 // ==========================================================================
-// 17. USER MANAGEMENT UI HANDLERS (R2 COMPLIANCE)
+// 17. USER MANAGEMENT UI HANDLERS (R2 COMPLIANCE - ZERO CONSTRAINTS / FAST BOOST)
 // ==========================================================================
 let currentEditingUserRow = null;
 
@@ -1631,9 +1631,46 @@ function openAddUserModal() {
 
 function saveAddUser(e) {
   if (e && e.preventDefault) e.preventDefault();
-  const fullname = (document.getElementById('add-user-fullname') || {}).value || 'Người Dùng Mới';
 
-  showToast('Đã tạo tài khoản thành viên "' + fullname + '" thành công!', 'success');
+  // Bỏ toàn bộ ràng buộc (zero constraints / boost mode):
+  // Không ép điền đầy đủ (required), không regex sđt, không ép định dạng email khắt khe, không ép độ dài mật khẩu.
+  const fullnameInput = document.getElementById('add-user-fullname');
+  const usernameInput = document.getElementById('add-user-username');
+  const emailInput = document.getElementById('add-user-email');
+  const phoneInput = document.getElementById('add-user-phone');
+  const roleInput = document.getElementById('add-user-role');
+  const statusInput = document.getElementById('add-user-status');
+
+  const fullname = (fullnameInput && fullnameInput.value.trim()) || 'Người Dùng Mới';
+  const username = (usernameInput && usernameInput.value.trim()) || ('user_' + Math.floor(1000 + Math.random() * 9000));
+  const email = (emailInput && emailInput.value.trim()) || (username + '@energyboost.vn');
+  const phone = (phoneInput && phoneInput.value.trim()) || '0938.222.111';
+  const role = (roleInput && roleInput.value) || 'user';
+  const status = (statusInput && statusInput.value) || 'active';
+
+  // Hiển thị trực quan ngay trên bảng khách hàng nếu đang ở admin/customers.html
+  const tbody = document.querySelector('.cart-table tbody');
+  if (tbody) {
+    const tr = document.createElement('tr');
+    const isLocked = status === 'locked';
+    const safeName = fullname.replace(/"/g, '&quot;').replace(/'/g, "\\'");
+    tr.innerHTML = `
+      <td><span class="badge-status" style="background: rgba(0,255,136,0.15); color: var(--primary); border: 1px solid var(--primary); font-weight: 700;">MỚI</span></td>
+      <td><strong>${fullname}</strong><br><small style="color: var(--text-muted);">${username} (${role.toUpperCase()})</small></td>
+      <td>${phone}<br><small style="color: var(--text-dim);">${email}</small></td>
+      <td><span style="color: var(--text-muted);">0 đơn hàng (Mới tạo)</span></td>
+      <td><strong style="color: var(--primary); font-size: 1.05rem;">0đ</strong></td>
+      <td><span class="badge-status ${isLocked ? 'danger' : 'success'}">${isLocked ? 'ĐÃ KHOÁ' : 'ĐANG HOẠT ĐỘNG'}</span></td>
+      <td>
+        <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem;" onclick="showToast('Hồ sơ thành viên: ' + '${safeName}', 'info')" title="Xem Hồ Sơ"><i class="fas fa-eye"></i></button>
+        <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem;" onclick="openEditUserModal('', this)" title="Sửa"><i class="fas fa-edit"></i> Sửa</button>
+        <button class="btn-action-lock" onclick="toggleLockUser(this, '${safeName}')" title="${isLocked ? 'Mở khoá' : 'Khoá'}"><i class="fas fa-${isLocked ? 'unlock' : 'lock'}"></i> ${isLocked ? 'Mở khoá' : 'Khoá'}</button>
+      </td>
+    `;
+    tbody.insertBefore(tr, tbody.firstChild);
+  }
+
+  showToast('Đã tạo tài khoản thành viên "' + fullname + '" thành công (không ràng buộc)!', 'success');
   closeAdminModal('modal-add-user');
   const form = document.getElementById('form-add-user');
   if (form) form.reset();
@@ -1669,13 +1706,58 @@ function openEditUserModal(customerKey, btn) {
 function saveEditUser(e) {
   if (e && e.preventDefault) e.preventDefault();
   const nameEl = document.getElementById('edit-user-fullname');
-  const name = nameEl ? nameEl.value : 'Người dùng';
+  const name = nameEl ? nameEl.value.trim() || 'Người dùng' : 'Người dùng';
+
+  if (currentEditingUserRow) {
+    const strong = currentEditingUserRow.querySelector('strong');
+    if (strong && nameEl) strong.textContent = name;
+    const phoneEl = document.getElementById('edit-user-phone');
+    if (phoneEl && currentEditingUserRow.cells[2]) {
+      const emailEl = document.getElementById('edit-user-email');
+      const emailVal = emailEl ? emailEl.value.trim() : '';
+      currentEditingUserRow.cells[2].innerHTML = (phoneEl.value.trim() || '') + (emailVal ? '<br><small style="color: var(--text-dim);">' + emailVal + '</small>' : '');
+    }
+    const statusEl = document.getElementById('edit-user-status');
+    const badge = currentEditingUserRow.querySelector('.badge-status');
+    const lockBtn = currentEditingUserRow.querySelector('.btn-action-lock');
+    if (statusEl && badge) {
+      const isLocked = statusEl.value === 'locked';
+      badge.className = 'badge-status ' + (isLocked ? 'danger' : 'success');
+      badge.textContent = isLocked ? 'ĐÃ KHOÁ' : 'ĐANG HOẠT ĐỘNG';
+      if (lockBtn) {
+        lockBtn.innerHTML = `<i class="fas fa-${isLocked ? 'unlock' : 'lock'}"></i> ${isLocked ? 'Mở khoá' : 'Khoá'}`;
+        lockBtn.title = isLocked ? 'Mở khoá' : 'Khoá';
+      }
+    }
+  }
 
   showToast('Đã lưu thay đổi thông tin người dùng "' + name + '" thành công!', 'success');
   closeAdminModal('modal-edit-user');
 }
 
 function toggleLockUser(btn, customerName) {
+  if (btn) {
+    const row = btn.closest('tr');
+    const badge = row ? row.querySelector('.badge-status') : null;
+    if (badge) {
+      const isLocked = badge.textContent.includes('KHOÁ');
+      if (isLocked) {
+        badge.className = 'badge-status success';
+        badge.textContent = 'ĐANG HOẠT ĐỘNG';
+        btn.innerHTML = '<i class="fas fa-lock"></i> Khoá';
+        btn.title = 'Khoá';
+        showToast('Đã mở khoá tài khoản "' + customerName + '" thành công!', 'success');
+        return;
+      } else {
+        badge.className = 'badge-status danger';
+        badge.textContent = 'ĐÃ KHOÁ';
+        btn.innerHTML = '<i class="fas fa-unlock"></i> Mở khoá';
+        btn.title = 'Mở khoá';
+        showToast('Đã khoá tài khoản "' + customerName + '" thành công!', 'info');
+        return;
+      }
+    }
+  }
   showToast('Đã cập nhật trạng thái tài khoản "' + customerName + '" thành công!', 'info');
 }
 
