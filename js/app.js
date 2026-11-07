@@ -2662,18 +2662,20 @@ function saveAddVoucher(e) {
   showToast(`Đã thêm mã Voucher mới "${code}" thành công! Hệ thống hiện đang quản lý ${MOCK_VOUCHERS_LIST.length} mã voucher chiến dịch.`, 'success');
 }
 
-// Auto-initialize voucher chips if on settings page
+// Auto-initialize components on DOM ready
 if (typeof document !== 'undefined') {
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
       if (document.getElementById('voucher-chips-list')) {
         renderVoucherChips();
       }
+      initPriceFormatting();
     });
   } else {
     if (document.getElementById('voucher-chips-list')) {
       renderVoucherChips();
     }
+    initPriceFormatting();
   }
 }
 
