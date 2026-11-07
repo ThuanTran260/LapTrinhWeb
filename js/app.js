@@ -2606,41 +2606,9 @@ function saveEditUser(e) {
 }
 
 function toggleLockUser(btn, customerName) {
-  if (btn) {
-    const row = btn.closest('tr');
-    const badge = row ? row.querySelector('.badge-status') : null;
-    if (badge) {
-      const isLocked = badge.textContent.includes('KHOÁ');
-      if (isLocked) {
-        badge.className = 'badge-status success';
-        badge.textContent = 'ĐANG HOẠT ĐỘNG';
-        btn.className = 'btn-action-lock';
-        btn.innerHTML = '<i class="fas fa-lock"></i> Khoá';
-        btn.title = 'Khoá';
-        showToast('Đã mở khoá tài khoản "' + customerName + '" thành công!', 'success');
-      } else {
-        badge.className = 'badge-status danger';
-        badge.textContent = 'ĐÃ KHOÁ';
-        btn.className = 'btn-action-unlock';
-        btn.innerHTML = '<i class="fas fa-lock-open"></i> Mở khoá';
-        btn.title = 'Mở khoá';
-        showToast('Đã khoá tài khoản "' + customerName + '" thành công!', 'info');
-      }
-
-      // Cập nhật trạng thái trong localStorage nếu là người dùng tùy chỉnh
-      try {
-        const customUsers = JSON.parse(localStorage.getItem('admin_custom_users') || '[]');
-        const rowId = row ? row.getAttribute('data-custom-user-id') : null;
-        const matched = customUsers.find(u => (rowId && u.id === rowId) || u.fullname === customerName);
-        if (matched) {
-          matched.status = isLocked ? 'active' : 'locked';
-          localStorage.setItem('admin_custom_users', JSON.stringify(customUsers));
-        }
-      } catch (err) {}
-      return;
-    }
-  }
-  showToast('Đã cập nhật trạng thái tài khoản "' + customerName + '" thành công!', 'info');
+  const isLocked = btn && btn.classList.contains('btn-action-unlock');
+  const action = isLocked ? 'mở khoá' : 'khoá';
+  showToast('Đã ' + action + ' tài khoản "' + customerName + '" thành công!', isLocked ? 'success' : 'info');
 }
 
 function initCustomUsersTable() {
