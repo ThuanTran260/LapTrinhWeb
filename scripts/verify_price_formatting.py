@@ -58,23 +58,23 @@ def main():
     if inv:
         check('id="edit-prod-price"' in inv and 'price-format-input' in inv, 
               "admin/inventory.html: edit-prod-price có class price-format-input")
-        check('id="preview-edit-prod-price"' in inv, 
-              "admin/inventory.html: có preview tag id=preview-edit-prod-price")
-        check('id="edit-prod-oldprice"' in inv and 'preview-edit-prod-oldprice' in inv, 
-              "admin/inventory.html: có preview tag id=preview-edit-prod-oldprice")
-        check('id="add-prod-price"' in inv and 'preview-add-prod-price' in inv, 
-              "admin/inventory.html: có preview tag id=preview-add-prod-price")
+        check('id="preview-edit-prod-price"' not in inv, 
+              "admin/inventory.html: ĐÃ XÓA preview tag id=preview-edit-prod-price")
+        check('id="preview-edit-prod-oldprice"' not in inv, 
+              "admin/inventory.html: ĐÃ XÓA preview tag id=preview-edit-prod-oldprice")
+        check('id="preview-add-prod-price"' not in inv, 
+              "admin/inventory.html: ĐÃ XÓA preview tag id=preview-add-prod-price")
 
     # 3. Check admin/index.html
     adm_idx = read_file('admin/index.html')
     check(adm_idx is not None, "admin/index.html tồn tại")
     if adm_idx:
-        check('id="preview-edit-prod-price"' in adm_idx, 
-              "admin/index.html: modal edit có preview tag preview-edit-prod-price")
-        check('id="preview-edit-prod-oldprice"' in adm_idx, 
-              "admin/index.html: modal edit có preview tag preview-edit-prod-oldprice")
-        check('id="preview-add-prod-price"' in adm_idx, 
-              "admin/index.html: modal add có preview tag preview-add-prod-price")
+        check('id="preview-edit-prod-price"' not in adm_idx, 
+              "admin/index.html: modal edit ĐÃ XÓA preview tag preview-edit-prod-price")
+        check('id="preview-edit-prod-oldprice"' not in adm_idx, 
+              "admin/index.html: modal edit ĐÃ XÓA preview tag preview-edit-prod-oldprice")
+        check('id="preview-add-prod-price"' not in adm_idx, 
+              "admin/index.html: modal add ĐÃ XÓA preview tag preview-add-prod-price")
 
     # 4. Check standalone edit pages
     edit_pages = [
@@ -90,10 +90,10 @@ def main():
         if content:
             check('id="standalone-edit-price"' in content, 
                   f"{page_path}: có input id=standalone-edit-price")
-            check('id="preview-standalone-edit-price"' in content, 
-                  f"{page_path}: có preview tag preview-standalone-edit-price")
-            check('id="preview-standalone-edit-oldprice"' in content, 
-                  f"{page_path}: có preview tag preview-standalone-edit-oldprice")
+            check('id="preview-standalone-edit-price"' not in content, 
+                  f"{page_path}: ĐÃ XÓA preview tag preview-standalone-edit-price")
+            check('id="preview-standalone-edit-oldprice"' not in content, 
+                  f"{page_path}: ĐÃ XÓA preview tag preview-standalone-edit-oldprice")
             check('id="standalone-card-price-display"' in content, 
                   f"{page_path}: có thẻ hiển thị giá card id=standalone-card-price-display")
 

@@ -1850,6 +1850,7 @@ button {
 }
 
 .price-preview-tag {
+  display: none !important;
   display: flex;
   align-items: center;
   gap: 6px;
