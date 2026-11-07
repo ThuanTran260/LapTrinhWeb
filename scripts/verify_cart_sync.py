@@ -29,7 +29,7 @@ check("cart.html summary total", "216.000đ" in cart_content, "Total should be 2
 index_content = open("index.html", encoding="utf-8").read()
 check("index.html header badge", '<span class="action-badge">7</span>' in index_content, "Cart badge in header should be 7")
 check("index.html header price", "216.000đ" in index_content, "Cart price in header should be 216.000đ")
-check("index.html view cart button", "Xem Giỏ Hàng (7 lon)" in index_content, "View cart button should say 7 lon")
+check("index.html view cart button removed", "Xem Giỏ Hàng (7 lon)" not in index_content, "Dashboard should not have redundant view cart button")
 
 # 3. Check product-detail pages
 detail_pages = [
