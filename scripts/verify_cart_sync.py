@@ -2,6 +2,10 @@ import os
 import re
 import sys
 
+# Ensure execution from project root directory regardless of invocation path
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+os.chdir(ROOT_DIR)
+
 if hasattr(sys.stdout, 'reconfigure'):
     sys.stdout.reconfigure(encoding='utf-8')
 

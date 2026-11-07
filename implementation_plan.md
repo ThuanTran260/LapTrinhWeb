@@ -6,12 +6,13 @@ Kế hoạch này giải quyết triệt để 100% các khiếm khuyết đư�
 3. **P0 - Sửa triệt để 4 card `Related Products`** trong `product-detail.html:216-271`.
 4. **P1 - Chuẩn hóa khái niệm Thumbnail trong `product-detail.html`**: Thumbnails phản ánh các góc nhìn / chi tiết của lon Original (không lấy vị khác làm thumbnail).
 5. **P1 - Đồng bộ chuẩn xác công thức tài chính `cart.html`**:
-   - `Original 45.000đ x 2 = 90.000đ`
-   - `Ultra White 48.000đ x 3 = 144.000đ`
-   - Tạm tính (5 lon): `90.000đ + 144.000đ = 234.000đ`
-   - Voucher `MONSTER10 (10%)`: `-23.400đ`
-   - Tổng thanh toán: **`210.600đ`**
-   - Header badge trên mọi trang: **`5`** lon | Giá hiển thị: **`210.600đ`**.
+   - `Monster Original 45.000đ x 2 = 90.000đ`
+   - `Redbull Original 18.000đ x 3 = 54.000đ`
+   - `Monster Ultra White 48.000đ x 2 = 96.000đ`
+   - Tạm tính (7 lon): `90.000đ + 54.000đ + 96.000đ = 240.000đ`
+   - Voucher `ENERGY10 (10%)`: `-24.000đ`
+   - Tổng thanh toán: **`216.000đ`**
+   - Header badge trên mọi trang: **`7`** lon | Giá hiển thị: **`216.000đ`**.
 6. **P1 - Rà soát dọn sạch text vị cũ** (Juice, Java, Rehab, Mango Loco...) ở Navigation, Search placeholder, Footer, Meta tags, và Orders table trong `admin.html`.
 7. **Thêm fallback an toàn**: Thuộc tính `onerror`, `loading="lazy"`.
 8. **Automated Verification Script**: Script tự động quét toàn repo đảm bảo **0 file nào còn sót `.jpg` cũ**, 0 link ảnh vỡ, và khớp 100% số liệu.
@@ -61,7 +62,7 @@ Tất cả các trang web (`index`, `product-detail`, `cart`, `admin`) bắt bu�
 - Thực thi lệnh đổi tên 8 file trong `assets/images/monster/` theo đúng bảng mục 1.
 
 ### Bước 2: Sửa `index.html`
-- `76, 80`: Cập nhật badge giỏ hàng `2` -> **`5`**, tổng tiền `216.000đ` -> **`210.600đ`**.
+- `170-178`: Cập nhật badge giỏ hàng -> **`7`**, tổng tiền -> **`216.000đ`**, nút xem giỏ hàng -> `Xem Giỏ Hàng (7 lon)`.
 - `55`: Search placeholder đổi thành `Tìm kiếm Original, Ultra White, Paradise, Punk Punch...`.
 - `91-96`: Nav menu: Tất Cả Hương Vị, Flash Sale Giờ Vàng, Monster Original, Monster Ultra Series, Monster Punch & Shots.
 - `124-139`: Side promo banners trỏ sang `ultra-punk-punch.webp` và `ultra-white.webp`.
@@ -74,7 +75,7 @@ Tất cả các trang web (`index`, `product-detail`, `cart`, `admin`) bắt bu�
 - `597-605`: Footer category links cập nhật dọn sạch vị cũ.
 
 ### Bước 3: Sửa `product-detail.html`
-- `54, 58`: Cập nhật badge giỏ hàng `2` -> **`5`**, tổng tiền `216.000đ` -> **`210.600đ`**.
+- `124-133`: Cập nhật badge giỏ hàng -> **`7`**, tổng tiền -> **`216.000đ`**.
 - `97`: Ảnh chính `original.webp`.
 - `99-112`: 4 Thumbnails góc nhìn lon Original (Chính diện, Móng cào xanh, Dinh dưỡng, Nắp lon) đều trỏ `original.webp`.
 - `216-271`: 4 Thẻ `Related Products` sửa toàn bộ sang file mới:
@@ -84,15 +85,14 @@ Tất cả các trang web (`index`, `product-detail`, `cart`, `admin`) bắt bu�
   4. `ultra-punk-punch.webp` (Monster Ultra Punk Punch - 50.000đ)
 
 ### Bước 4: Sửa `cart.html` (Checklist chi tiết 7 điểm)
-- `54, 58`: Badge giỏ hàng `2` -> **`5`**, tổng tiền `216.000đ` -> **`210.600đ`**.
-- `81`: Ảnh item 1 `original.webp` + `onerror="this.src='assets/images/monster/original.webp'"`.
-- `108-111`: Item 2 đổi ảnh sang `ultra-white.webp`, title `Monster Zero Ultra White 500ml`, cat `Monster Ultra | 0 Đường - 0 Calo`.
-- `115`: Đơn giá Item 2 sửa `50.000đ` -> **`48.000đ`**.
-- `123`: Thành tiền Item 2 (3 lon x 48k) sửa `150.000đ` -> **`144.000đ`**.
-- `144-145`: Tạm tính (5 lon) sửa `240.000đ` -> **`234.000đ`**.
-- `149-150`: Giảm giá voucher MONSTER10 (10%) sửa `-24.000đ` -> **`-23.400đ`**.
-- `166`: Tổng cộng sửa `216.000đ` -> **`210.600đ`**.
-- `169`: Toast checkout sửa `216.000đ` -> **`210.600đ`**.
+- Header title: `<i class="fas fa-shopping-basket"></i> GIỎ HÀNG CỦA BẠN (7 LON - 216.000đ)`
+- Item 1: `Monster Energy Original 355ml` (45.000đ x 2 = 90.000đ).
+- Item 2: `Nước Tăng Lực Redbull Original 250ml` (18.000đ x 3 = 54.000đ).
+- Item 3: `Monster Zero Ultra White 500ml` (48.000đ x 2 = 96.000đ).
+- Tạm tính (7 lon): `90.000đ + 54.000đ + 96.000đ = 240.000đ`.
+- Giảm giá voucher ENERGY10 (10%): `-24.000đ`.
+- Tổng thanh toán: **`216.000đ`**.
+- Nút xác nhận đặt hàng: `XÁC NHẬN ĐẶT HÀNG (216.000đ)`.
 
 ### Bước 5: Sửa `admin.html`
 - **Bảng Quản Lý Kho (8 dòng)**:
@@ -121,4 +121,4 @@ Dùng script PowerShell phân tích tất cả các thẻ `img[src]` trong 4 fil
 **Yêu cầu:** 100% file ảnh tồn tại trên đĩa, không có đường link nào bị 404.
 
 ### Kịch bản 3: Kiểm Tra Tính Toán Số Liệu `cart.html`
-Kiểm tra bằng script: `(2 * 45000) + (3 * 48000) - 23400 = 210600`. Đảm bảo các text `234.000đ`, `-23.400đ`, `210.600đ`, và `210.600đ` trên header khớp nhau hoàn toàn.
+Kiểm tra bằng script: `(2 * 45000) + (3 * 18000) + (2 * 48000) - 24000 = 216000`. Đảm bảo các text `240.000đ`, `-24.000đ`, `216.000đ`, và `7 lon` trên toàn bộ các trang khớp nhau hoàn toàn.
