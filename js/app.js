@@ -1639,7 +1639,7 @@ document.addEventListener('click', function(e) {
     if (searchBtn.querySelector('.fa-search') || searchBtn.title === 'Tìm kiếm') {
       const box = searchBtn.closest('.search-box');
       const input = box ? box.querySelector('.search-input') : document.querySelector('.search-input');
-      if (input && input.value.trim()) {
+      if (input) {
         e.preventDefault();
         executeHeaderSearch(input.value);
       }

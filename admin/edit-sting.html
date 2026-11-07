@@ -81,7 +81,7 @@
             <span class="badge-status success" style="margin-bottom: 12px; display: inline-block;"><i class="fas fa-check-circle"></i> SẴN HÀNG XUẤT KHO</span>
             <img src="../assets/images/sting/sting-dau.webp" alt="Nước Tăng Lực Sting Dâu Tây Đỏ 330ml" class="admin-edit-preview-img" onerror="this.src='../assets/images/sting/sting-dau.webp'" />
             <h3 style="color: #FFF; font-size: 1.15rem; margin-bottom: 6px;">Nước Tăng Lực Sting Dâu Tây Đỏ 330ml</h3>
-            <div style="color: #FF0055; font-size: 1.3rem; font-weight: 800; margin-bottom: 14px;">12.000đ <small style="font-size: 0.85rem; color: var(--text-dim); text-decoration: line-through;">15.000đ</small></div>
+            <div id="standalone-card-price-display" style="color: #FF0055; font-size: 1.3rem; font-weight: 800; margin-bottom: 14px;">12.000đ <small style="font-size: 0.85rem; color: var(--text-dim); text-decoration: line-through;">15.000đ</small></div>
             
             <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 12px; text-align: left; font-size: 0.82rem; line-height: 1.8;">
               <div><strong>Mã SKU:</strong> <span style="color: #FF0055;">ST-STRAWBERRY-330</span></div>
@@ -126,12 +126,18 @@
 
                 <div class="admin-form-group">
                   <label class="admin-form-label">Giá Bán Lẻ Hiện Tại <span class="req">*</span></label>
-                  <input type="text" class="admin-form-input" value="12.000đ" required />
+                  <input type="text" id="standalone-edit-price" class="admin-form-input price-format-input" value="12.000đ" required />
+                  <div class="price-preview-tag" id="preview-standalone-edit-price">
+                    <i class="fas fa-tag"></i> <span class="price-preview-label">Xem trước:</span> <strong class="price-preview-val">12.000đ</strong> <span class="price-preview-words">(Mười hai nghìn đồng)</span>
+                  </div>
                 </div>
 
                 <div class="admin-form-group">
                   <label class="admin-form-label">Giá Niêm Yết Cũ</label>
-                  <input type="text" class="admin-form-input" value="15.000đ" />
+                  <input type="text" id="standalone-edit-oldprice" class="admin-form-input price-format-input" value="15.000đ" />
+                  <div class="price-preview-tag" id="preview-standalone-edit-oldprice">
+                    <i class="fas fa-tag"></i> <span class="price-preview-label">Xem trước:</span> <strong class="price-preview-val">15.000đ</strong> <span class="price-preview-words">(Mười lăm nghìn đồng)</span>
+                  </div>
                 </div>
 
                 <div class="admin-form-group">
