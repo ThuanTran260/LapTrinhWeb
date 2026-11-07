@@ -152,7 +152,8 @@ def test_modal_cleanup_and_links():
         content = read_text(f)
         assert content is not None, f"File {f} không tồn tại!"
         assert 'id="modal-order-detail"' not in content, f"File {f} vẫn còn thừa modal #modal-order-detail!"
-        assert "order-detail.html?id=" in content, f"File {f} thiếu link sang order-detail.html?id="
+        expected_link = 'href="order-detail.html"' if f != "admin/customers.html" else 'href="order-detail.html?id='
+        assert expected_link in content, f"File {f} thiếu link sang trang chi tiết đơn hàng"
         
     store_files = ["pages/orders.html", "pages/account.html"]
     for f in store_files:

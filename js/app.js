@@ -611,9 +611,37 @@ function saveProductEdit(e) {
 }
 
 // 9b. Add Product Modal Logic
+function addProductImageField(listId = 'add-product-images') {
+  const list = document.getElementById(listId);
+  if (!list) return;
+  const isEdit = listId === 'edit-product-images';
+  const prefix = isEdit ? 'edit' : 'add';
+  const previewHandler = isEdit ? 'previewEditProductImage' : 'previewAddProductImage';
+  const number = list.children.length + 1;
+  const row = document.createElement('div');
+  row.className = 'product-image-row';
+  row.innerHTML = `
+    <label class="admin-form-label" for="${prefix}-prod-file-${number}">Hình ${number}</label>
+    <input type="file" id="${prefix}-prod-file-${number}" class="admin-form-input" accept="image/*" onchange="${previewHandler}(this)" title="Chọn hình ${number}" />
+    <img class="product-image-preview" alt="Xem trước hình ${number}" hidden />
+  `;
+  list.appendChild(row);
+}
+
+function resetAddProductImages() {
+  const list = document.getElementById('add-product-images');
+  if (!list) return;
+  Array.from(list.children).slice(3).forEach(row => row.remove());
+  list.querySelectorAll('.product-image-preview').forEach(img => {
+    img.hidden = true;
+    img.removeAttribute('src');
+  });
+}
+
 function openAddProductModal() {
   const form = document.getElementById('form-add-product');
   if (form) form.reset();
+  resetAddProductImages();
   const addPriceEl = document.getElementById('add-prod-price');
   if (addPriceEl) {
     setupPriceInput(addPriceEl);
@@ -632,6 +660,7 @@ function saveAddProduct(e) {
   const form = document.getElementById('form-add-product');
   if (form) {
     form.reset();
+    resetAddProductImages();
     const addPrice = document.getElementById('add-prod-price');
     if (addPrice) updatePricePreview(addPrice);
   }
@@ -1717,13 +1746,6 @@ function executeHeaderSearch(query) {
   go('pages/search-results.html' + (q ? '?q=' + encodeURIComponent(q) : ''));
 }
 
-function handleHeaderSearchClick(btn) {
-  const searchBox = btn ? btn.closest('.search-box') : null;
-  const input = searchBox ? searchBox.querySelector('.search-input') : document.querySelector('.search-input');
-  const val = input ? input.value : '';
-  executeHeaderSearch(val);
-}
-
 // 13c. Dashboard Sidebar Filter Submissions
 function filterDashboardInPlace(keyword, brand, price) {
   const cleanKw = cleanSearchQuery(keyword);
@@ -2184,21 +2206,6 @@ document.addEventListener('click', function(e) {
     closeAdvSuggestions();
   }
 
-  // Handle header search button click globally
-  const searchBtn = e.target.closest('.search-btn');
-  if (searchBtn) {
-    if (searchBtn.querySelector('.fa-sliders') || (searchBtn.getAttribute('onclick') && searchBtn.getAttribute('onclick').includes('openAdvancedSearchModal'))) {
-      return;
-    }
-    if (searchBtn.querySelector('.fa-search') || searchBtn.title === 'Tìm kiếm') {
-      const box = searchBtn.closest('.search-box');
-      const input = box ? box.querySelector('.search-input') : document.querySelector('.search-input');
-      if (input) {
-        e.preventDefault();
-        executeHeaderSearch(input.value);
-      }
-    }
-  }
 });
 
 document.addEventListener('keydown', function(e) {
@@ -2682,18 +2689,30 @@ function initCustomUsersTable() {
 // ==========================================================================
 function previewAddProductImage(e) {
   const input = (e && e.target) ? e.target : e;
-  if (input && input.files && input.files[0]) {
-    const reader = new FileReader();
-    reader.onload = function(evt) {
-      const img = document.getElementById('add-prod-preview');
-      if (img) img.src = evt.target.result;
-    };
-    reader.readAsDataURL(input.files[0]);
+  const row = input && input.closest('.product-image-row');
+  const img = row ? row.querySelector('.product-image-preview') : document.getElementById('add-prod-preview');
+  if (!input || !img) return;
+  if (!input.files || !input.files[0]) {
+    img.hidden = true;
+    img.removeAttribute('src');
+    return;
   }
+  const file = input.files[0];
+  const reader = new FileReader();
+  reader.onload = function(evt) {
+    if (input.files[0] !== file) return;
+    img.src = evt.target.result;
+    img.hidden = false;
+  };
+  reader.readAsDataURL(file);
 }
 
 function previewEditProductImage(e) {
   const input = (e && e.target) ? e.target : e;
+  if (input && input.closest('.product-image-row')) {
+    previewAddProductImage(input);
+    return;
+  }
   if (input && input.files && input.files[0]) {
     const reader = new FileReader();
     reader.onload = function(evt) {

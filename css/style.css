@@ -1759,6 +1759,36 @@ button {
   grid-column: 1 / -1;
 }
 
+.product-images-section {
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  gap: 12px;
+}
+
+.product-image-list {
+  display: grid;
+  gap: 12px;
+}
+
+.product-image-row {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+
+.product-image-row .product-image-preview {
+  width: 80px;
+  height: 90px;
+  object-fit: contain;
+}
+
+.product-image-add {
+  align-self: flex-start;
+  cursor: pointer;
+}
+
 .admin-form-label {
   font-size: 0.8rem;
   font-weight: 700;

@@ -109,6 +109,28 @@
 
             <form onsubmit="saveStandaloneEdit(event, 'Monster Energy Original 355ml')">
               <div class="admin-form-grid">
+                <div class="admin-form-group full-width product-images-section">
+                  <div class="admin-form-label"><i class="fas fa-images"></i> Chỉnh sửa ảnh</div>
+                  <div id="edit-product-images" class="product-image-list">
+                    <div class="product-image-row">
+                      <label class="admin-form-label" for="edit-prod-file">Hình 1</label>
+                      <input type="file" id="edit-prod-file" class="admin-form-input" accept="image/*" onchange="previewEditProductImage(this)" title="Chọn hình 1" />
+                      <img id="edit-prod-img-preview" src="../assets/images/monster/original.webp" class="product-image-preview" alt="Xem trước hình 1" />
+                    </div>
+                    <div class="product-image-row">
+                      <label class="admin-form-label" for="edit-prod-file-2">Hình 2</label>
+                      <input type="file" id="edit-prod-file-2" class="admin-form-input" accept="image/*" onchange="previewEditProductImage(this)" title="Chọn hình 2" />
+                      <img class="product-image-preview" alt="Xem trước hình 2" hidden />
+                    </div>
+                    <div class="product-image-row">
+                      <label class="admin-form-label" for="edit-prod-file-3">Hình 3</label>
+                      <input type="file" id="edit-prod-file-3" class="admin-form-input" accept="image/*" onchange="previewEditProductImage(this)" title="Chọn hình 3" />
+                      <img class="product-image-preview" alt="Xem trước hình 3" hidden />
+                    </div>
+                  </div>
+                  <button type="button" class="btn-view-detail product-image-add" onclick="addProductImageField('edit-product-images')"><i class="fas fa-plus"></i> Thêm ảnh</button>
+                </div>
+
                 <div class="admin-form-group full-width">
                   <label class="admin-form-label">Tên Sản Phẩm Đầy Đủ <span class="req">*</span></label>
                   <input type="text" class="admin-form-input" value="Monster Energy Original 355ml" required />
