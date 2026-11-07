@@ -162,6 +162,30 @@ def test_css_price_styles():
     assert "del.price-old" in css or ".price-old" in css, "style.css thiếu style cho price-old"
     assert ".product-price:has(.price-val)" in css or ".price-val" in css, "style.css có quy tắc định dạng layout cho sản phẩm giảm giá"
 
+@test("7. js/app.js: renderSearchResults() đồng bộ sale badge -18% và del.price-old 55.000đ")
+def test_js_search_results_sync():
+    js = read_file("js/app.js")
+    assert js, "js/app.js không tồn tại!"
+    assert 'renderSearchResults' in js, "Thiếu hàm renderSearchResults trong js/app.js"
+    assert '<span class="stitch-badge sale">-18%</span>' in js, "renderSearchResults trong js/app.js thiếu badge sale -18%"
+    assert '<del class="price-old">55.000đ</del>' in js, "renderSearchResults trong js/app.js thiếu <del class='price-old'>55.000đ</del>"
+    assert 'class="price-val"' in js, "renderSearchResults trong js/app.js thiếu class price-val"
+
+@test("8. CSS style.css: Fallback layout căn hàng ngang cho trình duyệt không hỗ trợ :has()")
+def test_css_universal_fallback():
+    css = read_file("css/style.css")
+    assert css, "css/style.css không tồn tại!"
+    # Kiểm tra .product-price có flex-wrap wrap và .price-label width 100% làm fallback phổ quát
+    price_block_match = re.search(r'\.product-price\s*\{([^}]*)\}', css)
+    assert price_block_match, "Không tìm thấy block .product-price trong style.css"
+    price_rules = price_block_match.group(1)
+    assert "flex-wrap: wrap" in price_rules or "wrap" in price_rules, ".product-price cần có flex-wrap: wrap để đảm bảo hiển thị ngang hàng trên mọi trình duyệt"
+    label_block_match = re.search(r'\.price-label\s*\{([^}]*)\}', css)
+    assert label_block_match, "Không tìm thấy block .price-label trong style.css"
+    label_rules = label_block_match.group(1)
+    assert "width: 100%" in label_rules or "width:100%" in label_rules, ".price-label cần có width: 100% để giá và giá gạch ngang cùng nằm trên dòng 2"
+
+
 def main():
     print("=" * 75)
     print("XÁC MINH: ĐỒNG BỘ GIẢM GIÁ VÀ BỘ LỌC PHƯỜNG/XÃ GỌN GÀNG (NO PARENTHESES)")
