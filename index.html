@@ -524,13 +524,16 @@
 
               <!-- Nút Lọc / Đặt lại -->
               <div class="filter-actions">
-                <button type="submit" class="btn-filter-apply">
+                <button type="submit" class="btn-filter-apply" title="Lọc ngay trên danh mục trang chủ">
                   <i class="fas fa-filter"></i> Lọc Kết Quả
                 </button>
-                <button type="button" class="btn-filter-reset" onclick="resetDashboardFilter()">
+                <button type="button" class="btn-filter-reset" onclick="resetDashboardFilter()" title="Khôi phục toàn bộ 10 lon nước">
                   <i class="fas fa-rotate-left"></i> Đặt lại
                 </button>
               </div>
+              <button type="button" class="btn-filter-reset" onclick="openSearchResultsFromDashboard()" style="margin-top: 10px; width: 100%; border-color: rgba(57, 255, 20, 0.35); color: var(--primary); font-size: 0.82rem; font-weight: 600;" title="Mở trang kết quả tìm kiếm chuyên biệt (search-results.html)">
+                <i class="fas fa-arrow-up-right-from-square"></i> Mở trang kết quả riêng
+              </button>
             </form>
 
             <!-- Quick Navigation Shortcuts -->

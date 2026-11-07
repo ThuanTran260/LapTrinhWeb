@@ -4923,6 +4923,10 @@ button {
     grid-template-columns: 1fr;
     gap: 24px;
   }
+  .sidebar-filter-card {
+    position: static;
+    top: auto;
+  }
 }
 
 .sidebar-filter-card {
