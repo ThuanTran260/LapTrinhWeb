@@ -2497,7 +2497,6 @@ function saveAddUser(e) {
         <td><strong style="color: var(--primary); font-size: 1.05rem;">0đ</strong></td>
         <td><span class="badge-status ${isLocked ? 'danger' : 'success'}">${isLocked ? 'ĐÃ KHOÁ' : 'ĐANG HOẠT ĐỘNG'}</span></td>
         <td>
-          <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem;" onclick="openCustomerDetailModal('${userId}')" title="Xem Hồ Sơ"><i class="fas fa-eye"></i></button>
           <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem;" onclick="openEditUserModal('', this)" title="Sửa"><i class="fas fa-edit"></i> Sửa</button>
           <button class="${isLocked ? 'btn-action-unlock' : 'btn-action-lock'}" onclick="toggleLockUser(this, '${safeName}')" title="${isLocked ? 'Mở khoá' : 'Khoá'}"><i class="fas fa-${isLocked ? 'lock-open' : 'lock'}"></i> ${isLocked ? 'Mở khoá' : 'Khoá'}</button>
         </td>
@@ -2627,7 +2626,6 @@ function initCustomUsersTable() {
         <td><strong style="color: var(--primary); font-size: 1.05rem;">${u.spent || '0đ'}</strong></td>
         <td><span class="badge-status ${isLocked ? 'danger' : 'success'}">${isLocked ? 'ĐÃ KHOÁ' : 'ĐANG HOẠT ĐỘNG'}</span></td>
         <td>
-          <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem;" onclick="openCustomerDetailModal('${u.id || ''}')" title="Xem Hồ Sơ"><i class="fas fa-eye"></i></button>
           <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem;" onclick="openEditUserModal('', this)" title="Sửa"><i class="fas fa-edit"></i> Sửa</button>
           <button class="${isLocked ? 'btn-action-unlock' : 'btn-action-lock'}" onclick="toggleLockUser(this, '${safeName}')" title="${isLocked ? 'Mở khoá' : 'Khoá'}"><i class="fas fa-${isLocked ? 'lock-open' : 'lock'}"></i> ${isLocked ? 'Mở khoá' : 'Khoá'}</button>
         </td>

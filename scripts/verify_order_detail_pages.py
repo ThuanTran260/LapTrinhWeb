@@ -144,16 +144,19 @@ def test_remove_tinh_from_admin():
         assert content is not None, f"File {f} không tồn tại!"
         assert "(TĨNH)" not in content, f"File {f} vẫn còn chữ '(TĨNH)'!"
 
-# --- Test 7: Dọn dẹp Modal #modal-order-detail và chuyển liên kết sang HTML riêng ---
-@test("7. Modal Cleanup & Routing: Không còn #modal-order-detail trên các trang admin, link sang order-detail.html")
+# --- Test 7: Bỏ nút Chi tiết/Xem trong admin, giữ liên kết đơn mua của khách hàng ---
+@test("7. Admin: Bỏ nút Chi tiết/Xem, giữ liên kết đơn mua và chi tiết đơn hàng storefront")
 def test_modal_cleanup_and_links():
     admin_files = ["admin/orders.html", "admin/customers.html", "admin/index.html"]
     for f in admin_files:
         content = read_text(f)
         assert content is not None, f"File {f} không tồn tại!"
         assert 'id="modal-order-detail"' not in content, f"File {f} vẫn còn thừa modal #modal-order-detail!"
-        expected_link = 'href="order-detail.html"' if f != "admin/customers.html" else 'href="order-detail.html?id='
-        assert expected_link in content, f"File {f} thiếu link sang trang chi tiết đơn hàng"
+        assert 'fa-eye' not in content, f"File {f} vẫn còn nút Chi tiết/Xem"
+        if f == "admin/customers.html":
+            assert 'href="order-detail.html?id=' in content, "Thiếu liên kết đơn hàng mua của khách hàng"
+        else:
+            assert 'href="order-detail.html"' not in content, f"File {f} vẫn còn nút chi tiết đơn hàng"
         
     store_files = ["pages/orders.html", "pages/account.html"]
     for f in store_files:
