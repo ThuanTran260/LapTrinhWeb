@@ -2026,7 +2026,6 @@ function renderSearchResults(products, keyword, page = 1) {
             <span class="price-current" style="color: #39FF14;">${defaultMonster.price}</span>
           </div>
           <div class="btn-card-group">
-            <a href="${detailLink}" class="btn-view-detail"><i class="fas fa-eye"></i> Chi tiết</a>
             <button class="btn-add-stitch" title="Thêm vào giỏ" onclick="event.stopPropagation(); showToast('Đã thêm Monster Original vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
           </div>
         </div>

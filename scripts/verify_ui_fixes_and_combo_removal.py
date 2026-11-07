@@ -38,12 +38,16 @@ style_css = open('css/style.css', encoding='utf-8').read()
 c3 = ('line-clamp: 2' in style_css or '-webkit-line-clamp: 2' in style_css) and ('min-height' in style_css)
 check("3. Product Card Alignment", c3, "CSS có quy chuẩn min-height và line-clamp: 2 cho tiêu đề để các thẻ thẳng hàng")
 
-# Check 4: Button uniformity - "Chi tiết" on cards, 0 "Xem" buttons in product cards
-flash_sale_part = re.search(r'id="flash-sale".*?</section>', idx_html, re.DOTALL)
-has_xem = bool(flash_sale_part and re.search(r'>\s*Xem\s*<', flash_sale_part.group(0)))
-has_chi_tiet_on_flash = bool(flash_sale_part and 'Chi tiết' in flash_sale_part.group(0))
-c4 = (not has_xem) and has_chi_tiet_on_flash
-check("4. Button Uniformity (Flash Sale vs Main)", c4, "Đồng bộ nút 'Chi tiết' trên toàn bộ các thẻ (không còn nút 'Xem')")
+# Check 4: Button uniformity - no "btn-view-detail" on product cards, uniformly have "btn-add-stitch"
+idx_card_groups = re.findall(r'<div class="btn-card-group">(.*?)</div>', idx_html, re.DOTALL)
+idx_has_detail = any('btn-view-detail' in g or 'Chi tiết' in g for g in idx_card_groups)
+idx_all_add_stitch = len(idx_card_groups) > 0 and all('btn-add-stitch' in g for g in idx_card_groups)
+search_html = open('pages/search-results.html', encoding='utf-8').read()
+search_card_groups = re.findall(r'<div class="btn-card-group">(.*?)</div>', search_html, re.DOTALL)
+search_clean = len(search_card_groups) > 0 and all('btn-view-detail' not in g and 'btn-add-stitch' in g for g in search_card_groups)
+
+c4 = (not idx_has_detail) and idx_all_add_stitch and search_clean
+check("4. Button Uniformity (Only btn-add-stitch, no btn-view-detail)", c4, f"Tất cả {len(idx_card_groups)} thẻ sản phẩm đều có duy nhất nút 'btn-add-stitch', không còn nút 'btn-view-detail'/'Chi tiết'")
 
 # Check 5: pages/account.html has both Header and Footer
 account_html = open('pages/account.html', encoding='utf-8').read()
