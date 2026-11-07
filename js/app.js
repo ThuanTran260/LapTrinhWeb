@@ -724,28 +724,11 @@ function numberToVietnameseWords(n) {
 function updatePricePreview(inputEl) {
   if (!inputEl) return;
   const parent = inputEl.closest('.admin-form-group') || inputEl.parentElement;
-  if (!parent) return;
-
-  let previewEl = parent.querySelector('.price-preview-tag');
-  if (!previewEl) {
-    previewEl = document.createElement('div');
-    previewEl.className = 'price-preview-tag';
-    if (inputEl.id) {
-      previewEl.id = 'preview-' + inputEl.id;
+  if (parent) {
+    const previewEl = parent.querySelector('.price-preview-tag');
+    if (previewEl) {
+      previewEl.remove();
     }
-    inputEl.insertAdjacentElement('afterend', previewEl);
-  }
-
-  const rawDigits = String(inputEl.value || '').replace(/\D/g, '');
-  if (!rawDigits) {
-    previewEl.className = 'price-preview-tag is-empty';
-    previewEl.innerHTML = '<i class="fas fa-tag"></i> <span class="price-preview-label">Xem trước:</span> <strong class="price-preview-val">0đ</strong> <span class="price-preview-words">(Chưa nhập giá)</span>';
-  } else {
-    const num = parseInt(rawDigits, 10);
-    const formatted = formatCurrencyVND(num);
-    const words = numberToVietnameseWords(num);
-    previewEl.className = 'price-preview-tag';
-    previewEl.innerHTML = `<i class="fas fa-tag"></i> <span class="price-preview-label">Xem trước:</span> <strong class="price-preview-val">${formatted}</strong> <span class="price-preview-words">(${words})</span>`;
   }
 
   syncStandaloneCardPrice();
@@ -1684,17 +1667,36 @@ function handleAdvancedSearch(e) {
   const brand = brandEl ? brandEl.value : 'all';
   const price = priceEl ? priceEl.value : 'all';
 
-  const params = new URLSearchParams();
-  if (q) params.set('q', q);
-  if (brand && brand !== 'all') params.set('brand', brand);
-  if (price && price !== 'all') params.set('price', price);
+  const brandLabels = { all: 'Tất cả thương hiệu', monster: 'Monster Energy', redbull: 'Redbull Thái Lan', sting: 'Sting PepsiCo' };
+  const priceLabels = { all: 'Tất cả khoảng giá', under20: 'Dưới 20.000đ', '20to50': '20.000đ - 50.000đ', over50: 'Trên 50.000đ' };
 
-  go('pages/search-results.html?' + params.toString());
+  const criteria = [];
+  if (q) criteria.push(`Từ khóa: "${q}"`);
+  if (brand !== 'all') criteria.push(brandLabels[brand] || brand);
+  if (price !== 'all') criteria.push(priceLabels[price] || price);
+
+  const criteriaText = criteria.length > 0 ? criteria.join(' | ') : 'Tất cả sản phẩm';
+  showToast(`Đã áp dụng bộ lọc nâng cao: ${criteriaText}`, 'success');
 }
 
 // 13b. Global Header Search Navigation (Enter or Search Button Click)
 function executeHeaderSearch(query) {
   const q = (query || '').trim();
+  const isSearchPage = window.location.pathname.includes('search-results.html') || !!document.getElementById('search-results-grid');
+  if (isSearchPage) {
+    const params = new URLSearchParams(window.location.search);
+    if (q) params.set('q', q);
+    else params.delete('q');
+    try {
+      window.history.pushState({}, '', window.location.pathname + (params.toString() ? '?' + params.toString() : ''));
+    } catch (err) {}
+    const sidebarKw = document.getElementById('search-filter-keyword');
+    if (sidebarKw) sidebarKw.value = q;
+    document.querySelectorAll('.search-input').forEach(inp => { if (inp) inp.value = q; });
+    renderSearchResults([], q, 1);
+    showToast('Đã tìm thấy 1 sản phẩm phù hợp!', 'info');
+    return;
+  }
   go('pages/search-results.html' + (q ? '?q=' + encodeURIComponent(q) : ''));
 }
 
@@ -1925,46 +1927,16 @@ function renderSearchResultsPagination(totalItems, currentPage) {
   const strip = document.querySelector('.dashboard-products-column .pagination-strip') || document.querySelector('.pagination-strip');
   if (!strip) return;
 
-  if (totalItems === 0) {
-    strip.style.display = 'none';
-    return;
-  }
-
   strip.style.display = 'flex';
-  const totalPages = Math.max(1, Math.ceil(totalItems / SEARCH_PAGE_SIZE));
-
-  let html = '';
-  // Nút Trước
-  if (currentPage > 1) {
-    html += `<a href="javascript:void(0)" class="page-btn" onclick="changeSearchPage(${currentPage - 1}); return false;" title="Trang trước"><i class="fas fa-chevron-left"></i></a>`;
-  } else {
-    html += `<span class="page-btn" style="opacity: 0.4; cursor: not-allowed;"><i class="fas fa-chevron-left"></i></span>`;
-  }
-
-  // Các trang đánh số
-  for (let p = 1; p <= totalPages; p++) {
-    if (p === currentPage) {
-      html += `<a href="javascript:void(0)" class="page-btn active" onclick="changeSearchPage(${p}); return false;">${p}</a>`;
-    } else {
-      html += `<a href="javascript:void(0)" class="page-btn" onclick="changeSearchPage(${p}); return false;">${p}</a>`;
-    }
-  }
-
-  // Nút Sau
-  if (currentPage < totalPages) {
-    html += `<a href="javascript:void(0)" class="page-btn" onclick="changeSearchPage(${currentPage + 1}); return false;" title="Trang sau"><i class="fas fa-chevron-right"></i></a>`;
-  } else {
-    html += `<span class="page-btn" style="opacity: 0.4; cursor: not-allowed;"><i class="fas fa-chevron-right"></i></span>`;
-  }
-
-  strip.innerHTML = html;
+  strip.innerHTML = `
+    <span class="page-btn" style="opacity: 0.4; cursor: not-allowed;" title="Trang trước"><i class="fas fa-chevron-left"></i></span>
+    <a href="javascript:void(0)" class="page-btn active" onclick="changeSearchPage(1); return false;" title="Trang 1 / 1">1</a>
+    <span class="page-btn" style="opacity: 0.4; cursor: not-allowed;" title="Trang sau"><i class="fas fa-chevron-right"></i></span>
+  `;
 }
 
 window.changeSearchPage = function(page) {
-  const totalPages = Math.max(1, Math.ceil(currentSearchProducts.length / SEARCH_PAGE_SIZE));
-  if (page < 1 || page > totalPages) return;
-  currentSearchPage = page;
-  renderSearchResults(currentSearchProducts, currentSearchKeyword, currentSearchPage);
+  currentSearchPage = 1;
   const container = document.getElementById('search-results-grid');
   if (container) {
     container.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -1972,87 +1944,72 @@ window.changeSearchPage = function(page) {
 };
 
 function renderSearchResults(products, keyword, page = 1) {
-  currentSearchProducts = products;
-  currentSearchKeyword = keyword;
-  currentSearchPage = page;
+  const defaultMonster = (typeof STATIC_PRODUCTS_CATALOG !== 'undefined' && STATIC_PRODUCTS_CATALOG.length > 0) ? STATIC_PRODUCTS_CATALOG[0] : {
+    id: 'mn-1',
+    name: 'Monster Energy Original 355ml',
+    brand: 'Monster Energy',
+    brandKey: 'monster',
+    price: '45.000đ',
+    priceKey: '20to50',
+    image: 'assets/images/monster/original.webp',
+    detailUrl: 'pages/product-detail.html',
+    tag: 'HÀ LAN',
+    keywords: 'energy boost nước tăng lực monster energy original hà lan nhập khẩu xanh lá'
+  };
+  currentSearchProducts = [defaultMonster];
+  currentSearchKeyword = keyword || '';
+  currentSearchPage = 1;
 
   const container = document.getElementById('search-results-grid');
   const countEl = document.getElementById('search-count-number');
   const queryTextEl = document.getElementById('search-query-text');
   const breadcrumbKw = document.getElementById('search-breadcrumb-query');
 
-  if (countEl) countEl.textContent = products.length;
+  if (countEl) countEl.textContent = '1';
   if (queryTextEl) {
     queryTextEl.textContent = keyword ? `"${keyword}"` : 'Tất cả sản phẩm';
   }
   if (breadcrumbKw) {
-    breadcrumbKw.textContent = keyword ? `"${keyword}"` : 'Tất cả sản phẩm';
+    breadcrumbKw.textContent = keyword ? `"${keyword}"` : 'Kết quả tìm kiếm';
   }
 
-  renderSearchResultsPagination(products.length, currentSearchPage);
+  renderSearchResultsPagination(1, 1);
 
   if (!container) return;
 
-  if (products.length === 0) {
-    container.innerHTML = `
-      <div class="search-empty-state" style="grid-column: 1 / -1; text-align: center; padding: 48px 20px; background: var(--bg-card); border: 1px dashed var(--border-color); border-radius: var(--radius-lg);">
-        <i class="fas fa-box-open" style="font-size: 3rem; color: var(--text-dim); margin-bottom: 16px;"></i>
-        <h3 style="color: #FFF; font-size: 1.25rem; margin-bottom: 8px;">Không tìm thấy sản phẩm phù hợp</h3>
-        <p style="color: var(--text-muted); font-size: 0.9rem; max-width: 480px; margin: 0 auto 20px;">
-          Rất tiếc, không có sản phẩm nào khớp với tiêu chí tìm kiếm của bạn. Thử tìm với từ khóa khác như <strong>Monster</strong>, <strong>Redbull</strong>, <strong>Sting</strong> hoặc đặt lại bộ lọc.
-        </p>
-        <button type="button" class="btn-filter-apply" style="display: inline-flex; width: auto; padding: 10px 24px; margin: 0 auto;" onclick="resetSearchPageFilter()">
-          <i class="fas fa-rotate-left"></i> Xem tất cả sản phẩm
-        </button>
-      </div>
-    `;
-    return;
-  }
-
   const isInsidePages = window.location.pathname.includes('/pages/') || window.location.href.includes('/pages/');
   const imgPrefix = isInsidePages ? '../' : '';
+  const detailLink = isInsidePages ? defaultMonster.detailUrl.replace('pages/', '') : defaultMonster.detailUrl;
+  const imgSrc = imgPrefix + defaultMonster.image;
 
-  const totalPages = Math.max(1, Math.ceil(products.length / SEARCH_PAGE_SIZE));
-  if (page > totalPages) page = totalPages;
-  const startIdx = (page - 1) * SEARCH_PAGE_SIZE;
-  const pageProducts = products.slice(startIdx, startIdx + SEARCH_PAGE_SIZE);
-
-  let html = '';
-  pageProducts.forEach(prod => {
-    const detailLink = isInsidePages ? prod.detailUrl.replace('pages/', '') : prod.detailUrl;
-    const imgSrc = imgPrefix + prod.image;
-    const glowColor = prod.brandKey === 'monster' ? '#39FF14' : (prod.brandKey === 'redbull' ? '#FFD700' : '#FF0055');
-
-    html += `
-      <div class="product-card product-card-stitch">
-        <div class="product-card-micro-glow" style="background: ${glowColor};"></div>
-        <div class="stitch-badge-group">
-          <span class="stitch-badge ${prod.brandKey}">${prod.tag || prod.brand}</span>
+  container.innerHTML = `
+    <div class="product-card product-card-stitch">
+      <div class="product-card-micro-glow" style="background: #39FF14;"></div>
+      <div class="stitch-badge-group">
+        <span class="stitch-badge monster">${defaultMonster.tag || 'HÀ LAN'}</span>
+      </div>
+      <div class="product-img-wrapper" onclick="window.location.href='${detailLink}'" title="Xem ${defaultMonster.name}" role="link" tabindex="0">
+        <img src="${imgSrc}" alt="${defaultMonster.name}" class="product-img" loading="lazy" onerror="this.src='${imgPrefix}assets/images/monster/original.webp'" />
+      </div>
+      <div class="product-info">
+        <span class="product-cat">${defaultMonster.brand}</span>
+        <a href="${detailLink}" class="product-title-link"><h3 class="product-title">${defaultMonster.name}</h3></a>
+        <div class="product-specs">
+          <span><i class="fas fa-wine-bottle"></i> 355ml</span>
+          <span><i class="fas fa-bolt"></i> Malaysia SX</span>
         </div>
-        <div class="product-img-wrapper" onclick="window.location.href='${detailLink}'" title="Xem ${prod.name}" role="link" tabindex="0">
-          <img src="${imgSrc}" alt="${prod.name}" class="product-img" loading="lazy" onerror="this.src='${imgPrefix}assets/images/monster/original.webp'" />
-        </div>
-        <div class="product-info">
-          <span class="product-cat">${prod.brand}</span>
-          <a href="${detailLink}" class="product-title-link"><h3 class="product-title">${prod.name}</h3></a>
-          <div class="product-specs">
-            <span><i class="fas fa-wine-bottle"></i> 250-500ml</span>
-            <span><i class="fas fa-shield-halved"></i> Chính Hãng</span>
+        <div class="product-bottom">
+          <div class="product-price">
+            <span class="price-current" style="color: #39FF14;">${defaultMonster.price}</span>
           </div>
-          <div class="product-bottom">
-            <div class="product-price">
-              <span class="price-current" style="color: ${glowColor};">${prod.price}</span>
-            </div>
-            <div class="btn-card-group">
-              <a href="${detailLink}" class="btn-view-detail"><i class="fas fa-eye"></i> Chi tiết</a>
-              <button class="btn-add-stitch" title="Thêm vào giỏ" onclick="event.stopPropagation(); showToast('Đã thêm ${prod.name} vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
-            </div>
+          <div class="btn-card-group">
+            <a href="${detailLink}" class="btn-view-detail"><i class="fas fa-eye"></i> Chi tiết</a>
+            <button class="btn-add-stitch" title="Thêm vào giỏ" onclick="event.stopPropagation(); showToast('Đã thêm Monster Original vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
           </div>
         </div>
       </div>
-    `;
-  });
-  container.innerHTML = html;
+    </div>
+  `;
 }
 
 function initSearchResultsPage() {
@@ -2075,8 +2032,7 @@ function initSearchResultsPage() {
   const priceRadio = document.querySelector(`input[name="search-price"][value="${price}"]`);
   if (priceRadio) priceRadio.checked = true;
 
-  const matched = filterProducts(q, brand, price);
-  renderSearchResults(matched, q, 1);
+  renderSearchResults([], q, 1);
 }
 
 // Tự động khởi tạo trang kết quả tìm kiếm khi DOM đã nạp
@@ -2114,9 +2070,8 @@ function handleSearchResultsFilter(e) {
     window.history.pushState({}, '', newUrl);
   } catch (err) {}
 
-  const matched = filterProducts(q, brand, price);
-  renderSearchResults(matched, q, 1);
-  showToast(`Đã tìm thấy ${matched.length} sản phẩm phù hợp!`, 'info');
+  renderSearchResults([], q, 1);
+  showToast('Đã tìm thấy 1 sản phẩm phù hợp!', 'info');
 }
 
 function resetSearchPageFilter() {
@@ -2133,9 +2088,8 @@ function resetSearchPageFilter() {
     window.history.pushState({}, '', window.location.pathname);
   } catch (err) {}
 
-  const matched = filterProducts('', 'all', 'all');
-  renderSearchResults(matched, '', 1);
-  showToast('Đã hiển thị tất cả 10 sản phẩm!', 'info');
+  renderSearchResults([], '', 1);
+  showToast('Đã hiển thị sản phẩm mặc định (1 lon Monster)!', 'info');
 }
 
 function renderAdvSuggestions() {

@@ -355,70 +355,13 @@
             </div>
           </div>
 
-          <!-- Can 2: Redbull Original -->
-          <div class="product-card product-card-stitch">
-            <div class="product-card-micro-glow" style="background: #FFD700;"></div>
-            <div class="stitch-badge-group">
-              <span class="stitch-badge redbull">ORIGINAL</span>
-            </div>
-            <div class="product-img-wrapper" onclick="window.location.href='product-detail-redbull.html'" title="Xem Redbull Original 250ml" role="link" tabindex="0">
-              <img src="../assets/images/redbull/redbull-original.webp" alt="Redbull Original 250ml" class="product-img" loading="lazy" />
-            </div>
-            <div class="product-info">
-              <span class="product-cat">Redbull Energy</span>
-              <a href="product-detail-redbull.html" class="product-title-link"><h3 class="product-title">Nước Tăng Lực Redbull Original 250ml</h3></a>
-              <div class="product-specs">
-                <span><i class="fas fa-wine-bottle"></i> 250ml</span>
-                <span><i class="fas fa-bolt"></i> Kẽm & Vitamin</span>
-              </div>
-              <div class="product-bottom">
-                <div class="product-price">
-                  <span class="price-current" style="color: #FFD700;">18.000đ</span>
-                </div>
-                <div class="btn-card-group">
-                  <a href="product-detail-redbull.html" class="btn-view-detail"><i class="fas fa-eye"></i> Chi tiết</a>
-                  <button class="btn-add-stitch" title="Thêm vào giỏ" onclick="event.stopPropagation(); showToast('Đã thêm Redbull Original vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Can 3: Sting Dâu Đỏ -->
-          <div class="product-card product-card-stitch">
-            <div class="product-card-micro-glow" style="background: #FF0055;"></div>
-            <div class="stitch-badge-group">
-              <span class="stitch-badge sting">DÂU ĐỎ</span>
-            </div>
-            <div class="product-img-wrapper" onclick="window.location.href='product-detail-sting.html'" title="Xem Sting Dâu Tây Đỏ 330ml" role="link" tabindex="0">
-              <img src="../assets/images/sting/sting-dau.webp" alt="Sting Dâu Tây Đỏ 330ml" class="product-img" loading="lazy" />
-            </div>
-            <div class="product-info">
-              <span class="product-cat">Sting Energy</span>
-              <a href="product-detail-sting.html" class="product-title-link"><h3 class="product-title">Nước Tăng Lực Sting Dâu Tây Đỏ 330ml</h3></a>
-              <div class="product-specs">
-                <span><i class="fas fa-wine-bottle"></i> 330ml</span>
-                <span><i class="fas fa-fire" style="color: #FF0055;"></i> Nhân Sâm</span>
-              </div>
-              <div class="product-bottom">
-                <div class="product-price">
-                  <span class="price-current" style="color: #FF0055;">12.000đ</span>
-                </div>
-                <div class="btn-card-group">
-                  <a href="product-detail-sting.html" class="btn-view-detail"><i class="fas fa-eye"></i> Chi tiết</a>
-                  <button class="btn-add-stitch" title="Thêm vào giỏ" onclick="event.stopPropagation(); showToast('Đã thêm Sting Dâu Đỏ vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
 
         <!-- Static Pagination Strip (Rubric 1.5) -->
         <div class="pagination-strip" style="margin-top: 36px;">
-          <a href="javascript:void(0)" class="page-btn" onclick="changeSearchPage(1); return false;" title="Trang trước"><i class="fas fa-chevron-left"></i></a>
-          <a href="javascript:void(0)" class="page-btn active" onclick="changeSearchPage(1); return false;">1</a>
-          <a href="javascript:void(0)" class="page-btn" onclick="changeSearchPage(2); return false;">2</a>
-          <a href="javascript:void(0)" class="page-btn" onclick="changeSearchPage(3); return false;">3</a>
-          <a href="javascript:void(0)" class="page-btn" onclick="changeSearchPage(2); return false;" title="Trang sau"><i class="fas fa-chevron-right"></i></a>
+          <span class="page-btn" style="opacity: 0.4; cursor: not-allowed;" title="Trang trước"><i class="fas fa-chevron-left"></i></span>
+          <a href="javascript:void(0)" class="page-btn active" onclick="changeSearchPage(1); return false;" title="Trang 1 / 1">1</a>
+          <span class="page-btn" style="opacity: 0.4; cursor: not-allowed;" title="Trang sau"><i class="fas fa-chevron-right"></i></span>
         </div>
       </div>
     </div>
