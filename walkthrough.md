@@ -176,3 +176,145 @@ ALL CHECKS PASSED!
 - **Giữ nguyên `"Giỏ Hàng (7 lon)"` trong `pages/orders.html`** để tương thích `scripts/verify_cart_sync.py` — xác nhận bởi check `orders.html has Giỏ Hàng (7 lon)` (PASS) và suite giỏ hàng 15/15 (PASS).
 - **Tuyệt đối không `git push`:** mọi commit chỉ tạo trên nhánh cục bộ `main`; không thực hiện push ở bất kỳ bước nào.
 - Task 3 chỉ tạo/sửa tài liệu (`walkthrough.md` + docs kế hoạch/đặc tả); không sửa mã nguồn (`pages/`, `scripts/`, `js/`, `css/`).
+
+## 29. Orders top-bar về 1 dòng duy nhất giống dashboard
+
+### 29.1. Vấn đề (Problem)
+
+Sau khi Section 27 đồng bộ `pages/orders.html` lên 6 links (khớp dashboard `index.html`), thanh top-bar trên desktop bị xuống dòng: tổng chiều rộng ước tính ~1265px > 1200px (max-width container), vượt không gian cho phép. Announcement text và top-links không còn nằm trên cùng 1 dòng như dashboard.
+
+Nguyên nhân: link `Giỏ Hàng (7 lon)` trong `.top-links` là thừa — header đã có nút giỏ hàng riêng (`.action-btn`) hiển thị số lượng và giá. Việc loại bỏ 1 link (6 → 5 links) tiết kiệm ~145px chiều rộng, đưa tổng về dưới giới hạn 1200px, đồng thời thêm CSS `flex-wrap: nowrap` cho desktop để đảm bảo không wrap.
+
+### 29.2. Before/After
+
+**Before (6 links + không có nowrap):**
+
+| # | Nhãn | href |
+|---|------|------|
+| 1 | Tiếp Tục Mua Sắm | `../index.html` |
+| 2 | Giao 2H Hoả Tốc | `../index.html#features` |
+| 3 | Lịch Sử Đặt Hàng | `orders.html` |
+| 4 | Giỏ Hàng (7 lon) | `cart.html` |
+| 5 | Tài Khoản | `account.html` |
+| 6 | Đăng Nhập | `login.html` |
+
+**After (5 links — khớp 1 dòng giống dashboard):**
+
+| # | Nhãn | href |
+|---|------|------|
+| 1 | Tiếp Tục Mua Sắm | `../index.html` |
+| 2 | Giao 2H Hoả Tốc | `../index.html#features` |
+| 3 | Lịch Sử Đặt Hàng | `orders.html` |
+| 4 | Tài Khoản | `account.html` |
+| 5 | Đăng Nhập | `login.html` |
+
+Header cart action button (`pages/orders.html`, dòng 156) — link thừa bị loại khỏi `.top-links` nhưng chuỗi `"Giỏ Hàng (7 lon)"` được giữ nguyên dưới dạng `title` trên nút giỏ hàng header:
+
+```html
+<a href="cart.html" class="action-btn" title="Giỏ Hàng (7 lon)">
+```
+
+CSS desktop (`css/style.css`, media query `@media (min-width: 992px)` sau rule `.top-links`):
+
+```css
+@media (min-width: 992px) {
+  .top-bar .container {
+    flex-wrap: nowrap;
+  }
+  .announcement-text {
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .top-links {
+    white-space: nowrap;
+    gap: 14px;
+    flex-shrink: 0;
+  }
+}
+```
+
+### 29.3. Bằng chứng kiểm thử (Verification evidence)
+
+Hồi quy 15 test suites (PowerShell, đúng như brief Task 3):
+
+**Output đầy đủ:**
+```
+[OK] scripts/verify_header_top_and_account_breadcrumb.py
+[OK] scripts/verify_cart_sync.py
+[OK] scripts/verify_sidebar_filter_sync.py
+[OK] scripts/verify_discount_sync_and_clean_ward_labels.py
+[OK] scripts/verify_ward_commune_filter.py
+[OK] scripts/verify_search_features.py
+[OK] scripts/verify_ui_fixes_and_combo_removal.py
+[OK] scripts/verify_rubric_coverage.py
+[OK] scripts/verify_price_formatting.py
+[OK] scripts/verify_admin_order_links.py
+[OK] scripts/verify_order_detail_pages.py
+[OK] scripts/verify_field_sync_and_clean_image_labels.py
+[OK] verify_implementation.py
+[OK] scripts/verify_admin_monster_previews.py
+[OK] scripts/verify_unconstrained_add_user.py
+ALL 15 SUITES PASSED (100%)!
+```
+
+**Kết quả: ALL 15 SUITES PASSED (100%)!**
+
+Output tập trung — kiểm thử header/breadcrumb 12/12:
+
+```
+=== VERIFY ORDERS TOPBAR SINGLE LINE & ACCOUNT BREADCRUMB ===
+[PASS] orders.html has top-links - Found .top-links container
+[PASS] orders.html has Tiếp Tục Mua Sắm -
+[PASS] orders.html has Giao 2H Hoả Tốc -
+[PASS] orders.html has Lịch Sử Đặt Hàng -
+[PASS] orders.html has Tài Khoản -
+[PASS] orders.html has Đăng Nhập -
+[PASS] orders.html top-links has no redundant cart link - Cart link removed from top-links to fit 1 line
+[PASS] orders.html retains Giỏ Hàng (7 lon) - Retains 'Giỏ Hàng (7 lon)' in header action button
+[PASS] account.html removes nav-bar -
+[PASS] account.html has breadcrumb -
+[PASS] account.html breadcrumb structure -
+[PASS] style.css has top-bar nowrap on desktop -
+
+Result: 12/12 passed.
+ALL CHECKS PASSED!
+```
+
+Output tập trung — đồng bộ giỏ hàng 15/15 (tương thích):
+```
+=== VERIFY CART DATA SYNCHRONIZATION (7 LON & 216.000đ) ===
+[PASS] cart.html header quantity - Header should say 7 LON
+[PASS] cart.html header price - Header should say 216.000đ, not 210.600đ
+[PASS] cart.html summary quantity - Summary should say 7 lon
+[PASS] cart.html summary total - Total should be 216.000đ
+[PASS] index.html header badge - Cart badge in header should be 7
+[PASS] index.html header price - Cart price in header should be 216.000đ
+[PASS] index.html view cart button removed - Dashboard should not have redundant view cart button
+[PASS] product-detail.html badge - Cart badge should be 7
+[PASS] product-detail-redbull.html badge - Cart badge should be 7
+[PASS] product-detail-redbull-lonvua.html badge - Cart badge should be 7
+[PASS] product-detail-redbull-thai.html badge - Cart badge should be 7
+[PASS] product-detail-sting.html badge - Cart badge should be 7
+[PASS] orders.html cart link - Orders page cart link should say 7 lon
+[PASS] order-success.html package step - Packaging step should say 7 lon
+[PASS] order-success.html card title - Order summary should say 7 LON
+
+Result: 15/15 passed.
+ALL CHECKS PASSED!
+```
+
+### 29.4. File thay đổi & commits
+
+| Commit | Nội dung | File |
+|--------|----------|------|
+| `9d831e0` | `fix(orders): streamline top-bar links to 5 items and assign title to cart action` | `pages/orders.html`, `scripts/verify_header_top_and_account_breadcrumb.py` |
+| `292b851` | `test(orders): tighten topbar CSS check to scoped media-query assertion` | `scripts/verify_header_top_and_account_breadcrumb.py` |
+| `67d25f4` | `style(topbar): ensure desktop top-bar remains on single line without wrapping` | `css/style.css` |
+| *(docs commit)* | `docs: record orders topbar single line fix in walkthrough and plans` | `walkthrough.md`, `docs/superpowers/plans/2026-11-08-orders-topbar-single-line.md` |
+
+### 29.5. Cam kết an toàn (Safety)
+
+- **100% Pure Static Website:** chỉ sửa HTML tĩnh + CSS + script kiểm thử Python cục bộ; không có node server, backend API, hay database.
+- **Giữ nguyên `"Giỏ Hàng (7 lon)"` trong `pages/orders.html`** (dòng 156, `title` trên nút giỏ hàng header) để tương thích `scripts/verify_cart_sync.py` — xác nhận bởi check `orders.html retains Giỏ Hàng (7 lon)` (PASS) và suite giỏ hàng 15/15 (PASS).
+- **Tuyệt đối không `git push`:** mọi commit chỉ tạo trên nhánh cục bộ `main`; không thực hiện push ở bất kỳ bước nào.
+- CSS `flex-wrap: nowrap` chỉ áp dụng trên desktop (`@media (min-width: 992px)`); mobile giữ hành vi wrap/flex hiện tại nên không phá vỡ bố cục nhỏ.
