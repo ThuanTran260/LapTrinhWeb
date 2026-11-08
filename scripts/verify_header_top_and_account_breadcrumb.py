@@ -12,7 +12,7 @@ def check(name, condition, details=""):
     mark = "PASS" if condition else "FAIL"
     print(f"[{mark}] {name} - {details}")
 
-print("=== VERIFY HEADER TOP SYNC & ACCOUNT BREADCRUMB ===")
+print("=== VERIFY ORDERS TOPBAR SINGLE LINE & ACCOUNT BREADCRUMB ===")
 
 # 1. Check pages/orders.html top-links
 orders_content = open("pages/orders.html", encoding="utf-8").read()
@@ -24,15 +24,22 @@ if top_links_match:
     check("orders.html has Tiếp Tục Mua Sắm", 'Tiếp Tục Mua Sắm' in links_block and '../index.html' in links_block)
     check("orders.html has Giao 2H Hoả Tốc", 'Giao 2H Hoả Tốc' in links_block and '../index.html#features' in links_block)
     check("orders.html has Lịch Sử Đặt Hàng", 'Lịch Sử Đặt Hàng' in links_block and 'orders.html' in links_block)
-    check("orders.html has Giỏ Hàng (7 lon)", 'Giỏ Hàng (7 lon)' in links_block and 'cart.html' in links_block)
     check("orders.html has Tài Khoản", 'Tài Khoản' in links_block and 'account.html' in links_block)
     check("orders.html has Đăng Nhập", 'Đăng Nhập' in links_block and 'login.html' in links_block)
+    check("orders.html top-links has no redundant cart link", 'cart.html' not in links_block, "Cart link removed from top-links to fit 1 line")
 
-# 2. Check pages/account.html breadcrumb and removal of brand nav
+# 2. Check orders.html retains 'Giỏ Hàng (7 lon)' for verify_cart_sync compatibility
+check("orders.html retains Giỏ Hàng (7 lon)", 'Giỏ Hàng (7 lon)' in orders_content, "Retains 'Giỏ Hàng (7 lon)' in header action button")
+
+# 3. Check pages/account.html breadcrumb and removal of brand nav
 account_content = open("pages/account.html", encoding="utf-8").read()
 check("account.html removes nav-bar", '<nav class="nav-bar">' not in account_content and 'handleNavBrandClick' not in account_content)
 check("account.html has breadcrumb", '<div class="breadcrumb">' in account_content)
 check("account.html breadcrumb structure", 'Trang chủ' in account_content and 'Thành viên' in account_content)
+
+# 4. Check css/style.css top-bar single line styling on desktop
+css_content = open("css/style.css", encoding="utf-8").read()
+check("style.css has top-bar nowrap on desktop", 'top-bar' in css_content and 'nowrap' in css_content)
 
 failed = [c for c in checks if not c[1]]
 print(f"\nResult: {len(checks) - len(failed)}/{len(checks)} passed.")
