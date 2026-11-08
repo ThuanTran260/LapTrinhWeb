@@ -184,6 +184,21 @@ button {
   color: var(--primary);
 }
 
+@media (min-width: 992px) {
+  .top-bar .container {
+    flex-wrap: nowrap;
+  }
+  .announcement-text {
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .top-links {
+    white-space: nowrap;
+    gap: 14px;
+    flex-shrink: 0;
+  }
+}
+
 /* ==========================================================================
    HEADER & NAVIGATION
    ========================================================================== */
