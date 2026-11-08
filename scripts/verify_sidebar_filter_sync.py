@@ -49,6 +49,17 @@ if idx_monster_radio_match:
         f"Dashboard brand option is '{idx_brand_text}'"
     )
 
+# Check all brand counts sync
+expected_brands = [
+    ("all", "Tất cả thương hiệu", "10 lon"),
+    ("monster", "Monster Energy", "4 lon"),
+    ("redbull", "Redbull Thái Lan", "3 lon"),
+    ("sting", "Sting PepsiCo", "3 lon"),
+]
+for val, label, count in expected_brands:
+    m = re.search(rf'value="{val}"[^>]*>[\s\S]*?<span>({re.escape(label)})</span>[\s\S]*?<span class="filter-option-count">({re.escape(count)})</span>', search_content)
+    check(f"Brand option {val} matches dashboard", m is not None, f"Brand {val} has label '{label}' and count '{count}'")
+
 # 2. Over50 price option badge is 'Lon lẻ & Lốc' (no 'Combo / Thùng')
 over50_match = re.search(r'input[^>]*name="search-price"[^>]*value="over50"[^>]*>[\s\S]*?<span class="filter-option-count">(.*?)</span>', search_content)
 check("Price option over50 found", over50_match is not None, "Over50 price radio option found in search-results.html")
@@ -60,6 +71,20 @@ if over50_match:
         f"Price over50 badge is '{badge_text}' (strictly 'Lon lẻ & Lốc', no 'Combo / Thùng')"
     )
 
+# Check all price options sync
+expected_prices = [
+    ("all", "Tất cả khoảng giá", None),
+    ("under20", "Dưới 20.000đ", "12k - 18k"),
+    ("20to50", "20.000đ - 50.000đ", "20k - 50k"),
+    ("over50", "Trên 50.000đ", "Lon lẻ & Lốc"),
+]
+for val, label, count in expected_prices:
+    if count:
+        m = re.search(rf'value="{val}"[^>]*>[\s\S]*?<span>({re.escape(label)})</span>[\s\S]*?<span class="filter-option-count">({re.escape(count)})</span>', search_content)
+    else:
+        m = re.search(rf'value="{val}"[^>]*>[\s\S]*?<span>({re.escape(label)})</span>', search_content)
+    check(f"Price option {val} matches dashboard", m is not None, f"Price {val} has label '{label}'")
+
 # 3. Item 5 in sidebar dropdown is Sting Dâu Tây Đỏ (no combo)
 sidebar_dropdown_match = re.search(r'id="sidebar-search-dropdown-menu"[\s\S]*?</div>\s*</div>\s*</div>', search_content)
 check("Sidebar search dropdown exists", sidebar_dropdown_match is not None, "#sidebar-search-dropdown-menu found")
@@ -69,6 +94,21 @@ if sidebar_dropdown_match:
     has_combo_item = "Combo Thùng" in sidebar_dropdown_html or "combo-section" in sidebar_dropdown_html
     check("Item 5 is Sting Dâu Tây Đỏ", has_sting_item, "Sidebar dropdown contains Sting Dâu Tây Đỏ")
     check("Sidebar dropdown has no combo", not has_combo_item, "Sidebar dropdown has no combo residual")
+    check(
+        "Item 5 calls closeSidebarSearchDropdown in search-results",
+        'onclick="closeSidebarSearchDropdown()"' in sidebar_dropdown_html,
+        "Dropdown item 5 closes sidebar dropdown correctly"
+    )
+
+# Also check index.html Item 5 in sidebar dropdown
+idx_sidebar_dropdown_match = re.search(r'id="sidebar-search-dropdown-menu"[\s\S]*?</div>\s*</div>\s*</div>', index_content)
+if idx_sidebar_dropdown_match:
+    idx_dropdown_html = idx_sidebar_dropdown_match.group(0)
+    check(
+        "Item 5 calls closeSidebarSearchDropdown in index.html",
+        'onclick="closeSidebarSearchDropdown()"' in idx_dropdown_html,
+        "index.html sidebar item 5 closes sidebar dropdown correctly"
+    )
 
 # 4. Sidebar contains navigation button back to ../index.html
 has_home_btn = (
