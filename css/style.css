@@ -2300,6 +2300,18 @@ del.price-old {
   flex-wrap: wrap;
   gap: 12px;
 }
+/* Admin Footer Enhancements */
+.admin-main .footer {
+  margin-top: 48px;
+  background: #07080A;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  padding: 36px 24px 20px;
+}
+.admin-main .footer .container {
+  max-width: 100%;
+  padding: 0;
+}
 
 /* ==========================================================================
    TOAST NOTIFICATIONS (LIGHTWEIGHT)
