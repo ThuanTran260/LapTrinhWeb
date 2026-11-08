@@ -39,7 +39,17 @@ check("account.html breadcrumb structure", 'Trang chủ' in account_content and 
 
 # 4. Check css/style.css top-bar single line styling on desktop
 css_content = open("css/style.css", encoding="utf-8").read()
-check("style.css has top-bar nowrap on desktop", 'top-bar' in css_content and 'nowrap' in css_content)
+desktop_topbar = False
+for m in re.finditer(r"@media\s*\(\s*min-width:\s*992px\s*\)\s*\{", css_content):
+    snippet = css_content[m.end():m.end()+2000]
+    m_container = re.search(r"\.top-bar\s+\.container\s*\{([^}]*)\}", snippet)
+    has_container_nowrap = m_container is not None and re.search(r"flex-wrap\s*:\s*nowrap", m_container.group(1)) is not None
+    m_links = re.search(r"\.top-links\s*\{([^}]*)\}", snippet)
+    has_links_nowrap = m_links is not None and "white-space" in m_links.group(1) and "nowrap" in m_links.group(1) and re.search(r"gap\s*:\s*14px", m_links.group(1)) is not None
+    if has_container_nowrap and has_links_nowrap:
+        desktop_topbar = True
+        break
+check("style.css has top-bar nowrap on desktop", desktop_topbar)
 
 failed = [c for c in checks if not c[1]]
 print(f"\nResult: {len(checks) - len(failed)}/{len(checks)} passed.")
