@@ -318,3 +318,78 @@ ALL CHECKS PASSED!
 - **Giữ nguyên `"Giỏ Hàng (7 lon)"` trong `pages/orders.html`** (dòng 156, `title` trên nút giỏ hàng header) để tương thích `scripts/verify_cart_sync.py` — xác nhận bởi check `orders.html retains Giỏ Hàng (7 lon)` (PASS) và suite giỏ hàng 15/15 (PASS).
 - **Tuyệt đối không `git push`:** mọi commit chỉ tạo trên nhánh cục bộ `main`; không thực hiện push ở bất kỳ bước nào.
 - CSS `flex-wrap: nowrap` chỉ áp dụng trên desktop (`@media (min-width: 992px)`); mobile giữ hành vi wrap/flex hiện tại nên không phá vỡ bố cục nhỏ.
+
+## 30. Đồng bộ footer 4 cột cho toàn bộ trang Dashboard & Storefront — kiểm thử hồi quy toàn diện
+
+**Ngày:** 2026-11-08
+**Bối cảnh:** Kế hoạch "Đồng Bộ Footer 4 Cột Cho Toàn Bộ Trang Dashboard & Storefront". Tasks 1–3 đã thực hiện trên nhánh cục bộ `main` (không push). Task 4 là nghiệm thu hồi quy + tài liệu, không sửa mã nguồn.
+
+### 30.1. Tóm tắt đồng bộ footer (24 trang)
+
+Footer chuẩn 4 cột (brand + `CÁC DÒNG SẢN PHẨM` + `HỆ THỐNG TRANG` + `NHẬN VOUCHER ƯU ĐÃI` + `.footer-bottom`) đồng bộ cho 24 trang:
+
+| Nhóm | Số trang | Trước | Sau |
+|------|----------|-------|-----|
+| Storefront `pages/*.html` | 12 | Footer 1 dòng rút gọn (một phần) | Footer đủ 4 cột, `footer-grid` trong `<footer class="footer">`, newsletter `showToast` |
+| Dashboard `admin/*.html` | 12 | Footer 1 dòng rút gọn | Footer đủ 4 cột (href dùng `../index.html`, `../index.html#...`, `../pages/...`) |
+
+Ngoại lệ: `pages/login.html` và `admin/login.html` (standalone) bị loại trừ khỏi phạm vi footer sync và khỏi `scripts/verify_footer_sync.py`.
+
+Phát hiện lặp lại đã biết (Task 3, có chủ đích, không chặn nghiệm thu): trang `pages/product-detail-sting.html` có khác biệt lặp đoạn mô tả (duplication) do thay thế theo mẫu; không ảnh hưởng footer sync hay hồi quy.
+
+### 30.2. Bảng bằng chứng hồi quy (Step 1 + Step 2)
+
+Base trước Task 4: `35401b4ce8e5d74babf4673be275d77717c72d0c`.
+Đã chạy toàn bộ suite ít nhất **3 lượt** liên tiếp, mỗi lượt đều PASS 100% (không có lỗi hồi quy):
+
+| Suite (lệnh) | Kết quả (mỗi lượt) | Ghi chú |
+|-------------|--------------------|---------|
+| `python verify_implementation.py` | 66/66 PASS — `ALL 66 CHECKS PASSED PERFECTLY!` | 3/3 lượt |
+| `python scripts/verify_footer_sync.py` | 144/144 PASS | 3/3 lượt |
+| `python scripts/verify_admin_monster_previews.py` | PASS | 3/3 lượt |
+| `python scripts/verify_admin_order_links.py` | 6/6 PASS | 3/3 lượt |
+| `python scripts/verify_admin_ui_mockup.py` | 10/10 PASS | 3/3 lượt |
+| `python scripts/verify_cart_sync.py` | 15/15 PASS | 3/3 lượt |
+| `python scripts/verify_discount_sync_and_clean_ward_labels.py` | 8/8 PASS | 3/3 lượt |
+| `python scripts/verify_field_sync_and_clean_image_labels.py` | 46/46 PASS | 3/3 lượt |
+| `python scripts/verify_header_footer_pagination.py` | 8/8 PASS | 3/3 lượt |
+| `python scripts/verify_header_top_and_account_breadcrumb.py` | 12/12 PASS | 3/3 lượt |
+| `python scripts/verify_order_detail_pages.py` | 8/8 PASS | 3/3 lượt |
+| `python scripts/verify_price_formatting.py` | 49/49 PASS | 3/3 lượt |
+| `python scripts/verify_rubric_coverage.py` | 19/19 PASS (điểm 10.00) | 3/3 lượt |
+| `python scripts/verify_search_features.py` | 28/28 PASS | 3/3 lượt |
+| `python scripts/verify_sidebar_filter_sync.py` | 23/23 PASS | 3/3 lượt |
+| `python scripts/verify_sting_assets.py` | PASS (OVERALL VERIFICATION: PASSED) | 3/3 lượt |
+| `python scripts/verify_ui_fixes_and_combo_removal.py` | 8/8 PASS | 3/3 lượt |
+| `python scripts/verify_unconstrained_add_user.py` | 30/30 PASS | 3/3 lượt |
+| `python scripts/verify_ward_commune_filter.py` | 5/5 PASS | 3/3 lượt |
+| `scripts/process_sting_assets.py` | Không thuộc suite verify (script xử lý asset, không chạy) | — |
+| `scripts/verify_ward_filter_and_address.py` (theo brief) | **Không tồn tại** — thay thế bằng `scripts/verify_ward_commune_filter.py` (file thực tế) | Substitution đã ghi nhận |
+
+Không thêm file kiểm thử nào ngoài danh sách trên. Nếu phát hiện lỗi hồi quy thì báo BLOCKED, không tự sửa mã nguồn.
+
+### 30.3. Xác thực tĩnh liên kết footer (Step 3 — thay thế browser check)
+
+> Giới hạn: không có trình duyệt trong môi trường này nên không chạy kiểm tra click thực tế. Thay vào đó kiểm tra tĩnh: trích xuất mọi `href` trong `<footer class="footer">...</footer>` của 24 trang và đối chiếu file/anchor đích.
+
+- `pages/*.html`: href dạng `../index.html#monster-products`, `../index.html#redbull-products`, `../index.html#sting-products`, `../index.html`, và sibling `product-detail.html`, `product-detail-redbull.html`, `cart.html`, `orders.html`, `account.html` — 12/12 trang khớp mẫu.
+- `admin/*.html`: href dạng `../index.html#...`, `../index.html`, và `../pages/product-detail.html`, `../pages/product-detail-redbull.html`, `../pages/cart.html`, `../pages/orders.html`, `../pages/account.html` — 12/12 trang khớp mẫu.
+- File đích tồn tại: `index.html`, `pages/product-detail.html`, `pages/product-detail-redbull.html`, `pages/cart.html`, `pages/orders.html`, `pages/account.html` — tất cả `True`.
+- Anchor đích tồn tại trong `index.html`: `monster-products`, `redbull-products`, `sting-products` — tất cả `True`.
+- Liên kết footer không có lỗi gãy (broken link) ở mức tĩnh.
+
+### 30.4. File thay đổi & commits
+
+| Commit | Nội dung | File |
+|--------|----------|------|
+| `1142dee` | `test(footer): add verify_footer_sync script and admin footer styling` | `css/style.css`, `scripts/verify_footer_sync.py` (mới) |
+| `c38fc9a` | `feat(pages): synchronize 4-column rich footer across all storefront pages` | 12 file `pages/*.html` |
+| `35401b4` | `feat(admin): integrate synchronized 4-column brand footer across all admin dashboard pages` | 12 file `admin/*.html` |
+| *(docs commit)* | `docs: record 4-column footer sync and regression evidence` | `walkthrough.md`, `docs/superpowers/plans/2026-11-08-sync-footer-dashboard-and-store-pages.md`, `docs/superpowers/specs/2026-11-08-sync-footer-dashboard-and-store-pages-design.md` |
+
+### 30.5. Cam kết an toàn (Safety)
+
+- **100% Pure Static Website:** Task 4 chỉ chạy script kiểm thử Python cục bộ + ghi tài liệu; không sửa mã nguồn (`pages/`, `admin/`, `css/`, `js/`) hay đổi cấu trúc/thuật toán.
+- **Tuyệt đối không `git push`:** mọi commit chỉ tạo trên nhánh cục bộ `main`; không thực hiện push ở bất kỳ bước nào.
+- **Tương thích 100% bộ test hiện hữu:** `verify_implementation.py` 66/66 và toàn bộ `scripts/verify_*.py` (18 file) đều PASS ở cả 3 lượt.
+- **File ngoài phạm vi:** `implementation_plan.md` (tồn tại từ trước, không thuộc docs commit này) không được staging trong commit docs.
