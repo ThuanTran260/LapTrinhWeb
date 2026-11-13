@@ -1,59 +1,59 @@
-# Kế Hoạch Triển Khai: Đồng Bộ Footer 4 Cột Cho Toàn Bộ Trang Dashboard & Storefront
+# Kế Hoạch Triển Khai: Loại Bỏ Khối Thông Số Hardcode (product-specs) Khỏi Thẻ Sản Phẩm
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Đồng bộ hoàn toàn footer 4 cột nhận diện thương hiệu Energy Boost (chuẩn theo mẫu `index.html`) cho toàn bộ 12 trang khách hàng trong `pages/` và 12 trang quản trị trong `admin/`.
+**Goal:** Loại bỏ hoàn toàn khối thông số hardcode `.product-specs` (chứa các icon và text `Sẵn hàng`, `0 Đường`, dung tích...) khỏi tất cả 14 thẻ sản phẩm trên `index.html`, thẻ mẫu trong `pages/search-results.html` và template render trong `js/app.js`, đảm bảo giao diện thẻ gọn gàng và đồng bộ 100% với dữ liệu quản trị Admin.
 
-**Architecture:** Kiến trúc Pure Static HTML5 & CSS3. Chuẩn hóa mã nguồn HTML tĩnh với cấu trúc thẻ semantic `<footer class="footer">` chứa `.container`, `.footer-grid` (4 cột) và `.footer-bottom`. Tự động tinh chỉnh đường dẫn tương đối (`../` và `./`) chính xác cho từng cấp thư mục để đảm bảo không gãy liên kết.
+**Architecture:** Pure Static HTML5 / CSS3 / Vanilla JS. Xóa bỏ thẻ `<div class="product-specs">...</div>` khỏi mã nguồn HTML và template JS. CSS `.product-card-stitch` với `.product-bottom { margin-top: auto; }` sẽ tự động kéo giá tiền và nút giỏ hàng xuống sát đáy card, duy trì sự thẳng hàng tuyệt đối.
 
-**Tech Stack:** Pure HTML5, CSS3 Glassmorphism/Dark Neon, Vanilla JavaScript (Toast feedback), Python test suites.
+**Tech Stack:** HTML5, CSS3, Vanilla JavaScript, Python test suites.
 
 ## Global Constraints
 
-- Tuân thủ nghiêm ngặt RULE `user_global`: Không tự ý viết mã nguồn hoặc chỉnh sửa file cho đến khi người dùng ấn **Proceed** hoặc đồng ý kế hoạch.
-- Tuyệt đối không tự động chạy `git push`. Toàn bộ commit thực hiện cục bộ.
-- 100% Pure Static: Không sử dụng framework ngoài, giữ trọn vẹn khả năng chạy trực tiếp file HTML trên trình duyệt.
-- Tương thích và duy trì 100% PASS cho toàn bộ bộ test hiện hữu (`verify_implementation.py`, `scripts/verify_*.py`).
+- Không tự động chạy `git push`. Toàn bộ commit thực hiện cục bộ.
+- 100% Pure Static Architecture: Không làm thay đổi layout hay gãy vỡ giao diện.
+- Giữ nguyên toàn bộ 14 nút `btn-add-stitch`, liên kết điều hướng ảnh và tiêu đề đến trang chi tiết sản phẩm.
+- Test Suite Integrity: Duy trì 100% PASS cho `verify_implementation.py`, `scripts/verify_ui_fixes_and_combo_removal.py` và `scripts/verify_footer_sync.py`.
 
 ---
 
-### Task 1: Thiết Lập CSS Bổ Trợ Cho Footer Trong Admin Layout & Viết Script Kiểm Thử Tự Động
+### Task 1: Viết Script Kiểm Thử TDD `scripts/verify_no_product_specs.py`
 
 **Files:**
-- Modify: `css/style.css`
-- Create: `scripts/verify_footer_sync.py`
+- Create: `scripts/verify_no_product_specs.py`
 
-- [ ] **Step 1: Viết script kiểm thử thất bại (Red Test) `scripts/verify_footer_sync.py`**
-- [ ] **Step 2: Chạy script kiểm thử để xác nhận trạng thái FAIL hiện tại (Red Phase)**
-- [ ] **Step 3: Bổ sung CSS bổ trợ cho `.admin-main .footer` trong `css/style.css`**
-- [ ] **Step 4: Commit cục bộ phần chuẩn bị CSS và test script**
+- [ ] **Step 1: Viết test script `scripts/verify_no_product_specs.py`**
+- [ ] **Step 2: Chạy kiểm thử để xác nhận trạng thái thất bại ban đầu (Red Phase)**
+- [ ] **Step 3: Commit cục bộ script test**
 
 ---
 
-### Task 2: Đồng Bộ Footer 4 Cột Chuẩn Cho Toàn Bộ 12 Trang Khách Hàng (`pages/*.html`)
+### Task 2: Loại Bỏ Khối `.product-specs` Khỏi 14 Thẻ Sản Phẩm Trong `index.html`
 
 **Files:**
-- Modify: `pages/account.html`, `pages/cart.html`, `pages/orders.html`, `pages/order-detail.html`, `pages/order-success.html`, `pages/payment-gateway.html`, `pages/product-detail.html`, `pages/product-detail-redbull.html`, `pages/product-detail-redbull-thai.html`, `pages/product-detail-redbull-lonvua.html`, `pages/product-detail-sting.html`, `pages/search-results.html`
-- Test: `scripts/verify_footer_sync.py`
+- Modify: `index.html:328-424,670-940`
+- Test: `scripts/verify_no_product_specs.py`
 
-- [ ] **Step 1: Cập nhật Footer trong `pages/account.html` và `pages/cart.html`**
-- [ ] **Step 2: Cập nhật Footer trong `pages/orders.html`, `pages/order-detail.html`, `pages/order-success.html`, `pages/payment-gateway.html`**
-- [ ] **Step 3: Cập nhật Footer trong 5 trang chi tiết sản phẩm (`product-detail*.html`) và `pages/search-results.html`**
-- [ ] **Step 4: Chạy kiểm thử xác minh nhóm `pages/`**
-- [ ] **Step 5: Commit cục bộ nhóm trang khách hàng**
+- [ ] **Step 1: Xóa khối `.product-specs` khỏi 4 thẻ sản phẩm Flash Sale**
+- [ ] **Step 2: Xóa khối `.product-specs` khỏi 4 thẻ thương hiệu Monster Energy**
+- [ ] **Step 3: Xóa khối `.product-specs` khỏi 3 thẻ thương hiệu Redbull Thái Lan**
+- [ ] **Step 4: Xóa khối `.product-specs` khỏi 3 thẻ thương hiệu Sting PepsiCo**
+- [ ] **Step 5: Kiểm tra xác minh `index.html` không còn bất kỳ thẻ `product-specs` nào**
+- [ ] **Step 6: Commit cục bộ**
 
 ---
 
-### Task 3: Đồng Bộ Footer 4 Cột Cho Toàn Bộ 12 Trang Quản Trị Admin Dashboard (`admin/*.html`)
+### Task 3: Loại Bỏ Khối `.product-specs` Khỏi `pages/search-results.html` và `js/app.js`
 
 **Files:**
-- Modify: `admin/index.html`, `admin/orders.html`, `admin/inventory.html`, `admin/revenue.html`, `admin/customers.html`, `admin/settings.html`, `admin/order-detail.html`, `admin/edit-monster.html`, `admin/edit-redbull-lonvua.html`, `admin/edit-redbull-original.html`, `admin/edit-redbull-thai.html`, `admin/edit-sting.html`
-- Test: `scripts/verify_footer_sync.py`
+- Modify: `pages/search-results.html:409-412`
+- Modify: `js/app.js:2034-2037`
+- Test: `scripts/verify_no_product_specs.py`
 
-- [ ] **Step 1: Bổ sung Footer 4 cột vào 6 trang nghiệp vụ cốt lõi của Admin**
-- [ ] **Step 2: Bổ sung Footer 4 cột vào `admin/order-detail.html` và 5 trang biên tập sản phẩm `admin/edit-*.html`**
-- [ ] **Step 3: Chạy script kiểm thử `scripts/verify_footer_sync.py`**
-- [ ] **Step 4: Commit cục bộ nhóm trang quản trị Admin Dashboard**
+- [ ] **Step 1: Xóa khối `.product-specs` trong `pages/search-results.html`**
+- [ ] **Step 2: Xóa khối `.product-specs` trong template HTML của `js/app.js`**
+- [ ] **Step 3: Chạy script kiểm thử `scripts/verify_no_product_specs.py` (Green Phase)**
+- [ ] **Step 4: Commit cục bộ**
 
 ---
 
@@ -61,11 +61,14 @@
 
 **Files:**
 - Test: `verify_implementation.py`
-- Test: `scripts/verify_header_footer_pagination.py`
 - Test: `scripts/verify_ui_fixes_and_combo_removal.py`
 - Test: `scripts/verify_footer_sync.py`
+- Test: `scripts/verify_header_footer_pagination.py`
+- Test: `scripts/verify_no_product_specs.py`
 
-- [ ] **Step 1: Chạy toàn bộ test suites hiện có**
-- [ ] **Step 2: Chạy toàn bộ script kiểm thử nghiệp vụ trong `scripts/`**
-- [ ] **Step 3: Kiểm tra giao diện và kiểm thử liên kết thực tế trên trình duyệt**
-- [ ] **Step 4: Cập nhật tài liệu tổng kết và báo cáo người dùng**
+- [ ] **Step 1: Chạy `verify_implementation.py` đảm bảo 66/66 checks PASS**
+- [ ] **Step 2: Chạy `scripts/verify_ui_fixes_and_combo_removal.py` đảm bảo 8/8 checks PASS**
+- [ ] **Step 3: Chạy `scripts/verify_footer_sync.py` đảm bảo 144/144 checks PASS**
+- [ ] **Step 4: Chạy `scripts/verify_no_product_specs.py` đảm bảo PASS 100%**
+- [ ] **Step 5: Kiểm tra trực quan giao diện thẻ sản phẩm trên trình duyệt**
+- [ ] **Step 6: Cập nhật tài liệu và báo cáo kết quả**
