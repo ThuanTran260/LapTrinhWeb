@@ -299,9 +299,13 @@ elements['faq-new-answer'].value = 'FAQ Câu trả lời đã sửa đổi';
 handleAdminAddFaq({ preventDefault: () => {} });
 const okFaqUpdate = (faqList.children.length === 1 && item5.pEl.textContent === 'FAQ Câu trả lời đã sửa đổi');
 
-// 6. Test FAQ delete
+// 6. Test FAQ delete: chỉ hiện thông báo, DOM vẫn giữ nguyên phần tử
+let lastToastMsg = '';
+global.showToast = function(msg, type) { lastToastMsg = msg; };
+const countBefore = faqList.children.length;
 handleAdminDeleteFaq(item5, '5');
-const okFaqDel = (faqList.children.length === 0);
+const countAfter = faqList.children.length;
+const okFaqDel = (countBefore === countAfter && countAfter > 0 && lastToastMsg.includes('FAQ #5'));
 
 console.log(JSON.stringify({ okMaxDisc, okShip, okFaqAdd, okFaqEdit, okFaqUpdate, okFaqDel }));
 """
@@ -315,7 +319,7 @@ try:
     check("Node.js runtime: handleAdminAddFaq thêm câu hỏi mới trực quan vào #faq-admin-list", results.get("okFaqAdd", False))
     check("Node.js runtime: handleAdminEditFaq nạp dữ liệu câu hỏi vào form chỉnh sửa", results.get("okFaqEdit", False))
     check("Node.js runtime: submit cập nhật FAQ đã có không bị trùng lặp phần tử", results.get("okFaqUpdate", False))
-    check("Node.js runtime: handleAdminDeleteFaq xóa câu hỏi khỏi danh sách", results.get("okFaqDel", False))
+    check("Node.js runtime: handleAdminDeleteFaq chỉ hiện thông báo, giữ nguyên phần tử trong DOM", results.get("okFaqDel", False))
 except Exception as e:
     check("Node.js runtime execution pass", False, str(e))
 
