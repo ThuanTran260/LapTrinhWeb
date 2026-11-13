@@ -3346,13 +3346,9 @@ function handleAdminAddFaq(e) {
 }
 
 function handleAdminDeleteFaq(btn, id) {
-  if (btn) {
-    const item = btn.closest('.faq-admin-item');
-    if (item) {
-      item.remove();
-    }
-  }
-  showToast(`Đã xóa câu hỏi FAQ #${id} thành công!`, 'success');
+  // Quy tắc dự án: Khi xóa chỉ hiển thị thông báo toast chứ không thực sự xóa hay ẩn (DOM giữ nguyên)
+  const cleanId = String(id).replace(/[^0-9]/g, '').trim() || String(id);
+  showToast(`Đã xóa câu hỏi FAQ #${cleanId} khỏi danh sách hiển thị!`, 'info');
 }
 
 function handleAdminEditFaq(id, btn) {
