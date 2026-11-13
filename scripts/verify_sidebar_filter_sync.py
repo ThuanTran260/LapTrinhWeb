@@ -49,41 +49,37 @@ if idx_monster_radio_match:
         f"Dashboard brand option is '{idx_brand_text}'"
     )
 
-# Check all brand counts sync
+# 2. Check that neither index.html nor search-results.html has any filter-option-count
+idx_counts = re.findall(r'class="filter-option-count"', index_content)
+search_counts = re.findall(r'class="filter-option-count"', search_content)
+check("index.html has 0 filter-option-count", len(idx_counts) == 0, f"Found {len(idx_counts)} filter-option-count in index.html")
+check("search-results.html has 0 filter-option-count", len(search_counts) == 0, f"Found {len(search_counts)} filter-option-count in search-results.html")
+
+# Check all brand options sync with clean labels (no count)
 expected_brands = [
-    ("all", "Tất cả thương hiệu", "10 lon"),
-    ("monster", "Monster Energy", "4 lon"),
-    ("redbull", "Redbull Thái Lan", "3 lon"),
-    ("sting", "Sting PepsiCo", "3 lon"),
+    ("all", "Tất cả thương hiệu"),
+    ("monster", "Monster Energy"),
+    ("redbull", "Redbull Thái Lan"),
+    ("sting", "Sting PepsiCo"),
 ]
-for val, label, count in expected_brands:
-    m = re.search(rf'value="{val}"[^>]*>[\s\S]*?<span>({re.escape(label)})</span>[\s\S]*?<span class="filter-option-count">({re.escape(count)})</span>', search_content)
-    check(f"Brand option {val} matches dashboard", m is not None, f"Brand {val} has label '{label}' and count '{count}'")
+for val, label in expected_brands:
+    m_search = re.search(rf'name="search-brand"[^>]*value="{val}"[^>]*>[\s\S]*?<span>({re.escape(label)})</span>', search_content)
+    check(f"Search brand option {val} matches label '{label}'", m_search is not None)
+    m_idx = re.search(rf'name="sidebar-brand"[^>]*value="{val}"[^>]*>[\s\S]*?<span>({re.escape(label)})</span>', index_content)
+    check(f"Dashboard brand option {val} matches label '{label}'", m_idx is not None)
 
-# 2. Over50 price option badge is 'Lon lẻ & Lốc' (no 'Combo / Thùng')
-over50_match = re.search(r'input[^>]*name="search-price"[^>]*value="over50"[^>]*>[\s\S]*?<span class="filter-option-count">(.*?)</span>', search_content)
-check("Price option over50 found", over50_match is not None, "Over50 price radio option found in search-results.html")
-if over50_match:
-    badge_text = over50_match.group(1).strip()
-    check(
-        "over50 badge is 'Lon lẻ & Lốc'",
-        badge_text == "Lon lẻ & Lốc",
-        f"Price over50 badge is '{badge_text}' (strictly 'Lon lẻ & Lốc', no 'Combo / Thùng')"
-    )
-
-# Check all price options sync
+# Check all price options sync with clean labels (no sublabel/badge)
 expected_prices = [
-    ("all", "Tất cả khoảng giá", None),
-    ("under20", "Dưới 20.000đ", "12k - 18k"),
-    ("20to50", "20.000đ - 50.000đ", "20k - 50k"),
-    ("over50", "Trên 50.000đ", "Lon lẻ & Lốc"),
+    ("all", "Tất cả khoảng giá"),
+    ("under20", "Dưới 20.000đ"),
+    ("20to50", "20.000đ - 50.000đ"),
+    ("over50", "Trên 50.000đ"),
 ]
-for val, label, count in expected_prices:
-    if count:
-        m = re.search(rf'value="{val}"[^>]*>[\s\S]*?<span>({re.escape(label)})</span>[\s\S]*?<span class="filter-option-count">({re.escape(count)})</span>', search_content)
-    else:
-        m = re.search(rf'value="{val}"[^>]*>[\s\S]*?<span>({re.escape(label)})</span>', search_content)
-    check(f"Price option {val} matches dashboard", m is not None, f"Price {val} has label '{label}'")
+for val, label in expected_prices:
+    m_search = re.search(rf'name="search-price"[^>]*value="{val}"[^>]*>[\s\S]*?<span>({re.escape(label)})</span>', search_content)
+    check(f"Search price option {val} matches label '{label}'", m_search is not None)
+    m_idx = re.search(rf'name="sidebar-price"[^>]*value="{val}"[^>]*>[\s\S]*?<span>({re.escape(label)})</span>', index_content)
+    check(f"Dashboard price option {val} matches label '{label}'", m_idx is not None)
 
 # 3. Item 5 in sidebar dropdown is Sting Dâu Tây Đỏ (no combo)
 sidebar_dropdown_match = re.search(r'id="sidebar-search-dropdown-menu"[\s\S]*?</div>\s*</div>\s*</div>', search_content)
