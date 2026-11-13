@@ -2031,10 +2031,6 @@ function renderSearchResults(products, keyword, page = 1) {
       <div class="product-info">
         <span class="product-cat">${defaultMonster.brand}</span>
         <a href="${detailLink}" class="product-title-link"><h3 class="product-title">${defaultMonster.name}</h3></a>
-        <div class="product-specs">
-          <span><i class="fas fa-wine-bottle"></i> 355ml</span>
-          <span><i class="fas fa-bolt"></i> Malaysia SX</span>
-        </div>
         <div class="product-bottom">
           <div class="product-price">
             <span class="price-label">GIÁ CHÍNH HÃNG</span>
