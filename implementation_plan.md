@@ -1,10 +1,10 @@
-# Kế Hoạch Triển Khai: Lược Bỏ Nhãn Đếm Số Lon Và Khoảng Giá Phụ Khỏi Sidebar Bộ Lọc
+# Kế Hoạch Triển Khai: Tinh Chỉnh Câu Chữ Thẻ KPI Thương Hiệu Admin Dashboard
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **Trạng thái:** ĐÃ HOÀN THÀNH TOÀN DIỆN (100% PASS)
 
-**Goal:** Lược bỏ toàn bộ các thẻ `.filter-option-count` (số lon đếm và khoảng giá phụ) khỏi sidebar bộ lọc tại `index.html` và `pages/search-results.html`, đồng bộ kịch bản kiểm thử `scripts/verify_sidebar_filter_sync.py`.
+**Goal:** Thay thế câu chữ thẻ KPI thương hiệu trong `admin/index.html` từ `3 Brand` / `Monster, Redbull & Sting` thành `3 Thương Hiệu` / `Monster • Redbull • Sting` theo Hướng 1 đã được phê duyệt.
 
-**Architecture:** Pure Static HTML5 / CSS3 / Vanilla JS. Chỉnh sửa trực tiếp mã nguồn HTML tĩnh, duy trì sự tương thích 100% với form submit bộ lọc `handleSearchResultsFilter` và `applyDashboardSidebarFilter`.
+**Architecture:** Pure Static HTML5 / CSS3 / Vanilla JS. Chỉnh sửa trực tiếp file HTML tĩnh, không ảnh hưởng layout hoặc logic CSS.
 
 **Tech Stack:** HTML5, CSS3, Vanilla JavaScript, Python test suites.
 
@@ -12,48 +12,37 @@
 
 - Không tự động chạy `git push`. Toàn bộ commit thực hiện cục bộ.
 - 100% Pure Static Architecture: Không làm thay đổi layout hay gãy vỡ giao diện.
-- Giữ nguyên toàn bộ cấu trúc radio inputs: `name`, `value`, `checked`.
 - Test Suite Integrity: Duy trì 100% PASS cho tất cả các test suites hiện có.
 
 ---
 
-### Task 1: Cập Nhật Script Kiểm Thử TDD `scripts/verify_sidebar_filter_sync.py`
+### Task 1: Viết Script Kiểm Thử TDD `scripts/verify_admin_kpi_brand_wording.py`
 
 **Files:**
-- Modify: `scripts/verify_sidebar_filter_sync.py`
+- Create: `scripts/verify_admin_kpi_brand_wording.py`
 
-- [ ] **Step 1: Cập nhật `scripts/verify_sidebar_filter_sync.py`**
-- [ ] **Step 2: Chạy kiểm thử để xác nhận trạng thái thất bại ban đầu (Red Phase)**
-- [ ] **Step 3: Commit cục bộ script test**
+- [x] **Step 1: Viết script `scripts/verify_admin_kpi_brand_wording.py`**
+- [x] **Step 2: Chạy kiểm thử để xác nhận trạng thái thất bại ban đầu (Red Phase)**
+- [x] **Step 3: Commit cục bộ script test (`edc1ce1`)**
 
 ---
 
-### Task 2: Lược Bỏ Các Thẻ `filter-option-count` Trong `index.html`
+### Task 2: Cập Nhật Câu Chữ Thẻ KPI Và Tiêu Đề Phụ Trong `admin/index.html` & `admin/inventory.html`
 
 **Files:**
-- Modify: `index.html:544-594`
-- Test: `scripts/verify_sidebar_filter_sync.py`
+- Modify: `admin/index.html:100-101,276`
+- Modify: `admin/inventory.html:57`
+- Test: `scripts/verify_admin_kpi_brand_wording.py`
 
-- [ ] **Step 1: Xóa 4 thẻ `filter-option-count` trong nhóm Phân loại thương hiệu của `index.html`**
-- [ ] **Step 2: Xóa 3 thẻ `filter-option-count` trong nhóm Khoảng giá của `index.html`**
-- [ ] **Step 3: Commit cục bộ**
+- [x] **Step 1: Thay thế thẻ KPI số 3 trong `admin/index.html` thành `<h3>3 Thương Hiệu</h3>` và `<p>Monster • Redbull • Sting</p>`**
+- [x] **Step 2: Cập nhật nhãn phụ tại dòng 276 trong `admin/index.html`**
+- [x] **Step 3: Cập nhật nhãn phụ tại dòng 57 trong `admin/inventory.html`**
+- [x] **Step 4: Chạy script `scripts/verify_admin_kpi_brand_wording.py` (Green Phase - PASS 100%)**
+- [x] **Step 5: Commit cục bộ (`d7e1d29`)**
 
 ---
 
-### Task 3: Lược Bỏ Các Thẻ `filter-option-count` Trong `pages/search-results.html`
-
-**Files:**
-- Modify: `pages/search-results.html:326-376`
-- Test: `scripts/verify_sidebar_filter_sync.py`
-
-- [ ] **Step 1: Xóa 4 thẻ `filter-option-count` trong nhóm Phân loại thương hiệu của `search-results.html`**
-- [ ] **Step 2: Xóa 3 thẻ `filter-option-count` trong nhóm Khoảng giá của `search-results.html`**
-- [ ] **Step 3: Chạy script `scripts/verify_sidebar_filter_sync.py` (Green Phase)**
-- [ ] **Step 4: Commit cục bộ**
-
----
-
-### Task 4: Kiểm Thử Toàn Diện Hệ Thống & Nghiệm Thu Hồi Quy
+### Task 3: Kiểm Thử Toàn Diện Hệ Thống & Nghiệm Thu Hồi Quy
 
 **Files:**
 - Test: `verify_implementation.py`
@@ -62,11 +51,13 @@
 - Test: `scripts/verify_no_product_specs.py`
 - Test: `scripts/verify_clean_brand_pills_and_kicker.py`
 - Test: `scripts/verify_sidebar_filter_sync.py`
+- Test: `scripts/verify_admin_kpi_brand_wording.py`
 
-- [ ] **Step 1: Chạy `verify_implementation.py` (66/66 PASS)**
-- [ ] **Step 2: Chạy `scripts/verify_ui_fixes_and_combo_removal.py` (8/8 PASS)**
-- [ ] **Step 3: Chạy `scripts/verify_footer_sync.py` (144/144 PASS)**
-- [ ] **Step 4: Chạy `scripts/verify_no_product_specs.py` (8/8 PASS)**
-- [ ] **Step 5: Chạy `scripts/verify_clean_brand_pills_and_kicker.py` (9/9 PASS)**
-- [ ] **Step 6: Chạy `scripts/verify_sidebar_filter_sync.py` (PASS 100%)**
-- [ ] **Step 7: Cập nhật tài liệu và báo cáo kết quả**
+- [x] **Step 1: Chạy `verify_implementation.py` (66/66 PASS)**
+- [x] **Step 2: Chạy `scripts/verify_ui_fixes_and_combo_removal.py` (8/8 PASS)**
+- [x] **Step 3: Chạy `scripts/verify_footer_sync.py` (144/144 PASS)**
+- [x] **Step 4: Chạy `scripts/verify_sidebar_filter_sync.py` (31/31 PASS)**
+- [x] **Step 5: Chạy `scripts/verify_no_product_specs.py` (8/8 PASS)**
+- [x] **Step 6: Chạy `scripts/verify_clean_brand_pills_and_kicker.py` (9/9 PASS)**
+- [x] **Step 7: Chạy `scripts/verify_admin_kpi_brand_wording.py` (PASS 100%)**
+- [x] **Step 8: Cập nhật tài liệu và báo cáo kết quả**
