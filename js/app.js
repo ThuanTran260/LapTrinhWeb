@@ -874,6 +874,9 @@ function setupPriceInput(input) {
     if (!rawDigits) {
       this.value = '';
       updatePricePreview(this);
+      if (this.id && this.id.startsWith('voucher-') && typeof updateVoucherLivePreview === 'function') {
+        updateVoucherLivePreview();
+      }
       return;
     }
 
@@ -881,6 +884,9 @@ function setupPriceInput(input) {
     this.value = formatted;
     restoreCursorPosition(this, formatted, digitsBeforeCursor);
     updatePricePreview(this);
+    if (this.id && this.id.startsWith('voucher-') && typeof updateVoucherLivePreview === 'function') {
+      updateVoucherLivePreview();
+    }
   });
 
   input.addEventListener('focus', function() {
@@ -903,6 +909,9 @@ function setupPriceInput(input) {
       this.value = formatCurrencyVND(clean);
     }
     updatePricePreview(this);
+    if (this.id && this.id.startsWith('voucher-') && typeof updateVoucherLivePreview === 'function') {
+      updateVoucherLivePreview();
+    }
   });
 
   updatePricePreview(input);
@@ -916,7 +925,13 @@ function initPriceFormatting() {
     '#edit-prod-oldprice',
     '#add-prod-price',
     '#standalone-edit-price',
-    '#standalone-edit-oldprice'
+    '#standalone-edit-oldprice',
+    '#voucher-min-spend',
+    '#voucher-max-discount',
+    '#ship-min-free',
+    '#ship-standard-fee',
+    '#add-voucher-min-spend',
+    '#add-voucher-max-discount'
   ];
   document.querySelectorAll(selectors.join(', ')).forEach(setupPriceInput);
 
@@ -2869,8 +2884,24 @@ function updateVoucherLivePreview() {
   const code = (codeEl && codeEl.value) ? codeEl.value.trim().toUpperCase() : 'MONSTER10';
   const rawAmount = (amountEl && amountEl.value) ? amountEl.value.trim() : '10%';
   const type = typeEl ? typeEl.value : 'percent';
-  const minSpend = (minSpendEl && minSpendEl.value) ? minSpendEl.value.trim() : '0đ';
-  const maxDisc = (maxDiscEl && maxDiscEl.value) ? maxDiscEl.value.trim() : '';
+  const rawMinSpend = (minSpendEl && minSpendEl.value) ? minSpendEl.value.trim() : '0đ';
+  const rawMaxDisc = (maxDiscEl && maxDiscEl.value) ? maxDiscEl.value.trim() : '';
+
+  let minSpend = rawMinSpend;
+  if (minSpend && minSpend !== '0') {
+    const num = minSpend.replace(/\D/g, '');
+    if (num) {
+      minSpend = formatCurrencyVND(num);
+    }
+  }
+
+  let maxDisc = rawMaxDisc;
+  if (maxDisc) {
+    const num = maxDisc.replace(/\D/g, '');
+    if (num) {
+      maxDisc = formatCurrencyVND(num);
+    }
+  }
 
   if (previewCode) {
     previewCode.innerHTML = `<i class="fas fa-copy"></i> ${code}`;
@@ -2882,13 +2913,14 @@ function updateVoucherLivePreview() {
       previewDiscount.textContent = `GIẢM ${cleanPercent}%`;
     } else {
       const cleanFixed = rawAmount.replace(/\s*(đ|Đ|vnđ|VNĐ)$/i, '').trim();
-      previewDiscount.textContent = `GIẢM ${cleanFixed}đ`;
+      const num = cleanFixed.replace(/\D/g, '');
+      previewDiscount.textContent = `GIẢM ${num ? formatCurrencyVND(num) : '0đ'}`;
     }
   }
 
   if (previewDesc) {
     const minText = (!minSpend || minSpend === '0' || minSpend === '0đ') ? 'mọi đơn hàng' : `đơn từ ${minSpend}`;
-    const maxText = maxDisc ? ` (Tối đa ${maxDisc})` : '';
+    const maxText = (maxDisc && maxDisc !== '0đ') ? ` (Tối đa ${maxDisc})` : '';
     previewDesc.textContent = `Áp dụng cho ${minText}${maxText}`;
   }
 
@@ -3214,6 +3246,70 @@ if (typeof window !== 'undefined') {
   window.changeDashboardPage = changeDashboardPage;
   window.handleNavBrandClick = handleNavBrandClick;
   window.updatePaginationUI = updatePaginationUI;
+  window.handleAdminAddFaq = handleAdminAddFaq;
+  window.handleAdminDeleteFaq = handleAdminDeleteFaq;
+  window.handleAdminEditFaq = handleAdminEditFaq;
+}
+
+// ==========================================================================
+// ADMIN FAQ MANAGEMENT
+// ==========================================================================
+function handleAdminAddFaq(e) {
+  if (e && typeof e.preventDefault === 'function') e.preventDefault();
+  const qInput = document.getElementById('faq-new-question');
+  const oInput = document.getElementById('faq-new-order');
+  const aInput = document.getElementById('faq-new-answer');
+  const list = document.getElementById('faq-admin-list');
+
+  const question = qInput ? qInput.value.trim() : '';
+  const order = oInput ? oInput.value.trim() : '5';
+  const answer = aInput ? aInput.value.trim() : '';
+
+  if (!question || !answer) {
+    showToast('Vui lòng nhập đầy đủ câu hỏi và câu trả lời!', 'warning');
+    return false;
+  }
+
+  if (list) {
+    const itemEl = document.createElement('div');
+    itemEl.className = 'faq-admin-item';
+    itemEl.style.cssText = 'background: var(--bg-surface, #1e2230); border: 1px solid var(--border-color, #2d3344); border-radius: 8px; padding: 14px 16px;';
+    itemEl.innerHTML = `
+      <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 8px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span class="badge-status info" style="font-weight: 800; font-size: 0.75rem;">#${order}</span>
+          <strong style="color: #FFF; font-size: 0.92rem;">${question}</strong>
+        </div>
+        <div style="display: flex; gap: 6px; flex-shrink: 0;">
+          <button type="button" class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem;" onclick="handleAdminEditFaq('${order}')" title="Chỉnh sửa câu hỏi"><i class="fas fa-edit"></i></button>
+          <button type="button" class="cart-del-btn" style="padding: 4px 8px;" onclick="handleAdminDeleteFaq(this, '${order}')" title="Xóa câu hỏi"><i class="fas fa-trash"></i></button>
+        </div>
+      </div>
+      <p style="margin: 0; color: var(--text-muted, #94a3b8); font-size: 0.85rem; line-height: 1.5;">${answer}</p>
+    `;
+    list.appendChild(itemEl);
+  }
+
+  if (qInput) qInput.value = '';
+  if (aInput) aInput.value = '';
+  if (oInput) oInput.value = String(parseInt(order, 10) + 1);
+
+  showToast('Đã thêm câu hỏi thường gặp mới thành công!', 'success');
+  return false;
+}
+
+function handleAdminDeleteFaq(btn, id) {
+  if (btn) {
+    const item = btn.closest('.faq-admin-item');
+    if (item) {
+      item.remove();
+    }
+  }
+  showToast(`Đã xóa câu hỏi FAQ #${id} thành công!`, 'success');
+}
+
+function handleAdminEditFaq(id) {
+  showToast(`Đang mở giao diện chỉnh sửa câu hỏi FAQ #${id}`, 'info');
 }
 
 if (typeof document !== 'undefined') {

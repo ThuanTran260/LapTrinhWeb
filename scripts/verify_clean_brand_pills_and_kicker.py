@@ -62,9 +62,9 @@ if idx_content:
     has_section_kicker = re.search(r'class="section-kicker"', idx_content) is not None
     check("index.html không còn class section-kicker", not has_section_kicker)
 
-    # 5. Check section-title of testimonials still exists
-    has_testimonials_title = "ĐƯỢC TIN DÙNG BỞI GIỚI" in idx_content and "CHUYÊN NGHIỆP" in idx_content
-    check("testimonials section-title vẫn được bảo toàn", has_testimonials_title)
+    # 5. Check trust-strip is retained with authentic guarantees
+    has_trust_strip = "trust-strip" in idx_content and "100% CHÍNH HÃNG" in idx_content
+    check("trust-strip vẫn được bảo toàn với đầy đủ cam kết", has_trust_strip)
 
 print("=" * 75)
 print(f"Result: {passed}/{passed + failed} passed")

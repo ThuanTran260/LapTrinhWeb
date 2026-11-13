@@ -175,12 +175,12 @@
 
             <div class="admin-form-group">
               <label class="admin-form-label" for="voucher-min-spend"><i class="fas fa-coins"></i> Đơn Tối Thiểu</label>
-              <input type="text" id="voucher-min-spend" class="admin-form-input" value="200.000đ" oninput="updateVoucherLivePreview()" />
+              <input type="text" id="voucher-min-spend" class="admin-form-input price-format-input" value="200.000đ" oninput="updateVoucherLivePreview()" />
             </div>
 
             <div class="admin-form-group">
               <label class="admin-form-label" for="voucher-max-discount"><i class="fas fa-shield-alt"></i> Giảm Tối Đa</label>
-              <input type="text" id="voucher-max-discount" class="admin-form-input" value="50.000đ" oninput="updateVoucherLivePreview()" />
+              <input type="text" id="voucher-max-discount" class="admin-form-input price-format-input" value="50.000đ" oninput="updateVoucherLivePreview()" />
             </div>
 
             <div class="admin-form-group">
@@ -196,12 +196,12 @@
           <div class="admin-form-grid" style="margin-bottom: 16px;">
             <div class="admin-form-group">
               <label class="admin-form-label" for="ship-min-free"><i class="fas fa-gift"></i> Miễn Phí Vận Chuyển Từ</label>
-              <input type="text" id="ship-min-free" class="admin-form-input" value="200.000đ" />
+              <input type="text" id="ship-min-free" class="admin-form-input price-format-input" value="200.000đ" />
             </div>
 
             <div class="admin-form-group">
               <label class="admin-form-label" for="ship-standard-fee"><i class="fas fa-money-bill-wave"></i> Phí Giao Tiêu Chuẩn</label>
-              <input type="text" id="ship-standard-fee" class="admin-form-input" value="25.000đ" />
+              <input type="text" id="ship-standard-fee" class="admin-form-input price-format-input" value="25.000đ" />
             </div>
           </div>
 
@@ -209,6 +209,111 @@
             <i class="fas fa-save"></i> Lưu Cấu Hình Voucher & Vận Chuyển
           </button>
         </form>
+      </section>
+
+      <!-- FAQ Management Section -->
+      <section class="admin-section-box" style="max-width: 740px;">
+        <div class="admin-section-header">
+          <h2 class="admin-section-title"><i class="fas fa-circle-question" style="color: var(--primary);"></i> QUẢN LÝ CÂU HỎI THƯỜNG GẶP (FAQ)</h2>
+        </div>
+
+        <!-- Khối Form Thêm Mới FAQ -->
+        <form id="faq-add-form" onsubmit="handleAdminAddFaq(event)" style="margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid var(--border-color);">
+          <div style="font-size: 0.88rem; font-weight: 700; color: var(--secondary); text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+            <i class="fas fa-plus-circle"></i> Thêm Câu Hỏi Mới Vào Hệ Thống
+          </div>
+          
+          <div class="admin-form-grid" style="margin-bottom: 14px;">
+            <div class="admin-form-group" style="grid-column: span 2;">
+              <label class="admin-form-label" for="faq-new-question"><i class="fas fa-heading"></i> Câu Hỏi <span class="req">*</span></label>
+              <input type="text" id="faq-new-question" class="admin-form-input" placeholder="VD: Nước tăng lực Monster có vị nào ngon nhất?" required />
+            </div>
+            
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="faq-new-order"><i class="fas fa-arrow-down-1-9"></i> Thứ Tự Hiển Thị <span class="req">*</span></label>
+              <input type="number" id="faq-new-order" class="admin-form-input" value="5" min="1" required />
+            </div>
+          </div>
+
+          <div class="admin-form-group" style="margin-bottom: 14px;">
+            <label class="admin-form-label" for="faq-new-answer"><i class="fas fa-comment-dots"></i> Câu Trả Lời Chi Tiết <span class="req">*</span></label>
+            <textarea id="faq-new-answer" class="admin-form-input" rows="3" placeholder="Nhập nội dung giải đáp chi tiết cho khách hàng..." style="resize: vertical; font-family: inherit;" required></textarea>
+          </div>
+
+          <button type="submit" class="btn-add-cart" style="padding: 10px 24px; font-weight: 700;">
+            <i class="fas fa-plus"></i> Thêm Câu Hỏi
+          </button>
+        </form>
+
+        <!-- Khối Danh Sách FAQ Chuẩn -->
+        <div>
+          <div style="font-size: 0.88rem; font-weight: 700; color: var(--primary); text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between;">
+            <span><i class="fas fa-list-check"></i> Danh Sách Câu Hỏi Hiện Tại (4 Câu Hỏi Chuẩn)</span>
+            <span style="font-size: 0.78rem; color: var(--text-dim); text-transform: none; font-weight: normal;">Hiển thị trực tiếp trên trang chủ</span>
+          </div>
+
+          <div id="faq-admin-list" style="display: flex; flex-direction: column; gap: 12px;">
+            <!-- FAQ 1 -->
+            <div class="faq-admin-item" style="background: var(--bg-surface, #1e2230); border: 1px solid var(--border-color, #2d3344); border-radius: 8px; padding: 14px 16px;">
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 8px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span class="badge-status info" style="font-weight: 800; font-size: 0.75rem;">#1</span>
+                  <strong style="color: #FFF; font-size: 0.92rem;">Các dòng nước tăng lực tại Energy Boost gồm những thương hiệu nào?</strong>
+                </div>
+                <div style="display: flex; gap: 6px; flex-shrink: 0;">
+                  <button type="button" class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem;" onclick="handleAdminEditFaq(1)" title="Chỉnh sửa câu hỏi"><i class="fas fa-edit"></i></button>
+                  <button type="button" class="cart-del-btn" style="padding: 4px 8px;" onclick="handleAdminDeleteFaq(this, 1)" title="Xóa câu hỏi"><i class="fas fa-trash"></i></button>
+                </div>
+              </div>
+              <p style="margin: 0; color: var(--text-muted, #94a3b8); font-size: 0.85rem; line-height: 1.5;">Energy Boost chuyên phân phối chính hãng hai dòng thương hiệu hàng đầu: Monster Energy (Original 355ml, Ultra White, Ultra Paradise, Punk Punch) và Redbull Thái Lan (Original 250ml, Lon Nắp Bật 250ml).</p>
+            </div>
+
+            <!-- FAQ 2 -->
+            <div class="faq-admin-item" style="background: var(--bg-surface, #1e2230); border: 1px solid var(--border-color, #2d3344); border-radius: 8px; padding: 14px 16px;">
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 8px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span class="badge-status info" style="font-weight: 800; font-size: 0.75rem;">#2</span>
+                  <strong style="color: #FFF; font-size: 0.92rem;">Shop giao hàng trong bao lâu? Lon có được ướp lạnh sẵn không?</strong>
+                </div>
+                <div style="display: flex; gap: 6px; flex-shrink: 0;">
+                  <button type="button" class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem;" onclick="handleAdminEditFaq(2)" title="Chỉnh sửa câu hỏi"><i class="fas fa-edit"></i></button>
+                  <button type="button" class="cart-del-btn" style="padding: 4px 8px;" onclick="handleAdminDeleteFaq(this, 2)" title="Xóa câu hỏi"><i class="fas fa-trash"></i></button>
+                </div>
+              </div>
+              <p style="margin: 0; color: var(--text-muted, #94a3b8); font-size: 0.85rem; line-height: 1.5;">Nội thành TP.HCM và Hà Nội giao hỏa tốc trong 2H, lon được ướp lạnh sẵn và đóng thùng chống va đập. Tỉnh thành khác giao 1-3 ngày qua đơn vị vận chuyển.</p>
+            </div>
+
+            <!-- FAQ 3 -->
+            <div class="faq-admin-item" style="background: var(--bg-surface, #1e2230); border: 1px solid var(--border-color, #2d3344); border-radius: 8px; padding: 14px 16px;">
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 8px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span class="badge-status info" style="font-weight: 800; font-size: 0.75rem;">#3</span>
+                  <strong style="color: #FFF; font-size: 0.92rem;">Bộ sưu tập 3 thương hiệu nước tăng lực gồm những dòng nào?</strong>
+                </div>
+                <div style="display: flex; gap: 6px; flex-shrink: 0;">
+                  <button type="button" class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem;" onclick="handleAdminEditFaq(3)" title="Chỉnh sửa câu hỏi"><i class="fas fa-edit"></i></button>
+                  <button type="button" class="cart-del-btn" style="padding: 4px 8px;" onclick="handleAdminDeleteFaq(this, 3)" title="Xóa câu hỏi"><i class="fas fa-trash"></i></button>
+                </div>
+              </div>
+              <p style="margin: 0; color: var(--text-muted, #94a3b8); font-size: 0.85rem; line-height: 1.5;">Bạn được tự chọn/mix giữa các dòng Monster Energy và Redbull Thái Lan. Quà tặng gồm túi tote độc quyền + bộ sticker trị giá 350.000đ.</p>
+            </div>
+
+            <!-- FAQ 4 -->
+            <div class="faq-admin-item" style="background: var(--bg-surface, #1e2230); border: 1px solid var(--border-color, #2d3344); border-radius: 8px; padding: 14px 16px;">
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 8px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span class="badge-status info" style="font-weight: 800; font-size: 0.75rem;">#4</span>
+                  <strong style="color: #FFF; font-size: 0.92rem;">Làm sao phân biệt sản phẩm chính hãng tại Energy Boost?</strong>
+                </div>
+                <div style="display: flex; gap: 6px; flex-shrink: 0;">
+                  <button type="button" class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem;" onclick="handleAdminEditFaq(4)" title="Chỉnh sửa câu hỏi"><i class="fas fa-edit"></i></button>
+                  <button type="button" class="cart-del-btn" style="padding: 4px 8px;" onclick="handleAdminDeleteFaq(this, 4)" title="Xóa câu hỏi"><i class="fas fa-trash"></i></button>
+                </div>
+              </div>
+              <p style="margin: 0; color: var(--text-muted, #94a3b8); font-size: 0.85rem; line-height: 1.5;">Tất cả sản phẩm đều có mã vạch sắc nét, date in chuẩn dưới đáy lon, tem phụ tiếng Việt đầy đủ và nắp bật nguyên seal. Cam kết 100% chính hãng, đền gấp 10 lần nếu phát hiện hàng giả.</p>
+            </div>
+          </div>
+        </div>
       </section>
     <!-- ==========================================================================
          FOOTER
@@ -313,12 +418,12 @@
 
             <div class="admin-form-group">
               <label class="admin-form-label" for="add-voucher-min-spend"><i class="fas fa-coins"></i> Đơn Tối Thiểu</label>
-              <input type="text" id="add-voucher-min-spend" class="admin-form-input" placeholder="VD: 150.000đ" value="150.000đ" />
+              <input type="text" id="add-voucher-min-spend" class="admin-form-input price-format-input" placeholder="VD: 150.000đ" value="150.000đ" />
             </div>
 
             <div class="admin-form-group">
               <label class="admin-form-label" for="add-voucher-max-discount"><i class="fas fa-shield-alt"></i> Giảm Tối Đa</label>
-              <input type="text" id="add-voucher-max-discount" class="admin-form-input" placeholder="VD: 40.000đ" value="40.000đ" />
+              <input type="text" id="add-voucher-max-discount" class="admin-form-input price-format-input" placeholder="VD: 40.000đ" value="40.000đ" />
             </div>
 
             <div class="admin-form-group">
