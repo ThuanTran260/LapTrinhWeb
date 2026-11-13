@@ -1,10 +1,10 @@
-# Kế Hoạch Triển Khai: Loại Bỏ Khối Thông Số Hardcode (product-specs) Khỏi Thẻ Sản Phẩm
+# Kế Hoạch Triển Khai: Chuẩn Hóa Nhãn Phân Loại Nhanh Và Lược Bỏ Kicker Đánh Giá Hardcode
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Loại bỏ hoàn toàn khối thông số hardcode `.product-specs` (chứa các icon và text `Sẵn hàng`, `0 Đường`, dung tích...) khỏi tất cả 14 thẻ sản phẩm trên `index.html`, thẻ mẫu trong `pages/search-results.html` và template render trong `js/app.js`, đảm bảo giao diện thẻ gọn gàng và đồng bộ 100% với dữ liệu quản trị Admin.
+**Goal:** Chuẩn hóa nhãn 3 nút phân loại nhanh theo hãng (bỏ số vị hardcode `(4 vị)`, `(3 vị)`) và lược bỏ thẻ kicker marketing `12.400+ KHÁCH HÀNG TIN DÙNG` trong `index.html`.
 
-**Architecture:** Pure Static HTML5 / CSS3 / Vanilla JS. Xóa bỏ thẻ `<div class="product-specs">...</div>` khỏi mã nguồn HTML và template JS. CSS `.product-card-stitch` với `.product-bottom { margin-top: auto; }` sẽ tự động kéo giá tiền và nút giỏ hàng xuống sát đáy card, duy trì sự thẳng hàng tuyệt đối.
+**Architecture:** Pure Static HTML5 / CSS3 / Vanilla JS. Chỉnh sửa trực tiếp mã nguồn HTML tĩnh, duy trì sự tương thích 100% với các hàm JavaScript điều hướng `handleNavBrandClick`.
 
 **Tech Stack:** HTML5, CSS3, Vanilla JavaScript, Python test suites.
 
@@ -12,48 +12,44 @@
 
 - Không tự động chạy `git push`. Toàn bộ commit thực hiện cục bộ.
 - 100% Pure Static Architecture: Không làm thay đổi layout hay gãy vỡ giao diện.
-- Giữ nguyên toàn bộ 14 nút `btn-add-stitch`, liên kết điều hướng ảnh và tiêu đề đến trang chi tiết sản phẩm.
-- Test Suite Integrity: Duy trì 100% PASS cho `verify_implementation.py`, `scripts/verify_ui_fixes_and_combo_removal.py` và `scripts/verify_footer_sync.py`.
+- Giữ nguyên toàn bộ cấu trúc neo và điều hướng thương hiệu của các nút phân loại nhanh.
+- Test Suite Integrity: Duy trì 100% PASS cho tất cả các test suites hiện có.
 
 ---
 
-### Task 1: Viết Script Kiểm Thử TDD `scripts/verify_no_product_specs.py`
+### Task 1: Viết Script Kiểm Thử TDD `scripts/verify_clean_brand_pills_and_kicker.py`
 
 **Files:**
-- Create: `scripts/verify_no_product_specs.py`
+- Create: `scripts/verify_clean_brand_pills_and_kicker.py`
 
-- [ ] **Step 1: Viết test script `scripts/verify_no_product_specs.py`**
+- [ ] **Step 1: Viết script `scripts/verify_clean_brand_pills_and_kicker.py`**
 - [ ] **Step 2: Chạy kiểm thử để xác nhận trạng thái thất bại ban đầu (Red Phase)**
 - [ ] **Step 3: Commit cục bộ script test**
 
 ---
 
-### Task 2: Loại Bỏ Khối `.product-specs` Khỏi 14 Thẻ Sản Phẩm Trong `index.html`
+### Task 2: Chuẩn Hóa 3 Nút Phân Loại Nhanh Trong `index.html`
 
 **Files:**
-- Modify: `index.html:328-424,670-940`
-- Test: `scripts/verify_no_product_specs.py`
+- Modify: `index.html:621-630`
+- Test: `scripts/verify_clean_brand_pills_and_kicker.py`
 
-- [ ] **Step 1: Xóa khối `.product-specs` khỏi 4 thẻ sản phẩm Flash Sale**
-- [ ] **Step 2: Xóa khối `.product-specs` khỏi 4 thẻ thương hiệu Monster Energy**
-- [ ] **Step 3: Xóa khối `.product-specs` khỏi 3 thẻ thương hiệu Redbull Thái Lan**
-- [ ] **Step 4: Xóa khối `.product-specs` khỏi 3 thẻ thương hiệu Sting PepsiCo**
-- [ ] **Step 5: Kiểm tra xác minh `index.html` không còn bất kỳ thẻ `product-specs` nào**
-- [ ] **Step 6: Commit cục bộ**
+- [ ] **Step 1: Thay thế `Monster Energy (4 vị)` thành `Monster Energy`**
+- [ ] **Step 2: Thay thế `Redbull Thái Lan (3 vị)` thành `Redbull Thái Lan`**
+- [ ] **Step 3: Thay thế `Sting PepsiCo (3 vị)` thành `Sting PepsiCo`**
+- [ ] **Step 4: Commit cục bộ**
 
 ---
 
-### Task 3: Loại Bỏ Khối `.product-specs` Khỏi `pages/search-results.html` và `js/app.js`
+### Task 3: Lược Bỏ Thẻ Kicker `12.400+ KHÁCH HÀNG TIN DÙNG` Trong `index.html`
 
 **Files:**
-- Modify: `pages/search-results.html:409-412`
-- Modify: `js/app.js:2034-2037`
-- Test: `scripts/verify_no_product_specs.py`
+- Modify: `index.html:944-951`
+- Test: `scripts/verify_clean_brand_pills_and_kicker.py`
 
-- [ ] **Step 1: Xóa khối `.product-specs` trong `pages/search-results.html`**
-- [ ] **Step 2: Xóa khối `.product-specs` trong template HTML của `js/app.js`**
-- [ ] **Step 3: Chạy script kiểm thử `scripts/verify_no_product_specs.py` (Green Phase)**
-- [ ] **Step 4: Commit cục bộ**
+- [ ] **Step 1: Xóa dòng `<span class="section-kicker"><i class="fas fa-award"></i> 12.400+ KHÁCH HÀNG TIN DÙNG</span>`**
+- [ ] **Step 2: Chạy script `scripts/verify_clean_brand_pills_and_kicker.py` (Green Phase)**
+- [ ] **Step 3: Commit cục bộ**
 
 ---
 
@@ -63,12 +59,12 @@
 - Test: `verify_implementation.py`
 - Test: `scripts/verify_ui_fixes_and_combo_removal.py`
 - Test: `scripts/verify_footer_sync.py`
-- Test: `scripts/verify_header_footer_pagination.py`
 - Test: `scripts/verify_no_product_specs.py`
+- Test: `scripts/verify_clean_brand_pills_and_kicker.py`
 
-- [ ] **Step 1: Chạy `verify_implementation.py` đảm bảo 66/66 checks PASS**
-- [ ] **Step 2: Chạy `scripts/verify_ui_fixes_and_combo_removal.py` đảm bảo 8/8 checks PASS**
-- [ ] **Step 3: Chạy `scripts/verify_footer_sync.py` đảm bảo 144/144 checks PASS**
-- [ ] **Step 4: Chạy `scripts/verify_no_product_specs.py` đảm bảo PASS 100%**
-- [ ] **Step 5: Kiểm tra trực quan giao diện thẻ sản phẩm trên trình duyệt**
+- [ ] **Step 1: Chạy `verify_implementation.py` (66/66 PASS)**
+- [ ] **Step 2: Chạy `scripts/verify_ui_fixes_and_combo_removal.py` (8/8 PASS)**
+- [ ] **Step 3: Chạy `scripts/verify_footer_sync.py` (144/144 PASS)**
+- [ ] **Step 4: Chạy `scripts/verify_no_product_specs.py` (8/8 PASS)**
+- [ ] **Step 5: Chạy `scripts/verify_clean_brand_pills_and_kicker.py` (PASS 100%)**
 - [ ] **Step 6: Cập nhật tài liệu và báo cáo kết quả**
