@@ -143,6 +143,182 @@ if settings_html:
     check("admin/settings.html: có nút Thao tác Sửa/Xóa",
           "fa-edit" in settings_html and "fa-trash" in settings_html)
 
+# ----------------------------------------------------------------------
+# 6. Kiểm thử sâu qua Node.js: Thực thi logic tương tác thực tế
+# ----------------------------------------------------------------------
+print("\n--- 6. KIỂM THỬ SÂU RUNTIME LOGIC QUA NODE.JS ---")
+import subprocess
+
+node_test_code = """
+const fs = require('fs');
+const js = fs.readFileSync('js/app.js', 'utf8');
+
+const elements = {};
+function mockElement(id, initialVal = '', type = 'text') {
+  elements[id] = {
+    id: id,
+    type: type,
+    value: initialVal,
+    textContent: '',
+    innerHTML: '',
+    classList: {
+      classes: new Set(),
+      add: function(c) { this.classes.add(c); },
+      remove: function(c) { this.classes.delete(c); },
+      contains: function(c) { return this.classes.has(c); }
+    },
+    dataset: {},
+    listeners: {},
+    children: [],
+    appendChild: function(c) { this.children.push(c); c.parentElement = this; },
+    addEventListener: function(event, handler) {
+      if (!this.listeners[event]) this.listeners[event] = [];
+      this.listeners[event].push(handler);
+    },
+    trigger: function(event) {
+      if (this.listeners[event]) {
+        for (const h of this.listeners[event]) h.call(this);
+      }
+    },
+    selectionStart: initialVal.length,
+    selectionEnd: initialVal.length,
+    setSelectionRange: function(s, e) { this.selectionStart = s; this.selectionEnd = e; },
+    closest: function(sel) {
+      if (sel === '.faq-admin-item') return this;
+      return null;
+    },
+    remove: function() {
+      if (this.parentElement) {
+        const idx = this.parentElement.children.indexOf(this);
+        if (idx !== -1) this.parentElement.children.splice(idx, 1);
+      }
+    },
+    focus: function() { this.focused = true; },
+    scrollIntoView: function() {},
+    querySelectorAll: function(sel) {
+      if (sel.includes('.badge-status')) {
+        return this.children.map(c => c.querySelector('.badge-status')).filter(Boolean);
+      }
+      return this.children;
+    }
+  };
+  return elements[id];
+}
+
+global.window = { addEventListener: () => {} };
+global.document = {
+  body: { appendChild: () => {} },
+  getElementById: (id) => elements[id] || null,
+  createElement: (tag) => {
+    return {
+      tagName: tag.toUpperCase(),
+      className: '',
+      style: { cssText: '' },
+      innerHTML: '',
+      children: [],
+      appendChild: function(c) { this.children.push(c); c.parentElement = this; },
+      remove: function() {
+        if (this.parentElement) {
+          const idx = this.parentElement.children.indexOf(this);
+          if (idx !== -1) this.parentElement.children.splice(idx, 1);
+        }
+      },
+      closest: function(sel) {
+        if (sel === '.faq-admin-item') return this;
+        return null;
+      },
+      querySelector: function(sel) {
+        if (sel === '.badge-status') return this.badgeEl || { textContent: '#1' };
+        if (sel === 'strong') return this.strongEl || { textContent: 'Title' };
+        if (sel === 'p') return this.pEl || { textContent: 'Desc' };
+        return null;
+      }
+    };
+  },
+  querySelectorAll: (selector) => {
+    const list = [];
+    for (const k of Object.keys(elements)) {
+      if (selector.includes('#' + k)) list.push(elements[k]);
+      if (selector.includes('.price-format-input') && elements[k].classList.contains('price-format-input')) list.push(elements[k]);
+    }
+    return list;
+  },
+  querySelector: () => null,
+  addEventListener: () => {},
+  readyState: 'complete'
+};
+
+mockElement('voucher-code', 'MONSTER10');
+mockElement('voucher-type', 'percent');
+mockElement('voucher-amount', '10%');
+mockElement('voucher-min-spend', '200.000đ');
+mockElement('voucher-max-discount', '50.000đ');
+mockElement('ship-min-free', '200.000đ');
+mockElement('ship-standard-fee', '25.000đ');
+mockElement('preview-ticket-code');
+mockElement('preview-ticket-discount');
+mockElement('preview-ticket-desc');
+mockElement('preview-ticket-expiry');
+mockElement('faq-new-question', '');
+mockElement('faq-new-order', '5');
+mockElement('faq-new-answer', '');
+const faqList = mockElement('faq-admin-list');
+
+eval(js);
+initPriceFormatting();
+
+// 1. Test live typing voucher-max-discount -> 13131
+const maxDisc = elements['voucher-max-discount'];
+maxDisc.value = '13131';
+maxDisc.trigger('input');
+const okMaxDisc = (maxDisc.value === '13.131đ') && elements['preview-ticket-desc'].textContent.includes('(Tối đa 13.131đ)');
+
+// 2. Test typing ship-standard-fee -> 35000
+const shipFee = elements['ship-standard-fee'];
+shipFee.value = '35000';
+shipFee.trigger('input');
+const okShip = (shipFee.value === '35.000đ');
+
+// 3. Test FAQ add
+elements['faq-new-question'].value = 'FAQ Câu hỏi thử nghiệm';
+elements['faq-new-order'].value = '5';
+elements['faq-new-answer'].value = 'FAQ Câu trả lời thử nghiệm';
+handleAdminAddFaq({ preventDefault: () => {} });
+const okFaqAdd = (faqList.children.length === 1);
+
+// 4. Test FAQ edit populates form
+const item5 = faqList.children[0];
+item5.badgeEl = { textContent: '#5' };
+item5.strongEl = { textContent: 'FAQ Câu hỏi thử nghiệm' };
+item5.pEl = { textContent: 'FAQ Câu trả lời thử nghiệm' };
+handleAdminEditFaq('5', item5);
+const okFaqEdit = (elements['faq-new-question'].value === 'FAQ Câu hỏi thử nghiệm' && elements['faq-new-order'].value === '5');
+
+// 5. Test FAQ update does not duplicate
+elements['faq-new-answer'].value = 'FAQ Câu trả lời đã sửa đổi';
+handleAdminAddFaq({ preventDefault: () => {} });
+const okFaqUpdate = (faqList.children.length === 1 && item5.pEl.textContent === 'FAQ Câu trả lời đã sửa đổi');
+
+// 6. Test FAQ delete
+handleAdminDeleteFaq(item5, '5');
+const okFaqDel = (faqList.children.length === 0);
+
+console.log(JSON.stringify({ okMaxDisc, okShip, okFaqAdd, okFaqEdit, okFaqUpdate, okFaqDel }));
+"""
+
+try:
+    node_res = subprocess.run(["node", "-e", node_test_code], capture_output=True, text=True, check=True)
+    import json
+    results = json.loads(node_res.stdout.strip())
+    check("Node.js runtime: gõ 13131 vào #voucher-max-discount định dạng 13.131đ & preview hiển thị đúng '(Tối đa 13.131đ)'", results.get("okMaxDisc", False))
+    check("Node.js runtime: gõ 35000 vào #ship-standard-fee định dạng 35.000đ", results.get("okShip", False))
+    check("Node.js runtime: handleAdminAddFaq thêm câu hỏi mới trực quan vào #faq-admin-list", results.get("okFaqAdd", False))
+    check("Node.js runtime: handleAdminEditFaq nạp dữ liệu câu hỏi vào form chỉnh sửa", results.get("okFaqEdit", False))
+    check("Node.js runtime: submit cập nhật FAQ đã có không bị trùng lặp phần tử", results.get("okFaqUpdate", False))
+    check("Node.js runtime: handleAdminDeleteFaq xóa câu hỏi khỏi danh sách", results.get("okFaqDel", False))
+except Exception as e:
+    check("Node.js runtime execution pass", False, str(e))
+
 print("\n" + "=" * 80)
 print(f"KẾT QUẢ TỔNG QUÁT: {passed}/{passed + failed} TIÊU CHÍ ĐẠT")
 print("=" * 80)
