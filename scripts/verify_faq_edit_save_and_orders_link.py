@@ -133,7 +133,27 @@ lastToastMsg = '';
 handleAdminSaveFaq();
 const saveEmittedToast = lastToastMsg.includes('Đã lưu thay đổi');
 
-console.log(JSON.stringify({ editDidNotChangeQuestion, editDidNotChangeOrder, editEmittedToast, saveEmittedToast }));
+// Test 3: handleAdminAddFaq emits success toast without wiping or resetting form inputs
+lastToastMsg = '';
+elements['faq-new-question'].value = 'Câu hỏi 1 gốc';
+elements['faq-new-order'].value = '1';
+elements['faq-new-answer'].value = 'Câu trả lời 1 gốc';
+handleAdminAddFaq({ preventDefault: () => {} });
+const addEmittedToast = lastToastMsg.includes('Đã thêm câu hỏi thường gặp mới thành công!');
+const addDidNotWipeQuestion = (elements['faq-new-question'].value === 'Câu hỏi 1 gốc');
+const addDidNotWipeOrder = (elements['faq-new-order'].value === '1');
+const addDidNotWipeAnswer = (elements['faq-new-answer'].value === 'Câu trả lời 1 gốc');
+
+console.log(JSON.stringify({
+  editDidNotChangeQuestion,
+  editDidNotChangeOrder,
+  editEmittedToast,
+  saveEmittedToast,
+  addEmittedToast,
+  addDidNotWipeQuestion,
+  addDidNotWipeOrder,
+  addDidNotWipeAnswer
+}));
 """
 
 try:
@@ -144,6 +164,10 @@ try:
     check("Node.js runtime: handleAdminEditFaq không thay đổi thứ tự trên form", results.get("editDidNotChangeOrder", False))
     check("Node.js runtime: handleAdminEditFaq kích hoạt thông báo 'Đã chuyển'", results.get("editEmittedToast", False))
     check("Node.js runtime: handleAdminSaveFaq kích hoạt thông báo 'Đã lưu thay đổi'", results.get("saveEmittedToast", False))
+    check("Node.js runtime: handleAdminAddFaq kích hoạt thông báo 'Đã thêm câu hỏi thường gặp mới thành công!'", results.get("addEmittedToast", False))
+    check("Node.js runtime: handleAdminAddFaq không xóa hay thay đổi câu hỏi trên form", results.get("addDidNotWipeQuestion", False))
+    check("Node.js runtime: handleAdminAddFaq không xóa hay thay đổi thứ tự trên form", results.get("addDidNotWipeOrder", False))
+    check("Node.js runtime: handleAdminAddFaq không xóa hay thay đổi câu trả lời trên form", results.get("addDidNotWipeAnswer", False))
 except Exception as e:
     check("Node.js runtime execution pass: " + str(e), False)
 

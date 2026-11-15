@@ -279,35 +279,31 @@ shipFee.value = '35000';
 shipFee.trigger('input');
 const okShip = (shipFee.value === '35.000đ');
 
-// 3. Test FAQ add
-elements['faq-new-question'].value = 'FAQ Câu hỏi thử nghiệm';
-elements['faq-new-order'].value = '5';
-elements['faq-new-answer'].value = 'FAQ Câu trả lời thử nghiệm';
-handleAdminAddFaq({ preventDefault: () => {} });
-const okFaqAdd = (faqList.children.length === 1);
-
-// 4. Test FAQ edit: kích hoạt thông báo Đã chuyển mà không làm sai lệch form
-const item5 = faqList.children[0];
-item5.badgeEl = { textContent: '#5' };
-item5.strongEl = { textContent: 'FAQ Câu hỏi thử nghiệm' };
-item5.pEl = { textContent: 'FAQ Câu trả lời thử nghiệm' };
-let editToastMsg = '';
-showToast = function(msg) { editToastMsg = msg; };
+// 3. Test FAQ add: chỉ hiện thông báo thành công, giữ nguyên DOM
+let addToastMsg = '';
+showToast = function(msg) { addToastMsg = msg; };
+const countBeforeAdd = faqList.children.length;
 elements['faq-new-question'].value = 'Câu hỏi FAQ 1';
 elements['faq-new-order'].value = '1';
+elements['faq-new-answer'].value = 'Câu trả lời FAQ 1';
+handleAdminAddFaq({ preventDefault: () => {} });
+const countAfterAdd = faqList.children.length;
+const okFaqAdd = (countBeforeAdd === countAfterAdd && addToastMsg.includes('Đã thêm câu hỏi thường gặp'));
+
+// 4. Test FAQ edit: kích hoạt thông báo Đã chuyển mà không làm sai lệch form
+const item5 = { badgeEl: { textContent: '#5' }, strongEl: { textContent: 'FAQ 5' }, pEl: { textContent: 'Desc 5' } };
+let editToastMsg = '';
+showToast = function(msg) { editToastMsg = msg; };
 handleAdminEditFaq('5', item5);
 const okFaqEdit = (elements['faq-new-question'].value === 'Câu hỏi FAQ 1' && elements['faq-new-order'].value === '1' && editToastMsg.includes('Đã chuyển'));
 
-// 5. Test FAQ update does not duplicate
-elements['faq-new-question'].value = 'FAQ Câu hỏi thử nghiệm';
-elements['faq-new-order'].value = '5';
-elements['faq-new-answer'].value = 'FAQ Câu trả lời đã sửa đổi';
-handleAdminAddFaq({ preventDefault: () => {} });
-const okFaqUpdate = (faqList.children.length === 1 && item5.pEl.textContent === 'FAQ Câu trả lời đã sửa đổi');
+// 5. Test FAQ add does not wipe fixed form inputs
+const okFaqUpdate = (elements['faq-new-question'].value === 'Câu hỏi FAQ 1' && elements['faq-new-order'].value === '1' && elements['faq-new-answer'].value === 'Câu trả lời FAQ 1');
 
 // 6. Test FAQ delete: chỉ hiện thông báo, DOM vẫn giữ nguyên phần tử
+faqList.appendChild(mockElement('faq-item-5'));
 let lastToastMsg = '';
-global.showToast = function(msg, type) { lastToastMsg = msg; };
+showToast = function(msg, type) { lastToastMsg = msg; };
 const countBefore = faqList.children.length;
 handleAdminDeleteFaq(item5, '5');
 const countAfter = faqList.children.length;
@@ -322,9 +318,9 @@ try:
     results = json.loads(node_res.stdout.strip())
     check("Node.js runtime: gõ 13131 vào #voucher-max-discount định dạng 13.131đ & preview hiển thị đúng '(Tối đa 13.131đ)'", results.get("okMaxDisc", False))
     check("Node.js runtime: gõ 35000 vào #ship-standard-fee định dạng 35.000đ", results.get("okShip", False))
-    check("Node.js runtime: handleAdminAddFaq thêm câu hỏi mới trực quan vào #faq-admin-list", results.get("okFaqAdd", False))
+    check("Node.js runtime: handleAdminAddFaq chỉ hiện thông báo thành công và giữ nguyên DOM", results.get("okFaqAdd", False))
     check("Node.js runtime: handleAdminEditFaq kích hoạt thông báo 'Đã chuyển' mà không làm sai lệch form", results.get("okFaqEdit", False))
-    check("Node.js runtime: submit cập nhật FAQ đã có không bị trùng lặp phần tử", results.get("okFaqUpdate", False))
+    check("Node.js runtime: submit thêm FAQ không xóa hay làm sai lệch form cố định", results.get("okFaqUpdate", False))
     check("Node.js runtime: handleAdminDeleteFaq chỉ hiện thông báo, giữ nguyên phần tử trong DOM", results.get("okFaqDel", False))
 except Exception as e:
     check("Node.js runtime execution pass", False, str(e))

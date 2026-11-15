@@ -3255,94 +3255,9 @@ if (typeof window !== 'undefined') {
 // ==========================================================================
 // ADMIN FAQ MANAGEMENT
 // ==========================================================================
-function escapeFaqHtml(str) {
-  if (!str) return '';
-  return String(str)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
-}
-
 function handleAdminAddFaq(e) {
   if (e && typeof e.preventDefault === 'function') e.preventDefault();
-  const qInput = document.getElementById('faq-new-question');
-  const oInput = document.getElementById('faq-new-order');
-  const aInput = document.getElementById('faq-new-answer');
-  const list = document.getElementById('faq-admin-list');
-
-  const question = qInput ? qInput.value.trim() : '';
-  const order = oInput ? oInput.value.trim() : '5';
-  const answer = aInput ? aInput.value.trim() : '';
-
-  if (!question || !answer) {
-    showToast('Vui lòng nhập đầy đủ câu hỏi và câu trả lời!', 'warning');
-    return false;
-  }
-
-  const safeOrder = String(order).replace(/[^0-9]/g, '') || '1';
-  let isUpdate = false;
-
-  if (list) {
-    // Check if an item with this order badge already exists in the list
-    const items = list.querySelectorAll('.faq-admin-item');
-    let existingItem = null;
-    for (const it of items) {
-      const b = it.querySelector('.badge-status');
-      if (b && b.textContent.trim() === '#' + safeOrder) {
-        existingItem = it;
-        break;
-      }
-    }
-
-    if (existingItem) {
-      // Update existing item content
-      const strongEl = existingItem.querySelector('strong');
-      const pEl = existingItem.querySelector('p');
-      if (strongEl) strongEl.textContent = question;
-      if (pEl) pEl.textContent = answer;
-      isUpdate = true;
-    } else {
-      // Append new item
-      const itemEl = document.createElement('div');
-      itemEl.className = 'faq-admin-item';
-      itemEl.style.cssText = 'background: var(--bg-surface, #1e2230); border: 1px solid var(--border-color, #2d3344); border-radius: 8px; padding: 14px 16px;';
-      itemEl.innerHTML = `
-        <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 8px;">
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <span class="badge-status info" style="font-weight: 800; font-size: 0.75rem;">#${safeOrder}</span>
-            <strong style="color: #FFF; font-size: 0.92rem;">${escapeFaqHtml(question)}</strong>
-          </div>
-          <div style="display: flex; gap: 6px; flex-shrink: 0;">
-            <button type="button" class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem;" onclick="handleAdminEditFaq('${safeOrder}', this)" title="Chỉnh sửa câu hỏi"><i class="fas fa-edit"></i></button>
-            <button type="button" class="cart-del-btn" style="padding: 4px 8px;" onclick="handleAdminDeleteFaq(this, '${safeOrder}')" title="Xóa câu hỏi"><i class="fas fa-trash"></i></button>
-          </div>
-        </div>
-        <p style="margin: 0; color: var(--text-muted, #94a3b8); font-size: 0.85rem; line-height: 1.5;">${escapeFaqHtml(answer)}</p>
-      `;
-      list.appendChild(itemEl);
-    }
-  }
-
-  // Clear inputs and advance order to highest order + 1
-  if (qInput) qInput.value = '';
-  if (aInput) aInput.value = '';
-  if (oInput) {
-    let maxOrder = 0;
-    if (list) {
-      const badges = list.querySelectorAll('.faq-admin-item .badge-status');
-      badges.forEach(b => {
-        if (b && b.textContent) {
-          const num = parseInt(b.textContent.replace(/\D/g, ''), 10);
-          if (!isNaN(num) && num > maxOrder) maxOrder = num;
-        }
-      });
-    }
-    oInput.value = String(Math.max(maxOrder + 1, parseInt(safeOrder, 10) + 1));
-  }
-
-  showToast(isUpdate ? `Đã cập nhật nội dung câu hỏi FAQ #${safeOrder} thành công!` : 'Đã thêm câu hỏi thường gặp mới thành công!', 'success');
+  showToast('Đã thêm câu hỏi thường gặp mới thành công!', 'success');
   return false;
 }
 
