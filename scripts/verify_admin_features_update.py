@@ -53,24 +53,28 @@ check("admin/index.html tồn tại", adm_idx_html is not None)
 def verify_stock_qty(file_name, content):
     if not content:
         return
-    # Check 4 Monster items fixed 1.250 lon
-    monster_matches = re.findall(r'Tồn:\s*1\.250\s*lon', content)
-    check(f"{file_name}: 4 sản phẩm Monster có Tồn: 1.250 lon", len(monster_matches) >= 4, f"Tìm thấy {len(monster_matches)} lon")
+    # Check 1: Verify <th>Tồn Kho</th> and <th>Trạng Thái</th> are present in content
+    check(f"{file_name}: có cột tiêu đề th Tồn Kho và th Trạng Thái",
+          "<th>Tồn Kho</th>" in content and "<th>Trạng Thái</th>" in content)
+
+    # Check 2: Check 4 Monster items have 1.250 and <small ...>lon</small>
+    monster_matches = re.findall(r'1\.250\s*<small[^>]*>lon</small>', content)
+    check(f"{file_name}: 4 sản phẩm Monster có tồn kho 1.250 lon", len(monster_matches) >= 4, f"Tìm thấy {len(monster_matches)} lon")
     
-    # Check 3 Redbull items: 680, 450, 520 lon
-    check(f"{file_name}: Redbull Original có Tồn: 680 lon", "Tồn: 680 lon" in content)
-    check(f"{file_name}: Redbull Thái Lan có Tồn: 450 lon", "Tồn: 450 lon" in content)
-    check(f"{file_name}: Redbull Nắp Bật có Tồn: 520 lon", "Tồn: 520 lon" in content)
+    # Check 3, 4, 5: Check Redbull items: 680, 450, 520
+    check(f"{file_name}: Redbull Original có tồn kho 680 lon", bool(re.search(r'680\s*<small[^>]*>lon</small>', content)))
+    check(f"{file_name}: Redbull Thái Lan có tồn kho 450 lon", bool(re.search(r'450\s*<small[^>]*>lon</small>', content)))
+    check(f"{file_name}: Redbull Nắp Bật có tồn kho 520 lon", bool(re.search(r'520\s*<small[^>]*>lon</small>', content)))
     
-    # Check 3 Sting items: 890, 740, 610 lon
-    check(f"{file_name}: Sting Dâu Tây Đỏ có Tồn: 890 lon", "Tồn: 890 lon" in content)
-    check(f"{file_name}: Sting Vàng Sleek có Tồn: 740 lon", "Tồn: 740 lon" in content)
-    check(f"{file_name}: Sting Blue Sleek có Tồn: 610 lon", "Tồn: 610 lon" in content)
+    # Check 6, 7: Check Sting items: 890, 740, 610
+    check(f"{file_name}: Sting Dâu Tây Đỏ có tồn kho 890 lon", bool(re.search(r'890\s*<small[^>]*>lon</small>', content)))
+    check(f"{file_name}: Sting Vàng & Blue có tồn kho 740 và 610 lon",
+          bool(re.search(r'740\s*<small[^>]*>lon</small>', content)) and bool(re.search(r'610\s*<small[^>]*>lon</small>', content)))
     
-    # Check style formatting
-    check(f"{file_name}: cấu trúc thẻ inline-flex chứa fas fa-box và chữ trắng sáng",
-          'display: inline-flex; align-items: center; gap: 8px; white-space: nowrap;' in content and
-          '<i class="fas fa-box" style="color: var(--primary); margin-right: 4px;"></i>Tồn:' in content)
+    # Check 8: Check status cell format & stock icon
+    check(f"{file_name}: định dạng ô Tồn Kho riêng và cột Trạng Thái riêng biệt",
+          '<i class="fas fa-box" style="color: var(--primary); margin-right: 6px;"></i>' in content and
+          bool(re.search(r'<td>\s*<span class="badge-status success">CÒN HÀNG</span>\s*</td>', content)))
 
 verify_stock_qty("admin/inventory.html", inv_html)
 verify_stock_qty("admin/index.html", adm_idx_html)
