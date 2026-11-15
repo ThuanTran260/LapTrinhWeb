@@ -120,6 +120,7 @@ mockElement('faq-new-order', '1');
 mockElement('faq-new-answer', 'Câu trả lời 1 gốc');
 
 eval(js);
+global.showToast = function(msg) { lastToastMsg = msg; };
 
 // Test 1: handleAdminEditFaq does not change form inputs, emits "Đã chuyển"
 handleAdminEditFaq('2', null);

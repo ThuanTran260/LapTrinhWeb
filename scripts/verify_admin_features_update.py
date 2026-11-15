@@ -286,15 +286,21 @@ elements['faq-new-answer'].value = 'FAQ Câu trả lời thử nghiệm';
 handleAdminAddFaq({ preventDefault: () => {} });
 const okFaqAdd = (faqList.children.length === 1);
 
-// 4. Test FAQ edit populates form
+// 4. Test FAQ edit: kích hoạt thông báo Đã chuyển mà không làm sai lệch form
 const item5 = faqList.children[0];
 item5.badgeEl = { textContent: '#5' };
 item5.strongEl = { textContent: 'FAQ Câu hỏi thử nghiệm' };
 item5.pEl = { textContent: 'FAQ Câu trả lời thử nghiệm' };
+let editToastMsg = '';
+showToast = function(msg) { editToastMsg = msg; };
+elements['faq-new-question'].value = 'Câu hỏi FAQ 1';
+elements['faq-new-order'].value = '1';
 handleAdminEditFaq('5', item5);
-const okFaqEdit = (elements['faq-new-question'].value === 'FAQ Câu hỏi thử nghiệm' && elements['faq-new-order'].value === '5');
+const okFaqEdit = (elements['faq-new-question'].value === 'Câu hỏi FAQ 1' && elements['faq-new-order'].value === '1' && editToastMsg.includes('Đã chuyển'));
 
 // 5. Test FAQ update does not duplicate
+elements['faq-new-question'].value = 'FAQ Câu hỏi thử nghiệm';
+elements['faq-new-order'].value = '5';
 elements['faq-new-answer'].value = 'FAQ Câu trả lời đã sửa đổi';
 handleAdminAddFaq({ preventDefault: () => {} });
 const okFaqUpdate = (faqList.children.length === 1 && item5.pEl.textContent === 'FAQ Câu trả lời đã sửa đổi');
@@ -317,7 +323,7 @@ try:
     check("Node.js runtime: gõ 13131 vào #voucher-max-discount định dạng 13.131đ & preview hiển thị đúng '(Tối đa 13.131đ)'", results.get("okMaxDisc", False))
     check("Node.js runtime: gõ 35000 vào #ship-standard-fee định dạng 35.000đ", results.get("okShip", False))
     check("Node.js runtime: handleAdminAddFaq thêm câu hỏi mới trực quan vào #faq-admin-list", results.get("okFaqAdd", False))
-    check("Node.js runtime: handleAdminEditFaq nạp dữ liệu câu hỏi vào form chỉnh sửa", results.get("okFaqEdit", False))
+    check("Node.js runtime: handleAdminEditFaq kích hoạt thông báo 'Đã chuyển' mà không làm sai lệch form", results.get("okFaqEdit", False))
     check("Node.js runtime: submit cập nhật FAQ đã có không bị trùng lặp phần tử", results.get("okFaqUpdate", False))
     check("Node.js runtime: handleAdminDeleteFaq chỉ hiện thông báo, giữ nguyên phần tử trong DOM", results.get("okFaqDel", False))
 except Exception as e:
