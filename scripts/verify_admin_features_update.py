@@ -68,8 +68,9 @@ def verify_stock_qty(file_name, content):
     check(f"{file_name}: Sting Blue Sleek có Tồn: 610 lon", "Tồn: 610 lon" in content)
     
     # Check style formatting
-    check(f"{file_name}: cấu trúc thẻ small chứa fas fa-box và style chuẩn",
-          '<small style="color: var(--text-muted); display: block; margin-top: 4px; font-size: 0.78rem;"><i class="fas fa-box"></i> Tồn:' in content)
+    check(f"{file_name}: cấu trúc thẻ inline-flex chứa fas fa-box và chữ trắng sáng",
+          'display: inline-flex; align-items: center; gap: 8px; white-space: nowrap;' in content and
+          '<i class="fas fa-box" style="color: var(--primary); margin-right: 4px;"></i>Tồn:' in content)
 
 verify_stock_qty("admin/inventory.html", inv_html)
 verify_stock_qty("admin/index.html", adm_idx_html)
