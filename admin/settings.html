@@ -217,32 +217,37 @@
           <h2 class="admin-section-title"><i class="fas fa-circle-question" style="color: var(--primary);"></i> QUẢN LÝ CÂU HỎI THƯỜNG GẶP (FAQ)</h2>
         </div>
 
-        <!-- Khối Form Thêm Mới FAQ -->
+        <!-- Khối Form Cấu Hình & Chỉnh Sửa FAQ -->
         <form id="faq-add-form" onsubmit="handleAdminAddFaq(event)" style="margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid var(--border-color);">
           <div style="font-size: 0.88rem; font-weight: 700; color: var(--secondary); text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
-            <i class="fas fa-plus-circle"></i> Thêm Câu Hỏi Mới Vào Hệ Thống
+            <i class="fas fa-sliders"></i> Cấu Hình & Chỉnh Sửa Câu Hỏi FAQ #1
           </div>
           
           <div class="admin-form-grid" style="margin-bottom: 14px;">
             <div class="admin-form-group" style="grid-column: span 2;">
               <label class="admin-form-label" for="faq-new-question"><i class="fas fa-heading"></i> Câu Hỏi <span class="req">*</span></label>
-              <input type="text" id="faq-new-question" class="admin-form-input" placeholder="VD: Nước tăng lực Monster có vị nào ngon nhất?" required />
+              <input type="text" id="faq-new-question" class="admin-form-input" value="Các dòng nước tăng lực tại Energy Boost gồm những thương hiệu nào?" placeholder="VD: Nước tăng lực Monster có vị nào ngon nhất?" required />
             </div>
             
             <div class="admin-form-group">
               <label class="admin-form-label" for="faq-new-order"><i class="fas fa-arrow-down-1-9"></i> Thứ Tự Hiển Thị <span class="req">*</span></label>
-              <input type="number" id="faq-new-order" class="admin-form-input" value="5" min="1" required />
+              <input type="number" id="faq-new-order" class="admin-form-input" value="1" min="1" required />
             </div>
           </div>
 
           <div class="admin-form-group" style="margin-bottom: 14px;">
             <label class="admin-form-label" for="faq-new-answer"><i class="fas fa-comment-dots"></i> Câu Trả Lời Chi Tiết <span class="req">*</span></label>
-            <textarea id="faq-new-answer" class="admin-form-input" rows="3" placeholder="Nhập nội dung giải đáp chi tiết cho khách hàng..." style="resize: vertical; font-family: inherit;" required></textarea>
+            <textarea id="faq-new-answer" class="admin-form-input" rows="3" placeholder="Nhập nội dung giải đáp chi tiết cho khách hàng..." style="resize: vertical; font-family: inherit;" required>Energy Boost chuyên phân phối chính hãng hai dòng thương hiệu hàng đầu: Monster Energy (Original 355ml, Ultra White, Ultra Paradise, Punk Punch) và Redbull Thái Lan (Original 250ml, Lon Nắp Bật 250ml).</textarea>
           </div>
 
-          <button type="submit" class="btn-add-cart" style="padding: 10px 24px; font-weight: 700;">
-            <i class="fas fa-plus"></i> Thêm Câu Hỏi
-          </button>
+          <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+            <button type="button" class="btn-add-cart" style="padding: 10px 24px; font-weight: 700;" onclick="handleAdminSaveFaq()">
+              <i class="fas fa-save"></i> Lưu Thay Đổi
+            </button>
+            <button type="submit" class="btn-view-detail" style="padding: 10px 20px; font-weight: 600;">
+              <i class="fas fa-plus"></i> Thêm Mới
+            </button>
+          </div>
         </form>
 
         <!-- Khối Danh Sách FAQ Chuẩn -->
