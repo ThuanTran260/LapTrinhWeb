@@ -751,12 +751,13 @@ button {
   top: 12px;
   left: 12px;
   background: var(--secondary);
-  color: #FFF;
+  color: #000;
   font-size: 0.75rem;
-  font-weight: 800;
+  font-weight: 900;
   padding: 4px 8px;
   border-radius: var(--radius-sm);
   z-index: 5;
+  box-shadow: 0 0 10px rgba(0, 255, 102, 0.4);
 }
 .badge-tag {
   position: absolute;
