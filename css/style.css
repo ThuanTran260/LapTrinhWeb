@@ -1005,8 +1005,13 @@ del.price-old {
 }
 .detail-badge-row {
   display: flex;
+  align-items: center;
   gap: 8px;
   margin-bottom: 12px;
+}
+.detail-badge-row .badge-discount,
+.detail-badge-row .badge-tag {
+  position: static;
 }
 .detail-title {
   font-family: var(--font-heading);
