@@ -1382,21 +1382,21 @@ const MOCK_ORDER_DATABASE = {
     statusClass: 'success',
     paymentMethod: 'Chuyển khoản VietQR',
     shippingMethod: 'Giao hàng tiêu chuẩn',
-    notes: 'Kèm bình giữ nhiệt quà tặng sự kiện',
+    notes: 'Thùng 24 lon Sting Dâu Tây Đỏ chính hãng PepsiCo',
     items: [
       {
-        name: 'Bộ 7 Lon Nước Tăng Lực VIP',
-        desc: 'Tặng Bình Giữ Nhiệt Monster (Trị giá 280K)',
-        img: '../assets/images/monster/original.webp',
+        name: 'Thùng 24 Lon Sting Dâu Tây Đỏ Sleek 330ml',
+        desc: 'Thương hiệu: Sting PepsiCo',
+        img: '../assets/images/sting/sting-dau.webp',
         qty: 1,
-        price: '918.000đ',
-        total: '918.000đ'
+        price: '268.000đ',
+        total: '268.000đ'
       }
     ],
-    subtotal: '918.000đ',
+    subtotal: '268.000đ',
     shippingFee: '0đ (Miễn phí)',
     discount: '0đ',
-    totalAmount: '918.000đ'
+    totalAmount: '268.000đ'
   },
   'EB-2024': {
     id: 'EB-2024',
