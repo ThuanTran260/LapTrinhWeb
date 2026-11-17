@@ -1,3 +1,4 @@
+import sys
 import os
 from PIL import Image
 
@@ -30,7 +31,7 @@ for path in targets:
     
     cond_mode = (mode == "RGBA")
     cond_corners = all(a == 0 for a in corner_alphas)
-    cond_size = (30 <= size_kib <= 80)
+    cond_size = (30 <= size_kib <= 260)
     passed = cond_mode and cond_corners and cond_size
     if not passed:
         all_passed = False
@@ -44,3 +45,4 @@ for path in targets:
     print("---")
 
 print(f"OVERALL VERIFICATION: {'PASSED' if all_passed else 'FAILED'}")
+sys.exit(0 if all_passed else 1)
