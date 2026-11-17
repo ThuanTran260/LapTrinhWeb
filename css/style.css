@@ -4420,12 +4420,13 @@ del.price-old {
 }
 .search-static-item:hover {
   background: rgba(0, 230, 118, 0.08);
-  padding-left: 20px;
 }
 .search-item-left {
   display: flex;
   align-items: center;
   gap: 12px;
+  flex: 1;
+  min-width: 0;
 }
 .search-item-thumb {
   width: 32px;
@@ -4436,11 +4437,18 @@ del.price-old {
   padding: 2px;
   flex-shrink: 0;
 }
+.search-item-info {
+  flex: 1;
+  min-width: 0;
+}
 .search-item-info h5 {
   font-size: 0.88rem;
   font-weight: 600;
   color: #FFF;
   margin-bottom: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .search-item-info .brand-badge {
   font-size: 0.72rem;
@@ -4467,6 +4475,7 @@ del.price-old {
 .search-item-right {
   text-align: right;
   flex-shrink: 0;
+  margin-left: 12px;
 }
 .search-item-price {
   font-size: 0.95rem;
