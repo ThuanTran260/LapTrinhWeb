@@ -1382,10 +1382,10 @@ const MOCK_ORDER_DATABASE = {
     statusClass: 'success',
     paymentMethod: 'Chuyển khoản VietQR',
     shippingMethod: 'Giao hàng tiêu chuẩn',
-    notes: 'Thùng 24 lon Sting Dâu Tây Đỏ chính hãng PepsiCo',
+    notes: '24 lon Sting Dâu Tây Đỏ chính hãng PepsiCo',
     items: [
       {
-        name: 'Thùng 24 Lon Sting Dâu Tây Đỏ Sleek 330ml',
+        name: '24 Lon Sting Dâu Tây Đỏ Sleek 330ml',
         desc: 'Thương hiệu: Sting PepsiCo',
         img: '../assets/images/sting/sting-dau.webp',
         qty: 1,

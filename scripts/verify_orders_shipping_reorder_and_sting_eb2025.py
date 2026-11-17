@@ -74,12 +74,13 @@ def test_orders_shipping_reorder_and_sting_eb2025():
     else:
         eb2025_row = eb2025_match.group(0)
         check("../assets/images/sting/sting-dau.webp" in eb2025_row, "orders.html: #EB-2025 uses sting-dau.webp")
-        check("1x Thùng 24 Lon Sting Dâu Tây Đỏ 330ml" in eb2025_row, "orders.html: #EB-2025 title is '1x Thùng 24 Lon Sting Dâu Tây Đỏ 330ml'")
+        check("24 Lon Sting Dâu Tây Đỏ 330ml" in eb2025_row, "orders.html: #EB-2025 title is '24 Lon Sting Dâu Tây Đỏ 330ml'")
         check("Thương hiệu: Sting PepsiCo" in eb2025_row, "orders.html: #EB-2025 subtitle is 'Thương hiệu: Sting PepsiCo'")
         check("268.000đ" in eb2025_row, "orders.html: #EB-2025 price is '268.000đ'")
         check("fas fa-cart-plus" in eb2025_row and "Mua Lại" in eb2025_row, "orders.html: #EB-2025 has 'Mua Lại' button with fas fa-cart-plus")
-        check("showToast('Đã thêm lại Thùng 24 lon Sting Dâu vào giỏ hàng!', 'success')" in eb2025_row,
-              "orders.html: #EB-2025 reorder toast is 'Đã thêm lại Thùng 24 lon Sting Dâu vào giỏ hàng!'")
+        check("showToast('Đã thêm lại 24 lon Sting Dâu vào giỏ hàng!', 'success')" in eb2025_row,
+              "orders.html: #EB-2025 reorder toast is 'Đã thêm lại 24 lon Sting Dâu vào giỏ hàng!'")
+        check("Thùng" not in eb2025_row and "1x Thùng" not in eb2025_row, "orders.html: #EB-2025 block does not contain 'Thùng' or '1x Thùng'")
         check("Combo Thùng 24 Lon Đấu Trường" not in eb2025_row, "orders.html: #EB-2025 no longer contains old Monster combo name")
         check("Bình Giữ Nhiệt Monster" not in eb2025_row, "orders.html: #EB-2025 no longer contains gift thermos mention")
         check("918.000đ" not in eb2025_row, "orders.html: #EB-2025 no longer contains old 918.000đ price")
@@ -94,12 +95,13 @@ def test_orders_shipping_reorder_and_sting_eb2025():
     else:
         eb2025_card = eb2025_acc_match.group(0)
         check("../assets/images/sting/sting-dau.webp" in eb2025_card, "account.html: #EB-2025 uses sting-dau.webp")
-        check("1x Thùng 24 Lon Sting Dâu Tây Đỏ Sleek 330ml" in eb2025_card, "account.html: #EB-2025 title is '1x Thùng 24 Lon Sting Dâu Tây Đỏ Sleek 330ml'")
+        check("24 Lon Sting Dâu Tây Đỏ Sleek 330ml" in eb2025_card, "account.html: #EB-2025 title is '24 Lon Sting Dâu Tây Đỏ Sleek 330ml'")
         check("Thương hiệu: Sting PepsiCo" in eb2025_card, "account.html: #EB-2025 subtitle is 'Thương hiệu: Sting PepsiCo'")
         check("268.000đ" in eb2025_card, "account.html: #EB-2025 total price is '268.000đ'")
         check("order-detail.html?id=EB-2025" in eb2025_card, "account.html: #EB-2025 has 'Chi Tiết' link to order-detail.html?id=EB-2025")
-        check("showToast('Đã thêm lại Thùng 24 lon Sting Dâu vào giỏ!', 'success')" in eb2025_card,
-              "account.html: #EB-2025 reorder toast is 'Đã thêm lại Thùng 24 lon Sting Dâu vào giỏ!'")
+        check("showToast('Đã thêm lại 24 lon Sting Dâu vào giỏ!', 'success')" in eb2025_card,
+              "account.html: #EB-2025 reorder toast is 'Đã thêm lại 24 lon Sting Dâu vào giỏ!'")
+        check("Thùng" not in eb2025_card and "1x Thùng" not in eb2025_card, "account.html: #EB-2025 block does not contain 'Thùng' or '1x Thùng'")
         check("Combo Thùng 24 Lon Đấu Trường" not in eb2025_card, "account.html: #EB-2025 no longer contains old combo name")
         check("Bình Giữ Nhiệt Monster" not in eb2025_card, "account.html: #EB-2025 no longer contains thermos mention")
         check("918.000đ" not in eb2025_card, "account.html: #EB-2025 no longer contains old 918.000đ price")
@@ -114,12 +116,13 @@ def test_orders_shipping_reorder_and_sting_eb2025():
     else:
         eb2025_db = eb2025_db_match.group(1)
         check("../assets/images/sting/sting-dau.webp" in eb2025_db, "js/app.js: EB-2025 uses sting-dau.webp image")
-        check("Thùng 24 Lon Sting Dâu Tây Đỏ Sleek 330ml" in eb2025_db, "js/app.js: EB-2025 item name is 'Thùng 24 Lon Sting Dâu Tây Đỏ Sleek 330ml'")
+        check("24 Lon Sting Dâu Tây Đỏ Sleek 330ml" in eb2025_db, "js/app.js: EB-2025 item name is '24 Lon Sting Dâu Tây Đỏ Sleek 330ml'")
         check("Thương hiệu: Sting PepsiCo" in eb2025_db, "js/app.js: EB-2025 item desc is 'Thương hiệu: Sting PepsiCo'")
         check("'268.000đ'" in eb2025_db or '"268.000đ"' in eb2025_db, "js/app.js: EB-2025 prices are 268.000đ")
         check("totalAmount: '268.000đ'" in eb2025_db or 'totalAmount: "268.000đ"' in eb2025_db, "js/app.js: EB-2025 totalAmount is '268.000đ'")
         check("subtotal: '268.000đ'" in eb2025_db or 'subtotal: "268.000đ"' in eb2025_db, "js/app.js: EB-2025 subtotal is '268.000đ'")
-        check("Thùng 24 lon Sting Dâu Tây Đỏ" in eb2025_db, "js/app.js: EB-2025 notes specify Sting Dâu Tây Đỏ")
+        check("24 lon Sting Dâu Tây Đỏ" in eb2025_db, "js/app.js: EB-2025 notes specify 24 lon Sting Dâu Tây Đỏ")
+        check("Thùng" not in eb2025_db and "1x Thùng" not in eb2025_db, "js/app.js: EB-2025 block does not contain 'Thùng' or '1x Thùng'")
         check("Bộ 7 Lon Nước Tăng Lực VIP" not in eb2025_db, "js/app.js: EB-2025 no longer contains old 7 Lon VIP item")
         check("918.000đ" not in eb2025_db, "js/app.js: EB-2025 no longer contains 918.000đ")
         check("Bình Giữ Nhiệt Monster" not in eb2025_db, "js/app.js: EB-2025 no longer contains gift thermos")
