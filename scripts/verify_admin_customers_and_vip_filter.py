@@ -93,10 +93,43 @@ const top5Btn = {
   },
 };
 
-const tierSelect = { value: 'all', options: [{ value: 'all', text: 'Tất cả cấp bậc (6 khách)' }], selectedIndex: 0 };
-const kwInput = { value: '' };
+const tierSelect = {
+  value: 'diamond',
+  options: [
+    { value: 'all', text: 'Tất cả cấp bậc (6 khách)' },
+    { value: 'diamond', text: 'Kim Cương' },
+  ],
+  selectedIndex: 1,
+};
+const kwInput = { value: 'Phạm' };
 const fromInput = { value: '2026-01-01' };
 const toInput = { value: '2026-10-17' };
+
+let formResetCalls = 0;
+const formAddUser = { reset: () => { formResetCalls += 1; } };
+const modalAddUserClasses = new Set(['admin-modal-overlay', 'active']);
+const modalAddUser = {
+  classList: {
+    remove: (c) => modalAddUserClasses.delete(c),
+    add: (c) => modalAddUserClasses.add(c),
+    contains: (c) => modalAddUserClasses.has(c),
+  },
+};
+
+let tbodyInsertBeforeCalls = 0;
+let tbodyAppendChildCalls = 0;
+const tbody = {
+  firstChild: null,
+  insertBefore: () => { tbodyInsertBeforeCalls += 1; },
+  appendChild: () => { tbodyAppendChildCalls += 1; },
+  querySelector: () => null,
+};
+const customersTable = {
+  querySelector: (sel) => (sel === 'tbody' ? tbody : null),
+};
+
+const localStorageSetCalls = [];
+const localStorageRemoveCalls = [];
 
 const sandbox = {
   console,
@@ -105,38 +138,119 @@ const sandbox = {
   document: {
     readyState: 'loading',
     addEventListener: () => {},
+    createElement: (tag) => ({
+      tagName: String(tag).toUpperCase(),
+      setAttribute: () => {},
+      style: {},
+      innerHTML: '',
+    }),
     getElementById: (id) => ({
       'btn-filter-top5-vip': top5Btn,
       'filter-customer-tier': tierSelect,
       'filter-customer-keyword': kwInput,
       'stat-customer-from': fromInput,
       'stat-customer-to': toInput,
+      'customers-table': customersTable,
+      'form-add-user': formAddUser,
+      'modal-add-user': modalAddUser,
+      'add-user-fullname': { value: 'Nguyễn An Test' },
+      'add-user-username': { value: 'nguyenantest' },
+      'add-user-email': { value: 'test@energyboost.vn' },
+      'add-user-phone': { value: '0909123456' },
+      'add-user-role': { value: 'user' },
+      'add-user-status': { value: 'active' },
+      'add-user-password': { value: '123456' },
     }[id] || null),
-    querySelector: () => null,
+    querySelector: (sel) => (sel === '.cart-table' ? customersTable : (sel === '#customers-table tbody' ? tbody : null)),
     querySelectorAll: (sel) => (sel.includes('#customers-table tbody tr') ? rows : []),
     body: { style: {}, appendChild: () => {} },
   },
-  localStorage: { getItem: () => '[]', setItem: () => {} },
+  localStorage: {
+    getItem: (k) => (k === 'admin_custom_users' ? JSON.stringify([{ id: 'u_1', fullname: 'Old User' }]) : '[]'),
+    setItem: (k, v) => { localStorageSetCalls.push({ k, v }); },
+    removeItem: (k) => { localStorageRemoveCalls.push(k); },
+  },
 };
 
 vm.createContext(sandbox);
 vm.runInContext(appCode, sandbox);
 sandbox.showToast = (msg, type) => toasts.push({ msg, type });
+const closedModals = [];
+const origCloseAdminModal = sandbox.closeAdminModal;
+sandbox.closeAdminModal = (modalId) => {
+  closedModals.push(modalId);
+  if (typeof origCloseAdminModal === 'function') {
+    return origCloseAdminModal(modalId);
+  }
+};
 
-// Enable Top 5 VIP filter -> rank 6 hidden, ranks 1..5 visible
+function assertAllRowsVisible(context) {
+  for (let i = 0; i < 6; i++) {
+    if (rows[i].style.display === 'none' || rows[i].style.display !== '') {
+      throw new Error(`${context}: expected row #${i + 1} display === '' (got ${JSON.stringify(rows[i].style.display)})`);
+    }
+  }
+}
+
+// 1. toggleTop5VipFilter toggles 'active', emits toast with '5 người VIP', keeps ALL 6 rows visible
+toasts.length = 0;
 sandbox.toggleTop5VipFilter(top5Btn);
 if (!btnClasses.has('active')) throw new Error('Expected active class on #btn-filter-top5-vip');
-if (rows[5].style.display !== 'none') throw new Error('Expected row #6 to be hidden under Top 5 VIP filter');
-for (let i = 0; i < 5; i++) {
-  if (rows[i].style.display === 'none') throw new Error(`Expected row #${i + 1} to stay visible`);
+if (!toasts.some((t) => typeof t.msg === 'string' && t.msg.includes('5 người VIP'))) {
+  throw new Error('Expected toggleTop5VipFilter to call showToast with "5 người VIP"');
+}
+assertAllRowsVisible('toggleTop5VipFilter');
+
+// 2. applyAdminCustomerFilter and resetAdminCustomerFilter keep ALL 6 rows visible and emit toasts
+toasts.length = 0;
+sandbox.applyAdminCustomerFilter();
+if (toasts.length === 0) throw new Error('Expected applyAdminCustomerFilter to call showToast');
+assertAllRowsVisible('applyAdminCustomerFilter');
+
+toasts.length = 0;
+sandbox.resetAdminCustomerFilter();
+if (btnClasses.has('active')) throw new Error('Expected resetAdminCustomerFilter to clear active class');
+if (toasts.length === 0) throw new Error('Expected resetAdminCustomerFilter to call showToast');
+assertAllRowsVisible('resetAdminCustomerFilter');
+
+// 3. saveAddUser emits toast with 'Nguyễn An Test', closes modal, resets form, 0 DOM inserts, 0 localStorage.setItem
+toasts.length = 0;
+closedModals.length = 0;
+formResetCalls = 0;
+tbodyInsertBeforeCalls = 0;
+tbodyAppendChildCalls = 0;
+localStorageSetCalls.length = 0;
+
+sandbox.saveAddUser({ preventDefault: () => {} });
+if (!toasts.some((t) => typeof t.msg === 'string' && t.msg.includes('Nguyễn An Test'))) {
+  throw new Error('Expected saveAddUser to call showToast with "Nguyễn An Test"');
+}
+if (!closedModals.includes('modal-add-user')) {
+  throw new Error('Expected saveAddUser to call closeAdminModal("modal-add-user")');
+}
+if (formResetCalls !== 1) {
+  throw new Error(`Expected form.reset() to be called once, got ${formResetCalls}`);
+}
+if (tbodyInsertBeforeCalls !== 0 || tbodyAppendChildCalls !== 0) {
+  throw new Error(`Expected 0 tbody insertBefore/appendChild calls, got insertBefore=${tbodyInsertBeforeCalls}, appendChild=${tbodyAppendChildCalls}`);
+}
+if (localStorageSetCalls.length !== 0) {
+  throw new Error(`Expected 0 localStorage.setItem calls, got ${localStorageSetCalls.length}`);
 }
 
-// Reset restores all 6 rows
-sandbox.resetAdminCustomerFilter();
-if (btnClasses.has('active')) throw new Error('Expected reset to clear active class');
-for (let i = 0; i < 6; i++) {
-  if (rows[i].style.display !== '') throw new Error(`Expected row #${i + 1} visible after reset`);
+// 4. initCustomUsersTable removes 'admin_custom_users' and adds 0 rows
+tbodyInsertBeforeCalls = 0;
+tbodyAppendChildCalls = 0;
+localStorageRemoveCalls.length = 0;
+
+sandbox.initCustomUsersTable();
+if (!localStorageRemoveCalls.includes('admin_custom_users')) {
+  throw new Error('Expected initCustomUsersTable to call localStorage.removeItem("admin_custom_users")');
 }
+if (tbodyInsertBeforeCalls !== 0 || tbodyAppendChildCalls !== 0) {
+  throw new Error(`Expected initCustomUsersTable to add 0 rows, got insertBefore=${tbodyInsertBeforeCalls}, appendChild=${tbodyAppendChildCalls}`);
+}
+
 console.log('NODE_VIP_FILTER_PASS');
 """
     proc = subprocess.run(["node", "-e", node_test], cwd=ROOT, capture_output=True, text=True, encoding="utf-8")
