@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hồ Sơ Khách Hàng - Nguyễn Văn An | ENERGY BOOST ADMIN</title>
+  <meta name="description" content="Hồ sơ khách hàng Nguyễn Văn An và lịch sử thanh toán, mua hàng tại Energy Boost Admin." />
+  <meta name="robots" content="noindex, nofollow" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="../css/style.css?v=layout-20261107" />
+</head>
+<body>
+
+  <div class="admin-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="admin-sidebar">
+      <div class="admin-brand">
+        <a href="../index.html" class="logo">
+          <div class="logo-icon" style="width: 40px; height: 40px; font-size: 1.3rem;">
+            <i class="fas fa-bolt"></i>
+          </div>
+          <div class="logo-text">
+            <span class="logo-title" style="font-size: 1.4rem;">ENERGY<span>BOOST</span></span>
+            <span class="logo-subtitle">HỆ THỐNG QUẢN TRỊ</span>
+          </div>
+        </a>
+      </div>
+
+      <ul class="admin-menu">
+        <li><a href="index.html" class="admin-menu-link"><i class="fas fa-chart-pie"></i> Tổng Quan Dashboard</a></li>
+        <li><a href="orders.html" class="admin-menu-link"><i class="fas fa-shopping-bag"></i> Quản Lý Đơn Hàng</a></li>
+        <li><a href="inventory.html" class="admin-menu-link"><i class="fas fa-boxes-stacked"></i> Kho Nước Tăng Lực</a></li>
+        <li><a href="revenue.html" class="admin-menu-link"><i class="fas fa-wallet"></i> Báo Cáo Doanh Thu</a></li>
+        <li><a href="customers.html" class="admin-menu-link active"><i class="fas fa-users"></i> Khách Hàng</a></li>
+        <li><a href="settings.html" class="admin-menu-link"><i class="fas fa-sliders"></i> Cài Đặt Hệ Thống</a></li>
+      </ul>
+
+      <div class="admin-logout">
+        <a href="../index.html" class="admin-menu-link" style="color: var(--primary); margin-bottom: 6px;">
+          <i class="fas fa-store"></i> Về Trang Bán Hàng
+        </a>
+        <a href="login.html" class="admin-menu-link" style="color: #EF4444;" onclick="event.preventDefault(); adminLogout();">
+          <i class="fas fa-sign-out-alt"></i> Đăng Xuất
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="admin-main">
+      <!-- Topbar with Breadcrumb & Action Buttons -->
+      <div class="admin-topbar">
+        <div>
+          <nav class="breadcrumb" aria-label="Breadcrumb" style="margin-bottom: 8px;">
+            <a href="index.html" style="color: var(--text-muted);"><i class="fas fa-home"></i> Admin</a>
+            <span style="color: var(--text-dim);">/</span>
+            <a href="customers.html" style="color: var(--text-muted);">Khách Hàng</a>
+            <span style="color: var(--text-dim);">/</span>
+            <span style="color: var(--primary);">Hồ sơ Nguyễn Văn An</span>
+          </nav>
+          <h1 style="font-family: var(--font-heading); color: #FFF; text-transform: uppercase; margin: 0;">
+            HỒ SƠ <span>KHÁCH HÀNG</span>
+          </h1>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+          <a href="customers.html" class="btn-modal-cancel" style="text-decoration:none;"><i class="fas fa-arrow-left"></i> Quay Lại Danh Sách Khách Hàng</a>
+          <a href="orders.html" class="btn-modal-save" style="text-decoration:none;"><i class="fas fa-shopping-bag"></i> Quản Lý Đơn Hàng</a>
+
+          <div class="admin-user-pill">
+            <div class="admin-avatar">AD</div>
+            <div>
+              <div style="font-size: 0.85rem; font-weight: 700; color: #FFF;">Thuận Trần (Admin)</div>
+              <div style="font-size: 0.72rem; color: var(--primary);">Quản trị viên cấp cao</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Customer Profile Card -->
+      <section class="admin-section-box" style="margin-bottom: 24px;">
+        <div class="vip-profile-header" style="margin-bottom: 20px;">
+          <div class="vip-avatar">NA</div>
+          <div class="vip-profile-info">
+            <h3 id="vip-detail-name">Nguyễn Văn An</h3>
+            <span class="vip-badge-diamond"><i class="fas fa-gem"></i> HẠNG KIM CƯƠNG</span>
+          </div>
+        </div>
+
+        <div class="vip-stats-grid" style="margin-bottom: 20px;">
+          <div class="vip-stat-box">
+            <div class="vip-stat-val">2.450</div>
+            <div class="vip-stat-lbl">Điểm tích lũy</div>
+          </div>
+          <div class="vip-stat-box">
+            <div class="vip-stat-val">12.400.000đ</div>
+            <div class="vip-stat-lbl">Tổng chi tiêu</div>
+          </div>
+          <div class="vip-stat-box">
+            <div class="vip-stat-val" style="color: var(--accent-gold);">15 Đơn</div>
+            <div class="vip-stat-lbl">Hoàn tất</div>
+          </div>
+        </div>
+
+        <div class="vip-info-list">
+          <div class="vip-info-item">
+            <span class="label"><i class="fas fa-user" style="color: var(--primary);"></i> Tài khoản</span>
+            <span class="val">an_nguyen</span>
+          </div>
+          <div class="vip-info-item">
+            <span class="label"><i class="fas fa-phone-alt" style="color: var(--primary);"></i> Số điện thoại</span>
+            <span class="val">0912.345.678</span>
+          </div>
+          <div class="vip-info-item">
+            <span class="label"><i class="fas fa-envelope" style="color: var(--accent-cyan);"></i> Email liên hệ</span>
+            <span class="val">an.nguyen@gmail.com</span>
+          </div>
+          <div class="vip-info-item">
+            <span class="label"><i class="fas fa-map-marker-alt" style="color: var(--secondary);"></i> Địa chỉ giao hàng</span>
+            <span class="val">45 Lê Duẩn, P. Bến Nghé, Quận 1, TP.HCM</span>
+          </div>
+          <div class="vip-info-item">
+            <span class="label"><i class="fas fa-calendar-check" style="color: var(--primary);"></i> Ngày gia nhập</span>
+            <span class="val">20/02/2024</span>
+          </div>
+          <div class="vip-info-item">
+            <span class="label"><i class="fas fa-shield-halved" style="color: var(--primary);"></i> Đặc quyền thành viên</span>
+            <span class="val" style="color: var(--primary);">Miễn phí ship hỏa tốc + Chiết khấu 10%</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Payment & Order History Card -->
+      <section class="admin-section-box">
+        <div class="admin-section-header" style="flex-wrap: wrap; gap: 12px;">
+          <h2 class="admin-section-title"><i class="fas fa-receipt" style="color: var(--primary);"></i> LỊCH SỬ THANH TOÁN &amp; MUA HÀNG</h2>
+          <span class="badge-status info">Trang 1 / 3 • 6/15 đơn hàng gần nhất • Tổng tích lũy: 12.400.000đ</span>
+        </div>
+
+        <div style="overflow-x: auto;">
+          <table class="cart-table">
+            <thead>
+              <tr>
+                <th>Mã Đơn</th>
+                <th>Ngày Đặt</th>
+                <th>Sản Phẩm</th>
+                <th>Thanh Toán</th>
+                <th>Tổng Tiền</th>
+                <th>Trạng Thái</th>
+                <th>Chi Tiết</th>
+              </tr>
+            </thead>
+            <tbody id="customer-history-tbody">
+              <tr>
+                <td><a href="order-detail.html?id=EB-8801" style="color: var(--primary); font-weight: 700; text-decoration: underline;">#EB-8801</a></td>
+                <td>02/10/2026 - 14:30</td>
+                <td>2x Monster Original 355ml, 2x Redbull Original 250ml</td>
+                <td>VietQR</td>
+                <td><strong style="color: var(--primary);">126.000đ</strong></td>
+                <td><span class="badge-status success">ĐÃ GIAO (THÀNH CÔNG)</span></td>
+                <td><a href="order-detail.html?id=EB-8801" class="btn-view-detail" style="text-decoration:none;"><i class="fas fa-eye"></i> Xem đơn</a></td>
+              </tr>
+              <tr>
+                <td><a href="order-detail.html?id=EB-8802" style="color: var(--primary); font-weight: 700; text-decoration: underline;">#EB-8802</a></td>
+                <td>01/10/2026 - 10:15</td>
+                <td>4x Monster Zero Ultra White, 3x Redbull Thái Lan</td>
+                <td>Chuyển khoản</td>
+                <td><strong style="color: var(--primary);">246.000đ</strong></td>
+                <td><span class="badge-status info">ĐÃ XÁC NHẬN</span></td>
+                <td><a href="order-detail.html?id=EB-8802" class="btn-view-detail" style="text-decoration:none;"><i class="fas fa-eye"></i> Xem đơn</a></td>
+              </tr>
+              <tr>
+                <td><a href="order-detail.html?id=EB-8801" style="color: var(--primary); font-weight: 700; text-decoration: underline;">#EB-8798</a></td>
+                <td>25/09/2026 - 16:40</td>
+                <td>48 Lon Monster Energy Original 355ml</td>
+                <td>VietQR</td>
+                <td><strong style="color: var(--primary);">1.920.000đ</strong></td>
+                <td><span class="badge-status success">ĐÃ GIAO (THÀNH CÔNG)</span></td>
+                <td><a href="order-detail.html?id=EB-8801" class="btn-view-detail" style="text-decoration:none;"><i class="fas fa-eye"></i> Xem đơn</a></td>
+              </tr>
+              <tr>
+                <td><a href="order-detail.html?id=EB-8801" style="color: var(--primary); font-weight: 700; text-decoration: underline;">#EB-8795</a></td>
+                <td>18/09/2026 - 09:20</td>
+                <td>24 Lon Monster Ultra Paradise + 12 Lon Redbull</td>
+                <td>Ví MoMo</td>
+                <td><strong style="color: var(--primary);">1.180.000đ</strong></td>
+                <td><span class="badge-status success">ĐÃ GIAO (THÀNH CÔNG)</span></td>
+                <td><a href="order-detail.html?id=EB-8801" class="btn-view-detail" style="text-decoration:none;"><i class="fas fa-eye"></i> Xem đơn</a></td>
+              </tr>
+              <tr>
+                <td><a href="order-detail.html?id=EB-8801" style="color: var(--primary); font-weight: 700; text-decoration: underline;">#EB-8790</a></td>
+                <td>10/09/2026 - 19:05</td>
+                <td>48 Lon Sting Dâu &amp; Vàng + 10 Lon Monster</td>
+                <td>COD</td>
+                <td><strong style="color: var(--primary);">960.000đ</strong></td>
+                <td><span class="badge-status success">ĐÃ GIAO (THÀNH CÔNG)</span></td>
+                <td><a href="order-detail.html?id=EB-8801" class="btn-view-detail" style="text-decoration:none;"><i class="fas fa-eye"></i> Xem đơn</a></td>
+              </tr>
+              <tr>
+                <td><a href="order-detail.html?id=EB-8801" style="color: var(--primary); font-weight: 700; text-decoration: underline;">#EB-8784</a></td>
+                <td>02/09/2026 - 11:30</td>
+                <td>24 Lon Monster Mango Loco + 12 Lon Redbull Thái</td>
+                <td>VietQR</td>
+                <td><strong style="color: var(--primary);">1.140.000đ</strong></td>
+                <td><span class="badge-status success">ĐÃ GIAO (THÀNH CÔNG)</span></td>
+                <td><a href="order-detail.html?id=EB-8801" class="btn-view-detail" style="text-decoration:none;"><i class="fas fa-eye"></i> Xem đơn</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="pagination-strip" aria-label="Phân trang lịch sử mua hàng">
+          <button type="button" class="page-btn disabled" aria-label="Trang trước" disabled><i class="fas fa-chevron-left"></i></button>
+          <button type="button" class="page-btn active" onclick="handleCustomerHistoryPage(1, this)">1</button>
+          <button type="button" class="page-btn" onclick="handleCustomerHistoryPage(2, this)">2</button>
+          <button type="button" class="page-btn" onclick="handleCustomerHistoryPage(3, this)">3</button>
+          <button type="button" class="page-btn" aria-label="Trang sau" onclick="handleCustomerHistoryPage('next', this)"><i class="fas fa-chevron-right"></i></button>
+        </div>
+      </section>
+
+    <!-- ==========================================================================
+         FOOTER
+         ========================================================================== -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-col">
+            <div class="logo" style="margin-bottom: 16px;">
+              <div class="logo-icon"><i class="fas fa-bolt"></i></div>
+              <div class="logo-text">
+                <span class="logo-title">ENERGY<span>BOOST</span></span>
+                <span class="logo-subtitle">HỆ THỐNG NƯỚC TĂNG LỰC CHÍNH HÃNG</span>
+              </div>
+            </div>
+            <p>Hệ thống cung cấp nước tăng lực Monster Energy và Redbull Thái Lan chính hãng số 1 tại Việt Nam. Nơi tiếp sức đam mê thể thao điện tử, thể thao mạo hiểm và lối sống bứt phá mọi giới hạn.</p>
+            <p><i class="fas fa-map-marker-alt" style="color: var(--primary);"></i> 88 Nguyễn Huệ, Quận 1, TP. Hồ Chí Minh</p>
+            <p><i class="fas fa-phone-alt" style="color: var(--secondary);"></i> Hotline: 1900 6868 (8:00 - 22:00)</p>
+          </div>
+
+          <div class="footer-col">
+            <h3>CÁC DÒNG SẢN PHẨM</h3>
+            <ul class="footer-links">
+              <li><a href="../index.html#monster-products">Monster Original 355ml</a></li>
+              <li><a href="../index.html#monster-products">Monster Zero Ultra White</a></li>
+              <li><a href="../index.html#monster-products">Monster Ultra Punk Punch</a></li>
+              <li><a href="../index.html#monster-products">Punch & Shots</a></li>
+              <li><a href="../index.html#redbull-products">Redbull Original 250ml</a></li>
+              <li><a href="../index.html#redbull-products">Redbull Thái Lan Nắp Bật</a></li>
+              <li><a href="../index.html#sting-products">Sting Dâu Tây Đỏ 330ml</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h3>HỆ THỐNG TRANG</h3>
+            <ul class="footer-links">
+              <li><a href="../index.html">Trang Chủ (Index)</a></li>
+              <li><a href="../pages/product-detail.html">Monster Original Detail</a></li>
+              <li><a href="../pages/product-detail-redbull.html">Redbull Thái Detail</a></li>
+              <li><a href="../pages/cart.html">Giỏ Hàng Mẫu</a></li>
+              <li><a href="../pages/orders.html">Lịch Sử Đặt Hàng</a></li>
+              <li><a href="../pages/account.html">Tài Khoản Thành Viên</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h3>NHẬN VOUCHER ƯU ĐÃI</h3>
+            <p>Đăng ký email để nhận ngay mã giảm giá 15% cho thùng nước tăng lực đầu tiên!</p>
+            <form class="newsletter-form" onsubmit="event.preventDefault(); showToast('Đã đăng ký nhận tin Energy Boost thành công!', 'success');">
+              <input type="email" class="newsletter-input" placeholder="Nhập email của bạn..." required />
+              <button type="submit" class="btn-newsletter"><i class="fas fa-paper-plane"></i></button>
+            </form>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <p>&copy; 2026 ENERGY BOOST STORE. Built with Pure Static HTML5 & CSS3. All Rights Reserved.</p>
+          <div style="display: flex; gap: 16px; font-size: 1.2rem; color: var(--text-dim);">
+            <i class="fab fa-cc-visa"></i>
+            <i class="fab fa-cc-mastercard"></i>
+            <i class="fas fa-wallet"></i>
+            <i class="fas fa-bolt" style="color: var(--primary);"></i>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    </main>
+  </div>
+
+  <div id="toast-container" class="toast-container"></div>
+  <script src="../js/app.js"></script>
+</body>
+</html>
