@@ -211,6 +211,153 @@
         </form>
       </section>
 
+      <!-- User Tier Privileges Section -->
+      <section id="tier-privileges-section" class="admin-section-box" style="max-width: 740px;">
+        <div class="admin-section-header" style="flex-wrap: wrap; gap: 12px;">
+          <h2 class="admin-section-title" id="tier-privileges-heading"><i class="fas fa-crown" style="color: var(--accent-gold);"></i> QUYỀN LỢI CÁC HẠNG THÀNH VIÊN</h2>
+          <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+            <button type="button" class="btn-add-voucher" id="btn-sync-tier-privileges" onclick="handleSyncTierPrivilegesNow()" title="Đồng bộ quyền lợi các hạng với danh sách khách hàng hiện tại">
+              <i class="fas fa-rotate"></i> Đồng Bộ User Hiện Tại
+            </button>
+            <div class="custom-toggle-container">
+              <span id="tier-privileges-status-label" style="font-size: 0.8rem; font-weight: 700; color: var(--primary);">ĐANG BẬT</span>
+              <label class="custom-toggle-switch" aria-label="Bật hoặc tắt đồng bộ quyền lợi hạng thành viên">
+                <input type="checkbox" id="tier-privileges-toggle" name="tierPrivilegesEnabled" checked onchange="handleTierPrivilegesToggle(this)" />
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="tier-privileges-sync-note">
+          <i class="fas fa-circle-info" style="color: var(--secondary); margin-top: 2px;"></i>
+          <div>
+            Đồng bộ 4 hạng thành viên bao gồm toàn bộ 6 khách hàng VIP trong <strong>customers.html</strong> (Phạm Minh Tuấn, Nguyễn Văn An, Trần Thị Bích, Lê Hoàng Nam, Vũ Thảo My, Hoàng Đức Long) và thành viên đang đăng nhập <strong>Thuận Trần</strong> (Bạc VIP • 860 điểm). <a href="customers.html">Xem danh sách khách hàng</a> &bull; <em>Thao tác tại mục này chỉ hiển thị thông báo mô phỏng.</em>
+          </div>
+        </div>
+
+        <div id="tier-privileges-grid" class="tier-privileges-grid">
+          <div class="tier-privilege-card active" data-tier="diamond">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; margin-bottom: 8px;">
+              <span class="vip-badge-diamond"><i class="fas fa-gem"></i> HẠNG KIM CƯƠNG</span>
+              <span class="tier-rate-pill">Chiết khấu 10%</span>
+            </div>
+            <div class="tier-sync-users">User hiện tại (2): <strong>Phạm Minh Tuấn</strong>, <strong>Nguyễn Văn An</strong></div>
+            <div class="tier-privilege-summary">Miễn phí ship hỏa tốc + Chiết khấu 10%</div>
+            <div class="tier-card-actions">
+              <span class="tier-threshold-note">Từ 12.000.000đ • Điểm x2.0</span>
+              <button type="button" class="btn-view-detail" style="padding: 5px 12px; font-size: 0.8rem;" onclick="selectUserTierPrivilege('diamond')"><i class="fas fa-sliders"></i> Thiết Lập</button>
+            </div>
+          </div>
+
+          <div class="tier-privilege-card" data-tier="gold">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; margin-bottom: 8px;">
+              <span class="vip-badge-gold"><i class="fas fa-crown"></i> HẠNG VÀNG</span>
+              <span class="tier-rate-pill">Chiết khấu 7%</span>
+            </div>
+            <div class="tier-sync-users">User hiện tại (2): <strong>Trần Thị Bích</strong>, <strong>Lê Hoàng Nam</strong></div>
+            <div class="tier-privilege-summary">Chiết khấu 7% toàn bộ đơn hàng</div>
+            <div class="tier-card-actions">
+              <span class="tier-threshold-note">Từ 7.000.000đ • Điểm x1.5</span>
+              <button type="button" class="btn-view-detail" style="padding: 5px 12px; font-size: 0.8rem;" onclick="selectUserTierPrivilege('gold')"><i class="fas fa-sliders"></i> Thiết Lập</button>
+            </div>
+          </div>
+
+          <div class="tier-privilege-card" data-tier="silver">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; margin-bottom: 8px;">
+              <span class="vip-badge-silver"><i class="fas fa-medal"></i> HẠNG BẠC</span>
+              <span class="tier-rate-pill">Chiết khấu 3%</span>
+            </div>
+            <div class="tier-sync-users">User hiện tại (3): <strong>Vũ Thảo My</strong>, <strong>Hoàng Đức Long</strong>, <strong>Thuận Trần</strong> (860 điểm)</div>
+            <div class="tier-privilege-summary">Tích điểm đổi quà VIP độc quyền</div>
+            <div class="tier-card-actions">
+              <span class="tier-threshold-note">Từ 3.000.000đ • Điểm x1.2</span>
+              <button type="button" class="btn-view-detail" style="padding: 5px 12px; font-size: 0.8rem;" onclick="selectUserTierPrivilege('silver')"><i class="fas fa-sliders"></i> Thiết Lập</button>
+            </div>
+          </div>
+
+          <div class="tier-privilege-card" data-tier="standard">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; margin-bottom: 8px;">
+              <span class="tier-badge-standard"><i class="fas fa-user"></i> KHÁCH HÀNG CHUẨN</span>
+              <span class="tier-rate-pill">Mặc định 0%</span>
+            </div>
+            <div class="tier-sync-users">User hiện tại: <strong>Khách hàng chuẩn / Tài khoản mới</strong></div>
+            <div class="tier-privilege-summary">Tích điểm cơ bản &amp; áp dụng Voucher công khai</div>
+            <div class="tier-card-actions">
+              <span class="tier-threshold-note">Dưới 3.000.000đ • Điểm x1.0</span>
+              <button type="button" class="btn-view-detail" style="padding: 5px 12px; font-size: 0.8rem;" onclick="selectUserTierPrivilege('standard')"><i class="fas fa-sliders"></i> Thiết Lập</button>
+            </div>
+          </div>
+        </div>
+
+        <form id="form-tier-privileges" aria-labelledby="tier-form-heading" onsubmit="handleSaveTierPrivileges(event)" novalidate>
+          <div id="tier-form-heading" style="font-size: 0.88rem; font-weight: 700; color: var(--accent-gold); text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+            <i class="fas fa-sliders"></i> Thiết Lập Chi Tiết Quyền Lợi Hạng Thành Viên
+          </div>
+
+          <div class="admin-form-grid" style="margin-bottom: 16px;">
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="tier-privilege-rank"><i class="fas fa-crown"></i> Hạng Thành Viên</label>
+              <select id="tier-privilege-rank" name="tierRank" class="admin-form-select" onchange="handleTierRankSelectNotice(this)">
+                <option value="diamond" selected>Hạng Kim Cương (Diamond VIP)</option>
+                <option value="gold">Hạng Vàng (Gold VIP)</option>
+                <option value="silver">Hạng Bạc (Silver VIP)</option>
+                <option value="standard">Khách Hàng Chuẩn (Standard)</option>
+              </select>
+            </div>
+
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="tier-privilege-discount"><i class="fas fa-percent"></i> Mức Chiết Khấu</label>
+              <input type="text" id="tier-privilege-discount" name="tierDiscount" class="admin-form-input" value="10%" placeholder="VD: 10%, 7%, 3% hoặc 0%" />
+            </div>
+
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="tier-privilege-threshold"><i class="fas fa-coins"></i> Ngưỡng Chi Tiêu Tối Thiểu</label>
+              <input type="text" id="tier-privilege-threshold" name="tierThreshold" class="admin-form-input price-format-input" value="12.000.000đ" placeholder="VD: 12.000.000đ" />
+            </div>
+
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="tier-privilege-point-rate"><i class="fas fa-star"></i> Hệ Số Tích Điểm</label>
+              <select id="tier-privilege-point-rate" name="tierPointRate" class="admin-form-select">
+                <option value="x2.0" selected>x2.0 điểm thưởng</option>
+                <option value="x1.5">x1.5 điểm thưởng</option>
+                <option value="x1.2">x1.2 điểm thưởng</option>
+                <option value="x1.0">x1.0 điểm cơ bản</option>
+              </select>
+            </div>
+
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="tier-privilege-shipping"><i class="fas fa-truck-fast"></i> Đặc Quyền Vận Chuyển</label>
+              <select id="tier-privilege-shipping" name="tierShipping" class="admin-form-select">
+                <option value="Miễn phí ship hỏa tốc 2H" selected>Miễn phí ship hỏa tốc 2H</option>
+                <option value="Giảm 50% phí ship hỏa tốc 2H">Giảm 50% phí ship hỏa tốc 2H</option>
+                <option value="Miễn phí ship tiêu chuẩn từ 150.000đ">Miễn phí ship tiêu chuẩn từ 150.000đ</option>
+                <option value="Phí giao hàng tiêu chuẩn">Phí giao hàng tiêu chuẩn</option>
+              </select>
+            </div>
+
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="tier-privilege-voucher"><i class="fas fa-ticket"></i> Voucher Áp Dụng Riêng</label>
+              <input type="text" id="tier-privilege-voucher" name="tierVoucher" class="admin-form-input" value="FREESHIP, MONSTER10" placeholder="VD: FREESHIP, MONSTER10" />
+            </div>
+
+            <div class="admin-form-group full-width">
+              <label class="admin-form-label" for="tier-privilege-desc"><i class="fas fa-align-left"></i> Mô Tả Quyền Lợi Hiển Thị</label>
+              <textarea id="tier-privilege-desc" name="tierDescription" class="admin-form-input" rows="2" style="resize: vertical; font-family: inherit;">Miễn phí ship hỏa tốc + Chiết khấu 10%</textarea>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+            <button type="submit" class="btn-add-cart" style="padding: 12px 24px; font-weight: 700;">
+              <i class="fas fa-save"></i> Lưu Quyền Lợi Hạng
+            </button>
+            <button type="button" class="btn-view-detail" style="padding: 12px 20px; font-weight: 600;" onclick="handleResetTierPrivileges()">
+              <i class="fas fa-rotate-left"></i> Khôi Phục Mặc Định
+            </button>
+          </div>
+        </form>
+      </section>
+
       <!-- FAQ Management Section -->
       <section class="admin-section-box" style="max-width: 740px;">
         <div class="admin-section-header">
