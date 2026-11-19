@@ -282,13 +282,16 @@ button {
 }
 .search-input {
   flex: 1;
+  min-width: 0;
   background: transparent;
   color: #FFF;
   padding: 8px 16px;
   font-size: 0.9rem;
+  text-overflow: ellipsis;
 }
 .search-input::placeholder {
   color: var(--text-dim);
+  text-overflow: ellipsis;
 }
 .search-btn {
   width: 36px;
