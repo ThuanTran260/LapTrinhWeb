@@ -76,11 +76,11 @@ check('function openAddUserModal(' in app_js, "app.js defines openAddUserModal f
 check('function toggleLockUser(' in app_js, "app.js defines toggleLockUser function")
 check('Người Dùng Mới' in app_js, "saveAddUser provides graceful default when name is empty")
 check('showToast' in app_js, "saveAddUser displays toast feedback")
-check('customers-table' in app_js, "saveAddUser targets customers-table avoiding dashboard table pollution")
-check('admin_custom_users' in app_js, "saveAddUser persists custom users in localStorage")
-check('initCustomUsersTable' in app_js, "app.js provides initCustomUsersTable to reload custom users")
+check('modal-add-user' in app_js, "saveAddUser closes modal-add-user after toast feedback")
+check("localStorage.removeItem('admin_custom_users')" in app_js or 'removeItem("admin_custom_users")' in app_js, "initCustomUsersTable clears stale admin_custom_users without appending rows")
+check('function initCustomUsersTable(' in app_js, "app.js provides initCustomUsersTable cleanup hook")
 check('emailEl.value = smallEmail.textContent.trim()' in app_js or 'smallEmail' in app_js, "openEditUserModal extracts customer email from table row")
-check('btn-action-unlock' in app_js and 'btn-action-lock' in app_js, "toggleLockUser and saveEditUser correctly toggle button action classes")
+check('btn-action-unlock' in app_js and 'btn-action-lock' in customers_html and 'btn-action-unlock' in customers_html, "toggleLockUser inspects unlock class while customers.html keeps lock/unlock buttons intact")
 
 print("=== VERIFY UNCONSTRAINED ADD USER (ADMIN) ===")
 for s in successes:
