@@ -2546,7 +2546,16 @@ function openEditUserModal(customerKey, btn) {
   const nameEl = document.getElementById('edit-user-fullname');
   const phoneEl = document.getElementById('edit-user-phone');
   const emailEl = document.getElementById('edit-user-email');
+  const tierEl = document.getElementById('edit-user-tier');
   const statusEl = document.getElementById('edit-user-status');
+
+  const resolveTierValue = (text) => {
+    const upper = (text || '').toUpperCase();
+    if (upper.includes('KIM CƯƠNG')) return 'diamond';
+    if (upper.includes('VÀNG')) return 'gold';
+    if (upper.includes('BẠC')) return 'silver';
+    return 'standard';
+  };
 
   if (currentEditingUserRow) {
     const strong = currentEditingUserRow.querySelector('strong');
@@ -2559,15 +2568,22 @@ function openEditUserModal(customerKey, btn) {
     if (emailEl && smallEmail) {
       emailEl.value = smallEmail.textContent.trim();
     }
-    const badge = currentEditingUserRow.querySelector('.badge-status');
-    if (badge && statusEl) {
-      statusEl.value = badge.textContent.includes('KHOÁ') ? 'locked' : 'active';
+    if (tierEl) {
+      const infoText = currentEditingUserRow.cells[1] ? currentEditingUserRow.cells[1].textContent : '';
+      tierEl.value = resolveTierValue(infoText);
+    }
+    const statusCell = currentEditingUserRow.cells[5];
+    const statusBadge = statusCell ? statusCell.querySelector('.badge-status') : null;
+    if (statusBadge && statusEl) {
+      statusEl.value = statusBadge.textContent.includes('KHOÁ') ? 'locked' : 'active';
     }
   } else if (typeof CUSTOMER_DATA_REGISTRY !== 'undefined' && CUSTOMER_DATA_REGISTRY[customerKey]) {
     const data = CUSTOMER_DATA_REGISTRY[customerKey];
     if (nameEl) nameEl.value = data.name;
     if (phoneEl) phoneEl.value = data.phone;
     if (emailEl) emailEl.value = data.email;
+    if (tierEl) tierEl.value = resolveTierValue(data.tier);
+    if (statusEl) statusEl.value = 'active';
   }
   openAdminModal('modal-edit-user');
 }
@@ -2576,48 +2592,16 @@ function saveEditUser(e) {
   if (e && e.preventDefault) e.preventDefault();
   const nameEl = document.getElementById('edit-user-fullname');
   const name = nameEl ? nameEl.value.trim() || 'Người dùng' : 'Người dùng';
-  const phoneEl = document.getElementById('edit-user-phone');
-  const emailEl = document.getElementById('edit-user-email');
+  const tierEl = document.getElementById('edit-user-tier');
   const statusEl = document.getElementById('edit-user-status');
+  const tierText = tierEl && tierEl.selectedIndex >= 0 ? tierEl.options[tierEl.selectedIndex].text : '';
+  const statusText = statusEl && statusEl.selectedIndex >= 0 ? statusEl.options[statusEl.selectedIndex].text : '';
+  const details = [tierText, statusText].filter(Boolean).join(' • ');
 
-  if (currentEditingUserRow) {
-    const oldStrong = currentEditingUserRow.querySelector('strong');
-    const oldName = oldStrong ? oldStrong.textContent.trim() : '';
-    if (oldStrong && nameEl) oldStrong.textContent = name;
-    
-    if (phoneEl && currentEditingUserRow.cells[2]) {
-      const emailVal = emailEl ? emailEl.value.trim() : '';
-      currentEditingUserRow.cells[2].innerHTML = (phoneEl.value.trim() || '') + (emailVal ? '<br><small style="color: var(--text-dim);">' + emailVal + '</small>' : '');
-    }
-    const badge = currentEditingUserRow.querySelector('.badge-status');
-    const lockBtn = currentEditingUserRow.querySelector('.btn-action-lock, .btn-action-unlock');
-    if (statusEl && badge) {
-      const isLocked = statusEl.value === 'locked';
-      badge.className = 'badge-status ' + (isLocked ? 'danger' : 'success');
-      badge.textContent = isLocked ? 'ĐÃ KHOÁ' : 'ĐANG HOẠT ĐỘNG';
-      if (lockBtn) {
-        lockBtn.className = isLocked ? 'btn-action-unlock' : 'btn-action-lock';
-        lockBtn.innerHTML = `<i class="fas fa-${isLocked ? 'lock-open' : 'lock'}"></i> ${isLocked ? 'Mở khoá' : 'Khoá'}`;
-        lockBtn.title = isLocked ? 'Mở khoá' : 'Khoá';
-      }
-    }
-
-    // Đồng bộ thay đổi vào localStorage nếu là người dùng tùy chỉnh
-    try {
-      const customUsers = JSON.parse(localStorage.getItem('admin_custom_users') || '[]');
-      const rowId = currentEditingUserRow.getAttribute('data-custom-user-id');
-      const matched = customUsers.find(u => (rowId && u.id === rowId) || u.fullname === oldName);
-      if (matched) {
-        matched.fullname = name;
-        if (phoneEl) matched.phone = phoneEl.value.trim();
-        if (emailEl) matched.email = emailEl.value.trim();
-        if (statusEl) matched.status = statusEl.value;
-        localStorage.setItem('admin_custom_users', JSON.stringify(customUsers));
-      }
-    } catch (err) {}
-  }
-
-  showToast('Đã lưu thay đổi thông tin người dùng "' + name + '" thành công!', 'success');
+  showToast(
+    'Đã lưu thay đổi thông tin người dùng "' + name + '"' + (details ? ' (' + details + ')' : '') + ' thành công!',
+    'success'
+  );
   closeAdminModal('modal-edit-user');
 }
 
