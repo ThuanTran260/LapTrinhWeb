@@ -2928,6 +2928,145 @@ function saveAddVoucher(e) {
   showToast(`Đã thêm mã Voucher mới "${code}" thành công! Hệ thống hiện đang quản lý ${MOCK_VOUCHERS_LIST.length} mã voucher chiến dịch.`, 'success');
 }
 
+// ==========================================================================
+// 21. USER TIER PRIVILEGES SETTINGS (TOAST-ONLY SIMULATION)
+// ==========================================================================
+
+const USER_TIER_PRIVILEGES_DATA = {
+  diamond: {
+    label: 'Hạng Kim Cương',
+    discount: '10%',
+    threshold: '12.000.000đ',
+    pointRate: 'x2.0',
+    privileges: 'Miễn phí ship hỏa tốc + Chiết khấu 10%',
+    users: ['Phạm Minh Tuấn', 'Nguyễn Văn An']
+  },
+  gold: {
+    label: 'Hạng Vàng',
+    discount: '7%',
+    threshold: '7.000.000đ',
+    pointRate: 'x1.5',
+    privileges: 'Chiết khấu 7% toàn bộ đơn hàng',
+    users: ['Trần Thị Bích', 'Lê Hoàng Nam']
+  },
+  silver: {
+    label: 'Hạng Bạc',
+    discount: '3%',
+    threshold: '3.000.000đ',
+    pointRate: 'x1.2',
+    privileges: 'Tích điểm đổi quà VIP độc quyền',
+    users: ['Vũ Thảo My', 'Hoàng Đức Long', 'Thuận Trần']
+  },
+  standard: {
+    label: 'Khách Hàng Chuẩn',
+    discount: '0%',
+    threshold: '0đ',
+    pointRate: 'x1.0',
+    privileges: 'Tích điểm cơ bản & áp dụng Voucher công khai',
+    users: ['Khách hàng chuẩn / Tài khoản mới']
+  }
+};
+
+/**
+ * Safely read the selected option text of a <select> element (Node/headless safe).
+ */
+function getTierSelectOptionText(selectEl) {
+  if (!selectEl || !selectEl.options || typeof selectEl.selectedIndex !== 'number') {
+    return '';
+  }
+  const opt = selectEl.options[selectEl.selectedIndex];
+  return opt && opt.text ? String(opt.text).trim() : '';
+}
+
+/**
+ * Emit toast describing the selected tier configuration and synced users.
+ */
+function selectUserTierPrivilege(tierKey) {
+  const entry = USER_TIER_PRIVILEGES_DATA[tierKey] || USER_TIER_PRIVILEGES_DATA.diamond;
+  showToast(
+    'Đang chọn cấu hình ' + entry.label + ' (' + entry.privileges + ') — Đồng bộ: ' + entry.users.join(', ') + '.',
+    'info'
+  );
+}
+
+/**
+ * Emit toast when changing the tier rank dropdown without mutating DOM state.
+ */
+function handleTierRankSelectNotice(selectEl) {
+  const tierKey = selectEl && selectEl.value ? String(selectEl.value).trim() : '';
+  const entry = USER_TIER_PRIVILEGES_DATA[tierKey] || null;
+  const fallbackEntry = USER_TIER_PRIVILEGES_DATA.diamond;
+  const label = (entry && entry.label) || getTierSelectOptionText(selectEl) || fallbackEntry.label;
+  const usersText = (entry || fallbackEntry).users.join(', ');
+  showToast(
+    'Đã chọn ' + label + ' — Đồng bộ user hiện tại: ' + usersText + ' (chỉ hiển thị thông báo).',
+    'info'
+  );
+}
+
+/**
+ * Emit toast when toggling auto-sync for tier privileges without mutating DOM.
+ */
+function handleTierPrivilegesToggle(toggle) {
+  const isChecked = toggle ? !!toggle.checked : true;
+  showToast(
+    isChecked
+      ? 'Đã bật đồng bộ quyền lợi 4 hạng thành viên với danh sách user hiện tại!'
+      : 'Đã tạm ngưng tự động đồng bộ quyền lợi hạng thành viên (giao diện giữ nguyên).',
+    isChecked ? 'success' : 'warning'
+  );
+}
+
+/**
+ * Emit toast confirming manual sync across all 4 tiers and current users.
+ */
+function handleSyncTierPrivilegesNow() {
+  showToast(
+    'Đã đồng bộ quyền lợi 4 hạng thành viên (Kim Cương, Vàng, Bạc, Chuẩn) với 6 khách VIP & Thuận Trần thành công!',
+    'success'
+  );
+}
+
+/**
+ * Handle tier privileges form save with toast-only feedback (Node/headless safe).
+ */
+function handleSaveTierPrivileges(e) {
+  if (e && typeof e.preventDefault === 'function') e.preventDefault();
+
+  const doc = typeof document !== 'undefined' ? document : null;
+  const rankEl = doc ? doc.getElementById('tier-privilege-rank') : null;
+  const discountEl = doc ? doc.getElementById('tier-privilege-discount') : null;
+  const shippingEl = doc ? doc.getElementById('tier-privilege-shipping') : null;
+  const descEl = doc ? doc.getElementById('tier-privilege-desc') : null;
+
+  const rankKey = rankEl && rankEl.value ? String(rankEl.value).trim() : '';
+  const entry = USER_TIER_PRIVILEGES_DATA[rankKey] || null;
+  const rankLabel = getTierSelectOptionText(rankEl) || (entry && entry.label) || USER_TIER_PRIVILEGES_DATA.diamond.label;
+  const discount = discountEl && discountEl.value ? String(discountEl.value).trim() : '';
+  const shippingLabel = getTierSelectOptionText(shippingEl);
+  const descText = descEl && descEl.value ? String(descEl.value).trim() : '';
+
+  // Explicitly retained read-only snapshots (no DOM/storage mutation)
+  void shippingLabel;
+  void descText;
+
+  showToast(
+    'Đã lưu quyền lợi ' + rankLabel + (discount ? ' (Chiết khấu ' + discount + ')' : '') + ' đồng bộ với user hiện tại!',
+    'success'
+  );
+  return false;
+}
+
+/**
+ * Emit toast confirming default tier privileges reset without mutating DOM.
+ */
+function handleResetTierPrivileges() {
+  showToast(
+    'Đã khôi phục cấu hình quyền lợi mặc định đồng bộ với 4 hạng thành viên hiện tại!',
+    'info'
+  );
+}
+
 // Auto-initialize components on DOM ready
 if (typeof document !== 'undefined') {
   if (document.readyState === 'loading') {
@@ -3105,6 +3244,13 @@ if (typeof window !== 'undefined') {
   window.handleAdminDeleteFaq = handleAdminDeleteFaq;
   window.handleAdminEditFaq = handleAdminEditFaq;
   window.handleAdminSaveFaq = handleAdminSaveFaq;
+  window.USER_TIER_PRIVILEGES_DATA = USER_TIER_PRIVILEGES_DATA;
+  window.selectUserTierPrivilege = selectUserTierPrivilege;
+  window.handleTierRankSelectNotice = handleTierRankSelectNotice;
+  window.handleTierPrivilegesToggle = handleTierPrivilegesToggle;
+  window.handleSyncTierPrivilegesNow = handleSyncTierPrivilegesNow;
+  window.handleSaveTierPrivileges = handleSaveTierPrivileges;
+  window.handleResetTierPrivileges = handleResetTierPrivileges;
 }
 
 // ==========================================================================
