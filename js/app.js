@@ -2313,24 +2313,8 @@ let isTop5VipFilterActive = false;
 function filterCustomersTableRows() {
   const rows = document.querySelectorAll('#customers-table tbody tr');
   if (!rows || !rows.length) return;
-  const tierEl = document.getElementById('filter-customer-tier');
-  const tierVal = tierEl ? tierEl.value : 'all';
-  const kwEl = document.getElementById('filter-customer-keyword');
-  const kw = kwEl ? kwEl.value.trim().toLowerCase() : '';
-
-  const tierKeywords = {
-    diamond: 'kim cương',
-    gold: 'vàng',
-    silver: 'bạc',
-  };
-
   rows.forEach((row) => {
-    const rankAttr = parseInt(row.getAttribute('data-vip-rank') || '99', 10);
-    const text = (row.textContent || '').toLowerCase();
-    const matchTop5 = !isTop5VipFilterActive || (rankAttr >= 1 && rankAttr <= 5);
-    const matchTier = tierVal === 'all' || (tierKeywords[tierVal] && text.includes(tierKeywords[tierVal]));
-    const matchKw = !kw || text.includes(kw);
-    row.style.display = (matchTop5 && matchTier && matchKw) ? '' : 'none';
+    row.style.display = '';
   });
 }
 
@@ -2447,75 +2431,8 @@ function openAddUserModal() {
 function saveAddUser(e) {
   if (e && e.preventDefault) e.preventDefault();
 
-  // Bỏ toàn bộ ràng buộc (zero constraints / boost mode):
-  // Không ép điền đầy đủ (required), không regex sđt, không ép định dạng email khắt khe, không ép độ dài mật khẩu.
   const fullnameInput = document.getElementById('add-user-fullname');
-  const usernameInput = document.getElementById('add-user-username');
-  const emailInput = document.getElementById('add-user-email');
-  const phoneInput = document.getElementById('add-user-phone');
-  const roleInput = document.getElementById('add-user-role');
-  const statusInput = document.getElementById('add-user-status');
-  const passwordInput = document.getElementById('add-user-password');
-
   const fullname = (fullnameInput && fullnameInput.value.trim()) || 'Người Dùng Mới';
-  const username = (usernameInput && usernameInput.value.trim()) || ('user_' + Math.floor(1000 + Math.random() * 9000));
-  const email = (emailInput && emailInput.value.trim()) || (username + '@energyboost.vn');
-  const phone = (phoneInput && phoneInput.value.trim()) || '0938.222.111';
-  const role = (roleInput && roleInput.value) || 'user';
-  const status = (statusInput && statusInput.value) || 'active';
-  const password = (passwordInput && passwordInput.value) || '123456';
-  const userId = 'u_' + Date.now();
-  const createdAt = new Date().toLocaleDateString('vi-VN');
-
-  const userObj = {
-    id: userId,
-    fullname,
-    username,
-    email,
-    phone,
-    role,
-    status,
-    password,
-    spent: '0đ',
-    orders: '0 đơn hàng (Mới tạo)',
-    createdAt
-  };
-
-  // Lưu vào localStorage để dữ liệu lưu trữ bền vững (không bị mất khi F5)
-  try {
-    const customUsers = JSON.parse(localStorage.getItem('admin_custom_users') || '[]');
-    customUsers.unshift(userObj);
-    localStorage.setItem('admin_custom_users', JSON.stringify(customUsers));
-  } catch (err) {
-    console.error('Error saving user to localStorage:', err);
-  }
-
-  // Xác định chính xác bảng khách hàng (tránh chèn nhầm vào bảng đơn hàng ở dashboard admin/index.html)
-  const custTable = document.getElementById('customers-table') ||
-    (window.location.pathname.includes('customers.html') ? document.querySelector('.cart-table') : null);
-
-  if (custTable) {
-    const tbody = custTable.querySelector('tbody') || custTable;
-    if (tbody) {
-      const isLocked = status === 'locked';
-      const safeName = fullname.replace(/"/g, '&quot;').replace(/'/g, "\\'");
-      const tr = document.createElement('tr');
-      tr.setAttribute('data-custom-user-id', userId);
-      tr.innerHTML = `
-        <td><span class="badge-status" style="background: rgba(0,255,136,0.15); color: var(--primary); border: 1px solid var(--primary); font-weight: 700;">MỚI</span></td>
-        <td><a href="customer-detail.html" style="color: inherit; text-decoration: none;" title="Xem hồ sơ & lịch sử thanh toán của Nguyễn Văn An"><strong>${fullname}</strong></a><br><small style="color: var(--text-muted);">${username} (${role.toUpperCase()})</small></td>
-        <td>${phone}<br><small style="color: var(--text-dim);">${email}</small></td>
-        <td><span style="color: var(--text-muted);">0 đơn hàng (Mới tạo)</span><div style="margin-top: 6px;"><a href="customer-detail.html" class="btn-view-detail" style="padding: 3px 10px; font-size: 0.76rem; text-decoration: none;"><i class="fas fa-receipt"></i> Chi Tiết</a></div></td>
-        <td><strong style="color: var(--primary); font-size: 1.05rem;">0đ</strong></td>
-        <td><span class="badge-status ${isLocked ? 'danger' : 'success'}">${isLocked ? 'ĐÃ KHOÁ' : 'ĐANG HOẠT ĐỘNG'}</span></td>
-        <td>
-          <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem;" onclick="openEditUserModal('', this)" title="Sửa"><i class="fas fa-edit"></i> Sửa</button>
-          <button class="${isLocked ? 'btn-action-unlock' : 'btn-action-lock'}" onclick="toggleLockUser(this, '${safeName}')" title="${isLocked ? 'Mở khoá' : 'Khoá'}"><i class="fas fa-${isLocked ? 'lock-open' : 'lock'}"></i> ${isLocked ? 'Mở khoá' : 'Khoá'}</button>
-        </td>
-      `;
-      tbody.insertBefore(tr, tbody.firstChild);
-    }
-  }
 
   showToast('Đã tạo tài khoản thành viên "' + fullname + '" thành công (không ràng buộc)!', 'success');
   closeAdminModal('modal-add-user');
@@ -2595,42 +2512,14 @@ function toggleLockUser(btn, customerName) {
 
 function initCustomUsersTable() {
   if (typeof window === 'undefined' || typeof document === 'undefined') return;
-  const isCustomersPage = window.location && window.location.pathname && window.location.pathname.includes('customers.html');
-  const custTable = document.getElementById('customers-table') || (isCustomersPage ? document.querySelector('.cart-table') : null);
-  if (!custTable) return;
-  const tbody = custTable.querySelector('tbody') || custTable;
-  if (!tbody) return;
-
-  // Tránh render trùng lặp nếu hàm được gọi nhiều lần
-  if (tbody.querySelector('[data-custom-user-id]')) return;
-
   try {
-    const rawUsers = typeof localStorage !== 'undefined' ? localStorage.getItem('admin_custom_users') : null;
-    const customUsers = JSON.parse(rawUsers || '[]');
-    // Render custom users in reverse order so newest is at the top
-    for (let i = customUsers.length - 1; i >= 0; i--) {
-      const u = customUsers[i];
-      const isLocked = u.status === 'locked';
-      const safeName = (u.fullname || 'Người Dùng Mới').replace(/"/g, '&quot;').replace(/'/g, "\\'");
-      const tr = document.createElement('tr');
-      tr.setAttribute('data-custom-user-id', u.id || ('u_' + i));
-      tr.innerHTML = `
-        <td><span class="badge-status" style="background: rgba(0,255,136,0.15); color: var(--primary); border: 1px solid var(--primary); font-weight: 700;">MỚI</span></td>
-        <td><a href="customer-detail.html" style="color: inherit; text-decoration: none;" title="Xem hồ sơ & lịch sử thanh toán của Nguyễn Văn An"><strong>${u.fullname || 'Người Dùng Mới'}</strong></a><br><small style="color: var(--text-muted);">${u.username || 'user'} (${(u.role || 'user').toUpperCase()})</small></td>
-        <td>${u.phone || '0938.222.111'}<br><small style="color: var(--text-dim);">${u.email || 'user@energyboost.vn'}</small></td>
-        <td><span style="color: var(--text-muted);">${u.orders || '0 đơn hàng (Mới tạo)'}</span><div style="margin-top: 6px;"><a href="customer-detail.html" class="btn-view-detail" style="padding: 3px 10px; font-size: 0.76rem; text-decoration: none;"><i class="fas fa-receipt"></i> Chi Tiết</a></div></td>
-        <td><strong style="color: var(--primary); font-size: 1.05rem;">${u.spent || '0đ'}</strong></td>
-        <td><span class="badge-status ${isLocked ? 'danger' : 'success'}">${isLocked ? 'ĐÃ KHOÁ' : 'ĐANG HOẠT ĐỘNG'}</span></td>
-        <td>
-          <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem;" onclick="openEditUserModal('', this)" title="Sửa"><i class="fas fa-edit"></i> Sửa</button>
-          <button class="${isLocked ? 'btn-action-unlock' : 'btn-action-lock'}" onclick="toggleLockUser(this, '${safeName}')" title="${isLocked ? 'Mở khoá' : 'Khoá'}"><i class="fas fa-${isLocked ? 'lock-open' : 'lock'}"></i> ${isLocked ? 'Mở khoá' : 'Khoá'}</button>
-        </td>
-      `;
-      tbody.insertBefore(tr, tbody.firstChild);
+    if (typeof localStorage !== 'undefined' && typeof localStorage.removeItem === 'function') {
+      localStorage.removeItem('admin_custom_users');
     }
-  } catch (err) {
-    console.error('Error loading custom users:', err);
-  }
+  } catch (err) {}
+  document.querySelectorAll('#customers-table tbody tr[data-custom-user-id]').forEach((row) => {
+    if (row && typeof row.remove === 'function') row.remove();
+  });
 }
 
 // ==========================================================================
