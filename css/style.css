@@ -5724,3 +5724,157 @@ del.price-old {
   color: var(--primary);
   box-shadow: 0 0 14px rgba(57, 255, 20, 0.25);
 }
+
+/* ==========================================================================
+   MEMBER TIER PRIVILEGES SETTINGS UI (ADMIN)
+   ========================================================================== */
+
+.tier-privileges-sync-note {
+  background: rgba(0, 230, 118, 0.06);
+  border: 1px dashed rgba(0, 230, 118, 0.28);
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-bottom: 18px;
+  font-size: 0.83rem;
+  color: var(--text-dim);
+  line-height: 1.5;
+}
+
+.tier-privileges-sync-note a {
+  color: var(--primary);
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.tier-privileges-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.tier-privilege-card {
+  background: rgba(20, 23, 32, 0.92);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-inline-size: 0;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
+}
+
+.tier-privilege-card[data-tier="diamond"] {
+  border-color: rgba(0, 229, 255, 0.35);
+}
+
+.tier-privilege-card[data-tier="gold"] {
+  border-color: rgba(255, 215, 0, 0.35);
+}
+
+.tier-privilege-card[data-tier="silver"] {
+  border-color: rgba(148, 163, 184, 0.35);
+}
+
+.tier-privilege-card[data-tier="standard"] {
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+.tier-privilege-card:hover {
+  border-color: rgba(0, 230, 118, 0.55);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  transform: translateY(-1px);
+}
+
+.tier-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tier-rate-pill {
+  font-size: 0.76rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: rgba(0, 230, 118, 0.12);
+  border: 1px solid rgba(0, 230, 118, 0.35);
+  color: var(--primary);
+  white-space: nowrap;
+}
+
+.tier-badge-standard {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  color: #E2E8F0;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+}
+
+.tier-sync-users {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  line-height: 1.45;
+  min-inline-size: 0;
+}
+
+.tier-sync-users strong {
+  color: #FFF;
+}
+
+.tier-privilege-summary {
+  font-size: 0.84rem;
+  color: #FFF;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px dashed rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 8px 10px;
+  line-height: 1.4;
+}
+
+.tier-card-actions {
+  margin-top: auto;
+  padding-top: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tier-threshold-note {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+#tier-privileges-section button:focus-visible,
+#tier-privileges-section a:focus-visible,
+#tier-privileges-section input:focus-visible,
+#tier-privileges-section select:focus-visible,
+#tier-privileges-section textarea:focus-visible,
+.tier-privileges-sync-note a:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+@media (max-width: 600px) {
+  .tier-privileges-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .tier-card-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
