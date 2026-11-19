@@ -49,8 +49,8 @@ def main() -> int:
         if "Hoàng Đức Long" not in tbody:
             failures.append("admin/customers.html: missing 6th customer 'Hoàng Đức Long'")
         detail_btns = re.findall(r'<a href="customer-detail\.html" class="btn-view-detail"[^>]*>[\s\S]*?Chi Tiết</a>', tbody)
-        if len(detail_btns) != 6:
-            failures.append(f"admin/customers.html: expected 6 'Chi Tiết' links to customer-detail.html, found {len(detail_btns)}")
+        if len(detail_btns) != 0:
+            failures.append(f"admin/customers.html: expected 0 'Chi Tiết' buttons in #customers-table, found {len(detail_btns)}")
         name_links = re.findall(r'<a href="customer-detail\.html"[^>]*><strong>[^<]+</strong></a>', tbody)
         if len(name_links) != 6:
             failures.append(f"admin/customers.html: expected 6 customer name links to customer-detail.html, found {len(name_links)}")
