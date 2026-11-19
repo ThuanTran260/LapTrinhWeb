@@ -4794,6 +4794,14 @@ del.price-old {
 .admin-filter-search input {
   padding-left: 30px;
   width: 200px;
+  min-width: 0;
+  text-overflow: ellipsis;
+}
+.admin-filter-search input::placeholder {
+  text-overflow: ellipsis;
+}
+.admin-filter-search--compact input {
+  width: 195px;
 }
 .admin-filter-actions {
   display: flex;
@@ -5613,6 +5621,9 @@ del.price-old {
     gap: 6px;
   }
   .admin-filter-group > :is(input, select) {
+    width: 100%;
+  }
+  .admin-filter-search--compact input {
     width: 100%;
   }
   .admin-filter-actions {
