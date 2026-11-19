@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Khách Hàng VIP | ENERGY BOOST ADMIN</title>
+  <title>Quản Lý Khách Hàng | ENERGY BOOST ADMIN</title>
   <meta name="description" content="Danh sách khách hàng thành viên VIP Energy Boost Store." />
   <meta name="robots" content="noindex, nofollow" />
 
@@ -32,7 +32,7 @@
         <li><a href="orders.html" class="admin-menu-link"><i class="fas fa-shopping-bag"></i> Quản Lý Đơn Hàng</a></li>
         <li><a href="inventory.html" class="admin-menu-link"><i class="fas fa-boxes-stacked"></i> Kho Lon Nước</a></li>
         <li><a href="revenue.html" class="admin-menu-link"><i class="fas fa-wallet"></i> Báo Cáo Doanh Thu</a></li>
-        <li><a href="customers.html" class="admin-menu-link active"><i class="fas fa-users"></i> Khách Hàng VIP</a></li>
+        <li><a href="customers.html" class="admin-menu-link active"><i class="fas fa-users"></i> Khách Hàng</a></li>
         <li><a href="settings.html" class="admin-menu-link"><i class="fas fa-sliders"></i> Cài Đặt Hệ Thống</a></li>
       </ul>
 
@@ -52,7 +52,7 @@
       <div class="admin-topbar">
         <div>
           <h1 style="font-family: var(--font-heading); color: #FFF; text-transform: uppercase;">
-            KHÁCH HÀNG <span>VIP</span>
+            QUẢN LÝ <span>KHÁCH HÀNG</span>
           </h1>
           <p style="font-size: 0.85rem; color: var(--text-muted);">1.280 thành viên - 6 khách hàng thân thiết tiêu biểu</p>
         </div>
@@ -107,8 +107,11 @@
           </div>
 
           <div class="admin-filter-actions">
+            <button type="button" id="btn-filter-top5-vip" class="filter-pill" onclick="toggleTop5VipFilter(this)">
+              <i class="fas fa-crown" style="color: var(--accent-gold);"></i> Lọc 5 Người VIP Nhất
+            </button>
             <button type="button" class="btn-filter-apply" onclick="applyAdminCustomerFilter()">
-              <i class="fas fa-chart-line"></i> Thống Kê Top 5 VIP
+              <i class="fas fa-chart-line"></i> Thống Kê
             </button>
             <button type="button" class="btn-filter-reset" onclick="resetAdminCustomerFilter()">
               <i class="fas fa-rotate-left"></i> Đặt Lại
@@ -122,7 +125,7 @@
               <th>Hạng</th>
               <th>Khách Hàng / User</th>
               <th>Số Điện Thoại & Email</th>
-              <th>Đơn Hàng Mua (Chi Tiết)</th>
+              <th>Đơn Gần Đây</th>
               <th>Tổng Chi Tiêu</th>
               <th>Trạng Thái</th>
               <th>Thao Tác</th>
@@ -130,13 +133,14 @@
           </thead>
           <tbody>
             <!-- #1 VIP: Phạm Minh Tuấn -->
-            <tr>
+            <tr data-vip-rank="1">
               <td><span class="badge-status" style="background: rgba(255,215,0,0.2); color: #FFD700; border: 1px solid #FFD700; font-weight: 800;">#1 VIP</span></td>
-              <td><strong>Phạm Minh Tuấn</strong><br><small style="color: var(--text-muted);">tuan_vip (KIM CƯƠNG)</small></td>
+              <td><a href="customer-detail.html" style="color: inherit; text-decoration: none;" title="Xem hồ sơ & lịch sử thanh toán của Nguyễn Văn An"><strong>Phạm Minh Tuấn</strong></a><br><small style="color: var(--text-muted);">tuan_vip (KIM CƯƠNG)</small></td>
               <td>0977.888.999<br><small style="color: var(--text-dim);">minhtuan.pham@gmail.com</small></td>
               <td>
                 <a href="order-detail.html?id=EB-8801" onclick="openOrderDetailModal('EB-8801'); return false;" style="color: var(--primary); font-weight: 700; text-decoration: underline;">#EB-8804</a>: 918.000đ<br>
                 <a href="order-detail.html?id=EB-8801" onclick="openOrderDetailModal('EB-8801'); return false;" style="color: var(--accent-cyan); text-decoration: underline;">#EB-8801</a>: 126.000đ
+                <div style="margin-top: 6px;"><a href="customer-detail.html" class="btn-view-detail" style="padding: 3px 10px; font-size: 0.76rem; text-decoration: none;" title="Xem lịch sử thanh toán của Nguyễn Văn An"><i class="fas fa-receipt"></i> Chi Tiết</a></div>
               </td>
               <td><strong style="color: var(--primary); font-size: 1.05rem;">15.200.000đ</strong></td>
               <td><span class="badge-status success">ĐANG HOẠT ĐỘNG</span></td>
@@ -147,13 +151,14 @@
             </tr>
 
             <!-- #2 VIP: Nguyễn Văn An -->
-            <tr>
+            <tr data-vip-rank="2">
               <td><span class="badge-status" style="background: rgba(192,192,192,0.2); color: #E0E0E0; border: 1px solid #AAA; font-weight: 800;">#2 VIP</span></td>
-              <td><strong>Nguyễn Văn An</strong><br><small style="color: var(--text-muted);">an_nguyen (KIM CƯƠNG)</small></td>
+              <td><a href="customer-detail.html" style="color: inherit; text-decoration: none;" title="Xem hồ sơ & lịch sử thanh toán của Nguyễn Văn An"><strong>Nguyễn Văn An</strong></a><br><small style="color: var(--text-muted);">an_nguyen (KIM CƯƠNG)</small></td>
               <td>0912.345.678<br><small style="color: var(--text-dim);">an.nguyen@gmail.com</small></td>
               <td>
                 <a href="order-detail.html?id=EB-8801" onclick="openOrderDetailModal('EB-8801'); return false;" style="color: var(--primary); font-weight: 700; text-decoration: underline;">#EB-8801</a>: 126.000đ<br>
                 <a href="order-detail.html?id=EB-8801" onclick="openOrderDetailModal('EB-8801'); return false;" style="color: var(--accent-cyan); text-decoration: underline;">#EB-8802</a>: 246.000đ
+                <div style="margin-top: 6px;"><a href="customer-detail.html" class="btn-view-detail" style="padding: 3px 10px; font-size: 0.76rem; text-decoration: none;" title="Xem lịch sử thanh toán của Nguyễn Văn An"><i class="fas fa-receipt"></i> Chi Tiết</a></div>
               </td>
               <td><strong style="color: var(--primary); font-size: 1.05rem;">12.400.000đ</strong></td>
               <td><span class="badge-status success">ĐANG HOẠT ĐỘNG</span></td>
@@ -164,12 +169,13 @@
             </tr>
 
             <!-- #3 VIP: Trần Thị Bích -->
-            <tr>
+            <tr data-vip-rank="3">
               <td><span class="badge-status" style="background: rgba(205,127,50,0.2); color: #CD7F32; border: 1px solid #CD7F32; font-weight: 800;">#3 VIP</span></td>
-              <td><strong>Trần Thị Bích</strong><br><small style="color: var(--text-muted);">bich_tran (VÀNG)</small></td>
+              <td><a href="customer-detail.html" style="color: inherit; text-decoration: none;" title="Xem hồ sơ & lịch sử thanh toán của Nguyễn Văn An"><strong>Trần Thị Bích</strong></a><br><small style="color: var(--text-muted);">bich_tran (VÀNG)</small></td>
               <td>0988.765.432<br><small style="color: var(--text-dim);">bich.tran@gmail.com</small></td>
               <td>
                 <a href="order-detail.html?id=EB-8801" onclick="openOrderDetailModal('EB-8801'); return false;" style="color: var(--primary); font-weight: 700; text-decoration: underline;">#EB-8802</a>: 246.000đ
+                <div style="margin-top: 6px;"><a href="customer-detail.html" class="btn-view-detail" style="padding: 3px 10px; font-size: 0.76rem; text-decoration: none;" title="Xem lịch sử thanh toán của Nguyễn Văn An"><i class="fas fa-receipt"></i> Chi Tiết</a></div>
               </td>
               <td><strong style="color: var(--primary); font-size: 1.05rem;">9.600.000đ</strong></td>
               <td><span class="badge-status success">ĐANG HOẠT ĐỘNG</span></td>
@@ -180,12 +186,13 @@
             </tr>
 
             <!-- #4 VIP: Lê Hoàng Nam -->
-            <tr>
+            <tr data-vip-rank="4">
               <td><span class="badge-status info" style="font-weight: 800;">#4 VIP</span></td>
-              <td><strong>Lê Hoàng Nam</strong><br><small style="color: var(--text-muted);">nam_le (VÀNG)</small></td>
+              <td><a href="customer-detail.html" style="color: inherit; text-decoration: none;" title="Xem hồ sơ & lịch sử thanh toán của Nguyễn Văn An"><strong>Lê Hoàng Nam</strong></a><br><small style="color: var(--text-muted);">nam_le (VÀNG)</small></td>
               <td>0903.111.222<br><small style="color: var(--text-dim);">nam.le@gmail.com</small></td>
               <td>
                 <a href="order-detail.html?id=EB-8801" onclick="openOrderDetailModal('EB-8801'); return false;" style="color: var(--primary); font-weight: 700; text-decoration: underline;">#EB-8803</a>: 40.000đ
+                <div style="margin-top: 6px;"><a href="customer-detail.html" class="btn-view-detail" style="padding: 3px 10px; font-size: 0.76rem; text-decoration: none;" title="Xem lịch sử thanh toán của Nguyễn Văn An"><i class="fas fa-receipt"></i> Chi Tiết</a></div>
               </td>
               <td><strong style="color: var(--primary); font-size: 1.05rem;">7.800.000đ</strong></td>
               <td><span class="badge-status success">ĐANG HOẠT ĐỘNG</span></td>
@@ -196,18 +203,36 @@
             </tr>
 
             <!-- #5 VIP: Vũ Thảo My -->
-            <tr>
+            <tr data-vip-rank="5">
               <td><span class="badge-status info" style="font-weight: 800;">#5 VIP</span></td>
-              <td><strong>Vũ Thảo My</strong><br><small style="color: var(--text-muted);">my_vu (BẠC)</small></td>
+              <td><a href="customer-detail.html" style="color: inherit; text-decoration: none;" title="Xem hồ sơ & lịch sử thanh toán của Nguyễn Văn An"><strong>Vũ Thảo My</strong></a><br><small style="color: var(--text-muted);">my_vu (BẠC)</small></td>
               <td>0934.555.666<br><small style="color: var(--text-dim);">my.vu@gmail.com</small></td>
               <td>
                 <a href="order-detail.html?id=EB-8801" onclick="openOrderDetailModal('EB-8801'); return false;" style="color: var(--primary); font-weight: 700; text-decoration: underline;">#EB-8805</a>: 198.000đ
+                <div style="margin-top: 6px;"><a href="customer-detail.html" class="btn-view-detail" style="padding: 3px 10px; font-size: 0.76rem; text-decoration: none;" title="Xem lịch sử thanh toán của Nguyễn Văn An"><i class="fas fa-receipt"></i> Chi Tiết</a></div>
               </td>
               <td><strong style="color: var(--primary); font-size: 1.05rem;">5.400.000đ</strong></td>
               <td><span class="badge-status locked danger">ĐÃ KHOÁ</span></td>
               <td>
                 <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem;" onclick="openEditUserModal('my', this)" title="Sửa"><i class="fas fa-edit"></i> Sửa</button>
                 <button class="btn-action-unlock" onclick="toggleLockUser(this, 'Vũ Thảo My')" title="Mở khoá"><i class="fas fa-lock-open"></i> Mở</button>
+              </td>
+            </tr>
+
+            <!-- #6: Hoàng Đức Long -->
+            <tr data-vip-rank="6">
+              <td><span class="badge-status" style="background: rgba(148,163,184,0.16); color: #CBD5E1; border: 1px solid #64748B; font-weight: 800;">#6 BẠC</span></td>
+              <td><a href="customer-detail.html" style="color: inherit; text-decoration: none;" title="Xem hồ sơ & lịch sử thanh toán của Nguyễn Văn An"><strong>Hoàng Đức Long</strong></a><br><small style="color: var(--text-muted);">long_hoang (BẠC)</small></td>
+              <td>0938.222.111<br><small style="color: var(--text-dim);">duclong.hoang@gmail.com</small></td>
+              <td>
+                <a href="order-detail.html?id=EB-8806" onclick="openOrderDetailModal('EB-8806'); return false;" style="color: var(--primary); font-weight: 700; text-decoration: underline;">#EB-8806</a>: 24.000đ
+                <div style="margin-top: 6px;"><a href="customer-detail.html" class="btn-view-detail" style="padding: 3px 10px; font-size: 0.76rem; text-decoration: none;" title="Xem lịch sử thanh toán của Nguyễn Văn An"><i class="fas fa-receipt"></i> Chi Tiết</a></div>
+              </td>
+              <td><strong style="color: var(--primary); font-size: 1.05rem;">4.100.000đ</strong></td>
+              <td><span class="badge-status success">ĐANG HOẠT ĐỘNG</span></td>
+              <td>
+                <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem;" onclick="openEditUserModal('long', this)" title="Sửa"><i class="fas fa-edit"></i> Sửa</button>
+                <button class="btn-action-lock" onclick="toggleLockUser(this, 'Hoàng Đức Long')" title="Khoá"><i class="fas fa-lock"></i> Khoá</button>
               </td>
             </tr>
           </tbody>
@@ -280,73 +305,6 @@
     </footer>
 
     </main>
-  </div>
-
-  <!-- Modal Chi Tiết Khách Hàng VIP (Phạm Minh Tuấn) -->
-  <div id="modal-customer-detail" class="admin-modal-overlay">
-    <div class="admin-modal-card">
-      <div class="admin-modal-header">
-        <h3 class="admin-modal-title"><i class="fas fa-crown" style="color: var(--accent-gold);"></i> Hồ Sơ Thành Viên VIP</h3>
-        <button type="button" class="admin-modal-close" onclick="closeAdminModal('modal-customer-detail')">&times;</button>
-      </div>
-      <div class="admin-modal-body">
-        <div class="vip-profile-header">
-          <div class="vip-avatar" id="vip-modal-avatar">PT</div>
-          <div class="vip-profile-info">
-            <h3 id="vip-modal-name">Phạm Minh Tuấn</h3>
-            <span class="vip-badge-diamond" id="vip-modal-badge"><i class="fas fa-gem"></i> HẠNG KIM CƯƠNG</span>
-          </div>
-        </div>
-
-        <div class="vip-stats-grid">
-          <div class="vip-stat-box">
-            <div class="vip-stat-val" id="vip-modal-points">3.120</div>
-            <div class="vip-stat-lbl">Điểm tích lũy</div>
-          </div>
-          <div class="vip-stat-box">
-            <div class="vip-stat-val" id="vip-modal-spent">15.200.000đ</div>
-            <div class="vip-stat-lbl">Tổng chi tiêu</div>
-          </div>
-          <div class="vip-stat-box">
-            <div class="vip-stat-val" id="vip-modal-orders" style="color: var(--accent-gold);">18 Đơn</div>
-            <div class="vip-stat-lbl">Đơn hoàn tất</div>
-          </div>
-        </div>
-
-        <div class="vip-info-list">
-          <div class="vip-info-item">
-            <span class="label"><i class="fas fa-phone-alt" style="color: var(--primary);"></i> Số điện thoại</span>
-            <span class="val" id="vip-modal-phone">0977 888 999</span>
-          </div>
-          <div class="vip-info-item">
-            <span class="label"><i class="fas fa-envelope" style="color: var(--accent-cyan);"></i> Email liên hệ</span>
-            <span class="val" id="vip-modal-email">minhtuan.pham@gmail.com</span>
-          </div>
-          <div class="vip-info-item">
-            <span class="label"><i class="fas fa-map-marker-alt" style="color: var(--secondary);"></i> Địa chỉ giao hàng</span>
-            <span class="val" id="vip-modal-address">88 Nguyễn Huệ, P. Bến Nghé, Quận 1, TP.HCM</span>
-          </div>
-          <div class="vip-info-item">
-            <span class="label"><i class="fas fa-box" style="color: var(--accent-gold);"></i> Đơn hàng gần nhất</span>
-            <span class="val" id="vip-modal-latest-order"><a href="order-detail.html" style="color: var(--primary); text-decoration: underline;" title="Xem chi tiết đơn hàng #EB-8804">#EB-8804</a> (7 Lon Nước Tăng Lực Mix - 216.000đ)</span>
-          </div>
-          <div class="vip-info-item">
-            <span class="label"><i class="fas fa-calendar-check" style="color: var(--primary);"></i> Ngày gia nhập</span>
-            <span class="val" id="vip-modal-joindate">15/01/2024</span>
-          </div>
-          <div class="vip-info-item">
-            <span class="label"><i class="fas fa-shield-halved" style="color: var(--primary);"></i> Đặc quyền VIP</span>
-            <span class="val" id="vip-modal-privilege" style="color: var(--primary);">Miễn phí ship hỏa tốc + Chiết khấu 10%</span>
-          </div>
-        </div>
-      </div>
-      <div class="admin-modal-footer">
-        <button type="button" class="btn-modal-cancel" onclick="closeAdminModal('modal-customer-detail')">Đóng</button>
-        <button type="button" id="vip-modal-gift-btn" class="btn-modal-save" onclick="showToast('Đã gửi voucher tri ân VIP 15% tới Phạm Minh Tuấn!', 'success'); closeAdminModal('modal-customer-detail');">
-          <i class="fas fa-gift"></i> Tặng Voucher VIP
-        </button>
-      </div>
-    </div>
   </div>
 
   <!-- Modal Thêm Người Dùng Mới (R2) -->

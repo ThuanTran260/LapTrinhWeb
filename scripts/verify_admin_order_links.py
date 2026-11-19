@@ -76,14 +76,17 @@ def test_order_detail_page():
     for rid in required_ids:
         assert f'id="{rid}"' in content, f"Thiếu ID '{rid}' trong admin/order-detail.html"
 
-@test("5. Modal chi tiết khách hàng VIP: Đơn hàng gần nhất trỏ về order-detail.html")
+@test("5. Hồ sơ khách hàng: Tên khách hàng trỏ về trang riêng customer-detail.html (không dùng popup)")
 def test_vip_modal_order_link():
+    detail_page = read_file("admin/customer-detail.html")
+    assert detail_page is not None, "Thiếu trang riêng admin/customer-detail.html!"
+    assert 'href="order-detail.html' in detail_page, "admin/customer-detail.html thiếu liên kết tới order-detail.html"
     files = ["admin/orders.html", "admin/index.html", "admin/customers.html"]
     for f in files:
         content = read_file(f)
         assert content is not None, f"File {f} không tồn tại!"
-        assert 'id="vip-modal-latest-order"' in content, f"File {f} thiếu #vip-modal-latest-order"
-        assert 'href="order-detail.html"' in content, f"File {f} thiếu liên kết order-detail.html trong modal"
+        assert 'id="modal-customer-detail"' not in content, f"File {f} vẫn còn popup #modal-customer-detail"
+        assert 'href="customer-detail.html"' in content, f"File {f} thiếu liên kết customer-detail.html"
 
 @test("6. Logic Core: js/app.js hỗ trợ nạp dữ liệu và xử lý fallback an toàn cho order-detail.html")
 def test_app_js_order_detail_logic():
