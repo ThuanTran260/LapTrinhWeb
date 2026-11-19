@@ -1064,80 +1064,16 @@ const CUSTOMER_DATA_REGISTRY = {
 };
 
 function openCustomerDetailModal(customerKey) {
-  let data = (typeof CUSTOMER_DATA_REGISTRY !== 'undefined' && CUSTOMER_DATA_REGISTRY[customerKey]) ? CUSTOMER_DATA_REGISTRY[customerKey] : null;
-  if (!data && typeof customerKey === 'string') {
-    try {
-      const customUsers = JSON.parse(localStorage.getItem('admin_custom_users') || '[]');
-      const matched = customUsers.find(u => u.id === customerKey || u.fullname === customerKey || u.username === customerKey);
-      if (matched) {
-        data = {
-          name: matched.fullname,
-          tier: (matched.role || 'user').toUpperCase(),
-          tierClass: 'vip-badge-silver',
-          tierIcon: 'fa-user',
-          initials: matched.fullname.split(' ').filter(Boolean).map(w => w[0]).slice(-2).join('').toUpperCase() || 'ND',
-          points: '0',
-          spent: matched.spent || '0đ',
-          ordersCount: matched.orders || '0 Đơn',
-          phone: matched.phone || '0938.222.111',
-          email: matched.email || 'user@energyboost.vn',
-          address: 'Chưa cập nhật địa chỉ',
-          latestOrder: 'Chưa có đơn hàng (Thành viên mới)',
-          joinDate: matched.createdAt || new Date().toLocaleDateString('vi-VN'),
-          privileges: 'Ưu đãi thành viên mới'
-        };
-      }
-    } catch (e) {}
-  }
-  if (!data) {
-    data = (typeof CUSTOMER_DATA_REGISTRY !== 'undefined' && CUSTOMER_DATA_REGISTRY['tuan']) || {};
-  }
-  
-  const elAvatar = document.getElementById('vip-modal-avatar');
-  const elName = document.getElementById('vip-modal-name');
-  const elBadge = document.getElementById('vip-modal-badge');
-  const elPoints = document.getElementById('vip-modal-points');
-  const elSpent = document.getElementById('vip-modal-spent');
-  const elOrders = document.getElementById('vip-modal-orders');
-  const elPhone = document.getElementById('vip-modal-phone');
-  const elEmail = document.getElementById('vip-modal-email');
-  const elAddress = document.getElementById('vip-modal-address');
-  const elLatest = document.getElementById('vip-modal-latest-order');
-  const elJoin = document.getElementById('vip-modal-joindate');
-  const elPrivilege = document.getElementById('vip-modal-privilege');
-  const elBtn = document.getElementById('vip-modal-gift-btn');
+  window.location.href = 'customer-detail.html';
+}
 
-  if (elAvatar) elAvatar.textContent = data.initials;
-  if (elName) elName.textContent = data.name;
-  if (elBadge) {
-    elBadge.className = data.tierClass;
-    elBadge.innerHTML = `<i class="fas ${data.tierIcon}"></i> ${data.tier}`;
+function handleCustomerHistoryPage(page, btn) {
+  const label = page === 'next' ? 'tiếp theo (Trang 2)' : 'Trang ' + page;
+  if (String(page) === '1') {
+    showToast('Đang hiển thị Trang 1/3 lịch sử thanh toán của Nguyễn Văn An (Tổng tích lũy 15 đơn: 12.400.000đ).', 'info');
+    return;
   }
-  if (elPoints) elPoints.textContent = data.points;
-  if (elSpent) elSpent.textContent = data.spent;
-  if (elOrders) elOrders.textContent = data.ordersCount;
-  if (elPhone) elPhone.textContent = data.phone;
-  if (elEmail) elEmail.textContent = data.email;
-  if (elAddress) elAddress.textContent = data.address;
-  if (elLatest) {
-    const latestText = data.latestOrder || '';
-    const match = latestText.match(/^(#EB-\d+)(.*)$/);
-    if (match) {
-      elLatest.innerHTML = `<a href="order-detail.html" style="color: var(--primary); text-decoration: underline;" title="Xem chi tiết đơn hàng ${match[1]}">${match[1]}</a>${match[2]}`;
-    } else {
-      elLatest.textContent = latestText;
-    }
-  }
-  if (elJoin) elJoin.textContent = data.joinDate;
-  if (elPrivilege) elPrivilege.textContent = data.privileges;
-  if (elBtn) {
-    elBtn.onclick = function() {
-      showToast('Đã gửi voucher tri ân VIP tới ' + data.name + '!', 'success');
-      closeAdminModal('modal-customer-detail');
-    };
-  }
-
-  openAdminModal('modal-customer-detail');
+  showToast('Đã chọn ' + label + ' — Mô phỏng tĩnh chỉ hiển thị chi tiết Trang 1 (15 đơn / 12.400.000đ), không chuyển trang.', 'info');
 }
 
 // 9d. Mock Order Database & Routing Logic
@@ -2372,6 +2308,47 @@ function resetAdminInventoryFilter() {
   showToast('Đã đặt lại bộ lọc kho hàng mặc định', 'info');
 }
 
+let isTop5VipFilterActive = false;
+
+function filterCustomersTableRows() {
+  const rows = document.querySelectorAll('#customers-table tbody tr');
+  if (!rows || !rows.length) return;
+  const tierEl = document.getElementById('filter-customer-tier');
+  const tierVal = tierEl ? tierEl.value : 'all';
+  const kwEl = document.getElementById('filter-customer-keyword');
+  const kw = kwEl ? kwEl.value.trim().toLowerCase() : '';
+
+  const tierKeywords = {
+    diamond: 'kim cương',
+    gold: 'vàng',
+    silver: 'bạc',
+  };
+
+  rows.forEach((row) => {
+    const rankAttr = parseInt(row.getAttribute('data-vip-rank') || '99', 10);
+    const text = (row.textContent || '').toLowerCase();
+    const matchTop5 = !isTop5VipFilterActive || (rankAttr >= 1 && rankAttr <= 5);
+    const matchTier = tierVal === 'all' || (tierKeywords[tierVal] && text.includes(tierKeywords[tierVal]));
+    const matchKw = !kw || text.includes(kw);
+    row.style.display = (matchTop5 && matchTier && matchKw) ? '' : 'none';
+  });
+}
+
+function toggleTop5VipFilter(btn) {
+  isTop5VipFilterActive = !isTop5VipFilterActive;
+  const targetBtn = btn || document.getElementById('btn-filter-top5-vip');
+  if (targetBtn && targetBtn.classList) {
+    targetBtn.classList.toggle('active', isTop5VipFilterActive);
+  }
+  filterCustomersTableRows();
+  showToast(
+    isTop5VipFilterActive
+      ? 'Đang lọc hiển thị 5 người VIP chi tiêu cao nhất!'
+      : 'Đang hiển thị toàn bộ danh sách khách hàng.',
+    isTop5VipFilterActive ? 'success' : 'info'
+  );
+}
+
 function applyAdminCustomerFilter() {
   const tierEl = document.getElementById('filter-customer-tier');
   const tier = tierEl ? tierEl.options[tierEl.selectedIndex].text : 'Tất cả';
@@ -2380,15 +2357,20 @@ function applyAdminCustomerFilter() {
   const from = fromEl ? fromEl.value : '2026-01-01';
   const to = toEl ? toEl.value : '2026-10-17';
 
-  showToast('Đã thống kê Top 5 khách hàng mua cao nhất (' + from + ' đến ' + to + ') - Phân loại: ' + tier, 'success');
+  filterCustomersTableRows();
+  showToast('Đã thống kê khách hàng (' + from + ' đến ' + to + ') - Phân loại: ' + tier, 'success');
 }
 
 function resetAdminCustomerFilter() {
+  isTop5VipFilterActive = false;
+  const top5Btn = document.getElementById('btn-filter-top5-vip');
+  if (top5Btn && top5Btn.classList) top5Btn.classList.remove('active');
   const tierEl = document.getElementById('filter-customer-tier');
   if (tierEl) tierEl.value = 'all';
   const kwEl = document.getElementById('filter-customer-keyword');
   if (kwEl) kwEl.value = '';
-  showToast('Đã đặt lại bộ lọc khách hàng VIP', 'info');
+  filterCustomersTableRows();
+  showToast('Đã đặt lại bộ lọc khách hàng', 'info');
 }
 
 function applyDashboardFilter(type) {
@@ -2521,9 +2503,9 @@ function saveAddUser(e) {
       tr.setAttribute('data-custom-user-id', userId);
       tr.innerHTML = `
         <td><span class="badge-status" style="background: rgba(0,255,136,0.15); color: var(--primary); border: 1px solid var(--primary); font-weight: 700;">MỚI</span></td>
-        <td><strong>${fullname}</strong><br><small style="color: var(--text-muted);">${username} (${role.toUpperCase()})</small></td>
+        <td><a href="customer-detail.html" style="color: inherit; text-decoration: none;" title="Xem hồ sơ & lịch sử thanh toán của Nguyễn Văn An"><strong>${fullname}</strong></a><br><small style="color: var(--text-muted);">${username} (${role.toUpperCase()})</small></td>
         <td>${phone}<br><small style="color: var(--text-dim);">${email}</small></td>
-        <td><span style="color: var(--text-muted);">0 đơn hàng (Mới tạo)</span></td>
+        <td><span style="color: var(--text-muted);">0 đơn hàng (Mới tạo)</span><div style="margin-top: 6px;"><a href="customer-detail.html" class="btn-view-detail" style="padding: 3px 10px; font-size: 0.76rem; text-decoration: none;"><i class="fas fa-receipt"></i> Chi Tiết</a></div></td>
         <td><strong style="color: var(--primary); font-size: 1.05rem;">0đ</strong></td>
         <td><span class="badge-status ${isLocked ? 'danger' : 'success'}">${isLocked ? 'ĐÃ KHOÁ' : 'ĐANG HOẠT ĐỘNG'}</span></td>
         <td>
@@ -2634,9 +2616,9 @@ function initCustomUsersTable() {
       tr.setAttribute('data-custom-user-id', u.id || ('u_' + i));
       tr.innerHTML = `
         <td><span class="badge-status" style="background: rgba(0,255,136,0.15); color: var(--primary); border: 1px solid var(--primary); font-weight: 700;">MỚI</span></td>
-        <td><strong>${u.fullname || 'Người Dùng Mới'}</strong><br><small style="color: var(--text-muted);">${u.username || 'user'} (${(u.role || 'user').toUpperCase()})</small></td>
+        <td><a href="customer-detail.html" style="color: inherit; text-decoration: none;" title="Xem hồ sơ & lịch sử thanh toán của Nguyễn Văn An"><strong>${u.fullname || 'Người Dùng Mới'}</strong></a><br><small style="color: var(--text-muted);">${u.username || 'user'} (${(u.role || 'user').toUpperCase()})</small></td>
         <td>${u.phone || '0938.222.111'}<br><small style="color: var(--text-dim);">${u.email || 'user@energyboost.vn'}</small></td>
-        <td><span style="color: var(--text-muted);">${u.orders || '0 đơn hàng (Mới tạo)'}</span></td>
+        <td><span style="color: var(--text-muted);">${u.orders || '0 đơn hàng (Mới tạo)'}</span><div style="margin-top: 6px;"><a href="customer-detail.html" class="btn-view-detail" style="padding: 3px 10px; font-size: 0.76rem; text-decoration: none;"><i class="fas fa-receipt"></i> Chi Tiết</a></div></td>
         <td><strong style="color: var(--primary); font-size: 1.05rem;">${u.spent || '0đ'}</strong></td>
         <td><span class="badge-status ${isLocked ? 'danger' : 'success'}">${isLocked ? 'ĐÃ KHOÁ' : 'ĐANG HOẠT ĐỘNG'}</span></td>
         <td>
