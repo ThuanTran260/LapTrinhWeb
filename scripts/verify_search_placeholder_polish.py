@@ -6,7 +6,7 @@ if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
 
 ROOT = Path(__file__).resolve().parent.parent
-EXPECTED_PLACEHOLDER = "Tìm kiếm Monster, Redbull..."
+EXPECTED_PLACEHOLDER = "Tìm kiếm Monster, Redbull, Sting..."
 
 STOREFRONT_FILES = [
     "index.html",
@@ -25,7 +25,7 @@ STOREFRONT_FILES = [
 DISALLOWED_PLACEHOLDERS = [
     "Tìm kiếm Monster Energy, Redbull, Sting...",
     "Tìm kiếm vị yêu thích",
-    "Tìm kiếm Monster, Redbull, Sting...",
+    "Tìm kiếm Monster, Redbull...",
     "Tìm kiếm Redbull, Monster, Sting...",
     "Tìm kiếm Sting, Monster, Redbull...",
 ]
