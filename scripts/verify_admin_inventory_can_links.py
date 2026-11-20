@@ -121,6 +121,15 @@ def verify_inventory_table(rel_path: str, section_id: str | None) -> list[str]:
             failures.append(
                 f'{row_label} col 2: missing <a href="{TARGET_EDIT_HREF}"> wrapping <strong>...</strong>'
             )
+        col2_lower = cells[1].lower()
+        if "<small" in col2_lower:
+            failures.append(
+                f"{row_label} col 2: unexpected <small> subtitle inside product name cell"
+            )
+        if "<br" in col2_lower:
+            failures.append(
+                f"{row_label} col 2: unexpected <br> line break inside product name cell"
+            )
 
         action_cell = cells[-1]
         if "btn-view-detail" in action_cell:
