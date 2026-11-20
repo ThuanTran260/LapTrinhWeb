@@ -3233,7 +3233,7 @@ function changeDashboardPage(pageNum, e) {
     }
 
     // Sync navbar active brand button
-    const navLinks = document.querySelectorAll('.nav-menu .nav-link');
+    const navLinks = document.querySelectorAll('.nav-menu .nav-link[href*="-products"]');
     if (navLinks.length >= 3) {
       navLinks.forEach((link, idx) => {
         if (idx === targetPage - 1) {
@@ -3289,7 +3289,7 @@ function handleNavBrandClick(e, link, targetId) {
 
       // Highlight active in both header nav and quick brand selector
       const brandKey = targetId.replace('-products', '');
-      document.querySelectorAll('.nav-menu .nav-link, .quick-brand-nav .quick-brand-btn').forEach(btn => {
+      document.querySelectorAll('.nav-menu .nav-link[href*="-products"], .quick-brand-nav .quick-brand-btn').forEach(btn => {
         const btnRef = (btn.getAttribute('href') || '') + ' ' + (btn.getAttribute('data-target') || '') + ' ' + (btn.textContent || '');
         if (btnRef.toLowerCase().includes(brandKey)) {
           btn.classList.add('active');
@@ -3297,6 +3297,8 @@ function handleNavBrandClick(e, link, targetId) {
           btn.classList.remove('active');
         }
       });
+      const homeBtn = document.getElementById('nav-home-btn');
+      if (homeBtn && homeBtn.classList) homeBtn.classList.remove('active');
     } else {
       // Cross-page navigation from subpages
       const root = typeof window !== 'undefined' && window.SITE_ROOT ? window.SITE_ROOT : '../';
@@ -3307,9 +3309,42 @@ function handleNavBrandClick(e, link, targetId) {
   return false;
 }
 
+function scrollToDashboardTop(e, link) {
+  if (e) {
+    if (typeof e.preventDefault === 'function') e.preventDefault();
+    if (typeof e.stopPropagation === 'function') e.stopPropagation();
+  }
+  if (typeof window !== 'undefined' && typeof window.scrollTo === 'function') {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  if (typeof document !== 'undefined') {
+    document.querySelectorAll('.nav-menu .nav-link[href*="-products"]').forEach(item => {
+      item.classList.remove('active');
+    });
+    const homeBtn = link || document.getElementById('nav-home-btn');
+    if (homeBtn && homeBtn.classList) homeBtn.classList.add('active');
+  }
+  return false;
+}
+
+function toggleBrandDrawer(btn) {
+  const toggleBtn = btn || document.getElementById('nav-brand-toggle');
+  const drawer = document.getElementById('nav-brand-drawer');
+  if (!drawer) return false;
+  const isOpen = drawer.classList.toggle('is-open');
+  drawer.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+  if (toggleBtn && toggleBtn.classList) {
+    toggleBtn.classList.toggle('is-open', isOpen);
+    toggleBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  }
+  return isOpen;
+}
+
 if (typeof window !== 'undefined') {
   window.changeDashboardPage = changeDashboardPage;
   window.handleNavBrandClick = handleNavBrandClick;
+  window.scrollToDashboardTop = scrollToDashboardTop;
+  window.toggleBrandDrawer = toggleBrandDrawer;
   window.updatePaginationUI = updatePaginationUI;
   window.handleAdminAddFaq = handleAdminAddFaq;
   window.handleAdminDeleteFaq = handleAdminDeleteFaq;
@@ -3356,7 +3391,7 @@ function handleAdminSaveFaq() {
 
 if (typeof document !== 'undefined') {
   document.addEventListener('click', function(e) {
-    const navLink = e.target.closest('.nav-menu .nav-link, .quick-brand-nav .quick-brand-btn');
+    const navLink = e.target.closest('.nav-menu .nav-link[href*="-products"], .quick-brand-nav .quick-brand-btn');
     if (navLink) {
       if (typeof e.preventDefault === 'function') e.preventDefault();
       if (typeof e.stopPropagation === 'function') e.stopPropagation();
