@@ -2,11 +2,22 @@ import re
 import subprocess
 import sys
 from pathlib import Path
+from typing import Optional
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
 
 ROOT = Path(__file__).resolve().parent.parent
+
+STOREFRONT_NAV_TARGETS = [
+    ("index.html", "#top", "#", "monster-products"),
+    ("pages/product-detail.html", "../index.html", "../index.html#", "monster-products"),
+    ("pages/product-detail-redbull.html", "../index.html", "../index.html#", "redbull-products"),
+    ("pages/product-detail-redbull-thai.html", "../index.html", "../index.html#", "redbull-products"),
+    ("pages/product-detail-redbull-lonvua.html", "../index.html", "../index.html#", "redbull-products"),
+    ("pages/product-detail-sting.html", "../index.html", "../index.html#", "sting-products"),
+    ("pages/search-results.html", "../index.html", "../index.html#", None),
+]
 
 
 def extract_css_blocks(css_text: str, selector: str) -> list[str]:
@@ -61,45 +72,65 @@ def extract_function(source: str, name: str) -> str:
     return ""
 
 
-def verify_index_nav_html(index_html: str) -> list[str]:
+def _extract_classes(tag: str) -> list[str]:
+    class_match = re.search(r'\bclass="([^"]*)"', tag)
+    return class_match.group(1).split() if class_match else []
+
+
+def verify_nav_drawer_html(
+    html: str,
+    filename: str,
+    expected_home_href: str,
+    expected_brand_prefix: str,
+    expected_active_brand: Optional[str],
+) -> list[str]:
     failures: list[str] = []
 
-    nav_match = re.search(r'<ul\b[^>]*class="[^"]*\bnav-menu\b[^"]*"[^>]*>([\s\S]*?)</ul>', index_html)
+    nav_match = re.search(r'<ul\b[^>]*class="[^"]*\bnav-menu\b[^"]*"[^>]*>([\s\S]*?)</ul>', html)
     if not nav_match:
-        failures.append("index.html: missing <ul class='nav-menu'> wrapper")
+        failures.append(f"{filename}: missing <ul class='nav-menu'> wrapper")
         return failures
 
     nav_html = nav_match.group(0)
 
     home_match = re.search(r'<a\b[^>]*id="nav-home-btn"[^>]*>([\s\S]*?)</a>', nav_html)
     if not home_match:
-        failures.append("index.html: missing #nav-home-btn inside .nav-menu")
+        failures.append(f"{filename}: missing #nav-home-btn inside .nav-menu")
     else:
-        if "scrollToDashboardTop(event, this)" not in home_match.group(0):
-            failures.append("index.html: #nav-home-btn must call scrollToDashboardTop(event, this)")
+        home_tag = home_match.group(0)
+        if f'href="{expected_home_href}"' not in home_tag:
+            failures.append(
+                f"{filename}: #nav-home-btn must have href='{expected_home_href}'"
+            )
+        if "scrollToDashboardTop(event, this)" not in home_tag:
+            failures.append(f"{filename}: #nav-home-btn must call scrollToDashboardTop(event, this)")
         if "Trang chủ" not in home_match.group(1):
-            failures.append("index.html: #nav-home-btn missing 'Trang chủ' label")
+            failures.append(f"{filename}: #nav-home-btn missing 'Trang chủ' label")
 
     toggle_match = re.search(r'<button\b[^>]*id="nav-brand-toggle"[^>]*>([\s\S]*?)</button>', nav_html)
     if not toggle_match:
-        failures.append("index.html: missing #nav-brand-toggle button inside .nav-menu")
+        failures.append(f"{filename}: missing #nav-brand-toggle button inside .nav-menu")
     else:
         toggle_tag = toggle_match.group(0)
         if "toggleBrandDrawer(this)" not in toggle_tag:
-            failures.append("index.html: #nav-brand-toggle must call toggleBrandDrawer(this)")
+            failures.append(f"{filename}: #nav-brand-toggle must call toggleBrandDrawer(this)")
         if 'aria-expanded="false"' not in toggle_tag:
-            failures.append("index.html: #nav-brand-toggle must default to aria-expanded='false'")
+            failures.append(f"{filename}: #nav-brand-toggle must default to aria-expanded='false'")
         if 'aria-controls="nav-brand-drawer"' not in toggle_tag:
-            failures.append("index.html: #nav-brand-toggle must include aria-controls='nav-brand-drawer'")
+            failures.append(
+                f"{filename}: #nav-brand-toggle must include aria-controls='nav-brand-drawer'"
+            )
 
     drawer_html = extract_div_block(nav_html, r'id="nav-brand-drawer"')
     if not drawer_html:
-        failures.append("index.html: missing #nav-brand-drawer container inside .nav-menu")
+        failures.append(f"{filename}: missing #nav-brand-drawer container inside .nav-menu")
     else:
-        if 'aria-hidden="true"' not in drawer_html:
-            failures.append("index.html: #nav-brand-drawer must start with aria-hidden='true'")
-        if "nav-brand-drawer" not in drawer_html:
-            failures.append("index.html: #nav-brand-drawer missing .nav-brand-drawer class")
+        open_tag_match = re.match(r"<div\b[^>]*>", drawer_html)
+        drawer_open_tag = open_tag_match.group(0) if open_tag_match else ""
+        if 'aria-hidden="true"' not in drawer_open_tag:
+            failures.append(f"{filename}: #nav-brand-drawer must start with aria-hidden='true'")
+        if "nav-brand-drawer" not in _extract_classes(drawer_open_tag):
+            failures.append(f"{filename}: #nav-brand-drawer missing .nav-brand-drawer class")
 
         expected_brands = [
             ("monster-products", "Monster"),
@@ -109,28 +140,56 @@ def verify_index_nav_html(index_html: str) -> list[str]:
         brand_anchors = re.findall(r"<a\b[^>]*>[\s\S]*?</a>", drawer_html)
         if len(brand_anchors) != 3:
             failures.append(
-                f"index.html: #nav-brand-drawer expected 3 brand anchors, found {len(brand_anchors)}"
+                f"{filename}: #nav-brand-drawer expected 3 brand anchors, found {len(brand_anchors)}"
             )
+
         for target_id, label in expected_brands:
-            anchor_pattern = rf'<a\b[^>]*href="#{re.escape(target_id)}"[^>]*>[\s\S]*?{re.escape(label)}[\s\S]*?</a>'
-            anchor_match = re.search(anchor_pattern, drawer_html)
-            if not anchor_match:
+            expected_href = f"{expected_brand_prefix}{target_id}"
+            anchor_pattern = rf'<a\b[^>]*href="{re.escape(expected_href)}"[^>]*>[\s\S]*?{re.escape(label)}[\s\S]*?</a>'
+            anchor_tag = next(
+                (a for a in brand_anchors if re.fullmatch(anchor_pattern, a)),
+                "",
+            )
+            if not anchor_tag:
                 failures.append(
-                    f"index.html: #nav-brand-drawer missing brand anchor '{label}' linking to '#{target_id}'"
+                    f"{filename}: #nav-brand-drawer missing brand anchor '{label}' linking to '{expected_href}'"
                 )
             else:
-                anchor_tag = anchor_match.group(0)
                 if f"handleNavBrandClick(event, this, '{target_id}')" not in anchor_tag:
                     failures.append(
-                        f"index.html: brand anchor '{label}' missing onclick handleNavBrandClick(event, this, '{target_id}')"
+                        f"{filename}: brand anchor '{label}' missing onclick handleNavBrandClick(event, this, '{target_id}')"
                     )
-                if "nav-link" not in anchor_tag:
-                    failures.append(f"index.html: brand anchor '{label}' missing .nav-link class")
+                classes = _extract_classes(anchor_tag)
+                if "nav-link" not in classes:
+                    failures.append(f"{filename}: brand anchor '{label}' missing .nav-link class")
+                if "nav-brand-item" not in classes:
+                    failures.append(f"{filename}: brand anchor '{label}' missing .nav-brand-item class")
+                is_active = "active" in classes
+                should_be_active = expected_active_brand == target_id
+                if should_be_active and not is_active:
+                    failures.append(
+                        f"{filename}: expected brand anchor '{label}' ({target_id}) to have .active class"
+                    )
+                elif not should_be_active and is_active:
+                    failures.append(
+                        f"{filename}: brand anchor '{label}' ({target_id}) must NOT have .active class"
+                    )
+
+    active_brand_items = [
+        tag
+        for tag in re.findall(r"<a\b[^>]*>", nav_html)
+        if "nav-brand-item" in _extract_classes(tag) and "active" in _extract_classes(tag)
+    ]
+    expected_active_count = 1 if expected_active_brand else 0
+    if len(active_brand_items) != expected_active_count:
+        failures.append(
+            f"{filename}: expected {expected_active_count} active .nav-menu .nav-brand-item link(s), found {len(active_brand_items)}"
+        )
 
     return failures
 
 
-def verify_drawer_css(css_text: str) -> list[str]:
+def verify_css_rules(css_text: str) -> list[str]:
     failures: list[str] = []
 
     drawer_blocks = extract_css_blocks(css_text, ".nav-brand-drawer")
@@ -177,6 +236,15 @@ def verify_drawer_css(css_text: str) -> list[str]:
     if not toggle_btn_blocks or "line-height: inherit;" not in toggle_btn_blocks[0]:
         failures.append("css/style.css: .nav-brand-toggle-btn missing 'line-height: inherit;'")
 
+    compact_blocks = extract_media_blocks(css_text, "(max-width: 1200px) and (min-width: 769px)")
+    if not any(
+        re.search(r"\.nav-brand-group\s*,\s*\.nav-brand-drawer\s*\{[^}]*\bgap:\s*5px\s*;", block)
+        for block in compact_blocks
+    ):
+        failures.append(
+            "css/style.css: missing .nav-brand-group, .nav-brand-drawer { gap: 5px; } inside @media (max-width: 1200px) and (min-width: 769px)"
+        )
+
     reduced_blocks = extract_media_blocks(css_text, "prefers-reduced-motion: reduce")
     if not any(".nav-brand-drawer" in b and "transition: none" in b for b in reduced_blocks):
         failures.append(
@@ -186,9 +254,15 @@ def verify_drawer_css(css_text: str) -> list[str]:
     return failures
 
 
+verify_drawer_css = verify_css_rules
+
+
 def verify_js_static(app_js: str) -> list[str]:
     failures: list[str] = []
+
     for fn_name in (
+        "resolveNavRoot",
+        "syncDashboardNavActiveState",
         "scrollToDashboardTop",
         "toggleBrandDrawer",
         "handleNavBrandClick",
@@ -196,14 +270,44 @@ def verify_js_static(app_js: str) -> list[str]:
     ):
         if not extract_function(app_js, fn_name):
             failures.append(f"js/app.js: missing function {fn_name}")
+
+    for fn_name in (
+        "scrollToDashboardTop",
+        "toggleBrandDrawer",
+        "handleNavBrandClick",
+        "changeDashboardPage",
+    ):
         if f"window.{fn_name} = {fn_name}" not in app_js:
             failures.append(f"js/app.js: missing window.{fn_name} export")
 
+    sync_fn = extract_function(app_js, "syncDashboardNavActiveState")
+    if sync_fn:
+        if '.nav-menu .nav-link[href*="-products"]' not in sync_fn:
+            failures.append(
+                "js/app.js: syncDashboardNavActiveState must scope active updates to '.nav-menu .nav-link[href*=\"-products\"]'"
+            )
+        if "getElementById('nav-home-btn')" not in sync_fn or "classList.toggle('active'" not in sync_fn:
+            failures.append(
+                "js/app.js: syncDashboardNavActiveState must toggle .active on #nav-home-btn"
+            )
+
     change_fn = extract_function(app_js, "changeDashboardPage")
-    if '.nav-menu .nav-link[href*="-products"]' not in change_fn:
-        failures.append(
-            "js/app.js: changeDashboardPage must scope active class updates to '.nav-menu .nav-link[href*=\"-products\"]'"
-        )
+    if change_fn and "syncDashboardNavActiveState(" not in change_fn:
+        failures.append("js/app.js: changeDashboardPage must call syncDashboardNavActiveState")
+
+    brand_click_fn = extract_function(app_js, "handleNavBrandClick")
+    if brand_click_fn:
+        if "syncDashboardNavActiveState(" not in brand_click_fn:
+            failures.append("js/app.js: handleNavBrandClick must call syncDashboardNavActiveState")
+        if "resolveNavRoot()" not in brand_click_fn:
+            failures.append("js/app.js: handleNavBrandClick must use resolveNavRoot() for subpage redirects")
+
+    top_fn = extract_function(app_js, "scrollToDashboardTop")
+    if top_fn:
+        if "syncDashboardNavActiveState(" not in top_fn:
+            failures.append("js/app.js: scrollToDashboardTop must call syncDashboardNavActiveState")
+        if "resolveNavRoot()" not in top_fn:
+            failures.append("js/app.js: scrollToDashboardTop must use resolveNavRoot() for subpage redirects")
 
     return failures
 
@@ -211,12 +315,26 @@ def verify_js_static(app_js: str) -> list[str]:
 def main() -> int:
     failures: list[str] = []
 
-    index_html = (ROOT / "index.html").read_text(encoding="utf-8")
+    for rel_path, expected_home_href, expected_brand_prefix, expected_active_brand in STOREFRONT_NAV_TARGETS:
+        page_path = ROOT / rel_path
+        if not page_path.exists():
+            failures.append(f"{rel_path}: missing file")
+            continue
+        html = page_path.read_text(encoding="utf-8")
+        failures.extend(
+            verify_nav_drawer_html(
+                html,
+                rel_path,
+                expected_home_href,
+                expected_brand_prefix,
+                expected_active_brand,
+            )
+        )
+
     css_text = (ROOT / "css" / "style.css").read_text(encoding="utf-8")
     app_js = (ROOT / "js" / "app.js").read_text(encoding="utf-8")
 
-    failures.extend(verify_index_nav_html(index_html))
-    failures.extend(verify_drawer_css(css_text))
+    failures.extend(verify_css_rules(css_text))
     failures.extend(verify_js_static(app_js))
 
     node_test = r"""
@@ -528,6 +646,32 @@ if (sandbox.window.changeDashboardPage(4, mockEvent) !== false || sandbox.window
   throw new Error('changeDashboardPage(4) should reject out-of-range page without mutating state');
 }
 
+// 5. Subpage behavior when dashboard sections (#monster-products, etc.) are absent
+delete elementsById['monster-products'];
+delete elementsById['redbull-products'];
+delete elementsById['sting-products'];
+
+sandbox.window.location.href = 'pages/product-detail-redbull.html';
+const subTopRet = sandbox.window.scrollToDashboardTop(mockEvent, homeBtn);
+if (subTopRet !== false || sandbox.window.location.href !== '../index.html') {
+  throw new Error(
+    `Subpage scrollToDashboardTop failed: ret=${subTopRet}, href=${sandbox.window.location.href}`
+  );
+}
+
+const stingSubLink = makeElement({
+  href: '../index.html#sting-products',
+  textContent: 'Sting',
+  initialClasses: ['nav-link', 'nav-brand-item'],
+});
+sandbox.window.location.href = 'pages/product-detail-redbull.html';
+const subBrandRet = sandbox.window.handleNavBrandClick(mockEvent, stingSubLink);
+if (subBrandRet !== false || sandbox.window.location.href !== '../index.html#sting-products') {
+  throw new Error(
+    `Subpage handleNavBrandClick failed: ret=${subBrandRet}, href=${sandbox.window.location.href}`
+  );
+}
+
 console.log('NODE_DASHBOARD_NAV_DRAWER_PASS');
 """
 
@@ -550,7 +694,7 @@ console.log('NODE_DASHBOARD_NAV_DRAWER_PASS');
         return 1
 
     print(
-        "ALL CHECKS PASSED: index.html collapsible brand drawer, CSS slide/reduced-motion rules, and Node.js nav drawer/pagination runtime verified."
+        "ALL CHECKS PASSED: 7 storefront pages collapsible brand drawer, CSS slide/compact/reduced-motion rules, JS static wiring, and Node.js dashboard/subpage runtime verified."
     )
     return 0
 
