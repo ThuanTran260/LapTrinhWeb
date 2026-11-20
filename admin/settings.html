@@ -543,7 +543,7 @@
         <h3 class="admin-modal-title"><i class="fas fa-ticket-simple" style="color: var(--secondary);"></i> Thêm Mã Voucher Mới</h3>
         <button type="button" class="admin-modal-close" onclick="closeAdminModal('modal-add-voucher')">&times;</button>
       </div>
-      <form id="form-add-voucher" onsubmit="saveAddVoucher(event)">
+      <form id="form-add-voucher" onsubmit="saveAddVoucher(event)" novalidate>
         <div class="admin-modal-body">
           <div style="font-size: 0.84rem; color: var(--text-dim); margin-bottom: 14px; line-height: 1.4; background: rgba(0, 230, 118, 0.05); border: 1px dashed rgba(0, 230, 118, 0.25); border-radius: 8px; padding: 10px 14px;">
             <i class="fas fa-circle-info" style="color: var(--primary); margin-right: 6px;"></i>
@@ -551,12 +551,12 @@
           </div>
           <div class="admin-form-grid">
             <div class="admin-form-group">
-              <label class="admin-form-label" for="add-voucher-code"><i class="fas fa-barcode"></i> Mã Code Voucher <span class="req">*</span></label>
-              <input type="text" id="add-voucher-code" class="admin-form-input" placeholder="VD: SUMMER20, VIPBOOST" style="text-transform: uppercase;" required />
+              <label class="admin-form-label" for="add-voucher-code"><i class="fas fa-barcode"></i> Mã Code Voucher</label>
+              <input type="text" id="add-voucher-code" class="admin-form-input" placeholder="VD: SUMMER20, VIPBOOST" style="text-transform: uppercase;" />
             </div>
 
             <div class="admin-form-group">
-              <label class="admin-form-label" for="add-voucher-type"><i class="fas fa-percent"></i> Loại Giảm Giá <span class="req">*</span></label>
+              <label class="admin-form-label" for="add-voucher-type"><i class="fas fa-percent"></i> Loại Giảm Giá</label>
               <select id="add-voucher-type" class="admin-form-select" onchange="handleAddVoucherTypeChange(this.value)">
                 <option value="percent" selected>Giảm theo phần trăm (%)</option>
                 <option value="fixed">Giảm số tiền cố định (VNĐ)</option>
@@ -564,8 +564,8 @@
             </div>
 
             <div class="admin-form-group">
-              <label class="admin-form-label" for="add-voucher-amount"><i class="fas fa-tags"></i> Mức Giảm <span class="req">*</span></label>
-              <input type="text" id="add-voucher-amount" class="admin-form-input" placeholder="VD: 15% hoặc 30.000đ" required />
+              <label class="admin-form-label" for="add-voucher-amount"><i class="fas fa-tags"></i> Mức Giảm</label>
+              <input type="text" id="add-voucher-amount" class="admin-form-input" placeholder="VD: 15% hoặc 30.000đ" />
             </div>
 
             <div class="admin-form-group">
@@ -585,7 +585,7 @@
 
             <div class="admin-form-group">
               <label class="admin-form-label" for="add-voucher-limit"><i class="fas fa-users-viewfinder"></i> Giới Hạn Lượt Dùng</label>
-              <input type="number" id="add-voucher-limit" class="admin-form-input" placeholder="VD: 500" value="500" min="1" />
+              <input type="text" id="add-voucher-limit" class="admin-form-input" placeholder="VD: 500" value="500" />
             </div>
 
             <div class="admin-form-group">
