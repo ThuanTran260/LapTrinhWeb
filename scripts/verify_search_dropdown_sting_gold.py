@@ -1,3 +1,4 @@
+from pathlib import Path
 import glob
 import os
 import re
@@ -42,6 +43,17 @@ def extract_static_items(list_html):
     )
 
 
+def get_item_srcs(item_html):
+    """Return all src attribute values inside an item element."""
+    return re.findall(r'\bsrc="([^"]+)"', item_html)
+
+
+def get_item_href(item_html):
+    """Return the href attribute value on the item's opening <a> tag, or None."""
+    match = re.search(r'^<a\b[^>]*\bhref="([^"]+)"', item_html)
+    return match.group(1) if match else None
+
+
 print("=== VERIFY STING GOLD IN SEARCH DROPDOWNS ===")
 
 # 1. Verify required Sting image assets exist
@@ -58,20 +70,38 @@ for rel_path in [
 
 # 2. Verify all 5 .search-static-list dropdowns across index.html, pages/search-results.html, pages/account.html
 target_files = [
-    ("index.html", 2),
-    ("pages/search-results.html", 2),
-    ("pages/account.html", 1),
+    (
+        "index.html",
+        2,
+        "pages/product-detail-sting.html",
+        "assets/images/sting/sting-gold.webp",
+        "assets/images/sting/sting-dau.webp",
+    ),
+    (
+        "pages/search-results.html",
+        2,
+        "product-detail-sting.html",
+        "../assets/images/sting/sting-gold.webp",
+        "../assets/images/sting/sting-dau.webp",
+    ),
+    (
+        "pages/account.html",
+        1,
+        "product-detail-sting.html",
+        "../assets/images/sting/sting-gold.webp",
+        "../assets/images/sting/sting-dau.webp",
+    ),
 ]
 total_target_dropdowns = 0
 
-for rel_file, expected_count in target_files:
-    file_path = os.path.join(ROOT_DIR, rel_file)
-    exists = os.path.isfile(file_path)
+for rel_file, expected_count, expected_href, expected_gold_src, expected_dau_src in target_files:
+    file_path = Path(ROOT_DIR) / rel_file
+    exists = file_path.is_file()
     check(f"File exists: {rel_file}", exists, f"{rel_file} present")
     if not exists:
         continue
 
-    content = open(file_path, encoding="utf-8").read()
+    content = file_path.read_text(encoding="utf-8")
     blocks = extract_search_static_lists(content)
     total_target_dropdowns += len(blocks)
     check(
@@ -89,31 +119,36 @@ for rel_file, expected_count in target_files:
             f"Found {len(items)} item(s)",
         )
 
-        dau_count = block.count("sting-dau.webp")
+        exact_dau_items = [item for item in items if expected_dau_src in get_item_srcs(item)]
+        any_dau_src_count = sum(
+            1 for item in items for src in get_item_srcs(item) if src.endswith("sting-dau.webp")
+        )
         check(
-            f"{label} has sting-dau.webp count == 1",
-            dau_count == 1,
-            f"sting-dau.webp count = {dau_count}",
+            f"{label} has {expected_dau_src} src count == 1",
+            len(exact_dau_items) == 1 and any_dau_src_count == 1,
+            f"exact src count = {len(exact_dau_items)}, any sting-dau.webp src count = {any_dau_src_count}",
         )
 
-        gold_count = block.count("sting-gold.webp")
+        exact_gold_items = [item for item in items if expected_gold_src in get_item_srcs(item)]
+        any_gold_src_count = sum(
+            1 for item in items for src in get_item_srcs(item) if src.endswith("sting-gold.webp")
+        )
         check(
-            f"{label} has sting-gold.webp count == 1",
-            gold_count == 1,
-            f"sting-gold.webp count = {gold_count}",
+            f"{label} has {expected_gold_src} src count == 1",
+            len(exact_gold_items) == 1 and any_gold_src_count == 1,
+            f"exact src count = {len(exact_gold_items)}, any sting-gold.webp src count = {any_gold_src_count}",
         )
 
-        gold_items = [item for item in items if "sting-gold.webp" in item]
         paired_ok = (
-            len(gold_items) == 1
-            and "Nước Tăng Lực Sting Vàng Sleek 330ml" in gold_items[0]
-            and "12.000đ" in gold_items[0]
-            and re.search(r'href="[^"]*product-detail-sting\.html"', gold_items[0]) is not None
+            len(exact_gold_items) == 1
+            and "Nước Tăng Lực Sting Vàng Sleek 330ml" in exact_gold_items[0]
+            and "12.000đ" in exact_gold_items[0]
+            and get_item_href(exact_gold_items[0]) == expected_href
         )
         check(
-            f"{label} pairs sting-gold.webp with Sting Vàng Sleek 330ml, 12.000đ, product-detail-sting.html",
+            f"{label} pairs {expected_gold_src} with Sting Vàng Sleek 330ml, 12.000đ, {expected_href}",
             paired_ok,
-            "All Sting Gold attributes match inside the same item",
+            f"Matched href='{get_item_href(exact_gold_items[0]) if exact_gold_items else None}' and Sting Gold metadata",
         )
 
 check(
@@ -131,15 +166,17 @@ for abs_path in other_html_files:
     rel_file = os.path.relpath(abs_path, ROOT_DIR).replace(os.sep, "/")
     if rel_file in checked_pages:
         continue
-    content = open(abs_path, encoding="utf-8").read()
+    content = Path(abs_path).read_text(encoding="utf-8")
     blocks = extract_search_static_lists(content)
     for idx, block in enumerate(blocks, 1):
         other_dropdown_count += 1
-        dau_count = block.count("sting-dau.webp")
+        items = extract_static_items(block)
+        dau_srcs = [src for item in items for src in get_item_srcs(item) if src.endswith("sting-dau.webp")]
+        exact_prefix_ok = all(src == "../assets/images/sting/sting-dau.webp" for src in dau_srcs)
         check(
-            f"{rel_file} dropdown #{idx} has no duplicate sting-dau.webp (count < 2)",
-            dau_count < 2,
-            f"sting-dau.webp count = {dau_count}",
+            f"{rel_file} dropdown #{idx} has no duplicate sting-dau.webp (src count < 2) and valid prefix",
+            len(dau_srcs) < 2 and exact_prefix_ok,
+            f"sting-dau.webp src count = {len(dau_srcs)}, srcs = {dau_srcs}",
         )
 
 check(

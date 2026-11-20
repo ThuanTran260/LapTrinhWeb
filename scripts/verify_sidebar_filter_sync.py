@@ -1,3 +1,4 @@
+from pathlib import Path
 import os
 import sys
 import re
@@ -25,8 +26,8 @@ index_html_path = os.path.join(ROOT_DIR, "index.html")
 check("search-results.html exists", os.path.exists(search_html_path), "File pages/search-results.html exists")
 check("index.html exists", os.path.exists(index_html_path), "File index.html exists")
 
-search_content = open(search_html_path, encoding="utf-8").read()
-index_content = open(index_html_path, encoding="utf-8").read()
+search_content = Path(search_html_path).read_text(encoding="utf-8")
+index_content = Path(index_html_path).read_text(encoding="utf-8")
 
 # 1. Brand option for Monster is strictly <span>Monster Energy</span> (no (Hà Lan)) in sidebar filter
 monster_radio_match = re.search(r'input[^>]*name="search-brand"[^>]*value="monster"[^>]*>[\s\S]*?<span>(.*?)</span>', search_content)
@@ -81,19 +82,29 @@ for val, label in expected_prices:
     m_idx = re.search(rf'name="sidebar-price"[^>]*value="{val}"[^>]*>[\s\S]*?<span>({re.escape(label)})</span>', index_content)
     check(f"Dashboard price option {val} matches label '{label}'", m_idx is not None)
 
+def extract_div_by_id(html, element_id):
+    """Extract a full <div id="...">...</div> block using div nesting depth."""
+    match = re.search(rf'<div\b[^>]*\bid="{re.escape(element_id)}"[^>]*>', html)
+    if not match:
+        return None
+    depth = 1
+    pos = match.end()
+    for tag in re.finditer(r'<(/?)div\b[^>]*>', html[pos:]):
+        depth += -1 if tag.group(1) else 1
+        if depth == 0:
+            return html[match.start():pos + tag.end()]
+    return None
+
+
 # 3. Sidebar dropdown preserves Sting Dâu Tây Đỏ 330ml (no combo) and Item 5 is Sting Vàng Sleek 330ml
 for page_label, page_html in [("search-results", search_content), ("index.html", index_content)]:
-    dropdown_match = re.search(
-        r'id="sidebar-search-dropdown-menu"[\s\S]*?</div>\s*</div>\s*</div>',
-        page_html,
-    )
+    dropdown_html = extract_div_by_id(page_html, "sidebar-search-dropdown-menu")
     check(
         f"Sidebar search dropdown exists ({page_label})",
-        dropdown_match is not None,
+        dropdown_html is not None,
         f"#sidebar-search-dropdown-menu found in {page_label}",
     )
-    if dropdown_match:
-        dropdown_html = dropdown_match.group(0)
+    if dropdown_html:
         has_sting_red = "Sting Dâu Tây Đỏ 330ml" in dropdown_html
         has_combo_item = "Combo Thùng" in dropdown_html or "combo-section" in dropdown_html
         check(
@@ -106,7 +117,10 @@ for page_label, page_html in [("search-results", search_content), ("index.html",
             not has_combo_item,
             f"Sidebar dropdown in {page_label} has no combo residual",
         )
-        items = re.findall(r'<a\b[^>]*class="search-static-item"[^>]*>[\s\S]*?</a>', dropdown_html)
+        items = re.findall(
+            r'<a\b[^>]*class="[^"]*\bsearch-static-item\b[^"]*"[^>]*>[\s\S]*?</a>',
+            dropdown_html,
+        )
         item5 = items[4] if len(items) >= 5 else ""
         has_sting_gold_item5 = (
             len(items) == 5
