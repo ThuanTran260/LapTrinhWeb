@@ -2327,7 +2327,7 @@ function toggleTop5VipFilter(btn) {
   filterCustomersTableRows();
   showToast(
     isTop5VipFilterActive
-      ? 'Đang lọc hiển thị 5 người VIP chi tiêu cao nhất!'
+      ? 'Đang lọc hiển thị 5 người mua nhiều nhất!'
       : 'Đang hiển thị toàn bộ danh sách khách hàng.',
     isTop5VipFilterActive ? 'success' : 'info'
   );
@@ -2382,6 +2382,96 @@ function resetDashboardFilter(type) {
     if (kwEl) kwEl.value = '';
   }
   showToast('Đã đặt lại bộ lọc trên Dashboard', 'info');
+}
+
+function applyAdminRevenueFilter() {
+  const quarterEl = document.getElementById('filter-revenue-quarter');
+  const yearEl = document.getElementById('filter-revenue-year');
+  const quarterText = (quarterEl && quarterEl.selectedIndex >= 0 && quarterEl.options[quarterEl.selectedIndex])
+    ? quarterEl.options[quarterEl.selectedIndex].text.trim()
+    : '6 tháng gần nhất (04–09/2026)';
+  const yearText = (yearEl && yearEl.selectedIndex >= 0 && yearEl.options[yearEl.selectedIndex])
+    ? yearEl.options[yearEl.selectedIndex].text.trim()
+    : 'Năm 2026';
+
+  const subtitleEl = document.getElementById('revenue-period-subtitle');
+  if (subtitleEl) {
+    subtitleEl.textContent = `Đang chọn kỳ: ${quarterText} • ${yearText} (Hiển thị dữ liệu mẫu 6 tháng 04–09/2026)`;
+  }
+  showToast(`Đã áp dụng bộ lọc doanh thu: ${quarterText} — ${yearText} (Mô phỏng tĩnh, giữ nguyên dữ liệu 6 tháng gần nhất).`, 'success');
+}
+
+function resetAdminRevenueFilter() {
+  const quarterEl = document.getElementById('filter-revenue-quarter');
+  const yearEl = document.getElementById('filter-revenue-year');
+  if (quarterEl) quarterEl.value = '6m';
+  if (yearEl) yearEl.value = '2026';
+
+  const subtitleEl = document.getElementById('revenue-period-subtitle');
+  if (subtitleEl) {
+    subtitleEl.textContent = 'Số liệu tổng hợp báo cáo - 6 tháng gần nhất năm 2026';
+  }
+  showToast('Đã đặt lại bộ lọc doanh thu về mặc định (6 tháng gần nhất năm 2026).', 'info');
+}
+
+function handleRevenuePage(page, btn) {
+  const strip = document.getElementById('revenue-pagination');
+  const totalPages = 3;
+  let currentPage = 1;
+
+  if (strip) {
+    const activeBtn = strip.querySelector('.page-btn.active[data-page]');
+    const parsedActive = activeBtn ? parseInt(activeBtn.getAttribute('data-page'), 10) : 1;
+    if (!Number.isNaN(parsedActive)) currentPage = parsedActive;
+  }
+
+  let targetPage = currentPage;
+  if (page === 'prev') {
+    targetPage = Math.max(1, currentPage - 1);
+  } else if (page === 'next') {
+    targetPage = Math.min(totalPages, currentPage + 1);
+  } else {
+    const parsedTarget = parseInt(page, 10);
+    if (!Number.isNaN(parsedTarget)) {
+      targetPage = Math.min(totalPages, Math.max(1, parsedTarget));
+    }
+  }
+
+  if (strip) {
+    strip.querySelectorAll('.page-btn[data-page]').forEach((item) => {
+      const val = item.getAttribute('data-page');
+      if (val === 'prev') {
+        const isFirst = targetPage <= 1;
+        item.classList.toggle('disabled', isFirst);
+        item.disabled = isFirst;
+      } else if (val === 'next') {
+        const isLast = targetPage >= totalPages;
+        item.classList.toggle('disabled', isLast);
+        item.disabled = isLast;
+      } else {
+        const isCurrent = parseInt(val, 10) === targetPage;
+        item.classList.toggle('active', isCurrent);
+        if (isCurrent) {
+          item.setAttribute('aria-current', 'page');
+        } else {
+          item.removeAttribute('aria-current');
+        }
+      }
+    });
+  }
+
+  const summaryEl = document.getElementById('revenue-pagination-summary');
+  if (summaryEl) {
+    summaryEl.textContent = targetPage === 1
+      ? 'Đang hiển thị Trang 1/3 — 6 tháng gần nhất (04/2026–09/2026)'
+      : `Đang hiển thị Trang ${targetPage}/3 — Mô phỏng tĩnh (giữ nguyên 6 tháng 04/2026–09/2026)`;
+  }
+
+  const quarterEl = document.getElementById('filter-revenue-quarter');
+  const periodLabel = (quarterEl && quarterEl.selectedIndex >= 0 && quarterEl.options[quarterEl.selectedIndex])
+    ? quarterEl.options[quarterEl.selectedIndex].text.trim()
+    : '6 tháng gần nhất (04–09/2026)';
+  showToast(`Đang xem Trang ${targetPage}/${totalPages} (${periodLabel}) — Mô phỏng tĩnh, giữ nguyên bảng 6 tháng mẫu.`, 'info');
 }
 
 // ==========================================================================
@@ -2869,63 +2959,13 @@ function openAddVoucherModal() {
 function saveAddVoucher(e) {
   if (e && e.preventDefault) e.preventDefault();
   const codeEl = document.getElementById('add-voucher-code');
-  const typeEl = document.getElementById('add-voucher-type');
-  const amountEl = document.getElementById('add-voucher-amount');
-  const minSpendEl = document.getElementById('add-voucher-min-spend');
-  const maxDiscountEl = document.getElementById('add-voucher-max-discount');
-  const expiryEl = document.getElementById('add-voucher-expiry');
-  const targetEl = document.getElementById('add-voucher-target');
-  const limitEl = document.getElementById('add-voucher-limit');
-
-  const code = (codeEl && codeEl.value) ? codeEl.value.trim().toUpperCase() : 'ENERGY20';
-  const type = typeEl ? typeEl.value : 'percent';
-  const amount = (amountEl && amountEl.value) ? amountEl.value.trim() : '15%';
-  const minSpend = (minSpendEl && minSpendEl.value) ? minSpendEl.value.trim() : '150.000đ';
-  const maxDiscount = (maxDiscountEl && maxDiscountEl.value) ? maxDiscountEl.value.trim() : '40.000đ';
-  const expiry = (expiryEl && expiryEl.value) ? expiryEl.value : '2026-12-31';
-  const target = targetEl ? targetEl.value : 'all';
-  const limit = (limitEl && limitEl.value) ? parseInt(limitEl.value, 10) : 500;
-
-  const targetMap = {
-    all: 'Tất cả khách hàng',
-    vip: 'Chỉ khách hàng VIP',
-    new: 'Chỉ khách hàng mới'
-  };
-  const targetText = targetMap[target] || 'Tất cả khách hàng';
-
-  // Add or update in mock multi-voucher registry
-  const existingIdx = MOCK_VOUCHERS_LIST.findIndex(v => v.code === code);
-  const newVoucher = {
-    code,
-    type,
-    amount,
-    minSpend,
-    maxDiscount,
-    expiry,
-    target,
-    targetText,
-    limit
-  };
-
-  if (existingIdx >= 0) {
-    MOCK_VOUCHERS_LIST[existingIdx] = newVoucher;
-  } else {
-    MOCK_VOUCHERS_LIST.unshift(newVoucher);
-  }
-
-  activeVoucherCode = code;
-
-  renderVoucherChips();
-
-  // Ensure toggle is active
-  const toggle = document.getElementById('voucher-toggle-active');
-  if (toggle && !toggle.checked) {
-    toggle.checked = true;
-    handleVoucherStatusToggle(toggle);
-  }
+  const rawCode = (codeEl && typeof codeEl.value === 'string') ? codeEl.value.trim() : '';
+  const code = rawCode ? rawCode.toUpperCase() : 'VOUCHER MỚI';
 
   closeAdminModal('modal-add-voucher');
-  showToast(`Đã thêm mã Voucher mới "${code}" thành công! Hệ thống hiện đang quản lý ${MOCK_VOUCHERS_LIST.length} mã voucher chiến dịch.`, 'success');
+  showToast(`Đã tạo & kích hoạt mã Voucher "${code}" thành công (không ràng buộc)!`, 'success');
+  const form = document.getElementById('form-add-voucher');
+  if (form) form.reset();
 }
 
 // ==========================================================================
@@ -3251,6 +3291,11 @@ if (typeof window !== 'undefined') {
   window.handleSyncTierPrivilegesNow = handleSyncTierPrivilegesNow;
   window.handleSaveTierPrivileges = handleSaveTierPrivileges;
   window.handleResetTierPrivileges = handleResetTierPrivileges;
+  window.applyAdminRevenueFilter = applyAdminRevenueFilter;
+  window.resetAdminRevenueFilter = resetAdminRevenueFilter;
+  window.handleRevenuePage = handleRevenuePage;
+  window.saveAddVoucher = saveAddVoucher;
+  window.toggleTop5VipFilter = toggleTop5VipFilter;
 }
 
 // ==========================================================================
