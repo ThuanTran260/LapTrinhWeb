@@ -74,27 +74,37 @@
       <div class="admin-filter-bar" id="revenue-filter-bar" style="margin-bottom: 24px;">
         <div class="admin-filter-groups">
           <div class="admin-filter-group">
-            <label class="admin-filter-label" for="filter-revenue-quarter"><i class="fas fa-calendar-check" style="color: var(--primary);"></i> Kỳ / Quý:</label>
-            <select id="filter-revenue-quarter" class="admin-filter-select">
-              <option value="6m" selected>6 tháng gần nhất (04–09/2026)</option>
-              <option value="q1">Quý 1 (Tháng 01 – 03)</option>
-              <option value="q2">Quý 2 (Tháng 04 – 06)</option>
-              <option value="q3">Quý 3 (Tháng 07 – 09)</option>
-              <option value="q4">Quý 4 (Tháng 10 – 12)</option>
-              <option value="year">Cả năm (12 tháng)</option>
+            <label class="admin-filter-label" for="filter-revenue-mode"><i class="fas fa-sliders" style="color: var(--primary);"></i> Chế độ:</label>
+            <select id="filter-revenue-mode" class="admin-filter-select" onchange="handleRevenueFilterModeChange(this.value)">
+              <option value="quarter" selected>Theo Quý / Năm</option>
+              <option value="date">Theo Ngày</option>
             </select>
           </div>
 
-          <div class="admin-filter-group">
-            <label class="admin-filter-label" for="filter-revenue-year"><i class="fas fa-calendar-alt" style="color: var(--accent-cyan);"></i> Năm:</label>
-            <select id="filter-revenue-year" class="admin-filter-select">
-              <option value="2026" selected>Năm 2026</option>
-              <option value="2025">Năm 2025</option>
-              <option value="2024">Năm 2024</option>
-            </select>
+          <div id="revenue-filter-quarter-group" class="admin-filter-cluster">
+            <div class="admin-filter-group">
+              <label class="admin-filter-label" for="filter-revenue-quarter"><i class="fas fa-calendar-check" style="color: var(--primary);"></i> Kỳ / Quý:</label>
+              <select id="filter-revenue-quarter" class="admin-filter-select">
+                <option value="6m" selected>6 tháng gần nhất (04–09/2026)</option>
+                <option value="q1">Quý 1 (Tháng 01 – 03)</option>
+                <option value="q2">Quý 2 (Tháng 04 – 06)</option>
+                <option value="q3">Quý 3 (Tháng 07 – 09)</option>
+                <option value="q4">Quý 4 (Tháng 10 – 12)</option>
+                <option value="year">Cả năm (12 tháng)</option>
+              </select>
+            </div>
+
+            <div class="admin-filter-group">
+              <label class="admin-filter-label" for="filter-revenue-year"><i class="fas fa-calendar-alt" style="color: var(--accent-cyan);"></i> Năm:</label>
+              <select id="filter-revenue-year" class="admin-filter-select">
+                <option value="2026" selected>Năm 2026</option>
+                <option value="2025">Năm 2025</option>
+                <option value="2024">Năm 2024</option>
+              </select>
+            </div>
           </div>
 
-          <div class="admin-filter-group">
+          <div id="revenue-filter-date-group" class="admin-filter-group" hidden>
             <label class="admin-filter-label" for="filter-revenue-date-from"><i class="fas fa-calendar-day" style="color: var(--secondary);"></i> Từ ngày:</label>
             <input type="date" id="filter-revenue-date-from" class="admin-filter-input" value="2026-04-01" />
             <label class="admin-filter-label" for="filter-revenue-date-to">đến:</label>

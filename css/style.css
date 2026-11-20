@@ -4785,6 +4785,16 @@ del.price-old {
   outline: none;
   font-family: inherit;
   transition: var(--transition);
+  color-scheme: dark;
+}
+.admin-filter-cluster {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.admin-filter-bar [hidden] {
+  display: none !important;
 }
 .admin-filter-select:focus, .admin-filter-input:focus {
   border-color: var(--primary);
@@ -5655,7 +5665,8 @@ del.price-old {
     gap: 12px;
     padding: 14px;
   }
-  .admin-filter-groups {
+  .admin-filter-groups,
+  .admin-filter-cluster {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     gap: 12px;

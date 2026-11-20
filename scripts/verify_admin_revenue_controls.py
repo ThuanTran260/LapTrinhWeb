@@ -108,6 +108,19 @@ def verify_revenue_html(rev_html: str) -> list[str]:
             if not re.search(r'<option\s+value="2026"\s+selected>', year_match.group(1)):
                 failures.append("admin/revenue.html: #filter-revenue-year '2026' option should be selected by default")
 
+        if not re.search(r'<select[^>]*id="filter-revenue-mode"[^>]*onchange="handleRevenueFilterModeChange\(this\.value\)"', filter_bar):
+            failures.append("admin/revenue.html: missing #filter-revenue-mode select with onchange='handleRevenueFilterModeChange(this.value)'")
+        else:
+            mode_match = re.search(r'<select[^>]*id="filter-revenue-mode"[^>]*>([\s\S]*?)</select>', filter_bar)
+            mode_vals = re.findall(r'<option\s+value="([^"]+)"', mode_match.group(1)) if mode_match else []
+            if mode_vals != ["quarter", "date"]:
+                failures.append(f"admin/revenue.html: #filter-revenue-mode options {mode_vals} != ['quarter', 'date']")
+
+        if 'id="revenue-filter-quarter-group"' not in filter_bar or re.search(r'<div[^>]*id="revenue-filter-quarter-group"[^>]*\bhidden\b', filter_bar):
+            failures.append("admin/revenue.html: #revenue-filter-quarter-group should be present and visible by default")
+        if not re.search(r'<div[^>]*id="revenue-filter-date-group"[^>]*\bhidden\b', filter_bar):
+            failures.append("admin/revenue.html: #revenue-filter-date-group should start hidden by default")
+
         if not re.search(r'<input[^>]*type="date"[^>]*id="filter-revenue-date-from"[^>]*value="2026-04-01"', filter_bar):
             failures.append("admin/revenue.html: missing date input #filter-revenue-date-from (value='2026-04-01')")
         if not re.search(r'<input[^>]*type="date"[^>]*id="filter-revenue-date-to"[^>]*value="2026-09-30"', filter_bar):
@@ -357,6 +370,12 @@ const yearSelect = makeSelect([
   ['2024', 'Năm 2024'],
 ], '2026');
 
+const modeSelect = makeSelect([
+  ['quarter', 'Theo Quý / Năm'],
+  ['date', 'Theo Ngày'],
+], 'quarter');
+const quarterGroup = { hidden: false };
+const dateGroup = { hidden: true };
 const dateFromInput = { value: '2026-04-01' };
 const dateToInput = { value: '2026-09-30' };
 const subtitleEl = { textContent: 'Số liệu tổng hợp báo cáo - 6 tháng gần nhất năm 2026' };
@@ -380,6 +399,9 @@ const paginationStrip = {
 };
 
 const elements = {
+  'filter-revenue-mode': modeSelect,
+  'revenue-filter-quarter-group': quarterGroup,
+  'revenue-filter-date-group': dateGroup,
   'filter-revenue-quarter': quarterSelect,
   'filter-revenue-year': yearSelect,
   'filter-revenue-date-from': dateFromInput,
@@ -412,27 +434,42 @@ vm.createContext(sandbox);
 vm.runInContext(appCode, sandbox);
 sandbox.showToast = (msg, type) => toasts.push({ msg, type });
 
-// 1. applyAdminRevenueFilter updates #revenue-period-subtitle with date range and emits success toast (no mock/static wording)
+// 1. Quarter mode (default) applyAdminRevenueFilter updates #revenue-period-subtitle without date range
 toasts.length = 0;
 quarterSelect.value = 'q3';
 yearSelect.value = '2025';
+sandbox.applyAdminRevenueFilter();
+
+if (!subtitleEl.textContent.includes('Quý 3 (Tháng 07 – 09)') || !subtitleEl.textContent.includes('Năm 2025') || subtitleEl.textContent.includes('Mô phỏng tĩnh')) {
+  throw new Error(`Unexpected subtitle after quarter applyAdminRevenueFilter: ${subtitleEl.textContent}`);
+}
+if (toasts.length !== 1 || toasts[0].type !== 'success' || !toasts[0].msg.includes('Quý 3 (Tháng 07 – 09)') || toasts[0].msg.includes('Mô phỏng tĩnh')) {
+  throw new Error(`Unexpected toast after quarter applyAdminRevenueFilter: ${JSON.stringify(toasts)}`);
+}
+
+// 1b. Switch to date mode -> hides quarter group, shows date group, and apply uses date range
+modeSelect.value = 'date';
+sandbox.handleRevenueFilterModeChange('date');
+if (quarterGroup.hidden !== true || dateGroup.hidden !== false) {
+  throw new Error(`Expected date mode visibility, got quarterGroup.hidden=${quarterGroup.hidden}, dateGroup.hidden=${dateGroup.hidden}`);
+}
+toasts.length = 0;
 dateFromInput.value = '2025-07-01';
 dateToInput.value = '2025-09-30';
 sandbox.applyAdminRevenueFilter();
-
-if (!subtitleEl.textContent.includes('Quý 3 (Tháng 07 – 09)') || !subtitleEl.textContent.includes('Năm 2025') || !subtitleEl.textContent.includes('2025-07-01') || subtitleEl.textContent.includes('Mô phỏng tĩnh')) {
-  throw new Error(`Unexpected subtitle after applyAdminRevenueFilter: ${subtitleEl.textContent}`);
+if (!subtitleEl.textContent.includes('2025-07-01') || !subtitleEl.textContent.includes('2025-09-30')) {
+  throw new Error(`Unexpected subtitle after date applyAdminRevenueFilter: ${subtitleEl.textContent}`);
 }
-if (toasts.length !== 1 || toasts[0].type !== 'success' || !toasts[0].msg.includes('Quý 3 (Tháng 07 – 09)') || !toasts[0].msg.includes('2025-07-01') || toasts[0].msg.includes('Mô phỏng tĩnh')) {
-  throw new Error(`Unexpected toast after applyAdminRevenueFilter: ${JSON.stringify(toasts)}`);
+if (toasts.length !== 1 || !toasts[0].msg.includes('2025-07-01') || !toasts[0].msg.includes('2025-09-30')) {
+  throw new Error(`Unexpected toast after date applyAdminRevenueFilter: ${JSON.stringify(toasts)}`);
 }
 
-// 2. resetAdminRevenueFilter resets selects & dates to 6m/2026 (2026-04-01..2026-09-30), restores subtitle, and emits info toast
+// 2. resetAdminRevenueFilter restores mode='quarter' (quarter visible, date hidden), resets selects & dates
 toasts.length = 0;
 sandbox.resetAdminRevenueFilter();
 
-if (quarterSelect.value !== '6m' || yearSelect.value !== '2026' || dateFromInput.value !== '2026-04-01' || dateToInput.value !== '2026-09-30') {
-  throw new Error(`Expected reset filter to 6m/2026 (2026-04-01..2026-09-30), got ${quarterSelect.value}/${yearSelect.value} ${dateFromInput.value}..${dateToInput.value}`);
+if (modeSelect.value !== 'quarter' || quarterGroup.hidden !== false || dateGroup.hidden !== true || quarterSelect.value !== '6m' || yearSelect.value !== '2026' || dateFromInput.value !== '2026-04-01' || dateToInput.value !== '2026-09-30') {
+  throw new Error(`Expected full reset to quarter mode 6m/2026, got mode=${modeSelect.value}, hidden=${quarterGroup.hidden}/${dateGroup.hidden}, ${quarterSelect.value}/${yearSelect.value}`);
 }
 if (subtitleEl.textContent !== 'Số liệu tổng hợp báo cáo - 6 tháng gần nhất năm 2026') {
   throw new Error(`Unexpected subtitle after resetAdminRevenueFilter: ${subtitleEl.textContent}`);

@@ -2380,37 +2380,63 @@ function resetDashboardFilter(type) {
   showToast('Đã đặt lại bộ lọc trên Dashboard', 'info');
 }
 
+function handleRevenueFilterModeChange(mode) {
+  const activeMode = mode === 'date' ? 'date' : 'quarter';
+  const quarterGroup = document.getElementById('revenue-filter-quarter-group');
+  const dateGroup = document.getElementById('revenue-filter-date-group');
+
+  if (quarterGroup) {
+    quarterGroup.hidden = activeMode === 'date';
+  }
+  if (dateGroup) {
+    dateGroup.hidden = activeMode !== 'date';
+  }
+}
+
 function applyAdminRevenueFilter() {
+  const modeEl = document.getElementById('filter-revenue-mode');
+  const mode = (modeEl && modeEl.value === 'date') ? 'date' : 'quarter';
+  const subtitleEl = document.getElementById('revenue-period-subtitle');
+
+  if (mode === 'date') {
+    const fromEl = document.getElementById('filter-revenue-date-from');
+    const toEl = document.getElementById('filter-revenue-date-to');
+    const fromDate = fromEl && fromEl.value ? fromEl.value : '2026-04-01';
+    const toDate = toEl && toEl.value ? toEl.value : '2026-09-30';
+    if (subtitleEl) {
+      subtitleEl.textContent = `Số liệu tổng hợp báo cáo - Từ ${fromDate} đến ${toDate}`;
+    }
+    showToast(`Đã áp dụng bộ lọc doanh thu: Từ ${fromDate} đến ${toDate}`, 'success');
+    return;
+  }
+
   const quarterEl = document.getElementById('filter-revenue-quarter');
   const yearEl = document.getElementById('filter-revenue-year');
-  const fromEl = document.getElementById('filter-revenue-date-from');
-  const toEl = document.getElementById('filter-revenue-date-to');
   const quarterText = (quarterEl && quarterEl.selectedIndex >= 0 && quarterEl.options[quarterEl.selectedIndex])
     ? quarterEl.options[quarterEl.selectedIndex].text.trim()
     : '6 tháng gần nhất (04–09/2026)';
   const yearText = (yearEl && yearEl.selectedIndex >= 0 && yearEl.options[yearEl.selectedIndex])
     ? yearEl.options[yearEl.selectedIndex].text.trim()
     : 'Năm 2026';
-  const fromDate = fromEl && fromEl.value ? fromEl.value : '';
-  const toDate = toEl && toEl.value ? toEl.value : '';
-  const rangeText = (fromDate && toDate) ? ` (${fromDate} đến ${toDate})` : '';
 
-  const subtitleEl = document.getElementById('revenue-period-subtitle');
   if (subtitleEl) {
-    subtitleEl.textContent = `Số liệu tổng hợp báo cáo - ${quarterText} • ${yearText}${rangeText}`;
+    subtitleEl.textContent = `Số liệu tổng hợp báo cáo - ${quarterText} • ${yearText}`;
   }
-  showToast(`Đã áp dụng bộ lọc doanh thu: ${quarterText} — ${yearText}${rangeText}`, 'success');
+  showToast(`Đã áp dụng bộ lọc doanh thu: ${quarterText} — ${yearText}`, 'success');
 }
 
 function resetAdminRevenueFilter() {
+  const modeEl = document.getElementById('filter-revenue-mode');
   const quarterEl = document.getElementById('filter-revenue-quarter');
   const yearEl = document.getElementById('filter-revenue-year');
   const fromEl = document.getElementById('filter-revenue-date-from');
   const toEl = document.getElementById('filter-revenue-date-to');
+  if (modeEl) modeEl.value = 'quarter';
   if (quarterEl) quarterEl.value = '6m';
   if (yearEl) yearEl.value = '2026';
   if (fromEl) fromEl.value = '2026-04-01';
   if (toEl) toEl.value = '2026-09-30';
+  handleRevenueFilterModeChange('quarter');
 
   const subtitleEl = document.getElementById('revenue-period-subtitle');
   if (subtitleEl) {
@@ -3296,6 +3322,7 @@ if (typeof window !== 'undefined') {
   window.handleSyncTierPrivilegesNow = handleSyncTierPrivilegesNow;
   window.handleSaveTierPrivileges = handleSaveTierPrivileges;
   window.handleResetTierPrivileges = handleResetTierPrivileges;
+  window.handleRevenueFilterModeChange = handleRevenueFilterModeChange;
   window.applyAdminRevenueFilter = applyAdminRevenueFilter;
   window.resetAdminRevenueFilter = resetAdminRevenueFilter;
   window.handleRevenuePage = handleRevenuePage;
