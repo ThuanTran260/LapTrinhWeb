@@ -108,6 +108,11 @@ def verify_revenue_html(rev_html: str) -> list[str]:
             if not re.search(r'<option\s+value="2026"\s+selected>', year_match.group(1)):
                 failures.append("admin/revenue.html: #filter-revenue-year '2026' option should be selected by default")
 
+        if not re.search(r'<input[^>]*type="date"[^>]*id="filter-revenue-date-from"[^>]*value="2026-04-01"', filter_bar):
+            failures.append("admin/revenue.html: missing date input #filter-revenue-date-from (value='2026-04-01')")
+        if not re.search(r'<input[^>]*type="date"[^>]*id="filter-revenue-date-to"[^>]*value="2026-09-30"', filter_bar):
+            failures.append("admin/revenue.html: missing date input #filter-revenue-date-to (value='2026-09-30')")
+
     kpi_cards = re.findall(r'<div class="kpi-card">', rev_html)
     if len(kpi_cards) != 3:
         failures.append(f"admin/revenue.html: expected 3 .kpi-card blocks intact, found {len(kpi_cards)}")
@@ -352,6 +357,8 @@ const yearSelect = makeSelect([
   ['2024', 'Năm 2024'],
 ], '2026');
 
+const dateFromInput = { value: '2026-04-01' };
+const dateToInput = { value: '2026-09-30' };
 const subtitleEl = { textContent: 'Số liệu tổng hợp báo cáo - 6 tháng gần nhất năm 2026' };
 const summaryEl = { textContent: 'Đang hiển thị Trang 1/3 — 6 tháng gần nhất (04/2026–09/2026)' };
 
@@ -375,6 +382,8 @@ const paginationStrip = {
 const elements = {
   'filter-revenue-quarter': quarterSelect,
   'filter-revenue-year': yearSelect,
+  'filter-revenue-date-from': dateFromInput,
+  'filter-revenue-date-to': dateToInput,
   'revenue-period-subtitle': subtitleEl,
   'revenue-pagination-summary': summaryEl,
   'revenue-pagination': paginationStrip,
@@ -403,25 +412,27 @@ vm.createContext(sandbox);
 vm.runInContext(appCode, sandbox);
 sandbox.showToast = (msg, type) => toasts.push({ msg, type });
 
-// 1. applyAdminRevenueFilter updates #revenue-period-subtitle and emits success toast
+// 1. applyAdminRevenueFilter updates #revenue-period-subtitle with date range and emits success toast (no mock/static wording)
 toasts.length = 0;
 quarterSelect.value = 'q3';
 yearSelect.value = '2025';
+dateFromInput.value = '2025-07-01';
+dateToInput.value = '2025-09-30';
 sandbox.applyAdminRevenueFilter();
 
-if (!subtitleEl.textContent.includes('Quý 3 (Tháng 07 – 09)') || !subtitleEl.textContent.includes('Năm 2025')) {
+if (!subtitleEl.textContent.includes('Quý 3 (Tháng 07 – 09)') || !subtitleEl.textContent.includes('Năm 2025') || !subtitleEl.textContent.includes('2025-07-01') || subtitleEl.textContent.includes('Mô phỏng tĩnh')) {
   throw new Error(`Unexpected subtitle after applyAdminRevenueFilter: ${subtitleEl.textContent}`);
 }
-if (toasts.length !== 1 || toasts[0].type !== 'success' || !toasts[0].msg.includes('Quý 3 (Tháng 07 – 09)') || !toasts[0].msg.includes('Năm 2025')) {
+if (toasts.length !== 1 || toasts[0].type !== 'success' || !toasts[0].msg.includes('Quý 3 (Tháng 07 – 09)') || !toasts[0].msg.includes('2025-07-01') || toasts[0].msg.includes('Mô phỏng tĩnh')) {
   throw new Error(`Unexpected toast after applyAdminRevenueFilter: ${JSON.stringify(toasts)}`);
 }
 
-// 2. resetAdminRevenueFilter resets selects to 6m/2026, restores subtitle, and emits info toast
+// 2. resetAdminRevenueFilter resets selects & dates to 6m/2026 (2026-04-01..2026-09-30), restores subtitle, and emits info toast
 toasts.length = 0;
 sandbox.resetAdminRevenueFilter();
 
-if (quarterSelect.value !== '6m' || yearSelect.value !== '2026') {
-  throw new Error(`Expected reset selects to 6m/2026, got ${quarterSelect.value}/${yearSelect.value}`);
+if (quarterSelect.value !== '6m' || yearSelect.value !== '2026' || dateFromInput.value !== '2026-04-01' || dateToInput.value !== '2026-09-30') {
+  throw new Error(`Expected reset filter to 6m/2026 (2026-04-01..2026-09-30), got ${quarterSelect.value}/${yearSelect.value} ${dateFromInput.value}..${dateToInput.value}`);
 }
 if (subtitleEl.textContent !== 'Số liệu tổng hợp báo cáo - 6 tháng gần nhất năm 2026') {
   throw new Error(`Unexpected subtitle after resetAdminRevenueFilter: ${subtitleEl.textContent}`);
@@ -472,10 +483,10 @@ if (!summaryEl.textContent.includes('Trang 1/3')) {
 toasts.length = 0;
 sandbox.handleRevenuePage(2, btn2);
 assertPageState(2);
-if (!summaryEl.textContent.includes('Trang 2/3')) {
+if (summaryEl.textContent !== 'Đang hiển thị Trang 2/3' || summaryEl.textContent.includes('Mô phỏng tĩnh')) {
   throw new Error(`Unexpected summary on page 2: ${summaryEl.textContent}`);
 }
-if (toasts.length !== 1 || toasts[0].type !== 'info' || !toasts[0].msg.includes('Trang 2/3')) {
+if (toasts.length !== 1 || toasts[0].type !== 'info' || !toasts[0].msg.includes('Trang 2/3') || toasts[0].msg.includes('Mô phỏng tĩnh')) {
   throw new Error(`Unexpected toast on page 2: ${JSON.stringify(toasts)}`);
 }
 
@@ -483,10 +494,10 @@ if (toasts.length !== 1 || toasts[0].type !== 'info' || !toasts[0].msg.includes(
 toasts.length = 0;
 sandbox.handleRevenuePage(3, btn3);
 assertPageState(3);
-if (!summaryEl.textContent.includes('Trang 3/3')) {
+if (summaryEl.textContent !== 'Đang hiển thị Trang 3/3' || summaryEl.textContent.includes('Mô phỏng tĩnh')) {
   throw new Error(`Unexpected summary on page 3: ${summaryEl.textContent}`);
 }
-if (toasts.length !== 1 || toasts[0].type !== 'info' || !toasts[0].msg.includes('Trang 3/3')) {
+if (toasts.length !== 1 || toasts[0].type !== 'info' || !toasts[0].msg.includes('Trang 3/3') || toasts[0].msg.includes('Mô phỏng tĩnh')) {
   throw new Error(`Unexpected toast on page 3: ${JSON.stringify(toasts)}`);
 }
 

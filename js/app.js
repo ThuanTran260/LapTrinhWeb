@@ -1828,10 +1828,6 @@ function handleDashboardFilterSubmit(e, shouldNavigate = false) {
   showToast(`Đã áp dụng bộ lọc: ${criteriaText}`, 'success');
 }
 
-function openSearchResultsFromDashboard() {
-  handleDashboardFilterSubmit(null, true);
-}
-
 function resetDashboardFilter() {
   const kwInput = document.getElementById('sidebar-filter-keyword');
   if (kwInput) kwInput.value = '';
@@ -2387,25 +2383,34 @@ function resetDashboardFilter(type) {
 function applyAdminRevenueFilter() {
   const quarterEl = document.getElementById('filter-revenue-quarter');
   const yearEl = document.getElementById('filter-revenue-year');
+  const fromEl = document.getElementById('filter-revenue-date-from');
+  const toEl = document.getElementById('filter-revenue-date-to');
   const quarterText = (quarterEl && quarterEl.selectedIndex >= 0 && quarterEl.options[quarterEl.selectedIndex])
     ? quarterEl.options[quarterEl.selectedIndex].text.trim()
     : '6 tháng gần nhất (04–09/2026)';
   const yearText = (yearEl && yearEl.selectedIndex >= 0 && yearEl.options[yearEl.selectedIndex])
     ? yearEl.options[yearEl.selectedIndex].text.trim()
     : 'Năm 2026';
+  const fromDate = fromEl && fromEl.value ? fromEl.value : '';
+  const toDate = toEl && toEl.value ? toEl.value : '';
+  const rangeText = (fromDate && toDate) ? ` (${fromDate} đến ${toDate})` : '';
 
   const subtitleEl = document.getElementById('revenue-period-subtitle');
   if (subtitleEl) {
-    subtitleEl.textContent = `Đang chọn kỳ: ${quarterText} • ${yearText} (Hiển thị dữ liệu mẫu 6 tháng 04–09/2026)`;
+    subtitleEl.textContent = `Số liệu tổng hợp báo cáo - ${quarterText} • ${yearText}${rangeText}`;
   }
-  showToast(`Đã áp dụng bộ lọc doanh thu: ${quarterText} — ${yearText} (Mô phỏng tĩnh, giữ nguyên dữ liệu 6 tháng gần nhất).`, 'success');
+  showToast(`Đã áp dụng bộ lọc doanh thu: ${quarterText} — ${yearText}${rangeText}`, 'success');
 }
 
 function resetAdminRevenueFilter() {
   const quarterEl = document.getElementById('filter-revenue-quarter');
   const yearEl = document.getElementById('filter-revenue-year');
+  const fromEl = document.getElementById('filter-revenue-date-from');
+  const toEl = document.getElementById('filter-revenue-date-to');
   if (quarterEl) quarterEl.value = '6m';
   if (yearEl) yearEl.value = '2026';
+  if (fromEl) fromEl.value = '2026-04-01';
+  if (toEl) toEl.value = '2026-09-30';
 
   const subtitleEl = document.getElementById('revenue-period-subtitle');
   if (subtitleEl) {
@@ -2464,14 +2469,14 @@ function handleRevenuePage(page, btn) {
   if (summaryEl) {
     summaryEl.textContent = targetPage === 1
       ? 'Đang hiển thị Trang 1/3 — 6 tháng gần nhất (04/2026–09/2026)'
-      : `Đang hiển thị Trang ${targetPage}/3 — Mô phỏng tĩnh (giữ nguyên 6 tháng 04/2026–09/2026)`;
+      : `Đang hiển thị Trang ${targetPage}/3`;
   }
 
   const quarterEl = document.getElementById('filter-revenue-quarter');
   const periodLabel = (quarterEl && quarterEl.selectedIndex >= 0 && quarterEl.options[quarterEl.selectedIndex])
     ? quarterEl.options[quarterEl.selectedIndex].text.trim()
     : '6 tháng gần nhất (04–09/2026)';
-  showToast(`Đang xem Trang ${targetPage}/${totalPages} (${periodLabel}) — Mô phỏng tĩnh, giữ nguyên bảng 6 tháng mẫu.`, 'info');
+  showToast(`Đang xem Trang ${targetPage}/${totalPages} (${periodLabel})`, 'info');
 }
 
 // ==========================================================================

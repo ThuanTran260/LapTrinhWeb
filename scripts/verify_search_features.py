@@ -28,7 +28,7 @@ check("index.html keyword input", 'id="sidebar-filter-keyword"' in idx_content, 
 check("index.html brand radio", 'name="sidebar-brand"' in idx_content, "index.html has brand radios in sidebar")
 check("index.html price radio", 'name="sidebar-price"' in idx_content, "index.html has price radios in sidebar")
 check("index.html filter reset button", 'onclick="resetDashboardFilter()"' in idx_content, "index.html has reset button")
-check("index.html search page link", 'onclick="openSearchResultsFromDashboard()"' in idx_content, "index.html has shortcut to dedicated search page")
+check("index.html no openSearchResults button", 'openSearchResultsFromDashboard' not in idx_content and 'Mở trang kết quả riêng' not in idx_content, "index.html removed dedicated search page shortcut button")
 check("index.html keeps modal-adv-search", 'id="modal-adv-search"' in idx_content, "index.html preserves #modal-adv-search for Rubric 1.4")
 
 # 2. Check pages/cart.html header synchronization & title placement

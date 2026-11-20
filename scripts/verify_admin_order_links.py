@@ -37,13 +37,13 @@ def test_orders_html_order_ids():
         pattern = rf'<a\s+href="order-detail\.html"[^>]*>{oid}</a>'
         assert re.search(pattern, content), f"Thiếu liên kết order-detail.html cho mã đơn {oid} trong admin/orders.html"
 
-@test("2. admin/orders.html: Cột Thao tác có nút Chi Tiết trỏ về order-detail.html và nút Chuyển Trạng Thái")
+@test("2. admin/orders.html: Cột Thao tác chỉ giữ nút Chuyển Trạng Thái (đã bỏ nút Chi Tiết)")
 def test_orders_html_actions():
     content = read_file("admin/orders.html")
     assert content is not None, "admin/orders.html không tồn tại!"
-    # Có ít nhất 6 nút Chi Tiết trỏ về order-detail.html trong bảng
+    # Cột Thao tác không còn nút Chi Tiết dư thừa (Mã đơn ở cột 1 đã link sang order-detail.html)
     detail_links = re.findall(r'<a\s+href="order-detail\.html"\s+class="btn-view-detail"[^>]*>[\s\S]*?Chi Tiết[\s\S]*?</a>', content)
-    assert len(detail_links) >= 6, f"Cần ít nhất 6 nút Chi Tiết trỏ về order-detail.html trong admin/orders.html, tìm thấy {len(detail_links)}"
+    assert len(detail_links) == 0, f"Không được còn nút Chi Tiết ở cột Thao tác trong admin/orders.html, tìm thấy {len(detail_links)}"
     # Giữ nguyên nút Chuyển Trạng Thái cho Rubric 2.6.1
     status_buttons = re.findall(r'openOrderStatusModal\(', content)
     assert len(status_buttons) >= 6, f"Cần ít nhất 6 nút Chuyển Trạng Thái trong admin/orders.html, tìm thấy {len(status_buttons)}"
