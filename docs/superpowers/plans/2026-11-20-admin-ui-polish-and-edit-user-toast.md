@@ -276,6 +276,7 @@ git commit -m "fix(admin): simplify stock status dropdown options to 'CÒN HÀNG
 
 - [ ] **Step 1: Write `scripts/verify_admin_edit_user_toast_only.py`**
 
+<!-- {% raw %} -->
 ```python
 import re
 import subprocess
@@ -534,6 +535,7 @@ console.log('NODE_RUNTIME_PASS');
 if __name__ == "__main__":
     sys.exit(main())
 ```
+<!-- {% endraw %} -->
 
 - [ ] **Step 2: Run script to verify RED failure**
 

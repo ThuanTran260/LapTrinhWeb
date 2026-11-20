@@ -29,6 +29,7 @@
 
 - [ ] **Step 1: Write the verification script (`scripts/verify_search_placeholder_polish.py`)**
 
+<!-- {% raw %} -->
 ```python
 import re
 import sys
@@ -125,6 +126,7 @@ def main() -> int:
 if __name__ == "__main__":
     sys.exit(main())
 ```
+<!-- {% endraw %} -->
 
 - [ ] **Step 2: Run the verification script to verify it fails (RED)**
 
