@@ -81,30 +81,48 @@ for val, label in expected_prices:
     m_idx = re.search(rf'name="sidebar-price"[^>]*value="{val}"[^>]*>[\s\S]*?<span>({re.escape(label)})</span>', index_content)
     check(f"Dashboard price option {val} matches label '{label}'", m_idx is not None)
 
-# 3. Item 5 in sidebar dropdown is Sting Dâu Tây Đỏ (no combo)
-sidebar_dropdown_match = re.search(r'id="sidebar-search-dropdown-menu"[\s\S]*?</div>\s*</div>\s*</div>', search_content)
-check("Sidebar search dropdown exists", sidebar_dropdown_match is not None, "#sidebar-search-dropdown-menu found")
-if sidebar_dropdown_match:
-    sidebar_dropdown_html = sidebar_dropdown_match.group(0)
-    has_sting_item = "Sting Dâu Tây Đỏ Sleek 330ml" in sidebar_dropdown_html or "Sting Dâu" in sidebar_dropdown_html
-    has_combo_item = "Combo Thùng" in sidebar_dropdown_html or "combo-section" in sidebar_dropdown_html
-    check("Item 5 is Sting Dâu Tây Đỏ", has_sting_item, "Sidebar dropdown contains Sting Dâu Tây Đỏ")
-    check("Sidebar dropdown has no combo", not has_combo_item, "Sidebar dropdown has no combo residual")
-    check(
-        "Item 5 calls closeSidebarSearchDropdown in search-results",
-        'onclick="closeSidebarSearchDropdown()"' in sidebar_dropdown_html,
-        "Dropdown item 5 closes sidebar dropdown correctly"
+# 3. Sidebar dropdown preserves Sting Dâu Tây Đỏ 330ml (no combo) and Item 5 is Sting Vàng Sleek 330ml
+for page_label, page_html in [("search-results", search_content), ("index.html", index_content)]:
+    dropdown_match = re.search(
+        r'id="sidebar-search-dropdown-menu"[\s\S]*?</div>\s*</div>\s*</div>',
+        page_html,
     )
-
-# Also check index.html Item 5 in sidebar dropdown
-idx_sidebar_dropdown_match = re.search(r'id="sidebar-search-dropdown-menu"[\s\S]*?</div>\s*</div>\s*</div>', index_content)
-if idx_sidebar_dropdown_match:
-    idx_dropdown_html = idx_sidebar_dropdown_match.group(0)
     check(
-        "Item 5 calls closeSidebarSearchDropdown in index.html",
-        'onclick="closeSidebarSearchDropdown()"' in idx_dropdown_html,
-        "index.html sidebar item 5 closes sidebar dropdown correctly"
+        f"Sidebar search dropdown exists ({page_label})",
+        dropdown_match is not None,
+        f"#sidebar-search-dropdown-menu found in {page_label}",
     )
+    if dropdown_match:
+        dropdown_html = dropdown_match.group(0)
+        has_sting_red = "Sting Dâu Tây Đỏ 330ml" in dropdown_html
+        has_combo_item = "Combo Thùng" in dropdown_html or "combo-section" in dropdown_html
+        check(
+            f"Sidebar dropdown preserves Sting Dâu Tây Đỏ 330ml ({page_label})",
+            has_sting_red,
+            f"Sidebar dropdown in {page_label} contains Sting Dâu Tây Đỏ 330ml",
+        )
+        check(
+            f"Sidebar dropdown has no combo ({page_label})",
+            not has_combo_item,
+            f"Sidebar dropdown in {page_label} has no combo residual",
+        )
+        items = re.findall(r'<a\b[^>]*class="search-static-item"[^>]*>[\s\S]*?</a>', dropdown_html)
+        item5 = items[4] if len(items) >= 5 else ""
+        has_sting_gold_item5 = (
+            len(items) == 5
+            and "Nước Tăng Lực Sting Vàng Sleek 330ml" in item5
+            and "sting-gold.webp" in item5
+        )
+        check(
+            f"Item 5 is Nước Tăng Lực Sting Vàng Sleek 330ml ({page_label})",
+            has_sting_gold_item5,
+            f"Item 5 in {page_label} sidebar dropdown uses sting-gold.webp and Sting Vàng Sleek 330ml",
+        )
+        check(
+            f"Item 5 calls closeSidebarSearchDropdown in {page_label}",
+            'onclick="closeSidebarSearchDropdown()"' in item5,
+            f"Dropdown item 5 in {page_label} closes sidebar dropdown correctly",
+        )
 
 # 4. Sidebar contains navigation button back to ../index.html
 has_home_btn = (
