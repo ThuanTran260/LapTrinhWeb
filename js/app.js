@@ -3243,6 +3243,9 @@ function changeDashboardPage(pageNum, e) {
         }
       });
     }
+
+    const homeBtn = document.getElementById('nav-home-btn');
+    if (homeBtn && homeBtn.classList) homeBtn.classList.remove('active');
   }
 
   return false;
@@ -3328,6 +3331,7 @@ function scrollToDashboardTop(e, link) {
 }
 
 function toggleBrandDrawer(btn) {
+  if (typeof document === 'undefined') return false;
   const toggleBtn = btn || document.getElementById('nav-brand-toggle');
   const drawer = document.getElementById('nav-brand-drawer');
   if (!drawer) return false;

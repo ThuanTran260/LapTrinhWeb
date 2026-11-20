@@ -402,6 +402,7 @@ button {
 
 .nav-menu {
   display: flex;
+  align-items: center;
   list-style: none;
   gap: 8px;
   overflow-x: auto;
@@ -453,10 +454,6 @@ button {
   outline-offset: -2px;
 }
 
-.nav-menu {
-  align-items: center;
-}
-
 .nav-brand-group {
   display: flex;
   align-items: center;
@@ -468,6 +465,7 @@ button {
   background: transparent;
   border: none;
   font-family: inherit;
+  line-height: inherit;
 }
 
 .nav-brand-toggle-btn.is-open {

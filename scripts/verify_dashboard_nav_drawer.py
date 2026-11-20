@@ -31,6 +31,19 @@ def extract_media_blocks(css_text: str, query_fragment: str) -> list[str]:
     return blocks
 
 
+def extract_div_block(html: str, class_or_id_pattern: str) -> str:
+    match = re.search(rf"<div\b[^>]*{class_or_id_pattern}[^>]*>", html)
+    if not match:
+        return ""
+    depth = 1
+    pos = match.end()
+    for tag in re.finditer(r"<(/?)div\b[^>]*>", html[pos:]):
+        depth += -1 if tag.group(1) else 1
+        if depth == 0:
+            return html[match.start() : pos + tag.end()]
+    return ""
+
+
 def extract_function(source: str, name: str) -> str:
     match = re.search(rf"function\s+{re.escape(name)}\s*\([^)]*\)\s*\{{", source)
     if not match:
@@ -79,11 +92,10 @@ def verify_index_nav_html(index_html: str) -> list[str]:
         if 'aria-controls="nav-brand-drawer"' not in toggle_tag:
             failures.append("index.html: #nav-brand-toggle must include aria-controls='nav-brand-drawer'")
 
-    drawer_match = re.search(r'<div\b[^>]*id="nav-brand-drawer"[^>]*>([\s\S]*?)</div>', nav_html)
-    if not drawer_match:
+    drawer_html = extract_div_block(nav_html, r'id="nav-brand-drawer"')
+    if not drawer_html:
         failures.append("index.html: missing #nav-brand-drawer container inside .nav-menu")
     else:
-        drawer_html = drawer_match.group(0)
         if 'aria-hidden="true"' not in drawer_html:
             failures.append("index.html: #nav-brand-drawer must start with aria-hidden='true'")
         if "nav-brand-drawer" not in drawer_html:
@@ -153,6 +165,17 @@ def verify_drawer_css(css_text: str) -> list[str]:
 
     if not extract_css_blocks(css_text, ".nav-brand-toggle-btn.is-open .nav-brand-chevron"):
         failures.append("css/style.css: missing .nav-brand-toggle-btn.is-open .nav-brand-chevron rule")
+
+    nav_menu_blocks = extract_css_blocks(css_text, ".nav-menu")
+    if not nav_menu_blocks or "align-items: center;" not in nav_menu_blocks[0]:
+        failures.append("css/style.css: primary .nav-menu rule missing 'align-items: center;'")
+    top_level_nav_menu = re.findall(r"(?:^|\n)\.nav-menu\s*\{", css_text)
+    if len(top_level_nav_menu) != 1:
+        failures.append(f"css/style.css: expected single top-level .nav-menu rule, found {len(top_level_nav_menu)}")
+
+    toggle_btn_blocks = extract_css_blocks(css_text, ".nav-brand-toggle-btn")
+    if not toggle_btn_blocks or "line-height: inherit;" not in toggle_btn_blocks[0]:
+        failures.append("css/style.css: .nav-brand-toggle-btn missing 'line-height: inherit;'")
 
     reduced_blocks = extract_media_blocks(css_text, "prefers-reduced-motion: reduce")
     if not any(".nav-brand-drawer" in b and "transition: none" in b for b in reduced_blocks):
@@ -292,8 +315,20 @@ const stingSection = makeElement({ id: 'sting-products' });
 const pageBtn1 = makeElement({ initialClasses: ['page-btn', 'active'], initialAttrs: { 'data-page': '1' } });
 const pageBtn2 = makeElement({ initialClasses: ['page-btn'], initialAttrs: { 'data-page': '2' } });
 const pageBtn3 = makeElement({ initialClasses: ['page-btn'], initialAttrs: { 'data-page': '3' } });
-const pagePrev = makeElement({ id: 'page-btn-prev', initialClasses: ['page-btn', 'disabled'] });
+const pagePrev = makeElement({ id: 'page-btn-prev', initialClasses: ['page-btn', 'disabled'], initialAttrs: { 'aria-disabled': 'true' } });
 const pageNext = makeElement({ id: 'page-btn-next', initialClasses: ['page-btn'] });
+const catalogPagination = {
+  id: 'catalog-pagination',
+  querySelector: (selector) => {
+    if (selector === '#page-btn-prev') return pagePrev;
+    if (selector === '#page-btn-next') return pageNext;
+    return null;
+  },
+  querySelectorAll: (selector) => {
+    if (selector === '.page-btn[data-page]') return [pageBtn1, pageBtn2, pageBtn3];
+    return [];
+  },
+};
 
 const elementsById = {
   'nav-home-btn': homeBtn,
@@ -302,6 +337,7 @@ const elementsById = {
   'monster-products': monsterSection,
   'redbull-products': redbullSection,
   'sting-products': stingSection,
+  'catalog-pagination': catalogPagination,
   'page-btn-prev': pagePrev,
   'page-btn-next': pageNext,
 };
@@ -320,7 +356,10 @@ const sandbox = {
     readyState: 'loading',
     addEventListener: () => {},
     getElementById: (id) => elementsById[id] || null,
-    querySelector: () => null,
+    querySelector: (selector) => {
+      if (selector === '.pagination-strip') return catalogPagination;
+      return null;
+    },
     querySelectorAll: (selector) => {
       if (selector === '.nav-menu .nav-link[href*="-products"]') return brandNavLinks;
       if (selector === '.nav-menu .nav-link[href*="-products"], .quick-brand-nav .quick-brand-btn') {
@@ -340,7 +379,18 @@ const sandbox = {
 vm.createContext(sandbox);
 vm.runInContext(appCode, sandbox);
 
-// 1. toggleBrandDrawer opens and closes with synchronized ARIA + is-open classes
+// 0. Non-DOM guard: toggleBrandDrawer safely returns false when document is undefined
+const origDocument = sandbox.document;
+sandbox.document = undefined;
+try {
+  if (sandbox.window.toggleBrandDrawer(brandToggle) !== false) {
+    throw new Error('toggleBrandDrawer must return false safely when document is undefined');
+  }
+} finally {
+  sandbox.document = origDocument;
+}
+
+// 1. toggleBrandDrawer opens and closes with synchronized ARIA + is-open classes (both explicit btn and fallback lookup)
 const opened = sandbox.window.toggleBrandDrawer(brandToggle);
 if (
   opened !== true ||
@@ -352,7 +402,7 @@ if (
   throw new Error('toggleBrandDrawer did not open drawer with expected classes and ARIA attributes');
 }
 
-const closed = sandbox.window.toggleBrandDrawer(brandToggle);
+const closed = sandbox.window.toggleBrandDrawer();
 if (
   closed !== false ||
   brandDrawer.classList.contains('is-open') ||
@@ -360,8 +410,14 @@ if (
   brandDrawer.getAttribute('aria-hidden') !== 'true' ||
   brandToggle.getAttribute('aria-expanded') !== 'false'
 ) {
-  throw new Error('toggleBrandDrawer did not close drawer with expected classes and ARIA attributes');
+  throw new Error('toggleBrandDrawer() without btn argument did not close drawer with expected classes and ARIA attributes');
 }
+
+delete elementsById['nav-brand-drawer'];
+if (sandbox.window.toggleBrandDrawer(brandToggle) !== false) {
+  throw new Error('toggleBrandDrawer should return false when #nav-brand-drawer is missing');
+}
+elementsById['nav-brand-drawer'] = brandDrawer;
 
 // 2. scrollToDashboardTop resets brand active links, activates #nav-home-btn, scrolls top, preserves toggle
 let prevented = false;
@@ -411,13 +467,21 @@ if (
   stingLink.classList.contains('active') ||
   !quickRedbull.classList.contains('active') ||
   quickMonster.classList.contains('active') ||
-  homeBtn.classList.contains('active')
+  homeBtn.classList.contains('active') ||
+  pageBtn1.classList.contains('active') ||
+  !pageBtn2.classList.contains('active') ||
+  pageBtn3.classList.contains('active') ||
+  pagePrev.classList.contains('disabled') ||
+  pagePrev.getAttribute('aria-disabled') !== null ||
+  pageNext.classList.contains('disabled') ||
+  pageNext.getAttribute('aria-disabled') !== null
 ) {
-  throw new Error('handleNavBrandClick failed to sync brand active state or clear #nav-home-btn');
+  throw new Error('handleNavBrandClick failed to sync brand active state, pagination UI, or clear #nav-home-btn');
 }
 
-// 4. changeDashboardPage scopes .active to .nav-menu .nav-link[href*="-products"] without touching #nav-home-btn or #nav-brand-toggle
+// 4. changeDashboardPage scopes .active to .nav-menu .nav-link[href*="-products"], clears #nav-home-btn, updates pagination UI, without touching #nav-brand-toggle
 brandToggle.classList.add('active');
+homeBtn.classList.add('active');
 const page3Ret = sandbox.window.changeDashboardPage(3, mockEvent);
 if (page3Ret !== false || sandbox.window.currentDashboardPage !== 3) {
   throw new Error(`changeDashboardPage(3) failed: ret=${page3Ret}, page=${sandbox.window.currentDashboardPage}`);
@@ -428,9 +492,16 @@ if (
   redbullLink.classList.contains('active') ||
   stingSection._scrollIntoViewCalls.length !== 1 ||
   homeBtn.classList.contains('active') ||
-  !brandToggle.classList.contains('active')
+  !brandToggle.classList.contains('active') ||
+  pageBtn1.classList.contains('active') ||
+  pageBtn2.classList.contains('active') ||
+  !pageBtn3.classList.contains('active') ||
+  pagePrev.classList.contains('disabled') ||
+  pagePrev.getAttribute('aria-disabled') !== null ||
+  !pageNext.classList.contains('disabled') ||
+  pageNext.getAttribute('aria-disabled') !== 'true'
 ) {
-  throw new Error('changeDashboardPage(3) failed active-class scoping on .nav-menu .nav-link[href*="-products"]');
+  throw new Error('changeDashboardPage(3) failed active-class clearing/scoping or pagination UI transition');
 }
 
 const page1Ret = sandbox.window.changeDashboardPage(1, mockEvent);
@@ -440,9 +511,16 @@ if (
   !monsterLink.classList.contains('active') ||
   redbullLink.classList.contains('active') ||
   stingLink.classList.contains('active') ||
-  monsterSection._scrollIntoViewCalls.length !== 1
+  monsterSection._scrollIntoViewCalls.length !== 1 ||
+  !pageBtn1.classList.contains('active') ||
+  pageBtn2.classList.contains('active') ||
+  pageBtn3.classList.contains('active') ||
+  !pagePrev.classList.contains('disabled') ||
+  pagePrev.getAttribute('aria-disabled') !== 'true' ||
+  pageNext.classList.contains('disabled') ||
+  pageNext.getAttribute('aria-disabled') !== null
 ) {
-  throw new Error('changeDashboardPage(1) failed to restore monster-products active state');
+  throw new Error('changeDashboardPage(1) failed to restore monster-products active state and pagination UI');
 }
 
 // Boundary check: out-of-range page should be ignored cleanly
