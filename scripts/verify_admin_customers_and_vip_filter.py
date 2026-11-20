@@ -33,8 +33,10 @@ def main() -> int:
         failures.append("admin/customers.html: button still says 'Thống Kê Top 5 VIP'")
     if not re.search(r'onclick="applyAdminCustomerFilter\(\)"[^>]*>[\s\S]*?Thống Kê\s*</button>', cust_html):
         failures.append("admin/customers.html: apply button label not updated to 'Thống Kê'")
-    if 'id="btn-filter-top5-vip"' not in cust_html or "Lọc 5 Người VIP Nhất" not in cust_html:
-        failures.append("admin/customers.html: missing #btn-filter-top5-vip ('Lọc 5 Người VIP Nhất')")
+    if 'id="btn-filter-top5-vip"' not in cust_html or "Lọc 5 Người Mua Nhiều Nhất" not in cust_html:
+        failures.append("admin/customers.html: missing #btn-filter-top5-vip ('Lọc 5 Người Mua Nhiều Nhất')")
+    if "Lọc 5 Người VIP Nhất" in cust_html:
+        failures.append("admin/customers.html: #btn-filter-top5-vip still contains stale label 'Lọc 5 Người VIP Nhất'")
     if 'id="modal-customer-detail"' in cust_html:
         failures.append("admin/customers.html: must NOT contain popup #modal-customer-detail")
 
@@ -192,12 +194,12 @@ function assertAllRowsVisible(context) {
   }
 }
 
-// 1. toggleTop5VipFilter toggles 'active', emits toast with '5 người VIP', keeps ALL 6 rows visible
+// 1. toggleTop5VipFilter toggles 'active', emits toast with '5 người mua nhiều nhất', keeps ALL 6 rows visible
 toasts.length = 0;
 sandbox.toggleTop5VipFilter(top5Btn);
 if (!btnClasses.has('active')) throw new Error('Expected active class on #btn-filter-top5-vip');
-if (!toasts.some((t) => typeof t.msg === 'string' && t.msg.includes('5 người VIP'))) {
-  throw new Error('Expected toggleTop5VipFilter to call showToast with "5 người VIP"');
+if (!toasts.some((t) => typeof t.msg === 'string' && t.msg.includes('5 người mua nhiều nhất'))) {
+  throw new Error('Expected toggleTop5VipFilter to call showToast with "5 người mua nhiều nhất"');
 }
 assertAllRowsVisible('toggleTop5VipFilter');
 
