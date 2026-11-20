@@ -453,6 +453,74 @@ button {
   outline-offset: -2px;
 }
 
+.nav-menu {
+  align-items: center;
+}
+
+.nav-brand-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nav-brand-toggle-btn {
+  background: transparent;
+  border: none;
+  font-family: inherit;
+}
+
+.nav-brand-toggle-btn.is-open {
+  color: #FFF;
+  background: rgba(0, 230, 118, 0.12);
+}
+
+.nav-brand-chevron {
+  font-size: 0.72rem;
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), color 0.2s ease;
+}
+
+.nav-brand-toggle-btn.is-open .nav-brand-chevron {
+  transform: rotate(180deg);
+  color: var(--primary);
+}
+
+.nav-brand-drawer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 0;
+  opacity: 0;
+  overflow: hidden;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateX(-14px);
+  transition:
+    max-width 0.34s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.24s ease,
+    transform 0.34s cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0s linear 0.34s;
+}
+
+.nav-brand-drawer.is-open {
+  visibility: visible;
+  max-width: 460px;
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+  transition:
+    max-width 0.34s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.24s ease,
+    transform 0.34s cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0s linear 0s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-brand-drawer,
+  .nav-brand-chevron {
+    transition: none;
+  }
+}
+
 /* ==========================================================================
    HERO BANNER
    ========================================================================== */
