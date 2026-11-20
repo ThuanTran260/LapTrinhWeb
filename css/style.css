@@ -3802,6 +3802,9 @@ del.price-old {
   .nav-menu {
     gap: 5px;
   }
+  .nav-brand-group, .nav-brand-drawer {
+    gap: 5px;
+  }
   .nav-link {
     padding: 6px 9px;
     font-size: 0.82rem;

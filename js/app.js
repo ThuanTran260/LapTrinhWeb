@@ -3231,24 +3231,33 @@ function changeDashboardPage(pageNum, e) {
     if (targetEl) {
       targetEl.scrollIntoView({ behavior: 'smooth' });
     }
-
-    // Sync navbar active brand button
-    const navLinks = document.querySelectorAll('.nav-menu .nav-link[href*="-products"]');
-    if (navLinks.length >= 3) {
-      navLinks.forEach((link, idx) => {
-        if (idx === targetPage - 1) {
-          link.classList.add('active');
-        } else {
-          link.classList.remove('active');
-        }
-      });
-    }
-
-    const homeBtn = document.getElementById('nav-home-btn');
-    if (homeBtn && homeBtn.classList) homeBtn.classList.remove('active');
+    syncDashboardNavActiveState(targetId, false);
   }
 
   return false;
+}
+
+function resolveNavRoot() {
+  if (typeof window !== 'undefined' && window.SITE_ROOT) return window.SITE_ROOT;
+  if (typeof SITE_ROOT !== 'undefined' && SITE_ROOT && SITE_ROOT !== './') return SITE_ROOT;
+  return '../';
+}
+
+function syncDashboardNavActiveState(activeTargetId, homeActive) {
+  if (typeof document === 'undefined') return;
+  const brandKey = activeTargetId ? activeTargetId.replace('-products', '') : '';
+  document.querySelectorAll('.nav-menu .nav-link[href*="-products"], .quick-brand-nav .quick-brand-btn').forEach(btn => {
+    const btnRef = (btn.getAttribute('href') || '') + ' ' + (btn.getAttribute('data-target') || '') + ' ' + (btn.textContent || '');
+    if (brandKey && btnRef.toLowerCase().includes(brandKey)) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+  const homeBtn = document.getElementById('nav-home-btn');
+  if (homeBtn && homeBtn.classList) {
+    homeBtn.classList.toggle('active', Boolean(homeActive));
+  }
 }
 
 function handleNavBrandClick(e, link, targetId) {
@@ -3260,9 +3269,10 @@ function handleNavBrandClick(e, link, targetId) {
 
   if (!targetId) {
     const href = link.getAttribute('href') || link.getAttribute('data-target') || '';
-    if (href.startsWith('#') && href.length > 1) {
-      targetId = href.substring(1);
-    } else if (href && !href.startsWith('#') && !href.startsWith('javascript')) {
+    const hashIndex = href.indexOf('#');
+    if (hashIndex !== -1 && hashIndex < href.length - 1) {
+      targetId = href.slice(hashIndex + 1);
+    } else if (href && hashIndex === -1 && !href.startsWith('javascript')) {
       targetId = href;
     } else {
       const text = (link.textContent || '').toLowerCase();
@@ -3289,23 +3299,10 @@ function handleNavBrandClick(e, link, targetId) {
         window.currentDashboardPage = page;
       }
       updatePaginationUI(page);
-
-      // Highlight active in both header nav and quick brand selector
-      const brandKey = targetId.replace('-products', '');
-      document.querySelectorAll('.nav-menu .nav-link[href*="-products"], .quick-brand-nav .quick-brand-btn').forEach(btn => {
-        const btnRef = (btn.getAttribute('href') || '') + ' ' + (btn.getAttribute('data-target') || '') + ' ' + (btn.textContent || '');
-        if (btnRef.toLowerCase().includes(brandKey)) {
-          btn.classList.add('active');
-        } else {
-          btn.classList.remove('active');
-        }
-      });
-      const homeBtn = document.getElementById('nav-home-btn');
-      if (homeBtn && homeBtn.classList) homeBtn.classList.remove('active');
-    } else {
+      syncDashboardNavActiveState(targetId, false);
+    } else if (typeof window !== 'undefined' && window.location) {
       // Cross-page navigation from subpages
-      const root = typeof window !== 'undefined' && window.SITE_ROOT ? window.SITE_ROOT : '../';
-      window.location.href = root + 'index.html#' + targetId;
+      window.location.href = resolveNavRoot() + 'index.html#' + targetId;
     }
   }
 
@@ -3317,15 +3314,14 @@ function scrollToDashboardTop(e, link) {
     if (typeof e.preventDefault === 'function') e.preventDefault();
     if (typeof e.stopPropagation === 'function') e.stopPropagation();
   }
-  if (typeof window !== 'undefined' && typeof window.scrollTo === 'function') {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-  if (typeof document !== 'undefined') {
-    document.querySelectorAll('.nav-menu .nav-link[href*="-products"]').forEach(item => {
-      item.classList.remove('active');
-    });
-    const homeBtn = link || document.getElementById('nav-home-btn');
-    if (homeBtn && homeBtn.classList) homeBtn.classList.add('active');
+  const isDashboard = typeof document !== 'undefined' && Boolean(document.getElementById('monster-products'));
+  if (isDashboard) {
+    if (typeof window !== 'undefined' && typeof window.scrollTo === 'function') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    syncDashboardNavActiveState(null, true);
+  } else if (typeof window !== 'undefined' && window.location) {
+    window.location.href = resolveNavRoot() + 'index.html';
   }
   return false;
 }
