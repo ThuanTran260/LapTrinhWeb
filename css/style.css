@@ -460,6 +460,7 @@ button {
 .nav-brand-group {
   display: flex;
   align-items: center;
+  flex-shrink: 0;
   gap: 6px;
 }
 
@@ -487,6 +488,7 @@ button {
 .nav-brand-drawer {
   display: flex;
   align-items: center;
+  flex-shrink: 0;
   gap: 8px;
   max-width: 0;
   opacity: 0;
@@ -516,7 +518,9 @@ button {
 
 @media (prefers-reduced-motion: reduce) {
   .nav-brand-drawer,
-  .nav-brand-chevron {
+  .nav-brand-drawer.is-open,
+  .nav-brand-chevron,
+  .nav-brand-toggle-btn.is-open .nav-brand-chevron {
     transition: none;
   }
 }
