@@ -1,13 +1,13 @@
-# Design Spec: Revenue Quarter/Year Filter & Pagination, Balanced Select Arrows, and Top-5 Buyer Button Wording
+# Design Spec: Revenue Quarter/Year Filter & Pagination, Balanced Select Arrows, Top-5 Buyer Copy, and Unconstrained Toast-Only Add Voucher
 
 **Date:** 2026-11-20  
-**Status:** Approved  
+**Status:** Approved (Specs 1-3) + Pending Plan Gate (Spec 4)  
 **Author:** AI Assistant  
 
 ---
 
 ## 1. Problem Statement & User Intent
-Three coordinated Admin UX improvements are requested:
+Four coordinated Admin UX improvements are requested:
 1. **Revenue reporting controls (`admin/revenue.html`, `css/style.css`, `js/app.js`):**
    - Add a `.admin-filter-bar` at the top (between `.admin-topbar` and `.kpi-grid`) with **two primary time controls** — **Kỳ / Quý** (`6 tháng gần nhất`, `Quý 1`–`Quý 4`, `Cả năm`) and **Năm** (`2026`, `2025`, `2024`) — plus `Áp Dụng` and `Đặt Lại` actions (**Approach 1**).
    - Add a `.pagination-strip` footer (`<` `1` `2` `3` `>`) with a compact period/page summary at the bottom of the `CHI TIẾT TỪNG THÁNG` section.
@@ -17,6 +17,9 @@ Three coordinated Admin UX improvements are requested:
    - Normalize `.admin-filter-select` and `.admin-form-select` with Baseline Widely Available CSS (`color-scheme: dark`, `appearance: none`, SVG chevron `background-image`, and balanced right padding/background-position) plus `.admin-filter-select--compact` for `#dash-order-status` and `#dash-inv-brand` in `admin/index.html`.
 3. **Update Top-5 VIP button copy (`admin/customers.html`, `js/app.js`, `scripts/verify_admin_customers_and_vip_filter.py`):**
    - Change button label `Lọc 5 Người VIP Nhất` to `Lọc 5 Người Mua Nhiều Nhất` and update its activation toast in `toggleTop5VipFilter` to `'Đang lọc hiển thị 5 người mua nhiều nhất!'`, while preserving `#btn-filter-top5-vip` and section heading `TOP 5 KHÁCH HÀNG CHI TIÊU CAO NHẤT (SẮP XẾP GIẢM DẦN)` for rubric checks.
+4. **Unconstrained, toast-only Add Voucher modal (`admin/settings.html`, `js/app.js`):**
+   - Remove browser validation blocks (`"Please fill out this field."`, numeric `min="1"`, `required` attributes, `<span class="req">*</span>` asterisks) inside `#modal-add-voucher` / `#form-add-voucher` so admins can submit arbitrary or empty values freely.
+   - Make `saveAddVoucher(e)` purely **toast-only**: close `#modal-add-voucher`, reset `#form-add-voucher`, and show a confirmation toast without mutating `MOCK_VOUCHERS_LIST`, `activeVoucherCode`, voucher chips DOM, or `#voucher-toggle-active`.
 
 ---
 
@@ -81,6 +84,18 @@ Three coordinated Admin UX improvements are requested:
   - Update `#btn-filter-top5-vip` text from `Lọc 5 Người VIP Nhất` to `Lọc 5 Người Mua Nhiều Nhất`.
   - Update `toggleTop5VipFilter(btn)` active toast in `js/app.js` to `'Đang lọc hiển thị 5 người mua nhiều nhất!'`.
 
+### 2.4 Unconstrained & Toast-Only Add Voucher Modal (`admin/settings.html` & `js/app.js`)
+- **`admin/settings.html:546-599` (`#form-add-voucher` inside `#modal-add-voucher`):**
+  - Add `novalidate` on `<form id="form-add-voucher" onsubmit="saveAddVoucher(event)" novalidate>`.
+  - Remove `<span class="req">*</span>` from labels (`#add-voucher-code`, `#add-voucher-type`, `#add-voucher-amount`).
+  - Remove `required` from `#add-voucher-code` and `#add-voucher-amount`.
+  - Change `#add-voucher-limit` from `type="number" ... min="1"` to `type="text" class="admin-form-input" placeholder="VD: 500" value="500"` (no `min` limit and allows arbitrary text like `"Không giới hạn"` or blank).
+- **`js/app.js:2869-2929` (`saveAddVoucher(e)`):**
+  - Prevent default submit (`e.preventDefault()`).
+  - Read optional `#add-voucher-code` value (fallback `'VOUCHER MỚI'`).
+  - Close `#modal-add-voucher` via `closeAdminModal('modal-add-voucher')`, show `showToast('Đã tạo & kích hoạt mã Voucher "' + code + '" thành công (không ràng buộc)!', 'success')`, and reset `#form-add-voucher`.
+  - **Zero state or DOM mutation:** do not push to `MOCK_VOUCHERS_LIST`, change `activeVoucherCode`, call `renderVoucherChips()`, or mutate `#voucher-toggle-active`.
+
 ---
 
 ## 3. Verification Strategy
@@ -89,5 +104,6 @@ Three coordinated Admin UX improvements are requested:
    - Static HTML structure of `#revenue-filter-bar`, `#filter-revenue-quarter`, `#filter-revenue-year`, `#revenue-pagination`, `#revenue-pagination-summary`, and unchanged 6 chart bars + 6 table rows in `admin/revenue.html`.
    - CSS rules in `css/style.css` (`appearance: none`, `color-scheme: dark`, SVG `background-image`, balanced `padding-right`/`background-position` on `.admin-filter-select`, `.admin-filter-select--compact`, and `.admin-form-select`) and compact class usage in `admin/index.html`.
    - Node.js VM runtime checks covering `applyAdminRevenueFilter`, `resetAdminRevenueFilter`, `handleRevenuePage` (`1 -> 2 -> 3 -> prev -> next` + disabled boundary checks + unchanged DOM table/chart).
-3. Run `node --check js/app.js`, `python verify_implementation.py`, and all `scripts/verify_*.py` scripts (`verify_admin_ui_mockup.py`, `verify_rubric_coverage.py`, `verify_order_detail_pages.py`, `verify_pages_deploy_ready.py`, etc.) confirming 0 failures.
-4. Commit implementation changes locally without `git push`.
+3. Add `scripts/verify_admin_add_voucher_toast_only.py` verifying `#form-add-voucher` has `novalidate` and zero `required`/`min`/`*` constraints in `admin/settings.html`, plus Node.js VM runtime tests proving `saveAddVoucher` works with empty or arbitrary inputs, triggers `showToast` + `closeAdminModal('modal-add-voucher')`, and preserves `MOCK_VOUCHERS_LIST`, `activeVoucherCode`, and voucher chips DOM untouched.
+4. Run `node --check js/app.js`, `python verify_implementation.py`, and all `scripts/verify_*.py` scripts (`verify_admin_ui_mockup.py`, `verify_rubric_coverage.py`, `verify_order_detail_pages.py`, `verify_pages_deploy_ready.py`, etc.) confirming 0 failures.
+5. Commit implementation changes locally without `git push`.
