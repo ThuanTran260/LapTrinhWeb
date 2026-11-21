@@ -3510,16 +3510,65 @@ function renderAdminSearchDropdown(inputEl, dropdownEl, mode) {
 
 function positionAdminSearchDropdown(wrapperEl, dropdownEl) {
   if (!wrapperEl || !dropdownEl || !dropdownEl.classList) return;
-  dropdownEl.classList.remove('align-right');
+  dropdownEl.classList.remove('align-right', 'is-fixed');
+  if (dropdownEl.style) {
+    dropdownEl.style.top = '';
+    dropdownEl.style.bottom = '';
+    dropdownEl.style.left = '';
+    dropdownEl.style.right = '';
+    dropdownEl.style.width = '';
+  }
   if (typeof wrapperEl.getBoundingClientRect !== 'function') return;
   const wrapRect = wrapperEl.getBoundingClientRect();
+  const viewportWidth = (typeof window !== 'undefined' && window.innerWidth) ? window.innerWidth : 1200;
+  const viewportHeight = (typeof window !== 'undefined' && window.innerHeight) ? window.innerHeight : 800;
+  const hasViewportBox = typeof wrapRect.top === 'number' && typeof wrapRect.bottom === 'number' && typeof wrapRect.left === 'number';
+
+  if (hasViewportBox && dropdownEl.style) {
+    const dropdownWidth = Math.min(340, Math.max(260, viewportWidth - 24));
+    let left = wrapRect.left;
+    if (left + dropdownWidth > viewportWidth - 12) {
+      left = Math.max(12, (typeof wrapRect.right === 'number' ? wrapRect.right : left + 200) - dropdownWidth);
+    }
+    left = Math.max(12, Math.min(left, viewportWidth - dropdownWidth - 12));
+
+    const spaceBelow = viewportHeight - wrapRect.bottom - 12;
+    const spaceAbove = wrapRect.top - 12;
+    dropdownEl.classList.add('is-fixed');
+    dropdownEl.style.left = `${Math.round(left)}px`;
+    dropdownEl.style.width = `${Math.round(dropdownWidth)}px`;
+    if (spaceBelow < 180 && spaceAbove > spaceBelow) {
+      dropdownEl.style.top = 'auto';
+      dropdownEl.style.bottom = `${Math.max(12, Math.round(viewportHeight - wrapRect.top + 6))}px`;
+    } else {
+      dropdownEl.style.top = `${Math.max(12, Math.round(wrapRect.bottom + 6))}px`;
+    }
+    return;
+  }
+
   const sectionEl = typeof wrapperEl.closest === 'function' ? wrapperEl.closest('.admin-section-box') : null;
   const boundRight = sectionEl && typeof sectionEl.getBoundingClientRect === 'function'
     ? sectionEl.getBoundingClientRect().right
-    : (typeof window !== 'undefined' && window.innerWidth ? window.innerWidth : 1200);
+    : viewportWidth;
   if (wrapRect.left + 320 > boundRight - 12 && wrapRect.right >= 320) {
     dropdownEl.classList.add('align-right');
   }
+}
+
+function repositionOpenAdminSearchDropdowns() {
+  if (typeof document === 'undefined') return;
+  document.querySelectorAll('.admin-search-dropdown.is-open').forEach((dropdownEl) => {
+    const wrapper = typeof dropdownEl.closest === 'function' ? dropdownEl.closest('.admin-filter-search') : null;
+    if (!wrapper) return;
+    if (typeof wrapper.getBoundingClientRect === 'function' && typeof window !== 'undefined' && window.innerHeight) {
+      const rect = wrapper.getBoundingClientRect();
+      if (typeof rect.bottom === 'number' && typeof rect.top === 'number' && (rect.bottom < 0 || rect.top > window.innerHeight)) {
+        dropdownEl.classList.remove('is-open');
+        return;
+      }
+    }
+    positionAdminSearchDropdown(wrapper, dropdownEl);
+  });
 }
 
 function closeAllAdminSearchDropdowns(exceptDropdown) {
@@ -3643,4 +3692,9 @@ if (typeof document !== 'undefined') {
       closeAllAdminSearchDropdowns();
     }
   });
+}
+
+if (typeof window !== 'undefined' && typeof window.addEventListener === 'function') {
+  window.addEventListener('resize', repositionOpenAdminSearchDropdowns);
+  window.addEventListener('scroll', repositionOpenAdminSearchDropdowns, true);
 }

@@ -4989,8 +4989,13 @@ del.price-old {
   left: 0;
   right: auto;
   width: 320px;
-  max-width: calc(100vw - 48px);
+  max-width: calc(100vw - 24px);
   z-index: 1200;
+}
+.admin-search-dropdown.is-fixed {
+  position: fixed;
+  right: auto;
+  z-index: 2600;
 }
 .admin-search-dropdown.align-right {
   left: auto;

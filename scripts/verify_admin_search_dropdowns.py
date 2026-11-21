@@ -36,6 +36,12 @@ def check_html(failures: list[str]) -> None:
         dropdown_id = f"{input_id}-dropdown"
         if f'id="{dropdown_id}"' not in html or "admin-search-dropdown" not in html:
             failures.append(f"{rel_path}: missing #{dropdown_id}.admin-search-dropdown")
+    for rel_path in ("admin/customers.html", "admin/orders.html", "admin/inventory.html", "admin/index.html"):
+        html = (ROOT / rel_path).read_text(encoding="utf-8")
+        if "../css/style.css?v=20261121-search" not in html:
+            failures.append(f"{rel_path}: missing updated style.css?v=20261121-search cache buster")
+        if "../js/app.js?v=20261121-search" not in html:
+            failures.append(f"{rel_path}: missing updated app.js?v=20261121-search cache buster")
 
 
 def check_css(failures: list[str]) -> None:
@@ -44,6 +50,7 @@ def check_css(failures: list[str]) -> None:
         failures.append(f"css/style.css: unbalanced braces ({{={css.count('{')}, }}={css.count('}')})")
     for selector in (
         ".admin-search-dropdown",
+        ".admin-search-dropdown.is-fixed",
         ".admin-search-dropdown.align-right",
         ".admin-dropdown-item",
         ".admin-dropdown-avatar",
@@ -82,11 +89,12 @@ function makeSearchGroup(inputId, mode) {
   const dropdown = {
     id: `${inputId}-dropdown`,
     innerHTML: '',
+    style: {},
     classList: makeClassList(['search-results-dropdown', 'admin-search-dropdown']),
   };
   const wrapper = {
     querySelector: (sel) => (sel.includes('input') ? input : (sel.includes('.admin-search-dropdown') ? dropdown : null)),
-    getBoundingClientRect: () => ({ left: 100, right: 300 }),
+    getBoundingClientRect: () => ({ left: 100, right: 300, top: 180, bottom: 220 }),
     closest: () => null,
   };
   input.closest = (sel) => (sel === '.admin-filter-search' ? wrapper : null);
@@ -122,10 +130,13 @@ vm.createContext(sandbox);
 vm.runInContext(appCode, sandbox);
 sandbox.showToast = (msg, type) => toasts.push({ msg, type });
 
-// 1. Customers dropdown opens with 6 customers
+// 1. Customers dropdown opens with 6 customers and uses fixed viewport positioning to avoid overflow clipping
 sandbox.openAdminSearchDropdown(custBox.input);
 if (!custBox.dropdown.classList.contains('is-open')) {
   throw new Error('Customers dropdown did not open');
+}
+if (!custBox.dropdown.classList.contains('is-fixed') || custBox.dropdown.style.top !== '226px' || custBox.dropdown.style.left !== '100px') {
+  throw new Error(`Customers dropdown fixed positioning invalid: top=${custBox.dropdown.style.top}, left=${custBox.dropdown.style.left}`);
 }
 for (const name of ['Phạm Minh Tuấn', 'Nguyễn Văn An', 'Trần Thị Bích', 'Lê Hoàng Nam', 'Vũ Thảo My', 'Hoàng Đức Long']) {
   if (!custBox.dropdown.innerHTML.includes(name)) {
