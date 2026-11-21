@@ -144,7 +144,6 @@
               <td><strong style="color: var(--primary); font-size: 1.05rem;">15.200.000đ</strong></td>
               <td><span class="badge-status success">ĐANG HOẠT ĐỘNG</span></td>
               <td>
-                <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem;" onclick="openEditUserModal('tuan', this)" title="Sửa"><i class="fas fa-edit"></i> Sửa</button>
                 <button class="btn-action-lock" onclick="toggleLockUser(this, 'Phạm Minh Tuấn')" title="Khoá"><i class="fas fa-lock"></i> Khoá</button>
               </td>
             </tr>
@@ -161,7 +160,6 @@
               <td><strong style="color: var(--primary); font-size: 1.05rem;">12.400.000đ</strong></td>
               <td><span class="badge-status success">ĐANG HOẠT ĐỘNG</span></td>
               <td>
-                <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem;" onclick="openEditUserModal('an', this)" title="Sửa"><i class="fas fa-edit"></i> Sửa</button>
                 <button class="btn-action-lock" onclick="toggleLockUser(this, 'Nguyễn Văn An')" title="Khoá"><i class="fas fa-lock"></i> Khoá</button>
               </td>
             </tr>
@@ -177,7 +175,6 @@
               <td><strong style="color: var(--primary); font-size: 1.05rem;">9.600.000đ</strong></td>
               <td><span class="badge-status success">ĐANG HOẠT ĐỘNG</span></td>
               <td>
-                <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem;" onclick="openEditUserModal('bich', this)" title="Sửa"><i class="fas fa-edit"></i> Sửa</button>
                 <button class="btn-action-lock" onclick="toggleLockUser(this, 'Trần Thị Bích')" title="Khoá"><i class="fas fa-lock"></i> Khoá</button>
               </td>
             </tr>
@@ -193,7 +190,6 @@
               <td><strong style="color: var(--primary); font-size: 1.05rem;">7.800.000đ</strong></td>
               <td><span class="badge-status success">ĐANG HOẠT ĐỘNG</span></td>
               <td>
-                <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem;" onclick="openEditUserModal('nam', this)" title="Sửa"><i class="fas fa-edit"></i> Sửa</button>
                 <button class="btn-action-lock" onclick="toggleLockUser(this, 'Lê Hoàng Nam')" title="Khoá"><i class="fas fa-lock"></i> Khoá</button>
               </td>
             </tr>
@@ -209,7 +205,6 @@
               <td><strong style="color: var(--primary); font-size: 1.05rem;">5.400.000đ</strong></td>
               <td><span class="badge-status locked danger">ĐÃ KHOÁ</span></td>
               <td>
-                <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem;" onclick="openEditUserModal('my', this)" title="Sửa"><i class="fas fa-edit"></i> Sửa</button>
                 <button class="btn-action-unlock" onclick="toggleLockUser(this, 'Vũ Thảo My')" title="Mở khoá"><i class="fas fa-lock-open"></i> Mở</button>
               </td>
             </tr>
@@ -225,7 +220,6 @@
               <td><strong style="color: var(--primary); font-size: 1.05rem;">4.100.000đ</strong></td>
               <td><span class="badge-status success">ĐANG HOẠT ĐỘNG</span></td>
               <td>
-                <button class="btn-view-detail" style="padding: 4px 8px; font-size: 0.8rem;" onclick="openEditUserModal('long', this)" title="Sửa"><i class="fas fa-edit"></i> Sửa</button>
                 <button class="btn-action-lock" onclick="toggleLockUser(this, 'Hoàng Đức Long')" title="Khoá"><i class="fas fa-lock"></i> Khoá</button>
               </td>
             </tr>
@@ -352,54 +346,6 @@
         <div class="admin-modal-footer">
           <button type="button" class="btn-modal-cancel" onclick="closeAdminModal('modal-add-user')">Hủy bỏ</button>
           <button type="submit" class="btn-modal-save"><i class="fas fa-check"></i> Lưu Người Dùng</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- Modal Sửa Thông Tin Người Dùng (R2) -->
-  <div id="modal-edit-user" class="admin-modal-overlay">
-    <div class="admin-modal-card" style="max-width: 540px;">
-      <div class="admin-modal-header">
-        <h3 class="admin-modal-title"><i class="fas fa-user-edit" style="color: var(--primary);"></i> Chỉnh Sửa Thông Tin Người Dùng</h3>
-        <button type="button" class="admin-modal-close" onclick="closeAdminModal('modal-edit-user')">&times;</button>
-      </div>
-      <form id="form-edit-user" onsubmit="saveEditUser(event)" novalidate>
-        <div class="admin-modal-body">
-          <div class="admin-form-grid">
-            <div class="admin-form-group full-width">
-              <label class="admin-form-label">Họ và Tên</label>
-              <input type="text" id="edit-user-fullname" class="admin-form-input" value="Phạm Minh Tuấn" />
-            </div>
-            <div class="admin-form-group">
-              <label class="admin-form-label">Số Điện Thoại</label>
-              <input type="text" id="edit-user-phone" class="admin-form-input" value="0977.888.999" />
-            </div>
-            <div class="admin-form-group">
-              <label class="admin-form-label">Email Liên Hệ</label>
-              <input type="text" id="edit-user-email" class="admin-form-input" value="minhtuan.pham@gmail.com" />
-            </div>
-            <div class="admin-form-group">
-              <label class="admin-form-label">Hạng Thành Viên</label>
-              <select id="edit-user-tier" class="admin-form-select">
-                <option value="diamond" selected>Hạng Kim Cương</option>
-                <option value="gold">Hạng Vàng</option>
-                <option value="silver">Hạng Bạc</option>
-                <option value="standard">Khách Hàng Chuẩn</option>
-              </select>
-            </div>
-            <div class="admin-form-group">
-              <label class="admin-form-label">Trạng Thái Hoạt Động</label>
-              <select id="edit-user-status" class="admin-form-select">
-                <option value="active" selected>Đang hoạt động</option>
-                <option value="locked">Đã khoá</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="admin-modal-footer">
-          <button type="button" class="btn-modal-cancel" onclick="closeAdminModal('modal-edit-user')">Hủy bỏ</button>
-          <button type="submit" class="btn-modal-save"><i class="fas fa-save"></i> Lưu Thay Đổi</button>
         </div>
       </form>
     </div>
