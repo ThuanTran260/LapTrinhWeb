@@ -17,6 +17,13 @@ STOREFRONT_NAV_TARGETS = [
     ("pages/product-detail-redbull-lonvua.html", "../index.html", "../index.html#", "redbull-products"),
     ("pages/product-detail-sting.html", "../index.html", "../index.html#", "sting-products"),
     ("pages/search-results.html", "../index.html", "../index.html#", None),
+    ("pages/account.html", "../index.html", "../index.html#", None),
+    ("pages/cart.html", "../index.html", "../index.html#", None),
+    ("pages/login.html", "../index.html", "../index.html#", None),
+    ("pages/order-detail.html", "../index.html", "../index.html#", None),
+    ("pages/order-success.html", "../index.html", "../index.html#", None),
+    ("pages/orders.html", "../index.html", "../index.html#", None),
+    ("pages/payment-gateway.html", "../index.html", "../index.html#", None),
 ]
 
 
@@ -694,7 +701,7 @@ console.log('NODE_DASHBOARD_NAV_DRAWER_PASS');
         return 1
 
     print(
-        "ALL CHECKS PASSED: 7 storefront pages collapsible brand drawer, CSS slide/compact/reduced-motion rules, JS static wiring, and Node.js dashboard/subpage runtime verified."
+        "ALL CHECKS PASSED: 14 storefront pages collapsible brand drawer, CSS slide/compact/reduced-motion rules, JS static wiring, and Node.js dashboard/subpage runtime verified."
     )
     return 0
 

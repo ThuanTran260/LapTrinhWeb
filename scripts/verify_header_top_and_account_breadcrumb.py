@@ -54,9 +54,9 @@ check(
 # 2. Check orders.html retains 'Giỏ Hàng (7 lon)' for verify_cart_sync compatibility
 check("orders.html retains Giỏ Hàng (7 lon)", 'Giỏ Hàng (7 lon)' in orders_content, "Retains 'Giỏ Hàng (7 lon)' in header action button")
 
-# 3. Check pages/account.html breadcrumb and removal of brand nav
+# 3. Check pages/account.html breadcrumb and nav-bar with Trang chu + Nhan hang drawer
 account_content = open("pages/account.html", encoding="utf-8").read()
-check("account.html removes nav-bar", '<nav class="nav-bar">' not in account_content and 'handleNavBrandClick' not in account_content)
+check("account.html has nav-bar with Trang chủ & Nhãn hàng", '<nav class="nav-bar">' in account_content and 'id="nav-home-btn"' in account_content and 'id="nav-brand-drawer"' in account_content and 'handleNavBrandClick' in account_content)
 check("account.html has breadcrumb", '<div class="breadcrumb">' in account_content)
 check("account.html breadcrumb structure", 'Trang chủ' in account_content and 'Thành viên' in account_content)
 

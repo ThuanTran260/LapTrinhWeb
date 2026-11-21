@@ -25,15 +25,17 @@ def extract_div_block(html: str, class_or_id_pattern: str) -> str:
 def verify_login_html(html: str) -> list[str]:
     failures: list[str] = []
 
-    # 1. Opening <body> must not carry login-body-wrapper, and page must not contain <nav class="nav-bar">
+    # 1. Opening <body> must not carry login-body-wrapper, and page must contain <nav class="nav-bar"> with Trang chu & Nhan hang drawer
     body_match = re.search(r"<body\b([^>]*)>", html)
     if not body_match:
         failures.append("pages/login.html: missing opening <body> tag")
     elif "login-body-wrapper" in body_match.group(1):
         failures.append("pages/login.html: opening <body> must NOT carry 'login-body-wrapper'")
 
-    if re.search(r'<nav\b[^>]*class="[^"]*\bnav-bar\b[^"]*"', html):
-        failures.append("pages/login.html: page must NOT contain <nav class='nav-bar'>")
+    if not re.search(r'<nav\b[^>]*class="[^"]*\bnav-bar\b[^"]*"', html):
+        failures.append("pages/login.html: page must contain <nav class='nav-bar'>")
+    elif 'id="nav-home-btn"' not in html or 'id="nav-brand-drawer"' not in html:
+        failures.append("pages/login.html: <nav class='nav-bar'> missing #nav-home-btn or #nav-brand-drawer")
 
     # 2. Top bar with ENERGY10 coupon badge and no .top-links
     top_bar = extract_div_block(html, r'class="[^"]*\btop-bar\b[^"]*"')
