@@ -94,7 +94,7 @@ function handleLogin(e) {
   if (e && e.preventDefault) e.preventDefault();
   const userEl = document.getElementById('login-username');
   const inputVal = (userEl ? userEl.value : '').trim();
-  const rawName = inputVal || 'Khách Hàng VIP';
+  const rawName = (inputVal && inputVal.toLowerCase() !== 'khách hàng vip') ? inputVal : 'Thuận Trần';
   const username = inputVal.toLowerCase();
   const ADMIN_USERS = ['admin', 'admin@monsterenergy.com'];
 
@@ -114,7 +114,9 @@ function handleLogin(e) {
 // 3b. Lấy tên tài khoản đã lưu (dùng chung header + trang account)
 function getLoggedUser() {
   try {
-    return (localStorage.getItem('monster_user') || '').trim();
+    const saved = (localStorage.getItem('monster_user') || '').trim();
+    if (!saved) return '';
+    return saved.toLowerCase() === 'khách hàng vip' ? 'Thuận Trần' : saved;
   } catch (err) { return ''; }
 }
 
@@ -1398,9 +1400,10 @@ function initOrderDetailPage(role) {
   if (!order) return;
 
   const displayCode = order.code || order.id || cleanId;
-  const customerName = (role !== 'admin' && typeof getLoggedUser === 'function' && getLoggedUser())
-    ? getLoggedUser()
-    : order.customerName;
+  const loggedUser = typeof getLoggedUser === 'function' ? getLoggedUser() : '';
+  const customerName = (role !== 'admin' && loggedUser && loggedUser.toLowerCase() !== 'khách hàng vip')
+    ? loggedUser
+    : (order.customerName || 'Thuận Trần');
 
   // Title & Breadcrumb
   document.title = (role === 'admin' ? 'Chi Tiết Đơn Hàng #' : 'Chi Tiết Đơn Hàng #') + displayCode + (role === 'admin' ? ' - Energy Boost Admin' : ' - Energy Boost');

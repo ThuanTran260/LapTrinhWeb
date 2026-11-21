@@ -195,6 +195,75 @@ def test_switch_voucher_preview_static_integrity():
     assert 'value="10%"' in settings_html, "Form voucher-amount phải có default value='10%'"
     assert "GIẢM 10%" in settings_html, "Vé xem trước preview-ticket-discount phải chứa 'GIẢM 10%'"
 
+@test("9. Order Detail Recipient Name: Không bao giờ hiển thị 'Khách Hàng VIP' vô danh")
+def test_order_detail_identifiable_recipient():
+    import subprocess
+    app_js = read_text("js/app.js")
+    assert "inputVal || 'Khách Hàng VIP'" not in app_js, "handleLogin không được gán mặc định 'Khách Hàng VIP'"
+
+    node_code = r"""
+const fs = require('fs');
+const vm = require('vm');
+const path = require('path');
+
+const appCode = fs.readFileSync(path.join(process.cwd(), 'js', 'app.js'), 'utf8');
+let storedUser = '';
+const custEl = { textContent: '' };
+const elements = {
+  'order-detail-customer': custEl,
+  'login-username': { value: '' },
+};
+
+const sandbox = {
+  console,
+  URLSearchParams,
+  setTimeout: () => {},
+  localStorage: {
+    getItem: (k) => (k === 'monster_user' ? storedUser : null),
+    setItem: (k, v) => { if (k === 'monster_user') storedUser = String(v); },
+    removeItem: (k) => { if (k === 'monster_user') storedUser = ''; },
+  },
+  window: { location: { pathname: '/pages/order-detail.html', search: '?id=EB-2026', href: '' }, addEventListener: () => {} },
+  document: {
+    readyState: 'loading',
+    title: '',
+    addEventListener: () => {},
+    getElementById: (id) => elements[id] || null,
+    querySelectorAll: () => [],
+    querySelector: () => null,
+    body: { style: {}, appendChild: () => {} },
+  },
+};
+
+vm.createContext(sandbox);
+vm.runInContext(appCode, sandbox);
+sandbox.showToast = () => {};
+
+// 1. Stale 'Khách Hàng VIP' in localStorage resolves to 'Thuận Trần'
+storedUser = 'Khách Hàng VIP';
+sandbox.initOrderDetailPage('customer');
+if (custEl.textContent !== 'Thuận Trần') {
+  throw new Error('Expected Thuận Trần for stale Khách Hàng VIP, got: ' + custEl.textContent);
+}
+
+// 2. Empty login resolves to 'Thuận Trần'
+storedUser = '';
+sandbox.handleLogin({ preventDefault: () => {} });
+if (storedUser !== 'Thuận Trần') {
+  throw new Error('Expected empty login to store Thuận Trần, got: ' + storedUser);
+}
+
+// 3. Explicit user name displays that user name
+storedUser = 'Nguyễn Văn An';
+sandbox.initOrderDetailPage('customer');
+if (custEl.textContent !== 'Nguyễn Văn An') {
+  throw new Error('Expected Nguyễn Văn An for logged-in user, got: ' + custEl.textContent);
+}
+console.log('NODE_RECIPIENT_PASS');
+"""
+    proc = subprocess.run(["node", "-e", node_code], cwd=ROOT_DIR, capture_output=True, text=True, encoding="utf-8")
+    assert proc.returncode == 0 and "NODE_RECIPIENT_PASS" in proc.stdout, f"Node runtime failed: {proc.stderr or proc.stdout}"
+
 def main():
     print("=" * 75)
     print("XÁC MINH CÁC TÍNH NĂNG ĐẶC BIỆT: TRANG CHI TIẾT ĐƠN HÀNG, HEADER & KHO HÀNG")
