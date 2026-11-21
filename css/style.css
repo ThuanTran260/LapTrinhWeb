@@ -2057,11 +2057,17 @@ del.price-old {
   z-index: 1;
 }
 
-.date-ddmmyyyy-wrapper:hover .date-picker-btn,
-.date-native-picker:focus-visible + .date-picker-btn {
+.date-ddmmyyyy-wrapper:hover .date-picker-btn {
   color: var(--primary);
   background: rgba(57, 255, 20, 0.12);
   outline: none;
+}
+
+.date-native-picker:focus-visible + .date-picker-btn {
+  color: var(--primary);
+  background: rgba(57, 255, 20, 0.12);
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
 }
 
 .btn-modal-cancel {

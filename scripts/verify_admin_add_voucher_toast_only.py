@@ -38,6 +38,15 @@ def verify_style_css(style_css: str) -> list[str]:
     if not re.search(r"\.date-picker-btn\s*\{[^}]*\}", style_css):
         failures.append("css/style.css: missing .date-picker-btn rule")
 
+    focus_btn_match = re.search(
+        r"\.date-native-picker:focus-visible\s*\+\s*\.date-picker-btn\s*\{([^}]*)\}",
+        style_css,
+    )
+    if not focus_btn_match:
+        failures.append("css/style.css: missing .date-native-picker:focus-visible + .date-picker-btn rule")
+    elif not re.search(r"outline\s*:\s*2px\s+solid\s+var\(--primary\)", focus_btn_match.group(1)):
+        failures.append("css/style.css: .date-native-picker:focus-visible + .date-picker-btn must define outline: 2px solid var(--primary)")
+
     return failures
 
 
@@ -102,8 +111,14 @@ def verify_settings_html(settings_html: str) -> list[str]:
         picker_match = re.search(rf'<input[^>]*id="{picker_id}"[^>]*>', settings_html)
         if not picker_match or f"openNativeDatePicker('{picker_id}', '{expiry_id}')" not in picker_match.group(0):
             failures.append(f"admin/settings.html: missing date picker trigger #{picker_id} binding openNativeDatePicker('{picker_id}', '{expiry_id}')")
-        elif f"syncDatePickerToDisplay('{expiry_id}', this)" not in picker_match.group(0):
-            failures.append(f"admin/settings.html: #{picker_id} missing syncDatePickerToDisplay('{expiry_id}', this)")
+        else:
+            picker_tag = picker_match.group(0)
+            if f"syncDatePickerToDisplay('{expiry_id}', this)" not in picker_tag:
+                failures.append(f"admin/settings.html: #{picker_id} missing syncDatePickerToDisplay('{expiry_id}', this)")
+            if "onkeydown=" not in picker_tag or f"openNativeDatePicker('{picker_id}', '{expiry_id}')" not in picker_tag:
+                failures.append(f"admin/settings.html: #{picker_id} missing onkeydown keyboard trigger for openNativeDatePicker('{picker_id}', '{expiry_id}')")
+            elif "event.preventDefault()" not in picker_tag:
+                failures.append(f"admin/settings.html: #{picker_id} onkeydown must call event.preventDefault()")
 
     return failures
 
@@ -411,6 +426,32 @@ voucherExpiryEl.value = '';
 sandbox.syncDisplayToDatePicker(voucherExpiryEl, 'voucher-expiry-picker');
 if (voucherExpiryPickerEl.value !== '') {
   throw new Error(`Case 5e-clear: expected syncDisplayToDatePicker('') -> '', got '${voucherExpiryPickerEl.value}'`);
+}
+
+// Case 6: openNativeDatePicker fallback when showPicker throws or is missing must NOT call click() (no self-recursion) and must call focus()
+let throwingPickerFocusCalls = 0;
+let throwingPickerClickCalls = 0;
+elements['throwing-picker'] = {
+  value: '',
+  showPicker: () => { throw new Error('NotAllowedError'); },
+  focus: () => { throwingPickerFocusCalls += 1; },
+  click: () => { throwingPickerClickCalls += 1; },
+};
+sandbox.openNativeDatePicker('throwing-picker', 'voucher-expiry');
+if (throwingPickerClickCalls !== 0 || throwingPickerFocusCalls !== 1) {
+  throw new Error(`Case 6a: expected 0 click() calls and 1 focus() call when showPicker throws, got click=${throwingPickerClickCalls}, focus=${throwingPickerFocusCalls}`);
+}
+
+let noShowPickerFocusCalls = 0;
+let noShowPickerClickCalls = 0;
+elements['no-show-picker'] = {
+  value: '',
+  focus: () => { noShowPickerFocusCalls += 1; },
+  click: () => { noShowPickerClickCalls += 1; },
+};
+sandbox.openNativeDatePicker('no-show-picker', 'voucher-expiry');
+if (noShowPickerClickCalls !== 0 || noShowPickerFocusCalls !== 1) {
+  throw new Error(`Case 6b: expected 0 click() calls and 1 focus() call when showPicker is missing, got click=${noShowPickerClickCalls}, focus=${noShowPickerFocusCalls}`);
 }
 
 console.log('NODE_ADD_VOUCHER_TOAST_ONLY_PASS');

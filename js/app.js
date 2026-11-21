@@ -2959,7 +2959,6 @@ function openNativeDatePicker(pickerId, textId) {
     }
   } catch (err) {}
   if (typeof pickerEl.focus === 'function') pickerEl.focus();
-  if (typeof pickerEl.click === 'function') pickerEl.click();
 }
 
 function syncDatePickerToDisplay(textId, pickerEl) {
