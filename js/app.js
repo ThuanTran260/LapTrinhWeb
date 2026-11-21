@@ -2178,6 +2178,7 @@ function switchAuthTab(mode) {
   const formRegister = document.getElementById('form-register');
   const titleEl = document.getElementById('auth-card-title');
   const descEl = document.getElementById('auth-card-desc');
+  const breadcrumbCurrentEl = document.getElementById('auth-breadcrumb-current');
 
   if (mode === 'register') {
     if (loginBtn) loginBtn.classList.remove('active');
@@ -2186,6 +2187,7 @@ function switchAuthTab(mode) {
     if (formRegister) formRegister.style.display = 'block';
     if (titleEl) titleEl.innerHTML = 'ĐĂNG KÝ <span>THÀNH VIÊN VIP</span>';
     if (descEl) descEl.innerText = 'Đăng ký tài khoản người mua hàng để nhận ưu đãi thành viên và tích điểm đổi quà:';
+    if (breadcrumbCurrentEl) breadcrumbCurrentEl.textContent = 'Đăng ký';
   } else {
     if (loginBtn) loginBtn.classList.add('active');
     if (registerBtn) registerBtn.classList.remove('active');
@@ -2193,6 +2195,7 @@ function switchAuthTab(mode) {
     if (formRegister) formRegister.style.display = 'none';
     if (titleEl) titleEl.innerHTML = 'ĐĂNG NHẬP <span>ENERGY BOOST</span>';
     if (descEl) descEl.innerText = 'Đăng nhập tài khoản để nhận ưu đãi thành viên và theo dõi đơn hàng:';
+    if (breadcrumbCurrentEl) breadcrumbCurrentEl.textContent = 'Đăng nhập';
   }
 }
 

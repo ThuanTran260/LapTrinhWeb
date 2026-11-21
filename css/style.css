@@ -1422,6 +1422,14 @@ del.price-old {
   padding: 30px 20px;
   background: radial-gradient(circle at center, #181B26 0%, #08090C 100%);
 }
+.login-page-main {
+  min-height: calc(100vh - 125px);
+  padding: 24px 0 56px;
+  background: radial-gradient(circle at center, #181B26 0%, #08090C 100%);
+}
+.login-page-main + .footer {
+  margin-top: 0;
+}
 .login-card {
   width: 100%;
   max-width: 440px;
