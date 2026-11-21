@@ -3364,6 +3364,8 @@ function toggleBrandDrawer(btn) {
 // ==========================================================================
 // ADMIN SEARCH DROPDOWN SUGGESTIONS (CUSTOMERS & INVENTORY DRINKS)
 // ==========================================================================
+const ADMIN_SEARCH_DROPDOWN_WRAPPERS = new WeakMap();
+
 const ADMIN_CUSTOMER_ORDER_CODES = {
   tuan: '#EB-8804',
   an: '#EB-8801',
@@ -3517,6 +3519,7 @@ function positionAdminSearchDropdown(wrapperEl, dropdownEl) {
     dropdownEl.style.left = '';
     dropdownEl.style.right = '';
     dropdownEl.style.width = '';
+    dropdownEl.style.maxHeight = '';
   }
   if (typeof wrapperEl.getBoundingClientRect !== 'function') return;
   const wrapRect = wrapperEl.getBoundingClientRect();
@@ -3525,7 +3528,7 @@ function positionAdminSearchDropdown(wrapperEl, dropdownEl) {
   const hasViewportBox = typeof wrapRect.top === 'number' && typeof wrapRect.bottom === 'number' && typeof wrapRect.left === 'number';
 
   if (hasViewportBox && dropdownEl.style) {
-    const dropdownWidth = Math.min(340, Math.max(260, viewportWidth - 24));
+    const dropdownWidth = Math.min(340, Math.max(0, viewportWidth - 24));
     let left = wrapRect.left;
     if (left + dropdownWidth > viewportWidth - 12) {
       left = Math.max(12, (typeof wrapRect.right === 'number' ? wrapRect.right : left + 200) - dropdownWidth);
@@ -3540,8 +3543,10 @@ function positionAdminSearchDropdown(wrapperEl, dropdownEl) {
     if (spaceBelow < 180 && spaceAbove > spaceBelow) {
       dropdownEl.style.top = 'auto';
       dropdownEl.style.bottom = `${Math.max(12, Math.round(viewportHeight - wrapRect.top + 6))}px`;
+      dropdownEl.style.maxHeight = `${Math.max(0, Math.floor(spaceAbove - 6))}px`;
     } else {
       dropdownEl.style.top = `${Math.max(12, Math.round(wrapRect.bottom + 6))}px`;
+      dropdownEl.style.maxHeight = `${Math.max(0, Math.floor(spaceBelow - 6))}px`;
     }
     return;
   }
@@ -3558,7 +3563,7 @@ function positionAdminSearchDropdown(wrapperEl, dropdownEl) {
 function repositionOpenAdminSearchDropdowns() {
   if (typeof document === 'undefined') return;
   document.querySelectorAll('.admin-search-dropdown.is-open').forEach((dropdownEl) => {
-    const wrapper = typeof dropdownEl.closest === 'function' ? dropdownEl.closest('.admin-filter-search') : null;
+    const wrapper = ADMIN_SEARCH_DROPDOWN_WRAPPERS.get(dropdownEl);
     if (!wrapper) return;
     if (typeof wrapper.getBoundingClientRect === 'function' && typeof window !== 'undefined' && window.innerHeight) {
       const rect = wrapper.getBoundingClientRect();
@@ -3585,8 +3590,13 @@ function openAdminSearchDropdown(triggerEl) {
   const wrapper = typeof triggerEl.closest === 'function' ? triggerEl.closest('.admin-filter-search') : null;
   if (!wrapper) return;
   const inputEl = wrapper.querySelector('input[data-admin-dropdown]');
-  const dropdownEl = wrapper.querySelector('.admin-search-dropdown');
+  const dropdownEl = inputEl && document.getElementById(`${inputEl.id}-dropdown`);
   if (!inputEl || !dropdownEl) return;
+
+  // Keep viewport-positioned menus outside blurred/scrollable admin sections:
+  // backdrop-filter makes fixed descendants use the section as their containing block.
+  ADMIN_SEARCH_DROPDOWN_WRAPPERS.set(dropdownEl, wrapper);
+  if (dropdownEl.parentElement !== document.body) document.body.appendChild(dropdownEl);
 
   const mode = (inputEl.getAttribute && inputEl.getAttribute('data-admin-dropdown')) || 'customers';
   closeAllAdminSearchDropdowns(dropdownEl);
@@ -3665,15 +3675,15 @@ if (typeof document !== 'undefined') {
       ? e.target.closest('.admin-dropdown-item[data-admin-pick]')
       : null;
     if (pickBtn) {
-      const wrapper = pickBtn.closest('.admin-filter-search');
+      const dropdownEl = pickBtn.closest('.admin-search-dropdown');
+      const wrapper = ADMIN_SEARCH_DROPDOWN_WRAPPERS.get(dropdownEl);
       const inputEl = wrapper ? wrapper.querySelector('input[data-admin-dropdown]') : null;
-      const dropdownEl = wrapper ? wrapper.querySelector('.admin-search-dropdown') : null;
       const pickedValue = pickBtn.getAttribute('data-admin-pick') || '';
       selectAdminSearchSuggestion(inputEl, dropdownEl, pickedValue);
       return;
     }
 
-    if (!e.target || typeof e.target.closest !== 'function' || !e.target.closest('.admin-filter-search')) {
+    if (!e.target || typeof e.target.closest !== 'function' || !e.target.closest('.admin-filter-search, .admin-search-dropdown')) {
       closeAllAdminSearchDropdowns();
     }
 

@@ -4997,12 +4997,20 @@ del.price-old {
   right: auto;
   z-index: 2600;
 }
+.admin-search-dropdown.is-open {
+  display: flex;
+  flex-direction: column;
+}
+.admin-search-dropdown .search-dropdown-header {
+  flex-shrink: 0;
+}
 .admin-search-dropdown.align-right {
   left: auto;
   right: 0;
 }
 .admin-search-dropdown .search-static-list {
   max-height: 270px;
+  min-height: 0;
   overflow-y: auto;
 }
 .admin-dropdown-item {

@@ -38,10 +38,10 @@ def check_html(failures: list[str]) -> None:
             failures.append(f"{rel_path}: missing #{dropdown_id}.admin-search-dropdown")
     for rel_path in ("admin/customers.html", "admin/orders.html", "admin/inventory.html", "admin/index.html"):
         html = (ROOT / rel_path).read_text(encoding="utf-8")
-        if "../css/style.css?v=20261121-search" not in html:
-            failures.append(f"{rel_path}: missing updated style.css?v=20261121-search cache buster")
-        if "../js/app.js?v=20261121-search" not in html:
-            failures.append(f"{rel_path}: missing updated app.js?v=20261121-search cache buster")
+        if "../css/style.css?v=20261121-search-portal" not in html:
+            failures.append(f"{rel_path}: missing updated style.css cache buster")
+        if "../js/app.js?v=20261121-search-portal" not in html:
+            failures.append(f"{rel_path}: missing updated app.js cache buster")
 
 
 def check_css(failures: list[str]) -> None:
@@ -68,12 +68,14 @@ const path = require('path');
 
 const appCode = fs.readFileSync(path.join(process.cwd(), 'js', 'app.js'), 'utf8');
 const toasts = [];
+const documentListeners = {};
+const windowListeners = {};
 
 function makeClassList(initial = []) {
   const set = new Set(initial);
   return {
-    add: (c) => set.add(c),
-    remove: (c) => set.delete(c),
+    add: (...classes) => classes.forEach((c) => set.add(c)),
+    remove: (...classes) => classes.forEach((c) => set.delete(c)),
     toggle: (c, force) => (force === undefined ? (set.has(c) ? set.delete(c) : set.add(c)) : (force ? set.add(c) : set.delete(c))),
     contains: (c) => set.has(c),
     list: () => Array.from(set),
@@ -93,10 +95,11 @@ function makeSearchGroup(inputId, mode) {
     classList: makeClassList(['search-results-dropdown', 'admin-search-dropdown']),
   };
   const wrapper = {
-    querySelector: (sel) => (sel.includes('input') ? input : (sel.includes('.admin-search-dropdown') ? dropdown : null)),
+    querySelector: (sel) => (sel.includes('input') ? input : (sel.includes('.admin-search-dropdown') && dropdown.parentElement === wrapper ? dropdown : null)),
     getBoundingClientRect: () => ({ left: 100, right: 300, top: 180, bottom: 220 }),
     closest: () => null,
   };
+  dropdown.parentElement = wrapper;
   input.closest = (sel) => (sel === '.admin-filter-search' ? wrapper : null);
   return { input, dropdown, wrapper };
 }
@@ -109,11 +112,16 @@ const allDropdowns = [custBox.dropdown, orderBox.dropdown, prodBox.dropdown];
 const sandbox = {
   console,
   URLSearchParams,
-  window: { innerWidth: 1280, location: { pathname: '/admin/customers.html', search: '' }, addEventListener: () => {} },
+  window: {
+    innerWidth: 1280,
+    innerHeight: 800,
+    location: { pathname: '/admin/customers.html', search: '' },
+    addEventListener: (type, handler) => { windowListeners[type] = handler; },
+  },
   document: {
     readyState: 'loading',
-    addEventListener: () => {},
-    getElementById: () => null,
+    addEventListener: (type, handler) => { (documentListeners[type] ||= []).push(handler); },
+    getElementById: (id) => allDropdowns.find((d) => d.id === id) || null,
     querySelector: () => null,
     querySelectorAll: (sel) => {
       if (sel === '.admin-search-dropdown.is-open') {
@@ -121,7 +129,7 @@ const sandbox = {
       }
       return [];
     },
-    body: { style: {}, appendChild: () => {} },
+    body: { style: {}, appendChild: (child) => { child.parentElement = sandbox.document.body; } },
   },
   localStorage: { getItem: () => null, setItem: () => {}, removeItem: () => {} },
 };
@@ -137,6 +145,9 @@ if (!custBox.dropdown.classList.contains('is-open')) {
 }
 if (!custBox.dropdown.classList.contains('is-fixed') || custBox.dropdown.style.top !== '226px' || custBox.dropdown.style.left !== '100px') {
   throw new Error(`Customers dropdown fixed positioning invalid: top=${custBox.dropdown.style.top}, left=${custBox.dropdown.style.left}`);
+}
+if (custBox.dropdown.parentElement !== sandbox.document.body) {
+  throw new Error('Dropdown must escape blurred/scrollable sections by mounting in document.body');
 }
 for (const name of ['Phạm Minh Tuấn', 'Nguyễn Văn An', 'Trần Thị Bích', 'Lê Hoàng Nam', 'Vũ Thảo My', 'Hoàng Đức Long']) {
   if (!custBox.dropdown.innerHTML.includes(name)) {
@@ -204,6 +215,53 @@ sandbox.closeAllAdminSearchDropdowns();
 if (allDropdowns.some((d) => d.classList.contains('is-open'))) {
   throw new Error('closeAllAdminSearchDropdowns left a dropdown open');
 }
+
+// 7. Portal menus still reopen and route delegated suggestion clicks to their input.
+custBox.input.value = '';
+sandbox.openAdminSearchDropdown(custBox.input);
+const clickHandler = documentListeners.click[documentListeners.click.length - 1];
+const pickBtn = {
+  closest: (selector) => selector === '.admin-search-dropdown' ? custBox.dropdown : null,
+  getAttribute: () => 'Nguyễn Văn An',
+};
+clickHandler({ target: { closest: () => pickBtn } });
+if (custBox.input.value !== 'Nguyễn Văn An' || custBox.dropdown.classList.contains('is-open')) {
+  throw new Error('Selecting a portaled suggestion did not fill the original input and close');
+}
+sandbox.openAdminSearchDropdown(custBox.input);
+clickHandler({ target: { closest: (selector) => selector === '.admin-filter-search, .admin-search-dropdown' ? custBox.dropdown : null } });
+if (!custBox.dropdown.classList.contains('is-open')) {
+  throw new Error('Clicking the portal header or list should keep the dropdown open');
+}
+clickHandler({ target: { closest: () => null } });
+if (custBox.dropdown.classList.contains('is-open')) {
+  throw new Error('Clicking outside should close a portaled dropdown');
+}
+sandbox.openAdminSearchDropdown(custBox.input);
+documentListeners.keydown[documentListeners.keydown.length - 1]({ key: 'Escape' });
+if (custBox.dropdown.classList.contains('is-open')) throw new Error('Escape should close a portaled dropdown');
+
+// 8. Reposition through the stored anchor after scrolling; flip and constrain to the viewport.
+sandbox.openAdminSearchDropdown(orderBox.input);
+orderBox.wrapper.getBoundingClientRect = () => ({ left: 1100, right: 1270, top: 700, bottom: 740 });
+windowListeners.scroll();
+if (orderBox.dropdown.style.left !== '928px' || orderBox.dropdown.style.top !== 'auto' || orderBox.dropdown.style.bottom !== '106px') {
+  throw new Error('Portal did not stay anchored or flip above near viewport edges');
+}
+if (orderBox.dropdown.style.maxHeight !== '682px') throw new Error('Upward menu height is not constrained');
+orderBox.wrapper.getBoundingClientRect = () => ({ left: 100, right: 300, top: 400, bottom: 440 });
+windowListeners.resize();
+if (orderBox.dropdown.style.top !== '446px' || orderBox.dropdown.style.bottom !== '' || orderBox.dropdown.style.maxHeight !== '342px') {
+  throw new Error('Downward menu height or stale upward position is invalid');
+}
+sandbox.window.innerWidth = 240;
+windowListeners.resize();
+if (orderBox.dropdown.style.width !== '216px' || orderBox.dropdown.style.left !== '12px') {
+  throw new Error('Dropdown should fit even viewports narrower than 284px');
+}
+orderBox.wrapper.getBoundingClientRect = () => ({ left: 100, right: 300, top: -80, bottom: -40 });
+windowListeners.scroll();
+if (orderBox.dropdown.classList.contains('is-open')) throw new Error('Offscreen anchor should close its dropdown');
 
 console.log('NODE_ADMIN_DROPDOWN_PASS');
 """
