@@ -186,11 +186,9 @@
             <div class="admin-form-group">
               <label class="admin-form-label" for="voucher-expiry"><i class="fas fa-clock"></i> Ngày Hết Hạn</label>
               <div class="date-ddmmyyyy-wrapper">
-                <input type="text" id="voucher-expiry" class="admin-form-input" value="31/12/2026" placeholder="dd/mm/yyyy" oninput="updateVoucherLivePreview()" onchange="updateVoucherLivePreview()" />
-                <input type="date" id="voucher-expiry-picker" class="date-native-picker" value="2026-12-31" aria-label="Chọn ngày hết hạn" tabindex="-1" onchange="syncDatePickerToDisplay('voucher-expiry', this)" />
-                <button type="button" class="date-picker-btn" onclick="openNativeDatePicker('voucher-expiry-picker', 'voucher-expiry')" title="Chọn ngày tháng năm" aria-label="Chọn ngày tháng năm">
-                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-                </button>
+                <input type="text" id="voucher-expiry" class="admin-form-input" value="31/12/2026" placeholder="dd/mm/yyyy" oninput="updateVoucherLivePreview(); syncDisplayToDatePicker(this, 'voucher-expiry-picker')" onchange="updateVoucherLivePreview(); syncDisplayToDatePicker(this, 'voucher-expiry-picker')" />
+                <input type="date" id="voucher-expiry-picker" class="date-native-picker" value="2026-12-31" aria-label="Chọn ngày hết hạn" title="Chọn ngày tháng năm" onclick="openNativeDatePicker('voucher-expiry-picker', 'voucher-expiry')" onchange="syncDatePickerToDisplay('voucher-expiry', this)" />
+                <span class="date-picker-btn" aria-hidden="true"><i class="fas fa-calendar-alt"></i></span>
               </div>
             </div>
           </div>
@@ -582,11 +580,9 @@
             <div class="admin-form-group">
               <label class="admin-form-label" for="add-voucher-expiry"><i class="fas fa-clock"></i> Ngày Hết Hạn</label>
               <div class="date-ddmmyyyy-wrapper">
-                <input type="text" id="add-voucher-expiry" class="admin-form-input" value="31/12/2026" placeholder="dd/mm/yyyy" />
-                <input type="date" id="add-voucher-expiry-picker" class="date-native-picker" value="2026-12-31" aria-label="Chọn ngày hết hạn voucher mới" tabindex="-1" onchange="syncDatePickerToDisplay('add-voucher-expiry', this)" />
-                <button type="button" class="date-picker-btn" onclick="openNativeDatePicker('add-voucher-expiry-picker', 'add-voucher-expiry')" title="Chọn ngày tháng năm" aria-label="Chọn ngày tháng năm">
-                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-                </button>
+                <input type="text" id="add-voucher-expiry" class="admin-form-input" value="31/12/2026" placeholder="dd/mm/yyyy" oninput="syncDisplayToDatePicker(this, 'add-voucher-expiry-picker')" onchange="syncDisplayToDatePicker(this, 'add-voucher-expiry-picker')" />
+                <input type="date" id="add-voucher-expiry-picker" class="date-native-picker" value="2026-12-31" aria-label="Chọn ngày hết hạn voucher mới" title="Chọn ngày tháng năm" onclick="openNativeDatePicker('add-voucher-expiry-picker', 'add-voucher-expiry')" onchange="syncDatePickerToDisplay('add-voucher-expiry', this)" />
+                <span class="date-picker-btn" aria-hidden="true"><i class="fas fa-calendar-alt"></i></span>
               </div>
             </div>
 
