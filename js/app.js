@@ -628,15 +628,20 @@ function resetAddProductImages() {
   });
 }
 
+function refreshAddProductPriceInputs(shouldSetup) {
+  ['add-prod-price', 'add-prod-oldprice'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (shouldSetup) setupPriceInput(el);
+    updatePricePreview(el);
+  });
+}
+
 function openAddProductModal() {
   const form = document.getElementById('form-add-product');
   if (form) form.reset();
   resetAddProductImages();
-  const addPriceEl = document.getElementById('add-prod-price');
-  if (addPriceEl) {
-    setupPriceInput(addPriceEl);
-    updatePricePreview(addPriceEl);
-  }
+  refreshAddProductPriceInputs(true);
   openAdminModal('modal-add-product');
 }
 
@@ -651,8 +656,7 @@ function saveAddProduct(e) {
   if (form) {
     form.reset();
     resetAddProductImages();
-    const addPrice = document.getElementById('add-prod-price');
-    if (addPrice) updatePricePreview(addPrice);
+    refreshAddProductPriceInputs(false);
   }
 }
 
@@ -924,6 +928,7 @@ function initPriceFormatting() {
     '#edit-prod-price',
     '#edit-prod-oldprice',
     '#add-prod-price',
+    '#add-prod-oldprice',
     '#standalone-edit-price',
     '#standalone-edit-oldprice',
     '#voucher-min-spend',
