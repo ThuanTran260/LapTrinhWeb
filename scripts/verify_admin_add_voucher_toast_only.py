@@ -26,6 +26,21 @@ def extract_function(source: str, name: str) -> str:
     return ""
 
 
+def verify_style_css(style_css: str) -> list[str]:
+    failures: list[str] = []
+
+    native_picker_match = re.search(r"\.date-native-picker\s*\{([^}]*)\}", style_css)
+    if not native_picker_match:
+        failures.append("css/style.css: missing .date-native-picker rule")
+    elif not re.search(r"pointer-events\s*:\s*auto", native_picker_match.group(1)):
+        failures.append("css/style.css: .date-native-picker must set pointer-events: auto")
+
+    if not re.search(r"\.date-picker-btn\s*\{[^}]*\}", style_css):
+        failures.append("css/style.css: missing .date-picker-btn rule")
+
+    return failures
+
+
 def verify_settings_html(settings_html: str) -> list[str]:
     failures: list[str] = []
 
@@ -74,6 +89,7 @@ def verify_settings_html(settings_html: str) -> list[str]:
             failures.append(f"admin/settings.html: #form-add-voucher missing #{field_id}")
 
     for expiry_id in ("voucher-expiry", "add-voucher-expiry"):
+        picker_id = f"{expiry_id}-picker"
         exp_match = re.search(rf'<input[^>]*id="{expiry_id}"[^>]*>', settings_html)
         if not exp_match:
             failures.append(f"admin/settings.html: missing #{expiry_id}")
@@ -81,9 +97,13 @@ def verify_settings_html(settings_html: str) -> list[str]:
             exp_tag = exp_match.group(0)
             if 'type="text"' not in exp_tag or 'value="31/12/2026"' not in exp_tag or 'placeholder="dd/mm/yyyy"' not in exp_tag:
                 failures.append(f"admin/settings.html: #{expiry_id} must use dd/mm/yyyy format (type=\"text\", value=\"31/12/2026\", placeholder=\"dd/mm/yyyy\")")
-        picker_id = f"{expiry_id}-picker"
-        if f'id="{picker_id}"' not in settings_html or f"openNativeDatePicker('{picker_id}', '{expiry_id}')" not in settings_html:
-            failures.append(f"admin/settings.html: missing date picker trigger #{picker_id} for #{expiry_id}")
+            if f"syncDisplayToDatePicker(this, '{picker_id}')" not in exp_tag:
+                failures.append(f"admin/settings.html: #{expiry_id} must bind syncDisplayToDatePicker(this, '{picker_id}')")
+        picker_match = re.search(rf'<input[^>]*id="{picker_id}"[^>]*>', settings_html)
+        if not picker_match or f"openNativeDatePicker('{picker_id}', '{expiry_id}')" not in picker_match.group(0):
+            failures.append(f"admin/settings.html: missing date picker trigger #{picker_id} binding openNativeDatePicker('{picker_id}', '{expiry_id}')")
+        elif f"syncDatePickerToDisplay('{expiry_id}', this)" not in picker_match.group(0):
+            failures.append(f"admin/settings.html: #{picker_id} missing syncDatePickerToDisplay('{expiry_id}', this)")
 
     return failures
 
@@ -115,6 +135,9 @@ def verify_js_static(app_js: str) -> list[str]:
         failures.append("js/app.js: saveAddVoucher must call form.reset()")
     if "window.saveAddVoucher = saveAddVoucher" not in app_js:
         failures.append("js/app.js: missing window.saveAddVoucher export")
+    for export_name in ("openNativeDatePicker", "syncDatePickerToDisplay", "syncDisplayToDatePicker"):
+        if f"window.{export_name} = {export_name}" not in app_js:
+            failures.append(f"js/app.js: missing window.{export_name} export")
 
     return failures
 
@@ -122,9 +145,11 @@ def verify_js_static(app_js: str) -> list[str]:
 def main() -> int:
     failures: list[str] = []
 
+    style_css = (ROOT / "css" / "style.css").read_text(encoding="utf-8")
     settings_html = (ROOT / "admin" / "settings.html").read_text(encoding="utf-8")
     app_js = (ROOT / "js" / "app.js").read_text(encoding="utf-8")
 
+    failures.extend(verify_style_css(style_css))
     failures.extend(verify_settings_html(settings_html))
     failures.extend(verify_js_static(app_js))
 
@@ -350,7 +375,7 @@ if (expiryEl.value !== '31/12/2026' || addExpiryPickerEl.value !== '2026-12-31')
   throw new Error(`Case 4: expected openAddVoucherModal defaults 31/12/2026 / 2026-12-31, got ${expiryEl.value} / ${addExpiryPickerEl.value}`);
 }
 
-// Case 5: openNativeDatePicker & syncDatePickerToDisplay round-trip dd/mm/yyyy <-> yyyy-mm-dd
+// Case 5: openNativeDatePicker, syncDatePickerToDisplay (date + Clear), and syncDisplayToDatePicker
 sandbox.openNativeDatePicker('voucher-expiry-picker', 'voucher-expiry');
 if (voucherExpiryPickerEl.value !== '2026-08-15' || showPickerCalls !== 1) {
   throw new Error(`Case 5a: expected picker synced to 2026-08-15 and showPicker called once, got ${voucherExpiryPickerEl.value} / ${showPickerCalls}`);
@@ -359,6 +384,33 @@ voucherExpiryPickerEl.value = '2027-01-05';
 sandbox.syncDatePickerToDisplay('voucher-expiry', voucherExpiryPickerEl);
 if (voucherExpiryEl.value !== '05/01/2027' || previewTicketExpiryEl.textContent !== '05/01/2027') {
   throw new Error(`Case 5b: expected display and preview '05/01/2027', got ${voucherExpiryEl.value} / ${previewTicketExpiryEl.textContent}`);
+}
+voucherExpiryPickerEl.value = '';
+sandbox.syncDatePickerToDisplay('voucher-expiry', voucherExpiryPickerEl);
+if (voucherExpiryEl.value !== '' || previewTicketExpiryEl.textContent !== '31/12/2026') {
+  throw new Error(`Case 5c: expected Clear to reset textEl to '' and preview to '31/12/2026', got '${voucherExpiryEl.value}' / '${previewTicketExpiryEl.textContent}'`);
+}
+expiryEl.value = '10/10/2026';
+addExpiryPickerEl.value = '';
+sandbox.syncDatePickerToDisplay('add-voucher-expiry', addExpiryPickerEl);
+if (expiryEl.value !== '') {
+  throw new Error(`Case 5c-modal: expected Clear to reset add-voucher-expiry to '', got '${expiryEl.value}'`);
+}
+voucherExpiryEl.value = '';
+voucherExpiryPickerEl.value = '';
+sandbox.openNativeDatePicker('voucher-expiry-picker', 'voucher-expiry');
+if (voucherExpiryPickerEl.value !== '2026-12-31' || showPickerCalls !== 2) {
+  throw new Error(`Case 5d: expected empty-field openNativeDatePicker to default picker to '2026-12-31' and call showPicker() twice, got '${voucherExpiryPickerEl.value}' / ${showPickerCalls}`);
+}
+voucherExpiryEl.value = '04/01/2026';
+sandbox.syncDisplayToDatePicker(voucherExpiryEl, 'voucher-expiry-picker');
+if (voucherExpiryPickerEl.value !== '2026-01-04') {
+  throw new Error(`Case 5e: expected syncDisplayToDatePicker('04/01/2026') -> '2026-01-04', got '${voucherExpiryPickerEl.value}'`);
+}
+voucherExpiryEl.value = '';
+sandbox.syncDisplayToDatePicker(voucherExpiryEl, 'voucher-expiry-picker');
+if (voucherExpiryPickerEl.value !== '') {
+  throw new Error(`Case 5e-clear: expected syncDisplayToDatePicker('') -> '', got '${voucherExpiryPickerEl.value}'`);
 }
 
 console.log('NODE_ADD_VOUCHER_TOAST_ONLY_PASS');
