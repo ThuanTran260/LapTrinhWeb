@@ -2549,8 +2549,6 @@ function adminLogout(e) {
 // ==========================================================================
 // 17. USER MANAGEMENT UI HANDLERS (R2 COMPLIANCE - ZERO CONSTRAINTS / FAST BOOST)
 // ==========================================================================
-let currentEditingUserRow = null;
-
 function openAddUserModal() {
   const form = document.getElementById('form-add-user');
   if (form) form.reset();
@@ -2567,70 +2565,6 @@ function saveAddUser(e) {
   closeAdminModal('modal-add-user');
   const form = document.getElementById('form-add-user');
   if (form) form.reset();
-}
-
-function openEditUserModal(customerKey, btn) {
-  currentEditingUserRow = btn ? btn.closest('tr') : null;
-  const nameEl = document.getElementById('edit-user-fullname');
-  const phoneEl = document.getElementById('edit-user-phone');
-  const emailEl = document.getElementById('edit-user-email');
-  const tierEl = document.getElementById('edit-user-tier');
-  const statusEl = document.getElementById('edit-user-status');
-
-  const resolveTierValue = (text) => {
-    const upper = (text || '').toUpperCase();
-    if (upper.includes('KIM CƯƠNG')) return 'diamond';
-    if (upper.includes('VÀNG')) return 'gold';
-    if (upper.includes('BẠC')) return 'silver';
-    return 'standard';
-  };
-
-  if (currentEditingUserRow) {
-    const strong = currentEditingUserRow.querySelector('strong');
-    if (nameEl && strong) nameEl.value = strong.textContent.trim();
-    if (phoneEl && currentEditingUserRow.cells[2]) {
-      const pText = currentEditingUserRow.cells[2].childNodes[0] ? currentEditingUserRow.cells[2].childNodes[0].textContent.trim() : '';
-      phoneEl.value = pText;
-    }
-    const smallEmail = currentEditingUserRow.cells[2] ? currentEditingUserRow.cells[2].querySelector('small') : null;
-    if (emailEl && smallEmail) {
-      emailEl.value = smallEmail.textContent.trim();
-    }
-    if (tierEl) {
-      const infoText = currentEditingUserRow.cells[1] ? currentEditingUserRow.cells[1].textContent : '';
-      tierEl.value = resolveTierValue(infoText);
-    }
-    const statusCell = currentEditingUserRow.cells[5];
-    const statusBadge = statusCell ? statusCell.querySelector('.badge-status') : null;
-    if (statusBadge && statusEl) {
-      statusEl.value = statusBadge.textContent.includes('KHOÁ') ? 'locked' : 'active';
-    }
-  } else if (typeof CUSTOMER_DATA_REGISTRY !== 'undefined' && CUSTOMER_DATA_REGISTRY[customerKey]) {
-    const data = CUSTOMER_DATA_REGISTRY[customerKey];
-    if (nameEl) nameEl.value = data.name;
-    if (phoneEl) phoneEl.value = data.phone;
-    if (emailEl) emailEl.value = data.email;
-    if (tierEl) tierEl.value = resolveTierValue(data.tier);
-    if (statusEl) statusEl.value = 'active';
-  }
-  openAdminModal('modal-edit-user');
-}
-
-function saveEditUser(e) {
-  if (e && e.preventDefault) e.preventDefault();
-  const nameEl = document.getElementById('edit-user-fullname');
-  const name = nameEl ? nameEl.value.trim() || 'Người dùng' : 'Người dùng';
-  const tierEl = document.getElementById('edit-user-tier');
-  const statusEl = document.getElementById('edit-user-status');
-  const tierText = tierEl && tierEl.selectedIndex >= 0 ? tierEl.options[tierEl.selectedIndex].text : '';
-  const statusText = statusEl && statusEl.selectedIndex >= 0 ? statusEl.options[statusEl.selectedIndex].text : '';
-  const details = [tierText, statusText].filter(Boolean).join(' • ');
-
-  showToast(
-    'Đã lưu thay đổi thông tin người dùng "' + name + '"' + (details ? ' (' + details + ')' : '') + ' thành công!',
-    'success'
-  );
-  closeAdminModal('modal-edit-user');
 }
 
 function toggleLockUser(btn, customerName) {
