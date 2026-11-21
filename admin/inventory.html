@@ -517,7 +517,7 @@
         <div class="admin-modal-body">
           <div class="admin-form-grid">
             <div class="admin-form-group full-width">
-              <label class="admin-form-label">Tên Sản Phẩm Mới <span class="req">*</span></label>
+              <label class="admin-form-label" for="add-prod-name">Tên Sản Phẩm Đầy Đủ <span class="req">*</span></label>
               <input type="text" id="add-prod-name" class="admin-form-input" placeholder="VD: Monster Ultra Sunrise 500ml" required />
             </div>
             <div class="admin-form-group full-width product-images-section">
@@ -543,36 +543,61 @@
             </div>
 
             <div class="admin-form-group">
-              <label class="admin-form-label">Thương Hiệu / Dòng <span class="req">*</span></label>
-              <select id="add-prod-brand" class="admin-form-select">
+              <label class="admin-form-label" for="add-prod-brand">Thương Hiệu <span class="req">*</span></label>
+              <select id="add-prod-brand" class="admin-form-select" required>
                 <option value="Monster Energy" selected>Monster Energy</option>
                 <option value="Redbull Thái Lan">Redbull Thái Lan</option>
                 <option value="Sting PepsiCo">Sting PepsiCo</option>
               </select>
             </div>
             <div class="admin-form-group">
-              <label class="admin-form-label">Nguồn Gốc / Xuất Xứ <span class="req">*</span></label>
-              <input type="text" id="add-prod-origin" class="admin-form-input" placeholder="VD: Hà Lan / Thái Lan" required />
+              <label class="admin-form-label" for="add-prod-origin">Sản Xuất Tại <span class="req">*</span></label>
+              <input type="text" id="add-prod-origin" class="admin-form-input" placeholder="VD: Malaysia (Ủy quyền Monster Energy Company)" required />
             </div>
             <div class="admin-form-group">
-              <label class="admin-form-label">Giá Bán (VNĐ) <span class="req">*</span></label>
+              <label class="admin-form-label" for="add-prod-price">Giá Bán Lẻ Hiện Tại <span class="req">*</span></label>
               <input type="text" id="add-prod-price" class="admin-form-input price-format-input" placeholder="VD: 48.000đ" required />
             </div>
             <div class="admin-form-group">
-              <label class="admin-form-label">Thể Tích <span class="req">*</span></label>
-              <input type="text" id="add-prod-volume" class="admin-form-input" placeholder="VD: 355ml hoặc 500ml" required />
+              <label class="admin-form-label" for="add-prod-oldprice">Giá Niêm Yết Cũ</label>
+              <input type="text" id="add-prod-oldprice" class="admin-form-input price-format-input" placeholder="VD: 55.000đ" />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="add-prod-volume">Thể Tích / Quy Cách <span class="req">*</span></label>
+              <input type="text" id="add-prod-volume" class="admin-form-input" placeholder="VD: 355ml (Lon nhôm cao cấp)" required />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="add-prod-flavor">Hương Vị Đặc Trưng <span class="req">*</span></label>
+              <input type="text" id="add-prod-flavor" class="admin-form-input" placeholder="VD: Vị cam chanh nhiệt đới sảng khoái, không đường" required />
             </div>
             <div class="admin-form-group full-width">
-              <label class="admin-form-label">Trạng Thái</label>
+              <label class="admin-form-label" for="add-prod-ingredients">Thành Phần <span class="req">*</span></label>
+              <textarea id="add-prod-ingredients" class="admin-form-textarea" rows="3" placeholder="VD: Nước bão hòa CO2, Taurine, Caffeine, Vitamin B3, B6, B2, B12..." required></textarea>
+            </div>
+            <div class="admin-form-group full-width">
+              <label class="admin-form-label" for="add-prod-usage">Hướng Dẫn Sử Dụng <span class="req">*</span></label>
+              <textarea id="add-prod-usage" class="admin-form-textarea" rows="2" placeholder="VD: Lắc nhẹ trước khi uống, dùng ngay sau khi mở nắp. Ngon hơn khi uống lạnh." required></textarea>
+            </div>
+            <div class="admin-form-group full-width">
+              <label class="admin-form-label" for="add-prod-storage">Bảo Quản <span class="req">*</span></label>
+              <textarea id="add-prod-storage" class="admin-form-textarea" rows="2" placeholder="VD: Để nơi khô ráo, thoáng mát, tránh ánh sáng trực tiếp hoặc nơi có nhiệt độ cao." required></textarea>
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="add-prod-status">Trạng Thái Kho</label>
               <select id="add-prod-status" class="admin-form-select">
                 <option value="Còn hàng" selected>Còn hàng</option>
-                <option value="Sắp nhập kho">Sắp nhập kho</option>
+                <option value="Sắp hết hàng">Sắp hết hàng</option>
+                <option value="Tạm hết hàng">Tạm hết hàng</option>
               </select>
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="add-prod-stock">Số Lượng Tồn Kho Thực Tế</label>
+              <input type="number" id="add-prod-stock" class="admin-form-input" placeholder="VD: 1250" min="0" />
             </div>
           </div>
         </div>
         <div class="admin-modal-footer">
-          <button type="button" class="btn-modal-cancel" onclick="closeAdminModal('modal-add-product')">Hủy bỏ</button>
+          <button type="button" class="btn-modal-cancel" onclick="closeAdminModal('modal-add-product')">Hủy Bỏ</button>
           <button type="submit" class="btn-modal-save"><i class="fas fa-plus"></i> Thêm Vào Kho</button>
         </div>
       </form>
