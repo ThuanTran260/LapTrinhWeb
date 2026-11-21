@@ -195,11 +195,13 @@ def test_switch_voucher_preview_static_integrity():
     assert 'value="10%"' in settings_html, "Form voucher-amount phải có default value='10%'"
     assert "GIẢM 10%" in settings_html, "Vé xem trước preview-ticket-discount phải chứa 'GIẢM 10%'"
 
-@test("9. Order Detail Recipient Name: Không bao giờ hiển thị 'Khách Hàng VIP' vô danh")
+@test("9. Order Detail Recipient Name: Mặc định hiển thị 'Nguyễn Văn An', không hiển thị 'Khách Hàng VIP'")
 def test_order_detail_identifiable_recipient():
     import subprocess
     app_js = read_text("js/app.js")
+    order_detail_html = read_text("pages/order-detail.html")
     assert "inputVal || 'Khách Hàng VIP'" not in app_js, "handleLogin không được gán mặc định 'Khách Hàng VIP'"
+    assert '<span id="order-detail-customer">Nguyễn Văn An</span>' in order_detail_html, "pages/order-detail.html phải hiển thị mặc định 'Nguyễn Văn An'"
 
     node_code = r"""
 const fs = require('fs');
@@ -239,25 +241,32 @@ vm.createContext(sandbox);
 vm.runInContext(appCode, sandbox);
 sandbox.showToast = () => {};
 
-// 1. Stale 'Khách Hàng VIP' in localStorage resolves to 'Thuận Trần'
+// 1. Stale 'Khách Hàng VIP' in localStorage resolves to 'Nguyễn Văn An'
 storedUser = 'Khách Hàng VIP';
 sandbox.initOrderDetailPage('customer');
-if (custEl.textContent !== 'Thuận Trần') {
-  throw new Error('Expected Thuận Trần for stale Khách Hàng VIP, got: ' + custEl.textContent);
+if (custEl.textContent !== 'Nguyễn Văn An') {
+  throw new Error('Expected Nguyễn Văn An for stale Khách Hàng VIP, got: ' + custEl.textContent);
 }
 
-// 2. Empty login resolves to 'Thuận Trần'
+// 2. Empty login resolves to 'Nguyễn Văn An'
 storedUser = '';
 sandbox.handleLogin({ preventDefault: () => {} });
-if (storedUser !== 'Thuận Trần') {
-  throw new Error('Expected empty login to store Thuận Trần, got: ' + storedUser);
+if (storedUser !== 'Nguyễn Văn An') {
+  throw new Error('Expected empty login to store Nguyễn Văn An, got: ' + storedUser);
 }
 
-// 3. Explicit user name displays that user name
-storedUser = 'Nguyễn Văn An';
+// 3. Empty localStorage on EB-2026 resolves to 'Nguyễn Văn An'
+storedUser = '';
 sandbox.initOrderDetailPage('customer');
 if (custEl.textContent !== 'Nguyễn Văn An') {
-  throw new Error('Expected Nguyễn Văn An for logged-in user, got: ' + custEl.textContent);
+  throw new Error('Expected Nguyễn Văn An for EB-2026, got: ' + custEl.textContent);
+}
+
+// 4. Explicit user name displays that user name
+storedUser = 'Phạm Minh Tuấn';
+sandbox.initOrderDetailPage('customer');
+if (custEl.textContent !== 'Phạm Minh Tuấn') {
+  throw new Error('Expected Phạm Minh Tuấn for logged-in user, got: ' + custEl.textContent);
 }
 console.log('NODE_RECIPIENT_PASS');
 """

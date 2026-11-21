@@ -94,7 +94,7 @@ function handleLogin(e) {
   if (e && e.preventDefault) e.preventDefault();
   const userEl = document.getElementById('login-username');
   const inputVal = (userEl ? userEl.value : '').trim();
-  const rawName = (inputVal && inputVal.toLowerCase() !== 'khách hàng vip') ? inputVal : 'Thuận Trần';
+  const rawName = (inputVal && inputVal.toLowerCase() !== 'khách hàng vip') ? inputVal : 'Nguyễn Văn An';
   const username = inputVal.toLowerCase();
   const ADMIN_USERS = ['admin', 'admin@monsterenergy.com'];
 
@@ -116,7 +116,7 @@ function getLoggedUser() {
   try {
     const saved = (localStorage.getItem('monster_user') || '').trim();
     if (!saved) return '';
-    return saved.toLowerCase() === 'khách hàng vip' ? 'Thuận Trần' : saved;
+    return saved.toLowerCase() === 'khách hàng vip' ? 'Nguyễn Văn An' : saved;
   } catch (err) { return ''; }
 }
 
@@ -1282,7 +1282,7 @@ const MOCK_ORDER_DATABASE = {
   'EB-2026': {
     id: 'EB-2026',
     code: 'EB-2026',
-    customerName: 'Thuận Trần',
+    customerName: 'Nguyễn Văn An',
     phone: '0912.888.999',
     address: '88 Nguyễn Huệ, Bến Nghé, Quận 1, TP.HCM',
     date: '03/10/2026 09:30 AM',
@@ -1317,7 +1317,7 @@ const MOCK_ORDER_DATABASE = {
   'EB-2025': {
     id: 'EB-2025',
     code: 'EB-2025',
-    customerName: 'Thuận Trần',
+    customerName: 'Nguyễn Văn An',
     phone: '0912.888.999',
     address: '88 Nguyễn Huệ, Bến Nghé, Quận 1, TP.HCM',
     date: '28/09/2026 15:45 PM',
@@ -1344,7 +1344,7 @@ const MOCK_ORDER_DATABASE = {
   'EB-2024': {
     id: 'EB-2024',
     code: 'EB-2024',
-    customerName: 'Thuận Trần',
+    customerName: 'Nguyễn Văn An',
     phone: '0912.888.999',
     address: '88 Nguyễn Huệ, Bến Nghé, Quận 1, TP.HCM',
     date: '20/09/2026 11:15 AM',
@@ -1403,7 +1403,7 @@ function initOrderDetailPage(role) {
   const loggedUser = typeof getLoggedUser === 'function' ? getLoggedUser() : '';
   const customerName = (role !== 'admin' && loggedUser && loggedUser.toLowerCase() !== 'khách hàng vip')
     ? loggedUser
-    : (order.customerName || 'Thuận Trần');
+    : (order.customerName || 'Nguyễn Văn An');
 
   // Title & Breadcrumb
   document.title = (role === 'admin' ? 'Chi Tiết Đơn Hàng #' : 'Chi Tiết Đơn Hàng #') + displayCode + (role === 'admin' ? ' - Energy Boost Admin' : ' - Energy Boost');
