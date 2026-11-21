@@ -175,14 +175,6 @@ button {
   font-weight: 700;
   cursor: pointer;
 }
-.top-links {
-  display: flex;
-  gap: 18px;
-  align-items: center;
-}
-.top-links a:hover {
-  color: var(--primary);
-}
 
 @media (min-width: 992px) {
   .top-bar .container {
@@ -190,11 +182,6 @@ button {
   }
   .announcement-text {
     white-space: nowrap;
-    flex-shrink: 0;
-  }
-  .top-links {
-    white-space: nowrap;
-    gap: 14px;
     flex-shrink: 0;
   }
 }
@@ -3842,7 +3829,6 @@ del.price-old {
   .feature-strip-grid { grid-template-columns: 1fr; }
   .can-stage-card.original img, .can-stage-card.ultra img { height: 260px; }
   .footer-grid { grid-template-columns: 1fr; }
-  .top-links { display: none; }
   .energy-grid { grid-template-columns: 1fr; }
   .checkout-form-grid { grid-template-columns: 1fr; }
   .payment-methods-grid { grid-template-columns: 1fr; }
