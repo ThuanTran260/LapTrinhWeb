@@ -2845,9 +2845,11 @@ function updateVoucherLivePreview() {
     previewDesc.textContent = `Áp dụng cho ${minText}${maxText}`;
   }
 
-  if (previewExpiry && expiryEl && expiryEl.value) {
-    const rawExpiry = expiryEl.value.trim();
-    if (/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(rawExpiry)) {
+  if (previewExpiry && expiryEl) {
+    const rawExpiry = (expiryEl.value || '').trim();
+    if (!rawExpiry) {
+      previewExpiry.textContent = '31/12/2026';
+    } else if (/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(rawExpiry)) {
       previewExpiry.textContent = rawExpiry;
     } else {
       const parts = rawExpiry.split('-');
@@ -2944,9 +2946,11 @@ function openNativeDatePicker(pickerId, textId) {
   const pickerEl = document.getElementById(pickerId);
   const textEl = document.getElementById(textId);
   if (!pickerEl) return;
-  if (textEl && textEl.value) {
-    const iso = parseDdMmYyyyToIso(textEl.value);
-    if (iso) pickerEl.value = iso;
+  const iso = (textEl && textEl.value) ? parseDdMmYyyyToIso(textEl.value) : '';
+  if (iso) {
+    pickerEl.value = iso;
+  } else if ((!textEl || !textEl.value.trim()) && !pickerEl.value) {
+    pickerEl.value = '2026-12-31';
   }
   try {
     if (typeof pickerEl.showPicker === 'function') {
@@ -2960,13 +2964,34 @@ function openNativeDatePicker(pickerId, textId) {
 
 function syncDatePickerToDisplay(textId, pickerEl) {
   const textEl = document.getElementById(textId);
-  if (!textEl || !pickerEl || !pickerEl.value) return;
+  if (!textEl || !pickerEl) return;
+  if (!pickerEl.value) {
+    textEl.value = '';
+    if (textId === 'voucher-expiry') {
+      updateVoucherLivePreview();
+    }
+    return;
+  }
   const formatted = formatIsoToDdMmYyyy(pickerEl.value);
   if (formatted) {
     textEl.value = formatted;
     if (textId === 'voucher-expiry') {
       updateVoucherLivePreview();
     }
+  }
+}
+
+function syncDisplayToDatePicker(textEl, pickerId) {
+  const pickerEl = document.getElementById(pickerId);
+  if (!textEl || !pickerEl) return;
+  const raw = (textEl.value || '').trim();
+  if (!raw) {
+    pickerEl.value = '';
+    return;
+  }
+  const iso = parseDdMmYyyyToIso(raw);
+  if (iso) {
+    pickerEl.value = iso;
   }
 }
 
@@ -3361,6 +3386,7 @@ if (typeof window !== 'undefined') {
   window.saveAddVoucher = saveAddVoucher;
   window.openNativeDatePicker = openNativeDatePicker;
   window.syncDatePickerToDisplay = syncDatePickerToDisplay;
+  window.syncDisplayToDatePicker = syncDisplayToDatePicker;
   window.toggleTop5VipFilter = toggleTop5VipFilter;
 }
 
