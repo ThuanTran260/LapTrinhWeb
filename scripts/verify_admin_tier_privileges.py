@@ -86,12 +86,17 @@ def verify_settings_html(settings_html: str) -> list[str]:
         "tier-privilege-threshold",
         "tier-privilege-point-rate",
         "tier-privilege-shipping",
-        "tier-privilege-voucher",
         "tier-privilege-desc",
     ]
     for element_id in required_ids:
         if f'id="{element_id}"' not in section_html:
             failures.append(f"admin/settings.html: missing #{element_id} inside #tier-privileges-section")
+
+    if 'id="tier-privilege-voucher"' in section_html or "Voucher Áp Dụng Riêng" in section_html:
+        failures.append("admin/settings.html: #tier-privileges-section must NOT contain #tier-privilege-voucher ('Voucher Áp Dụng Riêng')")
+
+    if not re.search(r'<input[^>]*\bid="shop-name"[^>]*\bvalue="ENERGY BOOST"', settings_html):
+        failures.append("admin/settings.html: #shop-name must have value='ENERGY BOOST'")
 
     form_tag_match = re.search(r'<form[^>]*id="form-tier-privileges"[^>]*>', section_html)
     if not form_tag_match:
@@ -117,7 +122,6 @@ def verify_settings_html(settings_html: str) -> list[str]:
         "tier-privilege-threshold",
         "tier-privilege-point-rate",
         "tier-privilege-shipping",
-        "tier-privilege-voucher",
         "tier-privilege-desc",
     ]
     for field_id in form_fields:
@@ -264,7 +268,6 @@ const formInputs = {
     selectedIndex: 0,
     options: [{ value: 'Miễn phí ship hỏa tốc 2H', text: 'Miễn phí ship hỏa tốc 2H' }],
   },
-  'tier-privilege-voucher': { value: 'FREESHIP, MONSTER10' },
   'tier-privilege-desc': { value: 'Miễn phí ship hỏa tốc + Chiết khấu 10%' },
 };
 
