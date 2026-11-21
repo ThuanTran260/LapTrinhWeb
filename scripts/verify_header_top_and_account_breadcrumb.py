@@ -12,21 +12,44 @@ def check(name, condition, details=""):
     mark = "PASS" if condition else "FAIL"
     print(f"[{mark}] {name} - {details}")
 
+def extract_div_block(html: str, class_or_id_pattern: str) -> str:
+    match = re.search(rf"<div\b[^>]*{class_or_id_pattern}[^>]*>", html)
+    if not match:
+        return ""
+    depth = 1
+    pos = match.end()
+    for tag in re.finditer(r"<(/?)div\b[^>]*>", html[pos:]):
+        depth += -1 if tag.group(1) else 1
+        if depth == 0:
+            return html[match.start() : pos + tag.end()]
+    return ""
+
 print("=== VERIFY ORDERS TOPBAR SINGLE LINE & ACCOUNT BREADCRUMB ===")
 
-# 1. Check pages/orders.html top-links
+# 1. Check pages/orders.html .top-bar has .announcement-text and NO .top-links
 orders_content = open("pages/orders.html", encoding="utf-8").read()
-top_links_match = re.search(r'<div class="top-links">(.*?)</div>', orders_content, re.DOTALL)
-check("orders.html has top-links", top_links_match is not None, "Found .top-links container")
-
-if top_links_match:
-    links_block = top_links_match.group(1)
-    check("orders.html has Tiếp Tục Mua Sắm", 'Tiếp Tục Mua Sắm' in links_block and '../index.html' in links_block)
-    check("orders.html has Giao 2H Hoả Tốc", 'Giao 2H Hoả Tốc' in links_block and '../index.html#features' in links_block)
-    check("orders.html has Lịch Sử Đặt Hàng", 'Lịch Sử Đặt Hàng' in links_block and 'orders.html' in links_block)
-    check("orders.html has Tài Khoản", 'Tài Khoản' in links_block and 'account.html' in links_block)
-    check("orders.html has Đăng Nhập", 'Đăng Nhập' in links_block and 'login.html' in links_block)
-    check("orders.html top-links has no redundant cart link", 'cart.html' not in links_block, "Cart link removed from top-links to fit 1 line")
+top_bar_block = extract_div_block(orders_content, r'class="[^"]*\btop-bar\b[^"]*"')
+check("orders.html has .top-bar", bool(top_bar_block), "Found .top-bar container")
+check(
+    "orders.html .top-bar has .announcement-text",
+    bool(re.search(r'class="[^"]*\bannouncement-text\b[^"]*"', top_bar_block)),
+    "Found .announcement-text inside .top-bar",
+)
+check(
+    "orders.html has no .top-links",
+    re.search(r'class="[^"]*\btop-links\b[^"]*"', orders_content) is None,
+    "Confirmed .top-links is absent",
+)
+check(
+    "orders.html .top-bar has no Tiếp Tục Mua Sắm",
+    "Tiếp Tục Mua Sắm" not in top_bar_block,
+    "Removed 'Tiếp Tục Mua Sắm' from .top-bar",
+)
+check(
+    "orders.html .top-bar has no Giao 2H Hoả Tốc",
+    "Giao 2H Hoả Tốc" not in top_bar_block,
+    "Removed 'Giao 2H Hoả Tốc' from .top-bar",
+)
 
 # 2. Check orders.html retains 'Giỏ Hàng (7 lon)' for verify_cart_sync compatibility
 check("orders.html retains Giỏ Hàng (7 lon)", 'Giỏ Hàng (7 lon)' in orders_content, "Retains 'Giỏ Hàng (7 lon)' in header action button")
@@ -44,9 +67,7 @@ for m in re.finditer(r"@media\s*\(\s*min-width:\s*992px\s*\)\s*\{", css_content)
     snippet = css_content[m.end():m.end()+2000]
     m_container = re.search(r"\.top-bar\s+\.container\s*\{([^}]*)\}", snippet)
     has_container_nowrap = m_container is not None and re.search(r"flex-wrap\s*:\s*nowrap", m_container.group(1)) is not None
-    m_links = re.search(r"\.top-links\s*\{([^}]*)\}", snippet)
-    has_links_nowrap = m_links is not None and "white-space" in m_links.group(1) and "nowrap" in m_links.group(1) and re.search(r"gap\s*:\s*14px", m_links.group(1)) is not None
-    if has_container_nowrap and has_links_nowrap:
+    if has_container_nowrap:
         desktop_topbar = True
         break
 check("style.css has top-bar nowrap on desktop", desktop_topbar)

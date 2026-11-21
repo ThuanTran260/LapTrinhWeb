@@ -35,7 +35,7 @@ def verify_login_html(html: str) -> list[str]:
     if re.search(r'<nav\b[^>]*class="[^"]*\bnav-bar\b[^"]*"', html):
         failures.append("pages/login.html: page must NOT contain <nav class='nav-bar'>")
 
-    # 2. Top bar with ENERGY10 coupon badge & 4 links
+    # 2. Top bar with ENERGY10 coupon badge and no .top-links
     top_bar = extract_div_block(html, r'class="[^"]*\btop-bar\b[^"]*"')
     if not top_bar:
         failures.append("pages/login.html: missing .top-bar block")
@@ -44,9 +44,8 @@ def verify_login_html(html: str) -> list[str]:
             failures.append("pages/login.html: .top-bar missing ENERGY10 coupon badge")
         if 'class="coupon-badge"' not in top_bar:
             failures.append("pages/login.html: .top-bar missing .coupon-badge element")
-        for expected_link in ("../index.html#features", "orders.html", "account.html", "login.html"):
-            if f'href="{expected_link}"' not in top_bar:
-                failures.append(f"pages/login.html: .top-bar missing link '{expected_link}'")
+        if re.search(r'\btop-links\b', top_bar):
+            failures.append("pages/login.html: .top-bar must NOT contain .top-links")
 
     # 3. Header: Logo, search box (5 items), and 3 header actions
     header_match = re.search(r'<header\b[^>]*class="[^"]*\bheader\b[^"]*"[^>]*>([\s\S]*?)</header>', html)

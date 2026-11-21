@@ -24,7 +24,7 @@ def extract_div_block(html: str, class_or_id_pattern: str) -> str:
 def verify_order_success_header_sync(html: str) -> list[str]:
     failures: list[str] = []
 
-    # 1. Top bar with ENERGY10 coupon badge
+    # 1. Top bar with ENERGY10 coupon badge and no .top-links
     top_bar = extract_div_block(html, r'class="[^"]*\btop-bar\b[^"]*"')
     if not top_bar:
         failures.append("pages/order-success.html: missing .top-bar block")
@@ -33,9 +33,8 @@ def verify_order_success_header_sync(html: str) -> list[str]:
             failures.append("pages/order-success.html: .top-bar missing ENERGY10 coupon badge")
         if 'class="coupon-badge"' not in top_bar:
             failures.append("pages/order-success.html: .top-bar missing .coupon-badge element")
-        for expected_link in ("orders.html", "account.html", "login.html"):
-            if f'href="{expected_link}"' not in top_bar:
-                failures.append(f"pages/order-success.html: .top-bar missing link '{expected_link}'")
+        if re.search(r'\btop-links\b', top_bar):
+            failures.append("pages/order-success.html: .top-bar must NOT contain .top-links")
 
     # 2. Header search box & static dropdown with 5 items
     header_match = re.search(r'<header\b[^>]*class="[^"]*\bheader\b[^"]*"[^>]*>([\s\S]*?)</header>', html)
