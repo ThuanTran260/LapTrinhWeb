@@ -102,8 +102,9 @@
 
             <div class="admin-filter-group">
               <div class="admin-filter-search">
-                <button type="button" class="admin-search-btn" aria-label="Tìm kiếm" title="Tìm kiếm"><i class="fas fa-search" aria-hidden="true"></i></button>
-                <input type="text" id="filter-inv-keyword" class="admin-filter-input" placeholder="Tên sản phẩm, SKU..." />
+                <button type="button" class="admin-search-btn" onclick="openAdminSearchDropdown(this)" aria-label="Tìm kiếm" title="Tìm kiếm"><i class="fas fa-search" aria-hidden="true"></i></button>
+                <input type="text" id="filter-inv-keyword" class="admin-filter-input" placeholder="Tên sản phẩm, SKU..." autocomplete="off" data-admin-dropdown="products" onfocus="openAdminSearchDropdown(this)" onclick="openAdminSearchDropdown(this)" oninput="openAdminSearchDropdown(this)" />
+                <div id="filter-inv-keyword-dropdown" class="search-results-dropdown admin-search-dropdown" role="listbox" aria-label="Danh sách nước tăng lực trong kho"></div>
               </div>
             </div>
           </div>

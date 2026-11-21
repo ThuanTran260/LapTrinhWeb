@@ -3361,6 +3361,200 @@ function toggleBrandDrawer(btn) {
   return isOpen;
 }
 
+// ==========================================================================
+// ADMIN SEARCH DROPDOWN SUGGESTIONS (CUSTOMERS & INVENTORY DRINKS)
+// ==========================================================================
+const ADMIN_CUSTOMER_ORDER_CODES = {
+  tuan: '#EB-8804',
+  an: '#EB-8801',
+  bich: '#EB-8802',
+  nam: '#EB-8803',
+  my: '#EB-8805',
+  long: '#EB-8806'
+};
+
+const ADMIN_DRINKS_DROPDOWN_DATA = [
+  { name: 'Monster Energy Original 355ml', brand: 'Monster Energy', brandKey: 'monster', stock: '1.250 lon', price: '45.000đ', image: '../assets/images/monster/original.webp', keywords: 'mn-original-355 355ml ha lan' },
+  { name: 'Monster Zero Ultra White 500ml', brand: 'Monster Energy', brandKey: 'monster', stock: '1.250 lon', price: '48.000đ', image: '../assets/images/monster/ultra-white.webp', keywords: 'mn-ultra-white 500ml zero sugar khong duong' },
+  { name: 'Monster Ultra Paradise 500ml', brand: 'Monster Energy', brandKey: 'monster', stock: '1.250 lon', price: '48.000đ', image: '../assets/images/monster/ultra-paradise.webp', keywords: 'mn-ultra-paradise 500ml kiwi chanh' },
+  { name: 'Monster Ultra Punk Punch 500ml', brand: 'Monster Energy', brandKey: 'monster', stock: '1.250 lon', price: '50.000đ', image: '../assets/images/monster/ultra-punk-punch.webp', keywords: 'mn-punk-punch 500ml fruit punch' },
+  { name: 'Redbull Original 250ml', brand: 'Redbull Thái Lan', brandKey: 'redbull', stock: '680 lon', price: '18.000đ', image: '../assets/images/redbull/redbull-original.webp', keywords: 'rb-original-250 250ml bo huc' },
+  { name: 'Redbull Thái Lan 250ml', brand: 'Redbull Thái Lan', brandKey: 'redbull', stock: '450 lon', price: '18.000đ', image: '../assets/images/redbull/redbull-thai.webp', keywords: 'rb-thai-250 krating daeng' },
+  { name: 'Redbull Nắp Bật 250ml', brand: 'Redbull Thái Lan', brandKey: 'redbull', stock: '520 lon', price: '20.000đ', image: '../assets/images/redbull/redbull-lon-vua.webp', keywords: 'rb-nap-bat 250ml lon vua' },
+  { name: 'Sting Dâu Tây Đỏ 330ml', brand: 'Sting PepsiCo', brandKey: 'sting', stock: '890 lon', price: '12.000đ', image: '../assets/images/sting/sting-dau.webp', keywords: 'st-dau-330 330ml dau tay do' },
+  { name: 'Sting Vàng Gold 330ml', brand: 'Sting PepsiCo', brandKey: 'sting', stock: '740 lon', price: '12.000đ', image: '../assets/images/sting/sting-gold.webp', keywords: 'st-gold-330 330ml nhan sam' },
+  { name: 'Sting Blue Sleek 320ml', brand: 'Sting PepsiCo', brandKey: 'sting', stock: '610 lon', price: '13.000đ', image: '../assets/images/sting/sting-vietquat.webp', keywords: 'st-blue-320 320ml viet quat' }
+];
+
+function normalizeAdminSearchText(value) {
+  return String(value || '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/đ/g, 'd')
+    .replace(/Đ/g, 'D')
+    .toLowerCase()
+    .trim();
+}
+
+function escapeAdminHtml(value) {
+  return String(value || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function getAdminDropdownItems(mode) {
+  if (mode === 'products') {
+    return ADMIN_DRINKS_DROPDOWN_DATA.map((item) => ({
+      type: 'product',
+      name: item.name,
+      brand: item.brand,
+      brandKey: item.brandKey,
+      stock: item.stock,
+      price: item.price,
+      image: item.image,
+      searchText: normalizeAdminSearchText(`${item.name} ${item.brand} ${item.keywords}`)
+    }));
+  }
+
+  const registry = typeof CUSTOMER_DATA_REGISTRY !== 'undefined' ? CUSTOMER_DATA_REGISTRY : {};
+  return Object.keys(registry).map((key) => {
+    const cust = registry[key];
+    const orderCode = ADMIN_CUSTOMER_ORDER_CODES[key] || '';
+    const tierUpper = String(cust.tier || '').toUpperCase();
+    const tierKey = tierUpper.includes('KIM CƯƠNG') ? 'diamond' : (tierUpper.includes('VÀNG') ? 'gold' : 'silver');
+    return {
+      type: 'customer',
+      name: cust.name,
+      initials: cust.initials || 'KH',
+      phone: cust.phone,
+      tier: cust.tier,
+      tierKey,
+      spent: cust.spent,
+      orderCode,
+      searchText: normalizeAdminSearchText(`${cust.name} ${cust.phone} ${cust.email || ''} ${orderCode} ${cust.tier}`)
+    };
+  });
+}
+
+function renderAdminSearchDropdown(inputEl, dropdownEl, mode) {
+  if (!dropdownEl) return;
+  const query = normalizeAdminSearchText(inputEl ? inputEl.value : '');
+  const allItems = getAdminDropdownItems(mode);
+  const filtered = query ? allItems.filter((item) => item.searchText.includes(query)) : allItems;
+
+  const isProducts = mode === 'products';
+  const headerIcon = isProducts
+    ? '<i class="fas fa-bolt" style="color: var(--primary);"></i>'
+    : '<i class="fas fa-users" style="color: var(--primary);"></i>';
+  const headerTitle = isProducts
+    ? 'DANH SÁCH NƯỚC TĂNG LỰC'
+    : (mode === 'orders' ? 'DANH SÁCH KHÁCH HÀNG & ĐƠN HÀNG' : 'DANH SÁCH KHÁCH HÀNG');
+  const countLabel = `${filtered.length} ${isProducts ? 'sản phẩm' : 'khách hàng'}`;
+
+  let listHtml = '';
+  if (!filtered.length) {
+    listHtml = '<div class="admin-dropdown-empty"><i class="fas fa-magnifying-glass" style="margin-right: 6px;"></i>Không tìm thấy kết quả phù hợp</div>';
+  } else if (isProducts) {
+    listHtml = filtered.map((item) => `
+      <button type="button" class="search-static-item admin-dropdown-item" data-admin-pick="${escapeAdminHtml(item.name)}" role="option">
+        <div class="search-item-left">
+          <img src="${escapeAdminHtml(item.image)}" alt="${escapeAdminHtml(item.name)}" class="search-item-thumb" />
+          <div class="search-item-info">
+            <h5>${escapeAdminHtml(item.name)}</h5>
+            <div class="admin-dropdown-meta">
+              <span class="brand-badge ${item.brandKey}">${escapeAdminHtml(item.brand)}</span>
+              <span>• Tồn: ${escapeAdminHtml(item.stock)}</span>
+            </div>
+          </div>
+        </div>
+        <div class="search-item-right">
+          <span class="search-item-price">${escapeAdminHtml(item.price)}</span>
+        </div>
+      </button>
+    `).join('');
+  } else {
+    listHtml = filtered.map((item) => {
+      const subDetail = mode === 'orders' && item.orderCode
+        ? `${item.orderCode} • ${item.phone}`
+        : item.phone;
+      return `
+        <button type="button" class="search-static-item admin-dropdown-item" data-admin-pick="${escapeAdminHtml(item.name)}" role="option">
+          <div class="search-item-left">
+            <span class="admin-dropdown-avatar">${escapeAdminHtml(item.initials)}</span>
+            <div class="search-item-info">
+              <h5>${escapeAdminHtml(item.name)}</h5>
+              <div class="admin-dropdown-meta">
+                <span class="brand-badge ${item.tierKey}">${escapeAdminHtml(item.tier)}</span>
+                <span>${escapeAdminHtml(subDetail)}</span>
+              </div>
+            </div>
+          </div>
+          <div class="search-item-right">
+            <span class="search-item-price">${escapeAdminHtml(item.spent)}</span>
+          </div>
+        </button>
+      `;
+    }).join('');
+  }
+
+  dropdownEl.innerHTML = `
+    <div class="search-dropdown-header">
+      <span>${headerIcon} ${headerTitle}</span>
+      <span style="font-size: 0.72rem; color: var(--text-dim);">${countLabel}</span>
+    </div>
+    <div class="search-static-list">${listHtml}</div>
+  `;
+}
+
+function positionAdminSearchDropdown(wrapperEl, dropdownEl) {
+  if (!wrapperEl || !dropdownEl || !dropdownEl.classList) return;
+  dropdownEl.classList.remove('align-right');
+  if (typeof wrapperEl.getBoundingClientRect !== 'function') return;
+  const wrapRect = wrapperEl.getBoundingClientRect();
+  const sectionEl = typeof wrapperEl.closest === 'function' ? wrapperEl.closest('.admin-section-box') : null;
+  const boundRight = sectionEl && typeof sectionEl.getBoundingClientRect === 'function'
+    ? sectionEl.getBoundingClientRect().right
+    : (typeof window !== 'undefined' && window.innerWidth ? window.innerWidth : 1200);
+  if (wrapRect.left + 320 > boundRight - 12 && wrapRect.right >= 320) {
+    dropdownEl.classList.add('align-right');
+  }
+}
+
+function closeAllAdminSearchDropdowns(exceptDropdown) {
+  if (typeof document === 'undefined') return;
+  document.querySelectorAll('.admin-search-dropdown.is-open').forEach((menu) => {
+    if (menu !== exceptDropdown && menu.classList) {
+      menu.classList.remove('is-open');
+    }
+  });
+}
+
+function openAdminSearchDropdown(triggerEl) {
+  if (!triggerEl || typeof document === 'undefined') return;
+  const wrapper = typeof triggerEl.closest === 'function' ? triggerEl.closest('.admin-filter-search') : null;
+  if (!wrapper) return;
+  const inputEl = wrapper.querySelector('input[data-admin-dropdown]');
+  const dropdownEl = wrapper.querySelector('.admin-search-dropdown');
+  if (!inputEl || !dropdownEl) return;
+
+  const mode = (inputEl.getAttribute && inputEl.getAttribute('data-admin-dropdown')) || 'customers';
+  closeAllAdminSearchDropdowns(dropdownEl);
+  renderAdminSearchDropdown(inputEl, dropdownEl, mode);
+  positionAdminSearchDropdown(wrapper, dropdownEl);
+  if (dropdownEl.classList) dropdownEl.classList.add('is-open');
+}
+
+function selectAdminSearchSuggestion(inputEl, dropdownEl, pickedValue) {
+  if (!inputEl) return;
+  inputEl.value = pickedValue;
+  if (dropdownEl && dropdownEl.classList) dropdownEl.classList.remove('is-open');
+  if (typeof showToast === 'function') {
+    showToast(`Đã chọn "${pickedValue}" trong thanh tìm kiếm.`, 'info');
+  }
+}
+
 if (typeof window !== 'undefined') {
   window.changeDashboardPage = changeDashboardPage;
   window.handleNavBrandClick = handleNavBrandClick;
@@ -3386,6 +3580,9 @@ if (typeof window !== 'undefined') {
   window.openNativeDatePicker = openNativeDatePicker;
   window.syncDatePickerToDisplay = syncDatePickerToDisplay;
   window.syncDisplayToDatePicker = syncDisplayToDatePicker;
+  window.openAdminSearchDropdown = openAdminSearchDropdown;
+  window.closeAllAdminSearchDropdowns = closeAllAdminSearchDropdowns;
+  window.selectAdminSearchSuggestion = selectAdminSearchSuggestion;
   window.toggleTop5VipFilter = toggleTop5VipFilter;
 }
 
@@ -3415,11 +3612,35 @@ function handleAdminSaveFaq() {
 
 if (typeof document !== 'undefined') {
   document.addEventListener('click', function(e) {
-    const navLink = e.target.closest('.nav-menu .nav-link[href*="-products"], .quick-brand-nav .quick-brand-btn');
+    const pickBtn = e.target && typeof e.target.closest === 'function'
+      ? e.target.closest('.admin-dropdown-item[data-admin-pick]')
+      : null;
+    if (pickBtn) {
+      const wrapper = pickBtn.closest('.admin-filter-search');
+      const inputEl = wrapper ? wrapper.querySelector('input[data-admin-dropdown]') : null;
+      const dropdownEl = wrapper ? wrapper.querySelector('.admin-search-dropdown') : null;
+      const pickedValue = pickBtn.getAttribute('data-admin-pick') || '';
+      selectAdminSearchSuggestion(inputEl, dropdownEl, pickedValue);
+      return;
+    }
+
+    if (!e.target || typeof e.target.closest !== 'function' || !e.target.closest('.admin-filter-search')) {
+      closeAllAdminSearchDropdowns();
+    }
+
+    const navLink = e.target && typeof e.target.closest === 'function'
+      ? e.target.closest('.nav-menu .nav-link[href*="-products"], .quick-brand-nav .quick-brand-btn')
+      : null;
     if (navLink) {
       if (typeof e.preventDefault === 'function') e.preventDefault();
       if (typeof e.stopPropagation === 'function') e.stopPropagation();
       handleNavBrandClick(e, navLink);
+    }
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e && e.key === 'Escape') {
+      closeAllAdminSearchDropdowns();
     }
   });
 }

@@ -131,8 +131,9 @@
             </div>
             <div class="admin-filter-group">
               <div class="admin-filter-search admin-filter-search--compact">
-                <button type="button" class="admin-search-btn" aria-label="Tìm kiếm" title="Tìm kiếm"><i class="fas fa-search" aria-hidden="true"></i></button>
-                <input type="text" id="dash-order-keyword" class="admin-filter-input" placeholder="Tìm mã đơn, khách..." style="padding: 5px 10px 5px 28px; font-size: 0.8rem;" />
+                <button type="button" class="admin-search-btn" onclick="openAdminSearchDropdown(this)" aria-label="Tìm kiếm" title="Tìm kiếm"><i class="fas fa-search" aria-hidden="true"></i></button>
+                <input type="text" id="dash-order-keyword" class="admin-filter-input" placeholder="Tìm mã đơn, khách..." autocomplete="off" data-admin-dropdown="orders" onfocus="openAdminSearchDropdown(this)" onclick="openAdminSearchDropdown(this)" oninput="openAdminSearchDropdown(this)" style="padding: 5px 10px 5px 28px; font-size: 0.8rem;" />
+                <div id="dash-order-keyword-dropdown" class="search-results-dropdown admin-search-dropdown" role="listbox" aria-label="Danh sách khách hàng và đơn hàng"></div>
               </div>
             </div>
           </div>
@@ -291,8 +292,9 @@
             </div>
             <div class="admin-filter-group">
               <div class="admin-filter-search admin-filter-search--compact">
-                <button type="button" class="admin-search-btn" aria-label="Tìm kiếm" title="Tìm kiếm"><i class="fas fa-search" aria-hidden="true"></i></button>
-                <input type="text" id="dash-inv-keyword" class="admin-filter-input" placeholder="Tìm tên sản phẩm..." style="padding: 5px 10px 5px 28px; font-size: 0.8rem;" />
+                <button type="button" class="admin-search-btn" onclick="openAdminSearchDropdown(this)" aria-label="Tìm kiếm" title="Tìm kiếm"><i class="fas fa-search" aria-hidden="true"></i></button>
+                <input type="text" id="dash-inv-keyword" class="admin-filter-input" placeholder="Tìm tên sản phẩm..." autocomplete="off" data-admin-dropdown="products" onfocus="openAdminSearchDropdown(this)" onclick="openAdminSearchDropdown(this)" oninput="openAdminSearchDropdown(this)" style="padding: 5px 10px 5px 28px; font-size: 0.8rem;" />
+                <div id="dash-inv-keyword-dropdown" class="search-results-dropdown admin-search-dropdown" role="listbox" aria-label="Danh sách nước tăng lực trong kho"></div>
               </div>
             </div>
           </div>

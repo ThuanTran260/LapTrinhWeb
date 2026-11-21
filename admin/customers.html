@@ -100,8 +100,9 @@
 
             <div class="admin-filter-group">
               <div class="admin-filter-search">
-                <button type="button" class="admin-search-btn" aria-label="Tìm kiếm" title="Tìm kiếm"><i class="fas fa-search" aria-hidden="true"></i></button>
-                <input type="text" id="filter-customer-keyword" class="admin-filter-input" placeholder="Tên khách hàng / SĐT..." />
+                <button type="button" class="admin-search-btn" onclick="openAdminSearchDropdown(this)" aria-label="Tìm kiếm" title="Tìm kiếm"><i class="fas fa-search" aria-hidden="true"></i></button>
+                <input type="text" id="filter-customer-keyword" class="admin-filter-input" placeholder="Tên khách hàng / SĐT..." autocomplete="off" data-admin-dropdown="customers" onfocus="openAdminSearchDropdown(this)" onclick="openAdminSearchDropdown(this)" oninput="openAdminSearchDropdown(this)" />
+                <div id="filter-customer-keyword-dropdown" class="search-results-dropdown admin-search-dropdown" role="listbox" aria-label="Danh sách khách hàng"></div>
               </div>
             </div>
           </div>
