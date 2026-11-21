@@ -185,7 +185,7 @@
 
             <div class="admin-form-group">
               <label class="admin-form-label" for="voucher-expiry"><i class="fas fa-clock"></i> Ngày Hết Hạn</label>
-              <input type="date" id="voucher-expiry" class="admin-form-input" value="2026-12-31" onchange="updateVoucherLivePreview()" />
+              <input type="text" id="voucher-expiry" class="admin-form-input" value="31/12/2026" placeholder="dd/mm/yyyy" oninput="updateVoucherLivePreview()" onchange="updateVoucherLivePreview()" />
             </div>
           </div>
 
@@ -575,7 +575,7 @@
 
             <div class="admin-form-group">
               <label class="admin-form-label" for="add-voucher-expiry"><i class="fas fa-clock"></i> Ngày Hết Hạn</label>
-              <input type="date" id="add-voucher-expiry" class="admin-form-input" value="2026-12-31" />
+              <input type="text" id="add-voucher-expiry" class="admin-form-input" value="31/12/2026" placeholder="dd/mm/yyyy" />
             </div>
 
             <div class="admin-form-group">

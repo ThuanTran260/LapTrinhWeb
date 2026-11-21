@@ -2718,7 +2718,7 @@ const MOCK_VOUCHERS_LIST = [
     amount: '10%',
     minSpend: '200.000đ',
     maxDiscount: '50.000đ',
-    expiry: '2026-12-31',
+    expiry: '31/12/2026',
     target: 'all',
     targetText: 'Tất cả khách hàng',
     limit: 1000
@@ -2729,7 +2729,7 @@ const MOCK_VOUCHERS_LIST = [
     amount: '20.000đ',
     minSpend: '150.000đ',
     maxDiscount: '20.000đ',
-    expiry: '2026-11-30',
+    expiry: '30/11/2026',
     target: 'new',
     targetText: 'Chỉ khách hàng mới',
     limit: 500
@@ -2740,7 +2740,7 @@ const MOCK_VOUCHERS_LIST = [
     amount: '25.000đ',
     minSpend: '200.000đ',
     maxDiscount: '25.000đ',
-    expiry: '2026-12-31',
+    expiry: '31/12/2026',
     target: 'vip',
     targetText: 'Chỉ khách hàng VIP',
     limit: 300
@@ -2843,9 +2843,14 @@ function updateVoucherLivePreview() {
   }
 
   if (previewExpiry && expiryEl && expiryEl.value) {
-    const parts = expiryEl.value.split('-');
-    if (parts.length === 3) {
-      previewExpiry.textContent = `${parts[2]}/${parts[1]}/${parts[0]}`;
+    const rawExpiry = expiryEl.value.trim();
+    if (/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(rawExpiry)) {
+      previewExpiry.textContent = rawExpiry;
+    } else {
+      const parts = rawExpiry.split('-');
+      if (parts.length === 3) {
+        previewExpiry.textContent = `${parts[2]}/${parts[1]}/${parts[0]}`;
+      }
     }
   }
 }
@@ -2885,7 +2890,7 @@ function handleSaveVoucherSettings(e) {
   const amount = (amountEl && amountEl.value) ? amountEl.value.trim() : '10%';
   const minSpend = (minSpendEl && minSpendEl.value) ? minSpendEl.value.trim() : '200.000đ';
   const maxDiscount = (maxDiscountEl && maxDiscountEl.value) ? maxDiscountEl.value.trim() : '50.000đ';
-  const expiry = (expiryEl && expiryEl.value) ? expiryEl.value : '2026-12-31';
+  const expiry = (expiryEl && expiryEl.value) ? expiryEl.value : '31/12/2026';
 
   // Update in mock list if matches active voucher
   const existing = MOCK_VOUCHERS_LIST.find(v => v.code === activeVoucherCode || v.code === code);
@@ -2924,7 +2929,7 @@ function openAddVoucherModal() {
   if (form) form.reset();
   const dateInput = document.getElementById('add-voucher-expiry');
   if (dateInput && !dateInput.value) {
-    dateInput.value = '2026-12-31';
+    dateInput.value = '31/12/2026';
   }
   openAdminModal('modal-add-voucher');
 }

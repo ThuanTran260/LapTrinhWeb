@@ -73,6 +73,15 @@ def verify_settings_html(settings_html: str) -> list[str]:
         if f'id="{field_id}"' not in form_html:
             failures.append(f"admin/settings.html: #form-add-voucher missing #{field_id}")
 
+    for expiry_id in ("voucher-expiry", "add-voucher-expiry"):
+        exp_match = re.search(rf'<input[^>]*id="{expiry_id}"[^>]*>', settings_html)
+        if not exp_match:
+            failures.append(f"admin/settings.html: missing #{expiry_id}")
+        else:
+            exp_tag = exp_match.group(0)
+            if 'type="text"' not in exp_tag or 'value="31/12/2026"' not in exp_tag or 'placeholder="dd/mm/yyyy"' not in exp_tag:
+                failures.append(f"admin/settings.html: #{expiry_id} must use dd/mm/yyyy format (type=\"text\", value=\"31/12/2026\", placeholder=\"dd/mm/yyyy\")")
+
     return failures
 
 
@@ -320,6 +329,13 @@ codeEl.value = 'flash99';
 sandbox.saveAddVoucher({ preventDefault: () => {} });
 if (voucherToggleActive.checked !== false) {
   throw new Error('Case 3: saveAddVoucher mutated #voucher-toggle-active.checked from false to true');
+}
+
+// Case 4: openAddVoucherModal fills dd/mm/yyyy default when expiry is empty
+expiryEl.value = '';
+sandbox.openAddVoucherModal();
+if (expiryEl.value !== '31/12/2026') {
+  throw new Error(`Case 4: expected openAddVoucherModal default expiry '31/12/2026', got ${expiryEl.value}`);
 }
 
 console.log('NODE_ADD_VOUCHER_TOAST_ONLY_PASS');
