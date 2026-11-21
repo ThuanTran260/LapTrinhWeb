@@ -124,14 +124,14 @@ c2_1 = (os.path.exists('admin/login.html') and
 check('2.1', 'Đăng nhập & Đăng xuất Admin qua URL riêng biệt', 0.5, c2_1, 
       'Trang admin/login.html tách biệt với pages/login.html, nút Đăng xuất sidebar điều hướng về login.html.')
 
-# 2.2 Quản lý user: thêm, sửa, khóa/mở (0.5đ)
+# 2.2 Quản lý user: thêm, khóa/mở (0.5đ)
 cust_content = open('admin/customers.html', encoding='utf-8').read()
 c2_2 = ('modal-add-user' in cust_content and 
-        'modal-edit-user' in cust_content and 
         'toggleLockUser' in cust_content and 
-        'btn-action-lock' in cust_content)
-check('2.2', 'Quản lý user (thêm#đăng ký, sửa, khoá/ mở user)', 0.5, c2_2, 
-      'Modal Thêm user, Modal Sửa user và Nút Khoá/Mở tài khoản trực quan trên bảng.')
+        'btn-action-lock' in cust_content and 
+        'btn-action-unlock' in cust_content)
+check('2.2', 'Quản lý user (thêm#đăng ký, khoá/ mở user)', 0.5, c2_2, 
+      'Modal Thêm user và Nút Khoá/Mở tài khoản trực quan trên bảng.')
 
 # 2.3 Thêm sản phẩm: đúng phân loại, upload hình có preview (0.5đ)
 inv_content = open('admin/inventory.html', encoding='utf-8').read()

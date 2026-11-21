@@ -66,11 +66,11 @@ def main():
             ['id="modal-add-user"', 'openAddUserModal', 'saveAddUser'],
             "Test 3: Quản lý User - Modal Thêm Người Dùng Mới"
         ),
-        # Test 4: Modal Sửa Người Dùng & Nút Khoá / Mở User
+        # Test 4: Nút Khoá / Mở User
         (
             "admin/customers.html",
-            ['id="modal-edit-user"', 'openEditUserModal', 'toggleLockUser'],
-            "Test 4: Quản lý User - Modal Sửa & Nút Khoá/Mở User"
+            ['toggleLockUser', 'btn-action-lock', 'btn-action-unlock'],
+            "Test 4: Quản lý User - Nút Khoá/Mở User"
         ),
         # Test 5: Modal Thêm Sản Phẩm có Chọn File và Preview ảnh
         (

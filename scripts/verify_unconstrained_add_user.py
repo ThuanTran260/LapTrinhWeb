@@ -79,7 +79,7 @@ check('showToast' in app_js, "saveAddUser displays toast feedback")
 check('modal-add-user' in app_js, "saveAddUser closes modal-add-user after toast feedback")
 check("localStorage.removeItem('admin_custom_users')" in app_js or 'removeItem("admin_custom_users")' in app_js, "initCustomUsersTable clears stale admin_custom_users without appending rows")
 check('function initCustomUsersTable(' in app_js, "app.js provides initCustomUsersTable cleanup hook")
-check('emailEl.value = smallEmail.textContent.trim()' in app_js or 'smallEmail' in app_js, "openEditUserModal extracts customer email from table row")
+check('openEditUserModal' not in app_js and 'modal-edit-user' not in customers_html, "openEditUserModal and modal-edit-user are removed")
 check('btn-action-unlock' in app_js and 'btn-action-lock' in customers_html and 'btn-action-unlock' in customers_html, "toggleLockUser inspects unlock class while customers.html keeps lock/unlock buttons intact")
 
 print("=== VERIFY UNCONSTRAINED ADD USER (ADMIN) ===")
