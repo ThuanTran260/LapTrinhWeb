@@ -63,10 +63,37 @@ def check_css(failures: list[str]) -> None:
 def check_node_runtime(failures: list[str]) -> None:
     node_code = r"""
 const fs = require('fs');
+const assert = require('assert');
 const vm = require('vm');
 const path = require('path');
 
 const appCode = fs.readFileSync(path.join(process.cwd(), 'js', 'app.js'), 'utf8');
+const dashboardHtml = fs.readFileSync(path.join(process.cwd(), 'admin', 'index.html'), 'utf8');
+const dashboardMenuIds = ['dash-order-keyword-dropdown', 'dash-inv-keyword-dropdown'];
+const menuParents = new Map();
+const tagStack = [];
+const voidTags = new Set(['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr']);
+for (const [, closing, tagName, attrs] of dashboardHtml.replace(/<!--[\s\S]*?-->/g, '').matchAll(/<(\/?)([a-z][\w:-]*)\b([^>]*)>/gi)) {
+  const tag = tagName.toLowerCase();
+  if (closing) {
+    const index = tagStack.lastIndexOf(tag);
+    if (index >= 0) tagStack.length = index;
+    continue;
+  }
+  const id = (attrs.match(/\bid="([^"]+)"/) || [])[1];
+  if (dashboardMenuIds.includes(id)) {
+    assert(!menuParents.has(id), `Duplicate dashboard menu #${id}`);
+    menuParents.set(id, tagStack[tagStack.length - 1]);
+  }
+  if (!voidTags.has(tag) && !attrs.trimEnd().endsWith('/')) tagStack.push(tag);
+}
+for (const id of dashboardMenuIds) {
+  assert.strictEqual(menuParents.get(id), 'body', `#${id} must start outside blurred dashboard panels`);
+  assert(dashboardHtml.includes(`aria-controls="${id}"`), `Missing input/menu link for #${id}`);
+}
+for (const asset of ['../css/style.css', '../js/app.js']) {
+  assert(dashboardHtml.includes(`${asset}?v=20261121-search-portal-dashboard"`), `Dashboard must refresh ${asset}`);
+}
 const toasts = [];
 const documentListeners = {};
 const windowListeners = {};
@@ -107,7 +134,9 @@ function makeSearchGroup(inputId, mode) {
 const custBox = makeSearchGroup('filter-customer-keyword', 'customers');
 const orderBox = makeSearchGroup('filter-order-keyword', 'orders');
 const prodBox = makeSearchGroup('filter-inv-keyword', 'products');
-const allDropdowns = [custBox.dropdown, orderBox.dropdown, prodBox.dropdown];
+const dashboardOrderBox = makeSearchGroup('dash-order-keyword', 'orders');
+const dashboardProductBox = makeSearchGroup('dash-inv-keyword', 'products');
+const allDropdowns = [custBox.dropdown, orderBox.dropdown, prodBox.dropdown, dashboardOrderBox.dropdown, dashboardProductBox.dropdown];
 
 const sandbox = {
   console,
@@ -133,6 +162,8 @@ const sandbox = {
   },
   localStorage: { getItem: () => null, setItem: () => {}, removeItem: () => {} },
 };
+dashboardOrderBox.dropdown.parentElement = sandbox.document.body;
+dashboardProductBox.dropdown.parentElement = sandbox.document.body;
 
 vm.createContext(sandbox);
 vm.runInContext(appCode, sandbox);
@@ -262,6 +293,29 @@ if (orderBox.dropdown.style.width !== '216px' || orderBox.dropdown.style.left !=
 orderBox.wrapper.getBoundingClientRect = () => ({ left: 100, right: 300, top: -80, bottom: -40 });
 windowListeners.scroll();
 if (orderBox.dropdown.classList.contains('is-open')) throw new Error('Offscreen anchor should close its dropdown');
+
+// 9. Both dashboard fields work with menus that are already outside their wrappers in HTML.
+sandbox.window.innerWidth = 1860;
+for (const box of [dashboardOrderBox, dashboardProductBox]) {
+  box.wrapper.getBoundingClientRect = () => ({ left: 325, right: 520, top: 125, bottom: 165 });
+  sandbox.openAdminSearchDropdown(box.input);
+  assert(box.dropdown.classList.contains('is-open'), `Dashboard menu #${box.dropdown.id} did not open`);
+  assert.strictEqual(box.dropdown.style.left, '325px', 'Dashboard menu drifted horizontally');
+  assert.strictEqual(box.dropdown.style.top, '171px', 'Dashboard menu drifted vertically');
+  assert.strictEqual(allDropdowns.filter((d) => d.classList.contains('is-open')).length, 1);
+  box.input.value = box === dashboardOrderBox ? '8801' : 'sting';
+  sandbox.openAdminSearchDropdown(box.input);
+  assert(box.dropdown.innerHTML.includes(box === dashboardOrderBox ? 'Nguyễn Văn An' : '3 sản phẩm'));
+  const dashboardPick = {
+    closest: (selector) => selector === '.admin-search-dropdown' ? box.dropdown : null,
+    getAttribute: () => box === dashboardOrderBox ? 'Nguyễn Văn An' : 'Sting Dâu Tây Đỏ 330ml',
+  };
+  clickHandler({ target: { closest: () => dashboardPick } });
+  assert.strictEqual(box.input.value, dashboardPick.getAttribute());
+  assert(!box.dropdown.classList.contains('is-open'));
+  sandbox.openAdminSearchDropdown(box.input);
+  assert(box.dropdown.classList.contains('is-open'), 'Dashboard menu should reopen after selection');
+}
 
 console.log('NODE_ADMIN_DROPDOWN_PASS');
 """

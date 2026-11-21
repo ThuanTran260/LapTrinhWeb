@@ -8,7 +8,7 @@
   <meta name="robots" content="noindex, nofollow" />
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link rel="stylesheet" href="../css/style.css?v=20261121-search-portal" />
+  <link rel="stylesheet" href="../css/style.css?v=20261121-search-portal-dashboard" />
 </head>
 <body>
 
@@ -132,8 +132,7 @@
             <div class="admin-filter-group">
               <div class="admin-filter-search admin-filter-search--compact">
                 <button type="button" class="admin-search-btn" onclick="openAdminSearchDropdown(this)" aria-label="Tìm kiếm" title="Tìm kiếm"><i class="fas fa-search" aria-hidden="true"></i></button>
-                <input type="text" id="dash-order-keyword" class="admin-filter-input" placeholder="Tìm mã đơn, khách..." autocomplete="off" data-admin-dropdown="orders" onfocus="openAdminSearchDropdown(this)" onclick="openAdminSearchDropdown(this)" oninput="openAdminSearchDropdown(this)" style="padding: 5px 10px 5px 28px; font-size: 0.8rem;" />
-                <div id="dash-order-keyword-dropdown" class="search-results-dropdown admin-search-dropdown" role="listbox" aria-label="Danh sách khách hàng và đơn hàng"></div>
+                <input type="text" id="dash-order-keyword" class="admin-filter-input" placeholder="Tìm mã đơn, khách..." autocomplete="off" data-admin-dropdown="orders" aria-controls="dash-order-keyword-dropdown" onfocus="openAdminSearchDropdown(this)" onclick="openAdminSearchDropdown(this)" oninput="openAdminSearchDropdown(this)" style="padding: 5px 10px 5px 28px; font-size: 0.8rem;" />
               </div>
             </div>
           </div>
@@ -293,8 +292,7 @@
             <div class="admin-filter-group">
               <div class="admin-filter-search admin-filter-search--compact">
                 <button type="button" class="admin-search-btn" onclick="openAdminSearchDropdown(this)" aria-label="Tìm kiếm" title="Tìm kiếm"><i class="fas fa-search" aria-hidden="true"></i></button>
-                <input type="text" id="dash-inv-keyword" class="admin-filter-input" placeholder="Tìm tên sản phẩm..." autocomplete="off" data-admin-dropdown="products" onfocus="openAdminSearchDropdown(this)" onclick="openAdminSearchDropdown(this)" oninput="openAdminSearchDropdown(this)" style="padding: 5px 10px 5px 28px; font-size: 0.8rem;" />
-                <div id="dash-inv-keyword-dropdown" class="search-results-dropdown admin-search-dropdown" role="listbox" aria-label="Danh sách nước tăng lực trong kho"></div>
+                <input type="text" id="dash-inv-keyword" class="admin-filter-input" placeholder="Tìm tên sản phẩm..." autocomplete="off" data-admin-dropdown="products" aria-controls="dash-inv-keyword-dropdown" onfocus="openAdminSearchDropdown(this)" onclick="openAdminSearchDropdown(this)" oninput="openAdminSearchDropdown(this)" style="padding: 5px 10px 5px 28px; font-size: 0.8rem;" />
               </div>
             </div>
           </div>
@@ -586,6 +584,10 @@
     </main>
   </div>
 
+  <!-- Fixed search menus must stay outside the blurred, scrollable dashboard panels. -->
+  <div id="dash-order-keyword-dropdown" class="search-results-dropdown admin-search-dropdown" role="listbox" aria-label="Danh sách khách hàng và đơn hàng"></div>
+  <div id="dash-inv-keyword-dropdown" class="search-results-dropdown admin-search-dropdown" role="listbox" aria-label="Danh sách nước tăng lực trong kho"></div>
+
   <!-- Modal Chỉnh Sửa Sản Phẩm (Đồng bộ 100% với chi tiết sản phẩm) -->
   <div id="modal-edit-product" class="admin-modal-overlay">
     <div class="admin-modal-card">
@@ -839,6 +841,6 @@
   </div>
 
   <div id="toast-container" class="toast-container"></div>
-  <script src="../js/app.js?v=20261121-search-portal"></script>
+  <script src="../js/app.js?v=20261121-search-portal-dashboard"></script>
 </body>
 </html>
