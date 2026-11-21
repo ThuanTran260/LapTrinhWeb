@@ -2012,6 +2012,56 @@ del.price-old {
   line-height: 1.5;
 }
 
+.date-ddmmyyyy-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.date-ddmmyyyy-wrapper .admin-form-input {
+  padding-right: 42px;
+}
+
+.date-native-picker {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 40px;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+  border: 0;
+  padding: 0;
+  color-scheme: dark;
+}
+
+.date-picker-btn {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition);
+  z-index: 2;
+}
+
+.date-picker-btn:hover,
+.date-picker-btn:focus-visible {
+  color: var(--primary);
+  background: rgba(57, 255, 20, 0.12);
+  outline: none;
+}
+
 .btn-modal-cancel {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid var(--border-color);

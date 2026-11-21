@@ -2924,12 +2924,59 @@ function copyVoucherCode(code) {
   showToast(`Đã sao chép mã voucher "${codeToCopy}" vào bộ nhớ tạm!`, 'info');
 }
 
+function formatIsoToDdMmYyyy(isoStr) {
+  const match = String(isoStr || '').trim().match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  return match ? `${match[3]}/${match[2]}/${match[1]}` : '';
+}
+
+function parseDdMmYyyyToIso(ddmmyyyyStr) {
+  const match = String(ddmmyyyyStr || '').trim().match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if (!match) return '';
+  const dd = match[1].padStart(2, '0');
+  const mm = match[2].padStart(2, '0');
+  return `${match[3]}-${mm}-${dd}`;
+}
+
+function openNativeDatePicker(pickerId, textId) {
+  const pickerEl = document.getElementById(pickerId);
+  const textEl = document.getElementById(textId);
+  if (!pickerEl) return;
+  if (textEl && textEl.value) {
+    const iso = parseDdMmYyyyToIso(textEl.value);
+    if (iso) pickerEl.value = iso;
+  }
+  try {
+    if (typeof pickerEl.showPicker === 'function') {
+      pickerEl.showPicker();
+      return;
+    }
+  } catch (err) {}
+  if (typeof pickerEl.focus === 'function') pickerEl.focus();
+  if (typeof pickerEl.click === 'function') pickerEl.click();
+}
+
+function syncDatePickerToDisplay(textId, pickerEl) {
+  const textEl = document.getElementById(textId);
+  if (!textEl || !pickerEl || !pickerEl.value) return;
+  const formatted = formatIsoToDdMmYyyy(pickerEl.value);
+  if (formatted) {
+    textEl.value = formatted;
+    if (textId === 'voucher-expiry') {
+      updateVoucherLivePreview();
+    }
+  }
+}
+
 function openAddVoucherModal() {
   const form = document.getElementById('form-add-voucher');
   if (form) form.reset();
   const dateInput = document.getElementById('add-voucher-expiry');
   if (dateInput && !dateInput.value) {
     dateInput.value = '31/12/2026';
+  }
+  const pickerInput = document.getElementById('add-voucher-expiry-picker');
+  if (pickerInput) {
+    pickerInput.value = parseDdMmYyyyToIso(dateInput ? dateInput.value : '') || '2026-12-31';
   }
   openAdminModal('modal-add-voucher');
 }
@@ -3309,6 +3356,8 @@ if (typeof window !== 'undefined') {
   window.resetAdminRevenueFilter = resetAdminRevenueFilter;
   window.handleRevenuePage = handleRevenuePage;
   window.saveAddVoucher = saveAddVoucher;
+  window.openNativeDatePicker = openNativeDatePicker;
+  window.syncDatePickerToDisplay = syncDatePickerToDisplay;
   window.toggleTop5VipFilter = toggleTop5VipFilter;
 }
 

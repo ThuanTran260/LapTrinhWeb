@@ -81,6 +81,9 @@ def verify_settings_html(settings_html: str) -> list[str]:
             exp_tag = exp_match.group(0)
             if 'type="text"' not in exp_tag or 'value="31/12/2026"' not in exp_tag or 'placeholder="dd/mm/yyyy"' not in exp_tag:
                 failures.append(f"admin/settings.html: #{expiry_id} must use dd/mm/yyyy format (type=\"text\", value=\"31/12/2026\", placeholder=\"dd/mm/yyyy\")")
+        picker_id = f"{expiry_id}-picker"
+        if f'id="{picker_id}"' not in settings_html or f"openNativeDatePicker('{picker_id}', '{expiry_id}')" not in settings_html:
+            failures.append(f"admin/settings.html: missing date picker trigger #{picker_id} for #{expiry_id}")
 
     return failures
 
@@ -139,6 +142,11 @@ const amountEl = { value: '' };
 const minSpendEl = { value: '' };
 const maxDiscountEl = { value: '' };
 const expiryEl = { value: '' };
+let showPickerCalls = 0;
+const voucherExpiryEl = { value: '15/08/2026' };
+const voucherExpiryPickerEl = { value: '', showPicker: () => { showPickerCalls += 1; } };
+const previewTicketExpiryEl = { textContent: '' };
+const addExpiryPickerEl = { value: '' };
 const limitEl = { value: '' };
 const targetEl = { value: 'all' };
 
@@ -171,6 +179,10 @@ const elements = {
   'add-voucher-min-spend': minSpendEl,
   'add-voucher-max-discount': maxDiscountEl,
   'add-voucher-expiry': expiryEl,
+  'add-voucher-expiry-picker': addExpiryPickerEl,
+  'voucher-expiry': voucherExpiryEl,
+  'voucher-expiry-picker': voucherExpiryPickerEl,
+  'preview-ticket-expiry': previewTicketExpiryEl,
   'add-voucher-limit': limitEl,
   'add-voucher-target': targetEl,
   'form-add-voucher': formAddVoucher,
@@ -334,8 +346,19 @@ if (voucherToggleActive.checked !== false) {
 // Case 4: openAddVoucherModal fills dd/mm/yyyy default when expiry is empty
 expiryEl.value = '';
 sandbox.openAddVoucherModal();
-if (expiryEl.value !== '31/12/2026') {
-  throw new Error(`Case 4: expected openAddVoucherModal default expiry '31/12/2026', got ${expiryEl.value}`);
+if (expiryEl.value !== '31/12/2026' || addExpiryPickerEl.value !== '2026-12-31') {
+  throw new Error(`Case 4: expected openAddVoucherModal defaults 31/12/2026 / 2026-12-31, got ${expiryEl.value} / ${addExpiryPickerEl.value}`);
+}
+
+// Case 5: openNativeDatePicker & syncDatePickerToDisplay round-trip dd/mm/yyyy <-> yyyy-mm-dd
+sandbox.openNativeDatePicker('voucher-expiry-picker', 'voucher-expiry');
+if (voucherExpiryPickerEl.value !== '2026-08-15' || showPickerCalls !== 1) {
+  throw new Error(`Case 5a: expected picker synced to 2026-08-15 and showPicker called once, got ${voucherExpiryPickerEl.value} / ${showPickerCalls}`);
+}
+voucherExpiryPickerEl.value = '2027-01-05';
+sandbox.syncDatePickerToDisplay('voucher-expiry', voucherExpiryPickerEl);
+if (voucherExpiryEl.value !== '05/01/2027' || previewTicketExpiryEl.textContent !== '05/01/2027') {
+  throw new Error(`Case 5b: expected display and preview '05/01/2027', got ${voucherExpiryEl.value} / ${previewTicketExpiryEl.textContent}`);
 }
 
 console.log('NODE_ADD_VOUCHER_TOAST_ONLY_PASS');

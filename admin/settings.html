@@ -185,7 +185,13 @@
 
             <div class="admin-form-group">
               <label class="admin-form-label" for="voucher-expiry"><i class="fas fa-clock"></i> Ngày Hết Hạn</label>
-              <input type="text" id="voucher-expiry" class="admin-form-input" value="31/12/2026" placeholder="dd/mm/yyyy" oninput="updateVoucherLivePreview()" onchange="updateVoucherLivePreview()" />
+              <div class="date-ddmmyyyy-wrapper">
+                <input type="text" id="voucher-expiry" class="admin-form-input" value="31/12/2026" placeholder="dd/mm/yyyy" oninput="updateVoucherLivePreview()" onchange="updateVoucherLivePreview()" />
+                <input type="date" id="voucher-expiry-picker" class="date-native-picker" value="2026-12-31" aria-label="Chọn ngày hết hạn" tabindex="-1" onchange="syncDatePickerToDisplay('voucher-expiry', this)" />
+                <button type="button" class="date-picker-btn" onclick="openNativeDatePicker('voucher-expiry-picker', 'voucher-expiry')" title="Chọn ngày tháng năm" aria-label="Chọn ngày tháng năm">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                </button>
+              </div>
             </div>
           </div>
 
@@ -575,7 +581,13 @@
 
             <div class="admin-form-group">
               <label class="admin-form-label" for="add-voucher-expiry"><i class="fas fa-clock"></i> Ngày Hết Hạn</label>
-              <input type="text" id="add-voucher-expiry" class="admin-form-input" value="31/12/2026" placeholder="dd/mm/yyyy" />
+              <div class="date-ddmmyyyy-wrapper">
+                <input type="text" id="add-voucher-expiry" class="admin-form-input" value="31/12/2026" placeholder="dd/mm/yyyy" />
+                <input type="date" id="add-voucher-expiry-picker" class="date-native-picker" value="2026-12-31" aria-label="Chọn ngày hết hạn voucher mới" tabindex="-1" onchange="syncDatePickerToDisplay('add-voucher-expiry', this)" />
+                <button type="button" class="date-picker-btn" onclick="openNativeDatePicker('add-voucher-expiry-picker', 'add-voucher-expiry')" title="Chọn ngày tháng năm" aria-label="Chọn ngày tháng năm">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                </button>
+              </div>
             </div>
 
             <div class="admin-form-group">
