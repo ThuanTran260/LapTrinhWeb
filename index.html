@@ -11,6 +11,7 @@
   <!-- Custom Style -->
   <link rel="stylesheet" href="css/style.css?v=layout-20261107" />
   <link rel="stylesheet" href="css/kinetic-glass.css?v=kinetic-20261123" />
+  <link rel="stylesheet" href="css/cosmic-universe.css?v=cosmic-20261123" />
 </head>
 <body>
 
@@ -202,6 +203,230 @@
   </header>
 
   <main id="main-content">
+  <!-- ==========================================================================
+       COSMIC UNIVERSE INTRO (3D ENERGY SOLAR SYSTEM)
+       ========================================================================== -->
+  <section id="cosmic-universe-intro" class="cosmic-universe-section" data-active-system="all" style="--cosmic-rgb: 57, 255, 20; --cosmic-core-hex: #DCFFD2; --cosmic-halo-hex: #39FF14; --cosmic-deep-hex: #0A4D00;" aria-label="Không gian năng lượng vũ trụ">
+    <div class="cosmic-nebula-layer" aria-hidden="true"></div>
+    <div class="cosmic-torch-layer" aria-hidden="true"></div>
+    <canvas id="cosmic-space-canvas" aria-hidden="true"></canvas>
+    <div id="cosmic-warp-flash" aria-hidden="true"></div>
+
+    <div class="cosmic-stage-shell">
+      <div class="cosmic-header-bar">
+        <div class="cosmic-header-copy">
+          <div class="cosmic-badge-pill">
+            <span class="cosmic-badge-dot" aria-hidden="true"></span>
+            <span>ENERGY UNIVERSE • 3 HỆ THƯƠNG HIỆU</span>
+          </div>
+          <h2 class="cosmic-title">KHÔNG GIAN <span>NĂNG LƯỢNG</span></h2>
+        </div>
+        <p class="cosmic-subtitle">Khám phá 3 hệ thương hiệu nước tăng lực xoay quanh lõi Energy Core — chạm trực tiếp từng lon để mở chi tiết hoặc xuống ngay kệ hãng.</p>
+      </div>
+
+      <div class="cosmic-main-grid">
+        <div class="cosmic-solar-stage">
+          <div class="cosmic-energy-core" aria-hidden="true">
+            <div class="core-corona"></div>
+            <div class="core-accretion"></div>
+            <div class="core-flare"></div>
+            <div class="core-hot">
+              <span class="core-label">ENERGY<br>CORE</span>
+            </div>
+          </div>
+
+          <div class="cosmic-orbit-ring ring-1" aria-hidden="true"></div>
+          <div class="cosmic-orbit-ring ring-2" aria-hidden="true"></div>
+          <div class="cosmic-orbit-ring ring-3" aria-hidden="true"></div>
+
+          <div class="cosmic-planet-track">
+            <button
+              type="button"
+              class="cosmic-planet-can is-selected"
+              data-id="monster-original"
+              data-brand="monster"
+              data-brand-label="Monster Energy"
+              data-ring="1"
+              data-angle="0"
+              data-title="Monster Energy Original 355ml"
+              data-price="45.000đ"
+              data-img="assets/images/monster/original.webp"
+              data-href="pages/product-detail.html"
+              data-section-target="monster-products"
+              data-core-hex="#DCFFD2"
+              data-halo-hex="#39FF14"
+              data-deep-hex="#0A4D00"
+              data-rgb="57, 255, 20"
+              style="--can-rgb: 57, 255, 20;"
+              aria-label="Monster Energy Original 355ml - 45.000đ"
+            >
+              <span class="planet-rim-halo" aria-hidden="true"></span>
+              <span class="planet-plasma-ring" aria-hidden="true"></span>
+              <img src="assets/images/monster/original.webp" alt="Monster Energy Original 355ml" class="planet-can-img" loading="eager" />
+              <span class="planet-can-tag">Monster Original</span>
+            </button>
+
+            <button
+              type="button"
+              class="cosmic-planet-can"
+              data-id="monster-ultra-white"
+              data-brand="monster"
+              data-brand-label="Monster Ultra"
+              data-ring="1"
+              data-angle="180"
+              data-title="Monster Zero Ultra White 500ml"
+              data-price="48.000đ"
+              data-img="assets/images/monster/ultra-white.webp"
+              data-href="pages/product-detail.html"
+              data-section-target="monster-products"
+              data-core-hex="#F0FDFF"
+              data-halo-hex="#00E5FF"
+              data-deep-hex="#004E66"
+              data-rgb="0, 229, 255"
+              style="--can-rgb: 0, 229, 255;"
+              aria-label="Monster Zero Ultra White 500ml - 48.000đ"
+            >
+              <span class="planet-rim-halo" aria-hidden="true"></span>
+              <span class="planet-plasma-ring" aria-hidden="true"></span>
+              <img src="assets/images/monster/ultra-white.webp" alt="Monster Zero Ultra White 500ml" class="planet-can-img" loading="eager" />
+              <span class="planet-can-tag">Ultra White</span>
+            </button>
+
+            <button
+              type="button"
+              class="cosmic-planet-can"
+              data-id="redbull-original"
+              data-brand="redbull"
+              data-brand-label="Redbull Thái Lan"
+              data-ring="2"
+              data-angle="60"
+              data-title="Nước Tăng Lực Redbull Original 250ml"
+              data-price="18.000đ"
+              data-img="assets/images/redbull/redbull-original.webp"
+              data-href="pages/product-detail-redbull.html"
+              data-section-target="redbull-products"
+              data-core-hex="#FFF7CC"
+              data-halo-hex="#FFD700"
+              data-deep-hex="#664400"
+              data-rgb="255, 215, 0"
+              style="--can-rgb: 255, 215, 0;"
+              aria-label="Nước Tăng Lực Redbull Original 250ml - 18.000đ"
+            >
+              <span class="planet-rim-halo" aria-hidden="true"></span>
+              <span class="planet-plasma-ring" aria-hidden="true"></span>
+              <img src="assets/images/redbull/redbull-original.webp" alt="Nước Tăng Lực Redbull Original 250ml" class="planet-can-img" loading="eager" />
+              <span class="planet-can-tag">Redbull Original</span>
+            </button>
+
+            <button
+              type="button"
+              class="cosmic-planet-can"
+              data-id="redbull-thai"
+              data-brand="redbull"
+              data-brand-label="Redbull Thái Lan"
+              data-ring="2"
+              data-angle="240"
+              data-title="Nước Tăng Lực Redbull Thái Lan 250ml"
+              data-price="18.000đ"
+              data-img="assets/images/redbull/redbull-thai.webp"
+              data-href="pages/product-detail-redbull-thai.html"
+              data-section-target="redbull-products"
+              data-core-hex="#FFF7CC"
+              data-halo-hex="#FF6B00"
+              data-deep-hex="#662900"
+              data-rgb="255, 107, 0"
+              style="--can-rgb: 255, 107, 0;"
+              aria-label="Nước Tăng Lực Redbull Thái Lan 250ml - 18.000đ"
+            >
+              <span class="planet-rim-halo" aria-hidden="true"></span>
+              <span class="planet-plasma-ring" aria-hidden="true"></span>
+              <img src="assets/images/redbull/redbull-thai.webp" alt="Nước Tăng Lực Redbull Thái Lan 250ml" class="planet-can-img" loading="eager" />
+              <span class="planet-can-tag">Redbull Thái</span>
+            </button>
+
+            <button
+              type="button"
+              class="cosmic-planet-can"
+              data-id="sting-dau"
+              data-brand="sting"
+              data-brand-label="Sting PepsiCo"
+              data-ring="3"
+              data-angle="120"
+              data-title="Nước Tăng Lực Sting Dâu Tây Đỏ 330ml"
+              data-price="12.000đ"
+              data-img="assets/images/sting/sting-dau.webp"
+              data-href="pages/product-detail-sting.html"
+              data-section-target="sting-products"
+              data-core-hex="#FFD6E5"
+              data-halo-hex="#FF0055"
+              data-deep-hex="#5C001F"
+              data-rgb="255, 0, 85"
+              style="--can-rgb: 255, 0, 85;"
+              aria-label="Nước Tăng Lực Sting Dâu Tây Đỏ 330ml - 12.000đ"
+            >
+              <span class="planet-rim-halo" aria-hidden="true"></span>
+              <span class="planet-plasma-ring" aria-hidden="true"></span>
+              <img src="assets/images/sting/sting-dau.webp" alt="Nước Tăng Lực Sting Dâu Tây Đỏ 330ml" class="planet-can-img" loading="eager" />
+              <span class="planet-can-tag">Sting Dâu Đỏ</span>
+            </button>
+
+            <button
+              type="button"
+              class="cosmic-planet-can"
+              data-id="sting-blue"
+              data-brand="sting"
+              data-brand-label="Sting PepsiCo"
+              data-ring="3"
+              data-angle="300"
+              data-title="Nước Tăng Lực Sting Blue Sleek 320ml"
+              data-price="13.000đ"
+              data-img="assets/images/sting/sting-vietquat.webp"
+              data-href="pages/product-detail-sting.html"
+              data-section-target="sting-products"
+              data-core-hex="#D9F7FF"
+              data-halo-hex="#00D2FF"
+              data-deep-hex="#004466"
+              data-rgb="0, 210, 255"
+              style="--can-rgb: 0, 210, 255;"
+              aria-label="Nước Tăng Lực Sting Blue Sleek 320ml - 13.000đ"
+            >
+              <span class="planet-rim-halo" aria-hidden="true"></span>
+              <span class="planet-plasma-ring" aria-hidden="true"></span>
+              <img src="assets/images/sting/sting-vietquat.webp" alt="Nước Tăng Lực Sting Blue Sleek 320ml" class="planet-can-img" loading="eager" />
+              <span class="planet-can-tag">Sting Blue</span>
+            </button>
+          </div>
+        </div>
+
+        <aside id="cosmic-holo-card" class="cosmic-holo-card" aria-live="polite">
+          <div class="holo-visual">
+            <img id="cosmic-holo-img" src="assets/images/monster/original.webp" alt="Monster Energy Original 355ml" />
+          </div>
+          <span id="cosmic-holo-brand" class="holo-brand-badge">Monster Energy</span>
+          <h3 id="cosmic-holo-title" class="holo-title">Monster Energy Original 355ml</h3>
+          <div id="cosmic-holo-price" class="holo-price">45.000đ</div>
+          <div class="holo-actions">
+            <a id="cosmic-holo-detail-link" href="pages/product-detail.html" class="holo-btn-primary">Xem Chi Tiết ↗</a>
+            <button type="button" id="cosmic-holo-shelf-btn" class="holo-btn-secondary" data-section-target="monster-products">Tới Kệ Hãng ↓</button>
+          </div>
+        </aside>
+      </div>
+
+      <div class="cosmic-dock">
+        <div class="cosmic-filter-group" role="group" aria-label="Lọc hệ thương hiệu vũ trụ">
+          <button type="button" class="cosmic-filter-btn is-active" data-filter="all">Toàn Vũ Trụ</button>
+          <button type="button" class="cosmic-filter-btn" data-filter="monster">Hệ Monster</button>
+          <button type="button" class="cosmic-filter-btn" data-filter="redbull">Hệ Redbull</button>
+          <button type="button" class="cosmic-filter-btn" data-filter="sting">Hệ Sting</button>
+        </div>
+        <div class="cosmic-dock-actions">
+          <a id="cosmic-enter-shop" href="#flash-sale" class="cosmic-enter-btn">Khám Phá Cửa Hàng ↓</a>
+          <button type="button" id="cosmic-motion-toggle" class="cosmic-motion-btn">Tắt chuyển động vũ trụ</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ==========================================================================
        HERO BANNER (STITCH KINETIC VOLT)
        ========================================================================== -->
@@ -1124,5 +1349,6 @@
 
   <!-- Script (Chỉ phục vụ toast thông báo khi click) -->
   <script src="js/app.js"></script>
+  <script defer src="js/cosmic-universe.js?v=cosmic-20261123"></script>
 </body>
 </html>
