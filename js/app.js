@@ -3708,3 +3708,40 @@ if (typeof window !== 'undefined' && typeof window.addEventListener === 'functio
   window.addEventListener('resize', repositionOpenAdminSearchDropdowns);
   window.addEventListener('scroll', repositionOpenAdminSearchDropdowns, true);
 }
+
+// ==========================================================================
+// ADAPTIVE KINETIC GLASS MOTION ENGINE LOADER
+// ==========================================================================
+(function () {
+  if (typeof window !== 'undefined' && typeof window.addEventListener === 'function') {
+    const silenceSkippedTransition = function (evt) {
+      const vt = evt && evt.viewTransition;
+      if (!vt) return;
+      if (vt.ready && typeof vt.ready.catch === 'function') vt.ready.catch(function () {});
+      if (vt.finished && typeof vt.finished.catch === 'function') vt.finished.catch(function () {});
+      if (vt.updateCallbackDone && typeof vt.updateCallbackDone.catch === 'function') vt.updateCallbackDone.catch(function () {});
+    };
+    window.addEventListener('pagereveal', silenceSkippedTransition);
+    window.addEventListener('pageswap', silenceSkippedTransition);
+    window.addEventListener('unhandledrejection', function (e) {
+      const reason = e && e.reason;
+      if (reason && reason.name === 'AbortError' && /Transition was skipped/i.test(String(reason.message || ''))) {
+        e.preventDefault();
+      }
+    });
+  }
+  if (typeof document === 'undefined' || typeof document.createElement !== 'function') return;
+  try {
+    if (document.querySelector && document.querySelector('script[data-energy-motion-engine]')) return;
+    const target = document.head || document.body || document.documentElement;
+    if (!target || typeof target.appendChild !== 'function') return;
+    const base = (typeof SITE_ROOT === 'string' && SITE_ROOT) ? SITE_ROOT : './';
+    const script = document.createElement('script');
+    script.src = base + 'js/motion-engine.js?v=kinetic-20261123';
+    script.async = false;
+    script.setAttribute('data-energy-motion-engine', 'true');
+    target.appendChild(script);
+  } catch (err) {
+    /* ignore in minimal mock/non-DOM environments */
+  }
+})();
