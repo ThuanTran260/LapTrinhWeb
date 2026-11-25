@@ -1696,6 +1696,20 @@ function executeHeaderSearch(query) {
     const sidebarKw = document.getElementById('search-filter-keyword');
     if (sidebarKw) sidebarKw.value = q;
     document.querySelectorAll('.search-input').forEach(inp => { if (inp) inp.value = q; });
+
+    if (isOrbitalDocument()) {
+      const filters = getOrbitalSearchFilterState();
+      const matched = getOrbitalFilteredProducts(q, filters.brand, filters.price, filters.sort);
+      renderSearchResults(matched, q, 1);
+      showToast(
+        matched.length > 0
+          ? `Đã tìm thấy ${matched.length} sản phẩm phù hợp!`
+          : 'Không tìm thấy sản phẩm nào khớp từ khóa!',
+        matched.length > 0 ? 'info' : 'warning'
+      );
+      return;
+    }
+
     renderSearchResults([], q, 1);
     showToast('Đã tìm thấy 1 sản phẩm phù hợp!', 'info');
     return;
@@ -1935,7 +1949,199 @@ window.changeSearchPage = function(page) {
   }
 };
 
+const ORBITAL_SKU_META = {
+  'mn-1': { oldPrice: '55.000đ', badge: '-18%', tags: 'original,monster', volume: '355ml', origin: 'Hà Lan / Malaysia' },
+  'mn-2': { oldPrice: '55.000đ', badge: '-13%', tags: 'zero-sugar,monster', volume: '500ml', origin: 'Hà Lan / Malaysia' },
+  'mn-3': { oldPrice: '', badge: 'ZERO SUGAR', tags: 'zero-sugar,monster', volume: '500ml', origin: 'Hà Lan / Malaysia' },
+  'mn-4': { oldPrice: '', badge: 'FRUIT PUNCH', tags: 'monster', volume: '500ml', origin: 'Hà Lan / Malaysia' },
+  'rb-1': { oldPrice: '22.000đ', badge: '-18%', tags: 'redbull', volume: '250ml', origin: 'Thái Lan' },
+  'rb-2': { oldPrice: '22.000đ', badge: '-18%', tags: 'redbull', volume: '250ml', origin: 'Thái Lan' },
+  'rb-3': { oldPrice: '25.000đ', badge: '-20%', tags: 'redbull', volume: '250ml', origin: 'Thái Lan' },
+  'st-1': { oldPrice: '15.000đ', badge: '-20%', tags: 'sting', volume: '330ml', origin: 'Việt Nam' },
+  'st-2': { oldPrice: '', badge: 'NHÂN SÂM', tags: 'sting', volume: '330ml', origin: 'Việt Nam' },
+  'st-3': { oldPrice: '', badge: 'VIỆT QUẤT', tags: 'sting', volume: '320ml', origin: 'Việt Nam' }
+};
+
+function isOrbitalDocument() {
+  return typeof document !== 'undefined'
+    && Boolean(document.documentElement)
+    && typeof document.documentElement.hasAttribute === 'function'
+    && document.documentElement.hasAttribute('data-orbital');
+}
+
+function escapeOrbitalHtml(str) {
+  return String(str || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function parseOrbitalNumericPrice(priceVal) {
+  if (typeof priceVal === 'number' && Number.isFinite(priceVal)) return Math.round(priceVal);
+  return parseInt(String(priceVal || '0').replace(/\D/g, ''), 10) || 0;
+}
+
+function resolveOrbitalDetailUrl(prod) {
+  const detailOverrides = {
+    'mn-2': 'pages/product-detail.html?sku=mn-2',
+    'mn-3': 'pages/product-detail.html?sku=mn-3',
+    'mn-4': 'pages/product-detail.html?sku=mn-4',
+    'st-2': 'pages/product-detail-sting.html?sku=st-2',
+    'st-3': 'pages/product-detail-sting.html?sku=st-3'
+  };
+  const baseUrl = (prod && detailOverrides[prod.id]) || (prod && prod.detailUrl) || 'pages/product-detail.html';
+  const isInsidePages = typeof window !== 'undefined' && window.location && (
+    String(window.location.pathname || '').includes('/pages/') ||
+    String(window.location.href || '').includes('/pages/')
+  );
+  if (!isInsidePages) return baseUrl;
+  return baseUrl.startsWith('../') ? baseUrl : ('../' + baseUrl);
+}
+
+function getOrbitalSearchFilterState() {
+  const kwEl = document.getElementById('search-filter-keyword');
+  const brandEl = document.querySelector('input[name="search-brand"]:checked');
+  const priceEl = document.querySelector('input[name="search-price"]:checked');
+  const sortEl = document.getElementById('orb-search-sort');
+  return {
+    q: kwEl ? kwEl.value.trim() : '',
+    brand: brandEl ? brandEl.value : 'all',
+    price: priceEl ? priceEl.value : 'all',
+    sort: sortEl ? sortEl.value : 'default'
+  };
+}
+
+function getOrbitalFilteredProducts(q, brand, price, sort) {
+  const baseList = filterProducts(q || '', brand || 'all', price || 'all');
+  const sorted = baseList.slice();
+  if (sort === 'price-asc') {
+    sorted.sort((a, b) => parseOrbitalNumericPrice(a.price) - parseOrbitalNumericPrice(b.price));
+  } else if (sort === 'price-desc') {
+    sorted.sort((a, b) => parseOrbitalNumericPrice(b.price) - parseOrbitalNumericPrice(a.price));
+  }
+  sorted._orbFiltered = true;
+  return sorted;
+}
+
+function buildOrbitalQuerySummary(keyword, brand, price) {
+  const q = (keyword || '').trim();
+  if (q) return `"${q}"`;
+  const brandLabels = { monster: 'Monster Energy', redbull: 'Redbull Thái Lan', sting: 'Sting PepsiCo' };
+  const priceLabels = { under20: 'Dưới 20.000đ', '20to50': '20.000đ - 50.000đ', over50: 'Trên 50.000đ' };
+  const parts = [];
+  if (brand && brand !== 'all') parts.push(brandLabels[brand] || brand);
+  if (price && price !== 'all') parts.push(priceLabels[price] || price);
+  return parts.length > 0 ? parts.join(' · ') : 'Tất cả sản phẩm';
+}
+
 function renderSearchResults(products, keyword, page = 1) {
+  if (isOrbitalDocument()) {
+    const filters = getOrbitalSearchFilterState();
+    const effectiveKw = typeof keyword === 'string' ? keyword : filters.q;
+    const matched = (Array.isArray(products) && (products.length > 0 || products._orbFiltered))
+      ? products
+      : getOrbitalFilteredProducts(effectiveKw, filters.brand, filters.price, filters.sort);
+
+    currentSearchProducts = matched;
+    currentSearchKeyword = effectiveKw || '';
+    currentSearchPage = 1;
+
+    const container = document.getElementById('search-results-grid');
+    const countEl = document.getElementById('search-count-number');
+    const queryTextEl = document.getElementById('search-query-text');
+    const breadcrumbKw = document.getElementById('search-breadcrumb-query');
+    const summaryText = buildOrbitalQuerySummary(effectiveKw, filters.brand, filters.price);
+
+    if (countEl) countEl.textContent = String(matched.length);
+    if (queryTextEl) queryTextEl.textContent = summaryText;
+    if (breadcrumbKw) {
+      breadcrumbKw.textContent = effectiveKw ? `"${effectiveKw}"` : (summaryText !== 'Tất cả sản phẩm' ? summaryText : 'Kết quả tìm kiếm');
+    }
+
+    const strip = document.querySelector('.dashboard-products-column .pagination-strip') || document.querySelector('.pagination-strip');
+    if (strip) {
+      if (matched.length > 0) {
+        renderSearchResultsPagination(matched.length, 1);
+      } else {
+        strip.style.display = 'none';
+      }
+    }
+
+    if (!container) return;
+
+    const isInsidePages = typeof window !== 'undefined' && window.location && (
+      String(window.location.pathname || '').includes('/pages/') ||
+      String(window.location.href || '').includes('/pages/')
+    );
+    const imgPrefix = isInsidePages ? '../' : '';
+
+    if (matched.length === 0) {
+      container.innerHTML = `
+        <div class="orb-vault-empty" role="status">
+          <div class="orb-empty-icon"><i class="fas fa-satellite-dish" aria-hidden="true"></i></div>
+          <h3>Không tìm thấy tín hiệu sản phẩm phù hợp</h3>
+          <p>Không có SKU nào khớp với tiêu chí lọc hiện tại. Thử từ khóa khác hoặc đặt lại bộ lọc để xem toàn bộ 10 sản phẩm.</p>
+          <button type="button" class="orb-btn-primary" onclick="resetSearchPageFilter()">
+            <i class="fas fa-rotate-left" aria-hidden="true"></i>
+            <span>Hiển thị tất cả 10 sản phẩm</span>
+          </button>
+        </div>
+      `;
+      return;
+    }
+
+    container.innerHTML = matched.map((prod, idx) => {
+      const numericPrice = parseOrbitalNumericPrice(prod.price);
+      const meta = ORBITAL_SKU_META[prod.id] || {};
+      const detailLink = resolveOrbitalDetailUrl(prod);
+      const imgSrc = imgPrefix + prod.image;
+      const badge = meta.badge || prod.tag || '';
+      const oldPrice = meta.oldPrice || '';
+      const tagsStr = meta.tags || prod.brandKey || '';
+      const volumeText = meta.volume || '';
+      const safeNameAttr = escapeOrbitalHtml(prod.name);
+      const safeBrandAttr = escapeOrbitalHtml(prod.brand);
+      const safeBadgeAttr = escapeOrbitalHtml(badge);
+      const safeIdJs = String(prod.id || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+      const safeNameJs = String(prod.name || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+
+      return `
+        <article class="orb-bento-card" data-sku="${escapeOrbitalHtml(prod.id)}" data-brand="${escapeOrbitalHtml(prod.brandKey)}" data-price="${numericPrice}" data-tags="${escapeOrbitalHtml(tagsStr)}" data-order="${idx}" data-spectral="${escapeOrbitalHtml(prod.brandKey)}">
+          <div class="orb-card-top">
+            <span class="orb-card-badge">${safeBrandAttr}${volumeText ? ' · ' + escapeOrbitalHtml(volumeText) : ''}</span>
+            ${badge ? `<span class="orb-card-discount">${safeBadgeAttr}</span>` : `<span class="orb-card-badge">${escapeOrbitalHtml(prod.id.toUpperCase())}</span>`}
+          </div>
+          <a href="${escapeOrbitalHtml(detailLink)}" class="orb-card-media" title="Xem ${safeNameAttr}">
+            <img src="${escapeOrbitalHtml(imgSrc)}" alt="${safeNameAttr}" loading="lazy" onerror="this.src='${imgPrefix}assets/images/monster/original.webp'" />
+          </a>
+          <div class="orb-card-body">
+            <h3 class="orb-card-title">
+              <a href="${escapeOrbitalHtml(detailLink)}">${safeNameAttr}</a>
+            </h3>
+            <p class="orb-card-specs">${escapeOrbitalHtml(meta.origin || 'Chính hãng')}${volumeText ? ' · Lon ' + escapeOrbitalHtml(volumeText) : ''}</p>
+            <div class="orb-card-pricing">
+              <span class="orb-card-price">${escapeOrbitalHtml(prod.price)}</span>
+              ${oldPrice ? `<del class="orb-card-old-price">${escapeOrbitalHtml(oldPrice)}</del>` : ''}
+            </div>
+            <div class="orb-card-actions">
+              <button type="button" class="orb-btn-add" data-sku="${escapeOrbitalHtml(prod.id)}" onclick="event.stopPropagation(); if (window.OrbitalCart) { OrbitalCart.add({ id: '${safeIdJs}', name: '${safeNameJs}', price: ${numericPrice}, qty: 1 }); } else { showToast('Đã thêm ${safeNameJs} vào giỏ hàng!', 'success'); }">
+                <i class="fas fa-cart-plus" aria-hidden="true"></i>
+                <span>Nạp vào giỏ</span>
+              </button>
+            </div>
+          </div>
+        </article>
+      `;
+    }).join('');
+
+    if (typeof window !== 'undefined' && window.OrbitalMotion && typeof window.OrbitalMotion.animateSearchCards === 'function') {
+      window.OrbitalMotion.animateSearchCards(container);
+    }
+    return;
+  }
+
   const defaultMonster = (typeof STATIC_PRODUCTS_CATALOG !== 'undefined' && STATIC_PRODUCTS_CATALOG.length > 0) ? STATIC_PRODUCTS_CATALOG[0] : {
     id: 'mn-1',
     name: 'Monster Energy Original 355ml',
@@ -2001,6 +2207,8 @@ function renderSearchResults(products, keyword, page = 1) {
   `;
 }
 
+let orbitalSearchDebounceTimer = 0;
+
 function initSearchResultsPage() {
   if (!document.getElementById('search-results-grid')) return;
 
@@ -2008,6 +2216,7 @@ function initSearchResultsPage() {
   const q = params.get('q') || '';
   const brand = params.get('brand') || 'all';
   const price = params.get('price') || 'all';
+  const sort = params.get('sort') || 'default';
 
   const headerInputs = document.querySelectorAll('.search-input');
   headerInputs.forEach(inp => { if (inp) inp.value = q; });
@@ -2020,6 +2229,49 @@ function initSearchResultsPage() {
 
   const priceRadio = document.querySelector(`input[name="search-price"][value="${price}"]`);
   if (priceRadio) priceRadio.checked = true;
+
+  if (isOrbitalDocument()) {
+    const sortEl = document.getElementById('orb-search-sort');
+    if (sortEl && ['default', 'price-asc', 'price-desc'].includes(sort)) {
+      sortEl.value = sort;
+    }
+
+    if (sidebarKw && !sidebarKw.dataset.orbSearchBound) {
+      sidebarKw.dataset.orbSearchBound = 'true';
+      sidebarKw.addEventListener('input', () => {
+        if (orbitalSearchDebounceTimer) window.clearTimeout(orbitalSearchDebounceTimer);
+        orbitalSearchDebounceTimer = window.setTimeout(() => {
+          handleSearchResultsFilter(null, { silent: true });
+        }, 180);
+      });
+    }
+
+    const searchForm = document.getElementById('search-filter-form');
+    if (searchForm && !searchForm.dataset.orbSearchBound && !searchForm.getAttribute('onsubmit')) {
+      searchForm.dataset.orbSearchBound = 'true';
+      searchForm.addEventListener('submit', handleSearchResultsFilter);
+    }
+
+    document.querySelectorAll('input[name="search-brand"], input[name="search-price"]').forEach(radio => {
+      if (!radio.dataset.orbSearchBound) {
+        radio.dataset.orbSearchBound = 'true';
+        radio.addEventListener('change', () => {
+          handleSearchResultsFilter(null, { silent: true });
+        });
+      }
+    });
+
+    if (sortEl && !sortEl.dataset.orbSearchBound) {
+      sortEl.dataset.orbSearchBound = 'true';
+      sortEl.addEventListener('change', () => {
+        handleSearchResultsFilter(null, { silent: true });
+      });
+    }
+
+    const matched = getOrbitalFilteredProducts(q, brand, price, sort);
+    renderSearchResults(matched, q, 1);
+    return;
+  }
 
   renderSearchResults([], q, 1);
 }
@@ -2038,7 +2290,7 @@ if (typeof document !== 'undefined') {
   }
 }
 
-function handleSearchResultsFilter(e) {
+function handleSearchResultsFilter(e, opts) {
   if (e && e.preventDefault) e.preventDefault();
   const kwInput = document.getElementById('search-filter-keyword');
   const q = kwInput ? kwInput.value.trim() : '';
@@ -2048,16 +2300,33 @@ function handleSearchResultsFilter(e) {
   const brand = brandEl ? brandEl.value : 'all';
   const priceEl = document.querySelector('input[name="search-price"]:checked');
   const price = priceEl ? priceEl.value : 'all';
+  const sortEl = document.getElementById('orb-search-sort');
+  const sort = sortEl ? sortEl.value : 'default';
 
   const params = new URLSearchParams();
   if (q) params.set('q', q);
   if (brand && brand !== 'all') params.set('brand', brand);
   if (price && price !== 'all') params.set('price', price);
+  if (isOrbitalDocument() && sort && sort !== 'default') params.set('sort', sort);
 
   const newUrl = window.location.pathname + (params.toString() ? '?' + params.toString() : '');
   try {
     window.history.pushState({}, '', newUrl);
   } catch (err) {}
+
+  if (isOrbitalDocument()) {
+    const matched = getOrbitalFilteredProducts(q, brand, price, sort);
+    renderSearchResults(matched, q, 1);
+    if (!opts || !opts.silent) {
+      showToast(
+        matched.length > 0
+          ? `Đã tìm thấy ${matched.length} sản phẩm phù hợp!`
+          : 'Không tìm thấy sản phẩm nào phù hợp!',
+        matched.length > 0 ? 'info' : 'warning'
+      );
+    }
+    return;
+  }
 
   renderSearchResults([], q, 1);
   showToast('Đã tìm thấy 1 sản phẩm phù hợp!', 'info');
@@ -2072,10 +2341,19 @@ function resetSearchPageFilter() {
   if (allBrand) allBrand.checked = true;
   const allPrice = document.querySelector('input[name="search-price"][value="all"]');
   if (allPrice) allPrice.checked = true;
+  const sortEl = document.getElementById('orb-search-sort');
+  if (sortEl) sortEl.value = 'default';
 
   try {
     window.history.pushState({}, '', window.location.pathname);
   } catch (err) {}
+
+  if (isOrbitalDocument()) {
+    const matched = getOrbitalFilteredProducts('', 'all', 'all', 'default');
+    renderSearchResults(matched, '', 1);
+    showToast(`Đã hiển thị toàn bộ ${matched.length} sản phẩm chính hãng!`, 'info');
+    return;
+  }
 
   renderSearchResults([], '', 1);
   showToast('Đã hiển thị sản phẩm mặc định (1 lon Monster)!', 'info');
@@ -3731,6 +4009,7 @@ if (typeof window !== 'undefined' && typeof window.addEventListener === 'functio
     });
   }
   if (typeof document === 'undefined' || typeof document.createElement !== 'function') return;
+  if (document.documentElement && document.documentElement.hasAttribute('data-orbital')) return;
   try {
     if (document.querySelector && document.querySelector('script[data-energy-motion-engine]')) return;
     const target = document.head || document.body || document.documentElement;

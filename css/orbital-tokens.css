@@ -1,0 +1,266 @@
+/* ==========================================================================
+   ENERGY BOOST STORE — ORBITAL TELEMETRY 2026 DESIGN TOKENS
+   Spatial Observatory x Craft Energy Drink
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Unbounded:wght@600;700;800&display=swap');
+
+/* --------------------------------------------------------------------------
+   1. REGISTERED CUSTOM PROPERTIES (Smooth Spectral & Spotlight Interpolation)
+   -------------------------------------------------------------------------- */
+@property --orbit-accent {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #39FF14;
+}
+
+@property --orbit-secondary {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #00E0B8;
+}
+
+@property --orbit-core {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #E6FFE0;
+}
+
+@property --orbit-deep {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #073B04;
+}
+
+/* --------------------------------------------------------------------------
+   2. CORE DESIGN TOKENS
+   -------------------------------------------------------------------------- */
+:root {
+  /* Progressive gradient interpolation color spaces */
+  --in-oklab: ;
+  --in-oklch: ;
+
+  /* Obsidian OLED Surface Scale */
+  --orb-void: #030508;
+  --orb-surface-1: #080C14;
+  --orb-surface-2: #0E1522;
+  --orb-surface-3: #141D2E;
+
+  /* Honest Web Liquid-Glass Surfaces & Architectural Hairlines */
+  --orb-glass-bg: rgba(8, 12, 20, 0.72);
+  --orb-glass-bg-strong: rgba(8, 12, 20, 0.9);
+  --orb-glass-elevated: rgba(14, 21, 34, 0.8);
+  --orb-glass-filter: blur(18px) saturate(165%);
+  --orb-glass-filter-heavy: blur(24px) saturate(180%);
+
+  --orb-hairline: rgba(255, 255, 255, 0.08);
+  --orb-hairline-strong: rgba(255, 255, 255, 0.16);
+  --orb-specular-top: inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  --orb-specular-soft: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+
+  /* Accessible Contrast Typography Palette (>= 4.5:1 AA on #030508..#141D2E) */
+  --orb-text-primary: #F4F7FB;
+  --orb-text-secondary: #B2C0D8;
+  --orb-text-muted: #7E8DA8;
+  --orb-text-on-accent: #030508;
+
+  /* Semantic Telemetry Status */
+  --orb-success: #39FF14;
+  --orb-info: #00E0B8;
+  --orb-warning: #FFB800;
+  --orb-danger: #FF2A6D;
+
+  /* Vietnamese-Native Typography Stack */
+  --font-display: 'Unbounded', 'Space Grotesk', sans-serif;
+  --font-heading: 'Space Grotesk', 'Be Vietnam Pro', sans-serif;
+  --font-body: 'Be Vietnam Pro', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Default Spectral Palette (Monster) */
+  --orbit-accent: #39FF14;
+  --orbit-rgb: 57, 255, 20;
+  --orbit-secondary: #00E0B8;
+  --orbit-core: #E6FFE0;
+  --orbit-deep: #073B04;
+
+  /* Geometry & Layout */
+  --orb-container-max: 1360px;
+  --orb-radius-sm: 10px;
+  --orb-radius-md: 16px;
+  --orb-radius-lg: 22px;
+  --orb-radius-xl: 28px;
+  --orb-radius-pill: 999px;
+
+  /* Shadows */
+  --orb-shadow-card: 0 20px 50px -18px rgba(0, 0, 0, 0.78);
+  --orb-shadow-float: 0 26px 68px -18px rgba(0, 0, 0, 0.88);
+
+  /* Physics & Motion Curves */
+  --orb-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --orb-ease-snappy: cubic-bezier(0.32, 0.72, 0, 1);
+  --orb-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@supports (background: linear-gradient(in oklab, white, black)) {
+  :root {
+    --in-oklab: in oklab;
+    --in-oklch: in oklch;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   3. DYNAMIC SPECTRAL PALETTES
+   -------------------------------------------------------------------------- */
+html[data-orbital="true"],
+html[data-orbital="true"][data-spectral="monster"],
+[data-spectral="monster"] {
+  --orbit-accent: #39FF14;
+  --orbit-rgb: 57, 255, 20;
+  --orbit-secondary: #00E0B8;
+  --orbit-core: #E6FFE0;
+  --orbit-deep: #073B04;
+}
+
+html[data-orbital="true"][data-spectral="redbull"],
+[data-spectral="redbull"] {
+  --orbit-accent: #FFB800;
+  --orbit-rgb: 255, 184, 0;
+  --orbit-secondary: #FF570D;
+  --orbit-core: #FFF3CC;
+  --orbit-deep: #4A2B00;
+}
+
+html[data-orbital="true"][data-spectral="sting"],
+[data-spectral="sting"] {
+  --orbit-accent: #FF2A6D;
+  --orbit-rgb: 255, 42, 109;
+  --orbit-secondary: #2EA6FF;
+  --orbit-core: #FFD6E3;
+  --orbit-deep: #4D0620;
+}
+
+/* --------------------------------------------------------------------------
+   4. 1:1 NATIVE SCROLL CONTRACT & BASE DOCUMENT RESET
+   -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html[data-orbital="true"] {
+  color-scheme: dark;
+  scroll-behavior: auto !important;
+  overflow-x: clip;
+  background-color: #030508;
+  color: #F4F7FB;
+  font-size: 16px;
+  transition:
+    --orbit-accent 420ms var(--orb-ease-out),
+    --orbit-secondary 420ms var(--orb-ease-out),
+    --orbit-core 420ms var(--orb-ease-out),
+    --orbit-deep 420ms var(--orb-ease-out);
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  overflow-x: clip;
+  background-color: #030508;
+  color: #F4F7FB;
+  font-family: var(--font-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+img,
+svg,
+canvas,
+video {
+  max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--orbit-accent);
+  outline-offset: 3px;
+}
+
+@media (forced-colors: active) {
+  :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+    outline: 3px solid Highlight;
+    outline-offset: 3px;
+  }
+}
+
+::selection {
+  background: rgba(var(--orbit-rgb), 0.28);
+  color: #F4F7FB;
+}
+
+/* Subtle Observatory Scrollbar */
+html[data-orbital="true"] {
+  scrollbar-color: rgba(var(--orbit-rgb), 0.35) #030508;
+  scrollbar-width: thin;
+}
+
+/* --------------------------------------------------------------------------
+   5. CROSS-DOCUMENT VIEW TRANSITIONS
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+
+  @keyframes orbViewOut {
+    from {
+      opacity: 1;
+      translate: 0 0;
+    }
+    to {
+      opacity: 0;
+      translate: 0 -6px;
+    }
+  }
+
+  @keyframes orbViewIn {
+    from {
+      opacity: 0;
+      translate: 0 8px;
+    }
+    to {
+      opacity: 1;
+      translate: 0 0;
+    }
+  }
+
+  ::view-transition-old(root) {
+    animation: orbViewOut 220ms var(--orb-ease-snappy) both;
+  }
+
+  ::view-transition-new(root) {
+    animation: orbViewIn 260ms var(--orb-ease-out) both;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   6. REDUCED MOTION SAFEGUARD
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  html[data-orbital="true"] {
+    transition: none;
+  }
+}
