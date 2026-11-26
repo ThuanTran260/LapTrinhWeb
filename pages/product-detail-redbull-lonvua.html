@@ -1,366 +1,420 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" data-orbital="true" data-spectral="redbull">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nước Tăng Lực Redbull Nắp Bật 250ml | ENERGY BOOST STORE</title>
-  <meta name="description" content="Nước Tăng Lực Redbull Nắp Bật 250ml lon Sleek Can thể thao có ga nhẹ tiện lợi chính hãng tại Energy Boost Store." />
-  
+  <title>Nước Tăng Lực Redbull Nắp Bật 250ml - Chi Tiết Sản Phẩm | ENERGY BOOST STORE</title>
+  <meta name="description" content="Nước Tăng Lực Redbull Nắp Bật 250ml lon Sleek Can thể thao có ga nhẹ tiện lợi chính hãng tại Energy Boost Store. Giao lạnh 2H." />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%23030508'/%3E%3Ccircle cx='32' cy='32' r='22' fill='none' stroke='%2339FF14' stroke-width='3'/%3E%3Cpath d='M35 14L20 35h11l-2 15 15-21H33z' fill='%2339FF14'/%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Unbounded:wght@600;700;800&display=swap" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link rel="stylesheet" href="../css/style.css?v=layout-20261107" />
-  <link rel="stylesheet" href="../css/kinetic-glass.css?v=kinetic-20261123" />
-  <script>window.location.replace('product-detail-redbull.html');</script>
+  <link rel="stylesheet" href="../css/orbital-tokens.css?v=orbital-20261126" />
+  <link rel="stylesheet" href="../css/orbital-storefront.css?v=orbital-20261126" />
+
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/ScrollTrigger.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/SplitText.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/Flip.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/Observer.min.js"></script>
 </head>
 <body>
 
-  <!-- Top Bar -->
-  <div class="top-bar">
-    <div class="container">
-      <div class="announcement-text">
-        <i class="fas fa-bolt"></i>
-        <span>ENERGY BOOST: Nhập mã <span class="coupon-badge" onclick="showToast('Đã chép mã giảm giá ENERGY10!', 'info')">ENERGY10</span> giảm ngay 10% cho đơn hàng đầu tiên!</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Header -->
-  <header class="header">
-    <div class="container header-main">
-      <a href="../index.html" class="logo">
-        <div class="logo-icon"><i class="fas fa-bolt"></i></div>
-        <div class="logo-text">
-          <span class="logo-title">ENERGY<span>BOOST</span></span>
-          <span class="logo-subtitle">HỆ THỐNG NƯỚC TĂNG LỰC CHÍNH HÃNG</span>
-        </div>
-      </a>
-
-      <!-- Search Box Tĩnh -->
-      <div class="search-box">
-        <input type="text" class="search-input" placeholder="Tìm kiếm Monster, Redbull, Sting..." />
-        <button type="button" class="search-btn" title="Tìm kiếm"><i class="fas fa-search"></i></button>
-      </div>
-
-      <!-- Action Buttons -->
-      <div class="header-actions">
-        <!-- Order History Shortcut -->
-        <a href="orders.html" class="action-btn" title="Lịch sử đơn hàng">
-          <div class="action-icon-wrapper">
-            <i class="fas fa-receipt" style="color: var(--accent-cyan);"></i>
-          </div>
-          <div class="action-text">
-            <span class="action-label">Đơn hàng</span>
-            <span class="action-value" style="color: var(--accent-cyan);">Lịch sử</span>
-          </div>
+  <header class="orb-nav-shell">
+    <div class="orb-container">
+      <nav class="orb-nav-bar" aria-label="Điều hướng chính">
+        <a href="../index.html" class="orb-brand-mark">
+          <span class="orb-brand-orb" aria-hidden="true"><i class="fas fa-bolt"></i></span>
+          <span class="orb-brand-title">ENERGY BOOST</span>
+          <span class="orb-brand-code">OBS-01</span>
         </a>
 
-        <!-- User Account Link -->
-        <a href="account.html" id="header-account-link" class="action-btn">
-          <div class="action-icon-wrapper">
-            <i class="fas fa-user"></i>
-          </div>
-          <div class="action-text">
-            <span class="action-label">Tài khoản</span>
-            <span class="action-value" id="header-account-value">Thành viên</span>
-          </div>
-        </a>
-
-        <!-- Cart Link -->
-        <a href="cart.html" class="action-btn">
-          <div class="action-icon-wrapper">
-            <i class="fas fa-shopping-cart"></i>
-            <span class="action-badge">7</span>
-          </div>
-          <div class="action-text">
-            <span class="action-label">Giỏ hàng</span>
-            <span class="action-value" style="color: var(--primary);">216.000đ</span>
-          </div>
-        </a>
-      </div>
-    </div>
-
-    <!-- Navigation -->
-    <nav class="nav-bar">
-      <div class="container nav-container">
-        <ul class="nav-menu">
-          <li>
-            <a href="../index.html" id="nav-home-btn" class="nav-link nav-home-link" onclick="return scrollToDashboardTop(event, this);">
-              <i class="fas fa-home" style="color: var(--primary);"></i> Trang chủ
-            </a>
-          </li>
-          <li class="nav-brand-group">
-            <button type="button" id="nav-brand-toggle" class="nav-link nav-brand-toggle-btn" aria-expanded="false" aria-controls="nav-brand-drawer" onclick="toggleBrandDrawer(this)">
-              <i class="fas fa-tags" style="color: var(--secondary);"></i> Nhãn hàng
-              <i class="fas fa-chevron-right nav-brand-chevron" aria-hidden="true"></i>
-            </button>
-            <div id="nav-brand-drawer" class="nav-brand-drawer" aria-hidden="true">
-              <a href="../index.html#monster-products" class="nav-link nav-brand-item" onclick="handleNavBrandClick(event, this, 'monster-products')"><i class="fas fa-bolt" style="color: var(--primary);"></i> Monster</a>
-              <a href="../index.html#redbull-products" class="nav-link nav-brand-item active" onclick="handleNavBrandClick(event, this, 'redbull-products')"><i class="fas fa-fire" style="color: var(--secondary);"></i> Redbull</a>
-              <a href="../index.html#sting-products" class="nav-link nav-brand-item" onclick="handleNavBrandClick(event, this, 'sting-products')"><i class="fas fa-bolt" style="color: #FF0055;"></i> Sting</a>
-            </div>
-          </li>
+        <ul class="orb-nav-links">
+          <li><a href="../index.html" class="orb-nav-link">Trang chủ</a></li>
+          <li><a href="../index.html#monster-products" class="orb-nav-link">Monster</a></li>
+          <li><a href="../index.html#redbull-products" class="orb-nav-link is-active">Redbull</a></li>
+          <li><a href="../index.html#sting-products" class="orb-nav-link">Sting</a></li>
+          <li><a href="search-results.html" class="orb-nav-link">Tìm kiếm</a></li>
         </ul>
-      </div>
-    </nav>
-  </header>
 
-  <!-- Product Detail Section -->
-  <main class="container detail-page-section">
-    <!-- Breadcrumb -->
-    <div class="breadcrumb">
-      <a href="../index.html">Trang chủ</a>
-      <span>/</span>
-      <a href="../index.html#redbull-products">Redbull Energy</a>
-      <span>/</span>
-      <span>Nước Tăng Lực Redbull Nắp Bật 250ml</span>
-    </div>
-
-    <!-- Detail Layout -->
-    <div class="detail-layout">
-      <!-- Left Column: Gallery -->
-      <div class="detail-gallery">
-        <div class="detail-main-img-box" style="position: relative; overflow: hidden; background: radial-gradient(circle, rgba(255, 107, 0, 0.16) 0%, rgba(20, 24, 30, 0.7) 65%); border: 1px solid var(--border-glass); border-radius: var(--radius-lg); box-shadow: 0 12px 36px rgba(0, 0, 0, 0.7);">
-          <img id="main-product-image" src="../assets/images/redbull/redbull-lon-vua.webp" alt="Nước Tăng Lực Redbull Nắp Bật 250ml" class="detail-main-img" onerror="this.src='../assets/images/redbull/redbull-lon-vua.webp'" fetchpriority="high" />
-        </div>
-        
-        <!-- Thumbnail Gallery: Đúng 1 thumbnail duy nhất theo yêu cầu -->
-        <div class="detail-thumbnails">
-          <div class="thumb-item active" onclick="switchDetailThumb(this, '../assets/images/redbull/redbull-lon-vua.webp', 'Lon Redbull Nắp Bật dáng vừa')" title="Ảnh chính diện Lon Redbull Nắp Bật">
-            <img src="../assets/images/redbull/redbull-lon-vua.webp" alt="Redbull Nắp Bật" onerror="this.src='../assets/images/redbull/redbull-lon-vua.webp'" />
-          </div>
-        </div>
-      </div>
-
-      <!-- Right Column: Info -->
-      <div class="detail-info">
-        <div class="detail-badge-row">
-          <span class="badge-tag" style="position: static; background: rgba(255, 107, 0, 0.18); color: #FF6B00; border-color: rgba(255, 107, 0, 0.4);"><i class="fas fa-fire"></i> DÁNG VỪA NẮP BẬT</span>
-          <span class="badge-discount" style="position: static;">-20% GIẢM</span>
-          <span class="badge-tag" style="position: static; color: var(--primary); border-color: var(--primary);">SLEEK CAN THỂ THAO</span>
-        </div>
-
-        <h1 class="detail-title">Nước Tăng Lực Redbull Nắp Bật 250ml</h1>
-
-        <div class="detail-meta-row">
-          <span><i class="fas fa-trademark" style="color: #FFD700;"></i> Thương hiệu: <strong>Redbull Energy Drink</strong></span>
-          <span><i class="fas fa-location-dot" style="color: var(--secondary);"></i> Công nghệ: <strong>Sleek Can Thái Lan</strong></span>
-          <span><i class="fas fa-shield-halved" style="color: var(--primary);"></i> Tình trạng: <strong style="color: var(--primary);">Còn hàng (Sẵn sàng giao)</strong></span>
-        </div>
-
-        <div class="detail-price-box">
-          <span class="detail-price-current">20.000đ</span>
-          <span class="detail-price-old">25.000đ</span>
-          <span style="font-size: 0.85rem; color: var(--primary); font-weight: 700;">Tiết kiệm: 5.000đ</span>
-        </div>
-
-        <p class="detail-description">
-          <strong>Redbull Nắp Bật 250ml</strong> là phiên bản cải tiến mang phong cách thể thao hiện đại với thiết kế Sleek Can thon gọn và nắp khoen bật tiện dụng. Công thức bứt phá kết hợp Nhân sâm tự nhiên, Kẽm sinh học và ga sủi nhẹ tinh tế giúp giải khát cực đã, thổi bùng năng lượng tỉnh táo tức thì cho game thủ, tài xế và vận động viên thể thao!
-        </p>
-
-        <!-- Bảng Thông Số Chi Tiết Sản Phẩm Chuẩn -->
-        <table class="nutrition-table" style="margin-bottom: 24px;">
-          <thead>
-            <tr>
-              <th colspan="2" style="background: var(--bg-card); color: #FFF; font-size: 0.95rem;">
-                <i class="fas fa-circle-info" style="color: #FFD700;"></i> THÔNG TIN CHI TIẾT SẢN PHẨM
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="width: 32%; color: var(--text-muted); font-weight: 600;">Thương hiệu</td>
-              <td style="color: #FFF; font-weight: 600;">Redbull Energy Drink (Sleek Edition)</td>
-            </tr>
-            <tr>
-              <td style="color: var(--text-muted); font-weight: 600;">Sản xuất tại</td>
-              <td style="color: #FFF; font-weight: 600;">Thái Lan (Công nghệ Sleek Can Quốc Tế)</td>
-            </tr>
-            <tr>
-              <td style="color: var(--text-muted); font-weight: 600;">Thành phần</td>
-              <td style="color: #FFF; line-height: 1.6;">Nước bão hòa CO2 nhẹ, Đường tinh luyện, Taurine 800mg, Caffeine 80mg, Chiết xuất Nhân sâm tự nhiên, Kẽm sinh học (Zinc), Vitamin B-Complex (B2, B3, B6, B12), Chất điều chỉnh độ chua (E330), Màu tự nhiên Caramel.</td>
-            </tr>
-            <tr>
-              <td style="color: var(--text-muted); font-weight: 600;">Hương vị</td>
-              <td style="color: #FFD700; font-weight: 600;">Năng lượng bứt phá sảng khoái mát lạnh, ga nhẹ tinh tế, hậu vị thanh mát sảng khoái</td>
-            </tr>
-            <tr>
-              <td style="color: var(--text-muted); font-weight: 600;">Thể tích</td>
-              <td style="color: var(--primary); font-weight: 700;">250ml (Lon Sleek Can thon dài)</td>
-            </tr>
-            <tr>
-              <td style="color: var(--text-muted); font-weight: 600;">Hướng dẫn sử dụng</td>
-              <td style="color: #FFF; line-height: 1.6;">Bật nắp lon thưởng thức ngay, ngon vượt trội khi uống lạnh sâu. Thích hợp cho người lái xe đường dài, game thủ và tập gym.</td>
-            </tr>
-            <tr>
-              <td style="color: var(--text-muted); font-weight: 600;">Bảo quản</td>
-              <td style="color: #FFF; line-height: 1.6;">Để nơi khô ráo, thoáng mát, tránh va đập mạnh hoặc phơi nắng lâu.</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <!-- Actions -->
-        <div class="detail-actions-row">
-          <div class="qty-control">
-            <button class="qty-btn" onclick="showToast('Điều chỉnh số lượng', 'info')">-</button>
-            <input type="text" class="qty-input" value="1" readonly />
-            <button class="qty-btn" onclick="showToast('Điều chỉnh số lượng', 'info')">+</button>
-          </div>
-
-          <button class="btn-detail-add-cart" onclick="showToast('Đã thêm 1 lon Redbull Nắp Bật vào giỏ hàng!', 'success')">
-            <i class="fas fa-cart-plus"></i> Thêm Vào Giỏ
+        <div class="orb-nav-actions">
+          <button type="button" id="orb-cmd-trigger" class="orb-cmd-trigger" aria-haspopup="dialog" aria-controls="orb-cmd-palette">
+            <i class="fas fa-magnifying-glass" aria-hidden="true"></i>
+            <span>Tìm kiếm</span>
+            <kbd>Ctrl+K</kbd>
           </button>
 
-          <a href="cart.html" class="btn-detail-buy-now">
-            <i class="fas fa-credit-card"></i> Mua Ngay (Giao 2H)
+          <a href="orders.html" class="orb-action-link">
+            <i class="fas fa-receipt" aria-hidden="true"></i>
+            <span>Đơn hàng</span>
+          </a>
+
+          <a href="account.html" id="header-account-link" class="orb-action-link">
+            <i class="fas fa-user" aria-hidden="true"></i>
+            <span id="header-account-value">Thành viên</span>
+          </a>
+
+          <a href="cart.html" class="orb-cart-pill" aria-label="Giỏ hàng">
+            <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+            <span class="orb-cart-count">7</span>
+            <span class="orb-cart-total">216.000đ</span>
+          </a>
+
+          <button type="button" id="orb-mobile-toggle" class="orb-mobile-toggle" aria-expanded="false" aria-controls="orb-mobile-drawer" aria-label="Mở menu điều hướng">
+            <i class="fas fa-bars" aria-hidden="true"></i>
+          </button>
+        </div>
+      </nav>
+    </div>
+
+    <div id="orb-mobile-drawer" class="orb-mobile-drawer" aria-hidden="true">
+      <a href="../index.html"><span>Trang chủ Storefront</span><i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+      <a href="../index.html#monster-products"><span>Monster Energy</span><i class="fas fa-bolt" aria-hidden="true"></i></a>
+      <a href="../index.html#redbull-products"><span>Redbull Thái Lan</span><i class="fas fa-fire" aria-hidden="true"></i></a>
+      <a href="../index.html#sting-products"><span>Sting PepsiCo</span><i class="fas fa-bolt" aria-hidden="true"></i></a>
+      <a href="search-results.html"><span>Trung tâm Tìm kiếm</span><i class="fas fa-magnifying-glass" aria-hidden="true"></i></a>
+      <a href="orders.html"><span>Lịch sử Đơn hàng</span><i class="fas fa-receipt" aria-hidden="true"></i></a>
+      <a href="account.html"><span>Tài khoản Thành viên</span><i class="fas fa-user" aria-hidden="true"></i></a>
+      <a href="cart.html"><span>Giỏ hàng (<span class="orb-cart-count">7</span>)</span><span class="orb-cart-total">216.000đ</span></a>
+    </div>
+  </header>
+
+  <main class="orb-chamber-page">
+    <div class="orb-container">
+      <nav class="orb-breadcrumb" aria-label="Đường dẫn trang">
+        <a href="../index.html">Trang chủ</a>
+        <span aria-hidden="true">/</span>
+        <a href="../index.html#redbull-products">Redbull Energy</a>
+        <span aria-hidden="true">/</span>
+        <span id="orb-breadcrumb-current">Nước Tăng Lực Redbull Nắp Bật 250ml</span>
+      </nav>
+
+      <div class="orb-chamber-grid">
+        <div class="orb-chamber-stage-wrap">
+          <div class="orb-chamber-stage">
+            <canvas id="orbital-detail-canvas" aria-hidden="true"></canvas>
+            <div class="orb-stage-hud-corners" aria-hidden="true"></div>
+            <img id="main-product-image" src="../assets/images/redbull/redbull-lon-vua.webp" alt="Nước Tăng Lực Redbull Nắp Bật 250ml" fetchpriority="high" />
+          </div>
+
+          <div class="orb-chamber-thumbs" role="group" aria-label="Ảnh sản phẩm Redbull Nắp Bật">
+            <button type="button" class="orb-thumb-btn is-active" data-src="../assets/images/redbull/redbull-lon-vua.webp" aria-label="Ảnh chính diện lon Redbull Nắp Bật 250ml">
+              <img src="../assets/images/redbull/redbull-lon-vua.webp" alt="Redbull Nắp Bật 250ml" />
+            </button>
+          </div>
+        </div>
+
+        <div class="orb-chamber-info">
+          <div class="orb-card-top">
+            <span id="orb-detail-code">OBS-RB03</span>
+            <span id="orb-detail-badge" class="orb-card-discount">-20%</span>
+            <span class="orb-card-badge">SLEEK CAN THỂ THAO</span>
+          </div>
+
+          <h1 id="orb-detail-title">Nước Tăng Lực Redbull Nắp Bật 250ml</h1>
+
+          <div class="orb-meta-strip">
+            <span><i class="fas fa-trademark" aria-hidden="true"></i> Thương hiệu: <strong>Redbull Energy Drink</strong></span>
+            <span><i class="fas fa-location-dot" aria-hidden="true"></i> Công nghệ: <strong id="orb-detail-origin">Thái Lan (Sleek Can)</strong></span>
+            <span><i class="fas fa-flask" aria-hidden="true"></i> Thể tích: <strong id="orb-detail-volume">250ml</strong></span>
+            <span><i class="fas fa-shield-halved" aria-hidden="true"></i> Tình trạng: <strong>Còn hàng · Giao lạnh 2H</strong></span>
+          </div>
+
+          <div class="orb-price-panel">
+            <span id="orb-detail-price" data-base-price="20000">20.000đ</span>
+            <del id="orb-detail-old-price" data-base-old-price="25000">25.000đ</del>
+            <span id="orb-detail-savings">Tiết kiệm 5.000đ</span>
+          </div>
+
+          <p id="orb-detail-specs" class="orb-section-sub">Taurine 800mg · Caffeine 80mg · Nhân sâm &amp; Kẽm sinh học</p>
+
+          <p class="orb-section-sub">
+            <strong>Redbull Nắp Bật 250ml</strong> là phiên bản cải tiến mang phong cách thể thao hiện đại với thiết kế Sleek Can thon gọn và nắp khoen bật tiện dụng. Công thức bứt phá kết hợp Nhân sâm tự nhiên, Kẽm sinh học và ga sủi nhẹ tinh tế giúp giải khát cực đã, thổi bùng năng lượng tỉnh táo tức thì cho game thủ, tài xế và vận động viên thể thao!
+          </p>
+
+          <div class="orb-pack-grid" role="group" aria-label="Chọn quy cách đóng gói">
+            <button type="button" class="orb-pack-btn is-active" data-pack="1" data-mult="1" data-discount="0" aria-pressed="true">
+              <strong>Lon lẻ ×1</strong>
+              <span>Tiêu chuẩn</span>
+            </button>
+            <button type="button" class="orb-pack-btn" data-pack="6" data-mult="6" data-discount="0.05" aria-pressed="false">
+              <strong>Lốc 6 lon</strong>
+              <span>Giảm thêm 5%</span>
+            </button>
+            <button type="button" class="orb-pack-btn" data-pack="24" data-mult="24" data-discount="0.12" aria-pressed="false">
+              <strong>Thùng 24 lon</strong>
+              <span>Giảm thêm 12%</span>
+            </button>
+          </div>
+
+          <div class="orb-buy-row">
+            <div class="orb-qty-stepper">
+              <button type="button" id="orb-qty-dec" aria-label="Giảm số lượng">-</button>
+              <input type="text" id="orb-qty-input" value="1" readonly aria-label="Số lượng" />
+              <button type="button" id="orb-qty-inc" aria-label="Tăng số lượng">+</button>
+            </div>
+
+            <button type="button" id="orb-detail-add-cart" class="orb-btn-primary">
+              <i class="fas fa-cart-plus" aria-hidden="true"></i>
+              <span>Nạp Vào Giỏ</span>
+            </button>
+
+            <a href="cart.html" class="orb-buy-now-btn">
+              <i class="fas fa-bolt" aria-hidden="true"></i>
+              <span>Mua Ngay (2H)</span>
+            </a>
+          </div>
+
+          <div class="orb-meta-strip">
+            <span><i class="fas fa-shield-alt" aria-hidden="true"></i> Cam kết 100% chính hãng Redbull</span>
+            <span><i class="fas fa-snowflake" aria-hidden="true"></i> Nước lạnh sẵn sàng giao 2h</span>
+          </div>
+
+          <section class="orb-specs-card" aria-labelledby="orb-specs-heading">
+            <h2 id="orb-specs-heading" class="sr-only">Thông tin chi tiết sản phẩm</h2>
+            <table class="orb-specs-table">
+              <caption class="sr-only">Thông số kỹ thuật và thành phần Nước Tăng Lực Redbull Nắp Bật 250ml</caption>
+              <tbody>
+                <tr>
+                  <th scope="row">Thương hiệu</th>
+                  <td>Redbull Energy Drink (Sleek Edition)</td>
+                </tr>
+                <tr>
+                  <th scope="row">Sản xuất tại</th>
+                  <td>Thái Lan (Công nghệ Sleek Can Quốc Tế)</td>
+                </tr>
+                <tr>
+                  <th scope="row">Thành phần</th>
+                  <td>Nước bão hòa CO2 nhẹ, Đường tinh luyện, Taurine 800mg, Caffeine 80mg, Chiết xuất Nhân sâm tự nhiên, Kẽm sinh học (Zinc), Vitamin B-Complex (B2, B3, B6, B12), Chất điều chỉnh độ chua (E330), Màu tự nhiên Caramel.</td>
+                </tr>
+                <tr>
+                  <th scope="row">Hương vị</th>
+                  <td>Năng lượng bứt phá sảng khoái mát lạnh, ga nhẹ tinh tế, hậu vị thanh mát sảng khoái</td>
+                </tr>
+                <tr>
+                  <th scope="row">Thể tích</th>
+                  <td>250ml (Lon Sleek Can thon dài)</td>
+                </tr>
+                <tr>
+                  <th scope="row">Hướng dẫn sử dụng</th>
+                  <td>Bật nắp lon thưởng thức ngay, ngon vượt trội khi uống lạnh sâu. Thích hợp cho người lái xe đường dài, game thủ và tập gym.</td>
+                </tr>
+                <tr>
+                  <th scope="row">Bảo quản</th>
+                  <td>Để nơi khô ráo, thoáng mát, tránh va đập mạnh hoặc phơi nắng lâu.</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+        </div>
+      </div>
+
+      <section style="margin-top: 64px;" aria-labelledby="orb-related-heading">
+        <div class="orb-section-head">
+          <div>
+            <span class="orb-kicker">KHO ĐỀ XUẤT QUỸ ĐẠO</span>
+            <h2 id="orb-related-heading" class="orb-section-title">SẢN PHẨM CÙNG THƯƠNG HIỆU &amp; NỔI BẬT</h2>
+          </div>
+          <a href="../index.html#redbull-products" class="orb-btn-ghost">
+            <i class="fas fa-th-large" aria-hidden="true"></i>
+            <span>Xem Tất Cả</span>
           </a>
         </div>
 
-        <div style="font-size: 0.82rem; color: var(--text-dim); display: flex; gap: 20px;">
-          <span><i class="fas fa-shield-alt" style="color: var(--primary);"></i> Cam kết 100% chính hãng Redbull</span>
-          <span><i class="fas fa-bolt" style="color: var(--secondary);"></i> Nước lạnh sẵn sàng giao 2h</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Related Products -->
-    <div style="margin-top: 60px;">
-      <div class="section-title-wrapper">
-        <h2 class="section-title">SẢN PHẨM <span>CÙNG THƯƠNG HIỆU & NỔI BẬT</span></h2>
-        <a href="../index.html#redbull-products" class="btn-view-detail"><i class="fas fa-th-large"></i> Xem Tất Cả</a>
-      </div>
-
-      <div class="products-grid">
-        <!-- Related 1: Redbull Original -->
-        <div class="product-card product-card-stitch">
-          <div class="product-card-micro-glow" style="background: #FFD700;"></div>
-          <div class="product-img-wrapper" onclick="window.location.href='product-detail-redbull.html'" title="Xem Chi Tiết Redbull Original" role="link" tabindex="0">
-            <img src="../assets/images/redbull/redbull-original.webp" alt="Redbull Original" class="product-img" loading="lazy" />
-          </div>
-          <div class="product-info">
-            <span class="product-cat">Redbull Energy</span>
-            <h3 class="product-title"><a href="product-detail-redbull.html" style="color: inherit;">Nước Tăng Lực Redbull Original 250ml</a></h3>
-            <div class="product-bottom">
-              <span class="price-current">18.000đ</span>
-              <button class="btn-add-stitch" title="Thêm vào giỏ" onclick="event.stopPropagation(); showToast('Đã thêm Redbull Original vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
+        <div class="orb-vault-grid">
+          <article class="orb-bento-card" data-spectral="redbull" style="--card-accent: #FFB800; --card-rgb: 255, 184, 0;">
+            <div class="orb-card-top">
+              <span class="orb-card-badge">Redbull Thái Lan · 250ml</span>
+              <span class="orb-card-discount">-18%</span>
             </div>
-          </div>
-        </div>
-
-        <!-- Related 2: Redbull Thái Lan -->
-        <div class="product-card product-card-stitch">
-          <div class="product-card-micro-glow" style="background: #FFD700;"></div>
-          <div class="product-img-wrapper" onclick="window.location.href='product-detail-redbull-thai.html'" title="Xem Chi Tiết Redbull Thái Lan" role="link" tabindex="0">
-            <img src="../assets/images/redbull/redbull-thai.webp" alt="Redbull Thái Lan" class="product-img" loading="lazy" />
-          </div>
-          <div class="product-info">
-            <span class="product-cat">Redbull Energy</span>
-            <h3 class="product-title"><a href="product-detail-redbull-thai.html" style="color: inherit;">Nước Tăng Lực Redbull Thái Lan 250ml</a></h3>
-            <div class="product-bottom">
-              <span class="price-current">18.000đ</span>
-              <button class="btn-add-stitch" title="Thêm vào giỏ" onclick="event.stopPropagation(); showToast('Đã thêm Redbull Thái Lan vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
+            <a href="product-detail-redbull.html" class="orb-card-media">
+              <img src="../assets/images/redbull/redbull-original.webp" alt="Nước Tăng Lực Redbull Original 250ml" loading="lazy" />
+            </a>
+            <div class="orb-card-body">
+              <h3 class="orb-card-title"><a href="product-detail-redbull.html">Nước Tăng Lực Redbull Original 250ml</a></h3>
+              <p class="orb-card-specs">Kẽm &amp; Vitamin B3, B5, B6, B12 · Taurine &amp; Caffeine</p>
+              <div class="orb-card-pricing">
+                <span class="orb-card-price">18.000đ</span>
+                <del class="orb-card-old-price">22.000đ</del>
+              </div>
+              <div class="orb-card-actions">
+                <button type="button" class="orb-btn-add" data-add-sku="rb-1">
+                  <i class="fas fa-cart-plus" aria-hidden="true"></i>
+                  <span>Nạp vào giỏ</span>
+                </button>
+              </div>
             </div>
-          </div>
-        </div>
+          </article>
 
-        <!-- Related 3: Monster Energy Original -->
-        <div class="product-card product-card-stitch">
-          <div class="product-card-micro-glow" style="background: var(--primary);"></div>
-          <div class="product-img-wrapper" onclick="window.location.href='product-detail.html'" title="Xem Chi Tiết Monster Energy Original" role="link" tabindex="0">
-            <img src="../assets/images/monster/original.webp" alt="Monster Energy Original 355ml" class="product-img" loading="lazy" />
-          </div>
-          <div class="product-info">
-            <span class="product-cat">Monster Energy</span>
-            <h3 class="product-title"><a href="product-detail.html" style="color: inherit;">Monster Energy Original 355ml</a></h3>
-            <div class="product-bottom">
-              <span class="price-current">45.000đ</span>
-              <button class="btn-add-stitch" title="Thêm vào giỏ" onclick="event.stopPropagation(); showToast('Đã thêm Monster Original vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
+          <article class="orb-bento-card" data-spectral="redbull" style="--card-accent: #FFD700; --card-rgb: 255, 215, 0;">
+            <div class="orb-card-top">
+              <span class="orb-card-badge">Redbull Krating Daeng · 250ml</span>
+              <span class="orb-card-discount">-18%</span>
             </div>
-          </div>
-        </div>
+            <a href="product-detail-redbull-thai.html" class="orb-card-media">
+              <img src="../assets/images/redbull/redbull-thai.webp" alt="Nước Tăng Lực Redbull Thái Lan Nhập Khẩu 250ml" loading="lazy" onerror="this.onerror=null; this.src='../assets/images/redbull/redbull-thai.jpg';" />
+            </a>
+            <div class="orb-card-body">
+              <h3 class="orb-card-title"><a href="product-detail-redbull-thai.html">Nước Tăng Lực Redbull Thái Lan Nhập Khẩu 250ml</a></h3>
+              <p class="orb-card-specs">Taurine 1000mg · Caffeine 50mg · Nhập khẩu nguyên lon</p>
+              <div class="orb-card-pricing">
+                <span class="orb-card-price">18.000đ</span>
+                <del class="orb-card-old-price">22.000đ</del>
+              </div>
+              <div class="orb-card-actions">
+                <button type="button" class="orb-btn-add" data-add-sku="rb-2">
+                  <i class="fas fa-cart-plus" aria-hidden="true"></i>
+                  <span>Nạp vào giỏ</span>
+                </button>
+              </div>
+            </div>
+          </article>
 
-        <!-- Related 4: Monster Zero Ultra -->
-        <div class="product-card product-card-stitch">
-          <div class="product-card-micro-glow" style="background: #00E5FF;"></div>
-          <div class="product-img-wrapper" onclick="window.location.href='product-detail.html'" title="Xem Chi Tiết Monster Zero Ultra" role="link" tabindex="0">
-            <img src="../assets/images/monster/ultra-white.webp" alt="Monster Zero Ultra White 500ml" class="product-img" loading="lazy" />
-          </div>
-          <div class="product-info">
-            <span class="product-cat">Monster Ultra</span>
-            <h3 class="product-title"><a href="product-detail.html" style="color: inherit;">Monster Zero Ultra White 500ml</a></h3>
-            <div class="product-bottom">
-              <span class="price-current">48.000đ</span>
-              <button class="btn-add-stitch" title="Thêm vào giỏ" onclick="event.stopPropagation(); showToast('Đã thêm Monster Zero Ultra White vào giỏ hàng!', 'success')"><i class="fas fa-cart-plus"></i></button>
+          <article class="orb-bento-card" data-spectral="monster" style="--card-accent: #39FF14; --card-rgb: 57, 255, 20;">
+            <div class="orb-card-top">
+              <span class="orb-card-badge">Monster Energy · 355ml</span>
+              <span class="orb-card-discount">-18%</span>
             </div>
-          </div>
+            <a href="product-detail.html" class="orb-card-media">
+              <img src="../assets/images/monster/original.webp" alt="Monster Energy Original 355ml" loading="lazy" />
+            </a>
+            <div class="orb-card-body">
+              <h3 class="orb-card-title"><a href="product-detail.html">Monster Energy Original 355ml</a></h3>
+              <p class="orb-card-specs">Taurine 400mg/100ml · Nhân sâm &amp; Vitamin B</p>
+              <div class="orb-card-pricing">
+                <span class="orb-card-price">45.000đ</span>
+                <del class="orb-card-old-price">55.000đ</del>
+              </div>
+              <div class="orb-card-actions">
+                <button type="button" class="orb-btn-add" data-add-sku="mn-1">
+                  <i class="fas fa-cart-plus" aria-hidden="true"></i>
+                  <span>Nạp vào giỏ</span>
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <article class="orb-bento-card" data-spectral="monster" style="--card-accent: #00E5FF; --card-rgb: 0, 229, 255;">
+            <div class="orb-card-top">
+              <span class="orb-card-badge">Monster Ultra · 500ml</span>
+              <span class="orb-card-discount">-13%</span>
+            </div>
+            <a href="product-detail.html?sku=mn-2" class="orb-card-media">
+              <img src="../assets/images/monster/ultra-white.webp" alt="Monster Zero Ultra White 500ml" loading="lazy" />
+            </a>
+            <div class="orb-card-body">
+              <h3 class="orb-card-title"><a href="product-detail.html?sku=mn-2">Monster Zero Ultra White 500ml</a></h3>
+              <p class="orb-card-specs">0g Đường · Zero Calories · Cam chanh thanh mát</p>
+              <div class="orb-card-pricing">
+                <span class="orb-card-price">48.000đ</span>
+                <del class="orb-card-old-price">55.000đ</del>
+              </div>
+              <div class="orb-card-actions">
+                <button type="button" class="orb-btn-add" data-add-sku="mn-2">
+                  <i class="fas fa-cart-plus" aria-hidden="true"></i>
+                  <span>Nạp vào giỏ</span>
+                </button>
+              </div>
+            </div>
+          </article>
         </div>
-      </div>
+      </section>
     </div>
   </main>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-col">
-          <div class="logo" style="margin-bottom: 16px;">
-            <div class="logo-icon"><i class="fas fa-bolt"></i></div>
-            <div class="logo-text">
-              <span class="logo-title">ENERGY<span>BOOST</span></span>
-              <span class="logo-subtitle">HỆ THỐNG NƯỚC TĂNG LỰC CHÍNH HÃNG</span>
-            </div>
-          </div>
-          <p>Hệ thống cung cấp nước tăng lực Monster Energy và Redbull Thái Lan chính hãng số 1 tại Việt Nam. Nơi tiếp sức đam mê thể thao điện tử, thể thao mạo hiểm và lối sống bứt phá mọi giới hạn.</p>
-          <p><i class="fas fa-map-marker-alt" style="color: var(--primary);"></i> 88 Nguyễn Huệ, Quận 1, TP. Hồ Chí Minh</p>
-          <p><i class="fas fa-phone-alt" style="color: var(--secondary);"></i> Hotline: 1900 6868 (8:00 - 22:00)</p>
+  <footer class="orb-footer">
+    <div class="orb-container">
+      <div class="orb-footer-watermark" aria-hidden="true">ENERGY BOOST</div>
+
+      <div class="orb-footer-grid">
+        <div>
+          <a href="../index.html" class="orb-brand-mark">
+            <span class="orb-brand-orb" aria-hidden="true"><i class="fas fa-bolt"></i></span>
+            <span class="orb-brand-title">ENERGY BOOST</span>
+            <span class="orb-brand-code">OBS-01</span>
+          </a>
+          <p class="orb-section-sub">Hệ thống cung cấp nước tăng lực Monster Energy, Redbull Thái Lan và Sting PepsiCo chính hãng tại Việt Nam. Ướp lạnh sẵn, giao hỏa tốc 2H.</p>
+          <p class="orb-section-sub"><i class="fas fa-map-marker-alt" aria-hidden="true"></i> 88 Nguyễn Huệ, Quận 1, TP. Hồ Chí Minh</p>
+          <p class="orb-section-sub"><i class="fas fa-phone-alt" aria-hidden="true"></i> Hotline: 1900 6868 (08:00 - 22:00)</p>
         </div>
 
-        <div class="footer-col">
-          <h3>CÁC DÒNG SẢN PHẨM</h3>
-          <ul class="footer-links">
-            <li><a href="../index.html#monster-products">Monster Original 355ml</a></li>
-            <li><a href="../index.html#monster-products">Monster Zero Ultra White</a></li>
-            <li><a href="../index.html#monster-products">Monster Ultra Punk Punch</a></li>
-            <li><a href="../index.html#monster-products">Punch & Shots</a></li>
-            <li><a href="../index.html#redbull-products">Redbull Original 250ml</a></li>
-            <li><a href="../index.html#redbull-products">Redbull Thái Lan Nắp Bật</a></li>
-            <li><a href="../index.html#sting-products">Sting Dâu Tây Đỏ 330ml</a></li>
+        <div>
+          <h3>DÒNG SẢN PHẨM</h3>
+          <ul>
+            <li><a href="product-detail.html">Monster Energy Original 355ml</a></li>
+            <li><a href="product-detail.html?sku=mn-2">Monster Zero Ultra White 500ml</a></li>
+            <li><a href="product-detail.html?sku=mn-3">Monster Ultra Paradise 500ml</a></li>
+            <li><a href="product-detail-redbull.html">Redbull Original 250ml</a></li>
+            <li><a href="product-detail-redbull-thai.html">Redbull Thái Lan 250ml</a></li>
+            <li><a href="product-detail-redbull-lonvua.html">Redbull Nắp Bật 250ml</a></li>
+            <li><a href="product-detail-sting.html">Sting Dâu Tây Đỏ 330ml</a></li>
           </ul>
         </div>
 
-        <div class="footer-col">
+        <div>
           <h3>HỆ THỐNG TRANG</h3>
-          <ul class="footer-links">
-            <li><a href="../index.html">Trang Chủ (Index)</a></li>
-            <li><a href="product-detail.html">Monster Original Detail</a></li>
-            <li><a href="product-detail-redbull.html">Redbull Thái Detail</a></li>
-            <li><a href="cart.html">Giỏ Hàng Mẫu</a></li>
-            <li><a href="orders.html">Lịch Sử Đặt Hàng</a></li>
-            <li><a href="account.html">Tài Khoản Thành Viên</a></li>
+          <ul>
+            <li><a href="../index.html">Trang chủ Storefront</a></li>
+            <li><a href="search-results.html">Trung tâm Tìm kiếm</a></li>
+            <li><a href="cart.html">Giỏ hàng Telemetry</a></li>
+            <li><a href="orders.html">Lịch sử Đơn hàng</a></li>
+            <li><a href="account.html">Tài khoản Thành viên</a></li>
           </ul>
         </div>
 
-        <div class="footer-col">
+        <div>
           <h3>NHẬN VOUCHER ƯU ĐÃI</h3>
-          <p>Đăng ký email để nhận ngay mã giảm giá 15% cho thùng nước tăng lực đầu tiên!</p>
-          <form class="newsletter-form" onsubmit="event.preventDefault(); showToast('Đã đăng ký nhận tin Energy Boost thành công!', 'success');">
-            <input type="email" class="newsletter-input" placeholder="Nhập email của bạn..." required />
-            <button type="submit" class="btn-newsletter"><i class="fas fa-paper-plane"></i></button>
+          <p class="orb-section-sub">Đăng ký email để nhận mã giảm giá 15% cho thùng nước tăng lực đầu tiên.</p>
+          <form class="orb-newsletter-form" onsubmit="event.preventDefault(); showToast('Đã đăng ký nhận tin Energy Boost thành công!', 'success');">
+            <label for="orb-newsletter-email" class="sr-only">Email nhận voucher ưu đãi</label>
+            <input type="email" id="orb-newsletter-email" name="email" class="orb-newsletter-input" placeholder="Nhập email của bạn..." autocomplete="email" required />
+            <button type="submit" class="orb-newsletter-btn" aria-label="Đăng ký nhận ưu đãi">
+              <i class="fas fa-paper-plane" aria-hidden="true"></i>
+            </button>
           </form>
         </div>
       </div>
 
-      <div class="footer-bottom">
-        <p>&copy; 2026 ENERGY BOOST STORE. Built with Pure Static HTML5 & CSS3. All Rights Reserved.</p>
-        <div style="display: flex; gap: 16px; font-size: 1.2rem; color: var(--text-dim);">
-          <i class="fab fa-cc-visa"></i>
-          <i class="fab fa-cc-mastercard"></i>
-          <i class="fas fa-wallet"></i>
-          <i class="fas fa-bolt" style="color: var(--primary);"></i>
+      <div class="orb-footer-bottom">
+        <p>&copy; 2026 ENERGY BOOST STORE. Hệ thống nước tăng lực chính hãng.</p>
+        <div style="display: flex; align-items: center; gap: 16px; font-size: 1.15rem;" aria-label="Phương thức thanh toán">
+          <i class="fab fa-cc-visa" aria-hidden="true"></i>
+          <i class="fab fa-cc-mastercard" aria-hidden="true"></i>
+          <i class="fas fa-wallet" aria-hidden="true"></i>
+          <i class="fas fa-bolt" aria-hidden="true" style="color: var(--orbit-accent);"></i>
         </div>
       </div>
     </div>
   </footer>
 
+  <div id="orb-cmd-palette" class="orb-cmd-backdrop" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="orb-cmd-label">
+    <div class="orb-cmd-dialog">
+      <div class="orb-cmd-header">
+        <i class="fas fa-magnifying-glass" aria-hidden="true" style="color: var(--orbit-accent);"></i>
+        <label id="orb-cmd-label" for="orb-cmd-input" class="sr-only">Tìm kiếm nhanh sản phẩm Energy Boost</label>
+        <input type="search" id="orb-cmd-input" class="orb-cmd-input" placeholder="Tìm nhanh Monster, Redbull, Sting, Zero Sugar..." autocomplete="off" />
+        <button type="button" id="orb-cmd-close" aria-label="Đóng hộp thoại tìm kiếm">ESC</button>
+      </div>
+      <div class="orb-cmd-chips" role="group" aria-label="Lọc nhanh theo từ khóa">
+        <button type="button" class="orb-cmd-chip is-active" data-cmd-query="">Tất cả</button>
+        <button type="button" class="orb-cmd-chip" data-cmd-query="monster">Monster</button>
+        <button type="button" class="orb-cmd-chip" data-cmd-query="redbull">Redbull</button>
+        <button type="button" class="orb-cmd-chip" data-cmd-query="sting">Sting</button>
+        <button type="button" class="orb-cmd-chip" data-cmd-query="zero">Zero Sugar</button>
+      </div>
+      <div id="orb-cmd-list" class="orb-cmd-list" role="listbox" aria-label="Danh sách SKU đề xuất"></div>
+      <div class="orb-cmd-footer">
+        <span>↑↓ Điều hướng · Enter Mở trang · Esc Đóng</span>
+        <a href="search-results.html" style="color: var(--orbit-accent); text-decoration: none; font-weight: 600;">Trung tâm Tìm kiếm →</a>
+      </div>
+    </div>
+  </div>
+
   <div id="toast-container" class="toast-container"></div>
-  <script src="../js/app.js"></script>
+  <script src="../js/app.js?v=orbital-20261126"></script>
+  <script src="../js/orbital-webgl.js?v=orbital-20261126"></script>
+  <script src="../js/orbital-motion.js?v=orbital-20261126"></script>
 </body>
 </html>
